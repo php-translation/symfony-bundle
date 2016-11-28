@@ -1,0 +1,22 @@
+{% extends "TranslationBundle:WebUI:base.html.twig" %}
+
+{% block body %}
+
+    <div class="catalogue-list">
+    {% for locale,domains in catalogues %}
+        <div class="catalouge">
+            <h3>{{ locale }}</h3>
+            {% for domain,size in domains %}
+                <a href="{{ path("translation_show", {domain:domain, locale:locale}) }}">
+                    {{ domain }}
+                </a>
+
+                {{ (100*size/maxDomainSize[domain])|round }} % |
+            {% endfor %}
+            <br>
+            {{ (100*catalogueSize[locale]/maxCatalogueSize)|round }} %
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+
+translation_index:
+    path: /
+    methods: [GET]
+    defaults:  { _controller: TranslationBundle:WebUI:index }
+
+translation_show:
+    path: /{locale}/{domain}
+    methods: [GET]
+    defaults:  { _controller: TranslationBundle:WebUI:show }

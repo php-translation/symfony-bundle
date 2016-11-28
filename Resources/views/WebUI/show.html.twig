@@ -1,0 +1,27 @@
+{% extends "TranslationBundle:WebUI:base.html.twig" %}
+
+{% block body %}
+    <div class="nav">
+        {% for locale in locales %}
+            <a href="{{ path('translation_show', {domain:currentDomain, locale:locale}) }}">
+                {{ locale }}
+            </a>
+        {% endfor %}
+        <br>
+        {% for domain in domains %}
+            <a href="{{ path('translation_show', {domain:domain, locale:currentLocale}) }}">
+                {{ domain }}
+            </a>
+        {% endfor %}
+    </div>
+
+
+    <div class="message-list">
+    {% for key,message in messages %}
+        <div class="message">
+            <b>{{ key }}</b> - {{ message }}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

@@ -21,50 +21,23 @@ class TranslationExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
 
-        $this->requireBundle('SimpleBusAsynchronousBundle', $container);
+        $container->setParameter('translation.locales', $config['locales']);
+        $container->setParameter('translation.default_locale', $config['default_locale']);
 
-        // Add the command and event queue names to the consumer wrapper
-        $def = $container->getDefinition('happyr.mq2php.consumer_wrapper');
-        $def->replaceArgument(0, $config['command_queue'])
-            ->replaceArgument(1, $config['event_queue']);
-
-        $serializerId = 'happyr.mq2php.message_serializer';
-        if (!$config['enabled']) {
-            $container->removeDefinition($serializerId);
-
-            return;
+        if ($config['webui']['enabled']) {
+            $this->enableWebUi($container, $config);
         }
-
-        // Add default headers to the serializer
-        $def = $container->getDefinition($serializerId);
-        $def->replaceArgument(2, $config['message_headers']);
-
-        // Add the secret key as parameter
-        $container->setParameter('happyr.mq2php.secret_key', $config['secret_key']);
     }
 
-    /**
-     * Make sure we have activated the required bundles.
-     *
-     * @param $bundleName
-     * @param ContainerBuilder $container
-     */
-    private function requireBundle($bundleName, ContainerBuilder $container)
+    private function enableWebUi(ContainerBuilder $container, $config)
     {
-        $enabledBundles = $container->getParameter('kernel.bundles');
-        if (!isset($enabledBundles[$bundleName])) {
-            throw new \LogicException(sprintf('You need to enable "%s" as well', $bundleName));
-        }
+
     }
 
     public function getAlias()
     {
         return 'translation';
     }
-
-
 }
