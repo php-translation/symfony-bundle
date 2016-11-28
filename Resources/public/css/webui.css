@@ -1,0 +1,39 @@
+.message-textarea {
+    width: 100%;
+    height: 3rem;
+}
+
+table {
+    width: 100%;
+}
+
+table td {
+    vertical-align: top;
+    border-top: 1px solid black;
+    padding: 0.1rem 0.5rem 1rem;
+}
+
+pre a {
+    text-decoration: none;
+    word-break: break-all;
+}
+
+
+.ajax-result {
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 0.5rem;
+}
+
+
+.ajax-result.success {
+    background-color: #449944;
+    border: 1px solid #cecece;
+    color: #ffffff;
+}
+
+.ajax-result.error {
+    background-color: #bb4444;
+    border: 1px solid #cecece;
+    color: #ffffff;
+}

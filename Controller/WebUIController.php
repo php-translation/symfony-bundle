@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Translator;
+use Translation\Symfony\CatalogueManager;
+use Translation\Symfony\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -59,13 +61,19 @@ class WebUIController extends Controller
         $locales = $this->getParameter('translation.locales');
         /** @var Translator $translator */
         $translator = $this->get('translator');
-        $catalogue = $translator->getCatalogue($locale);
-        $domains = $catalogue->getDomains();
-        $messages = $catalogue->all($domain);
+        $catalogues = [];
+        foreach ($locales as $l) {
+            $catalogues[] = $translator->getCatalogue($l);
+        }
+        $catalogueManager = $this->get('translation.catalogue_manager');
+        $catalogueManager->load($catalogues);
+
+        /** @var Message[] $messages */
+        $messages = $catalogueManager->getMessages($locale, $domain);
 
         return $this->render('TranslationBundle:WebUI:show.html.twig', [
             'messages'=>$messages,
-            'domains'=>$domains,
+            'domains'=>$catalogueManager->getDomains(),
             'currentDomain' => $domain,
             'locales' => $locales,
             'currentLocale' => $locale,
@@ -80,7 +88,7 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $domain)
     {
-        return new Response();
+        return new Response('Not yet implemented');
     }
 
     /**
@@ -91,6 +99,6 @@ class WebUIController extends Controller
      */
     public function editAction(Request $request, $domain)
     {
-        return new Response();
+        return new Response('Not yet implemented');
     }
 }

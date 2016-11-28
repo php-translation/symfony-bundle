@@ -1,0 +1,4 @@
+services:
+  translation.catalogue_manager:
+    class: Translation\Symfony\CatalogueManager
+    arguments: ["%kernel.root_dir%/../"]

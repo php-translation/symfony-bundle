@@ -16,12 +16,40 @@
     </div>
 
 
-    <div class="message-list">
-    {% for key,message in messages %}
-        <div class="message">
-            <b>{{ key }}</b> - {{ message }}
-        </div>
-    {% endfor %}
-    </div>
+    <table>
+        <tr>
+            <th style="width:30%;">Translation key</th>
+            <th style="width:30%;">Message</th>
+            <th style="width:40%;"></th>
+        </tr>
 
+    {% for idx, message in messages %}
+        <tr class="message" id="{{ message.key }}">
+            <td>
+                <pre><a href="#{{ message.key }}">{{ message.key }}</a></pre>
+                {% for location in message.sourceLocations %}
+                    <a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }}</a><br>
+                {% endfor %}
+            </td>
+            <td>
+                <textarea
+                    class="message-textarea"
+                    data-key="{{ message.key }}"
+                    onchange="editTranslation(this)"
+                    tabindex="{{ idx +1 }}"
+                >{{ message.message }}</textarea>
+                <div class="ajax-result"></div>
+            </td>
+            <td>
+                {% for locale,trans in message.otherTranslations %}
+                <b>{{ locale }}</b>: {{ trans }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+        var editUrl="{{ path('translation_edit', {locale:currentLocale,domain:currentDomain}) }}";
+    </script>
 {% endblock %}

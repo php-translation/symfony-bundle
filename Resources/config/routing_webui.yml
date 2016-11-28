@@ -8,3 +8,8 @@ translation_show:
     path: /{locale}/{domain}
     methods: [GET]
     defaults:  { _controller: TranslationBundle:WebUI:show }
+
+translation_edit:
+    path: /{locale}/{domain}
+    methods: [POST]
+    defaults:  { _controller: TranslationBundle:WebUI:edit }
