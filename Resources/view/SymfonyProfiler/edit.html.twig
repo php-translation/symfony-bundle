@@ -1,0 +1,3 @@
+<textarea id="edit_{{ key }}">{{ message.translation }}</textarea>
+<input type="button" value="Save" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value)'>
+<input type="button" value="Cancel" onclick='cancelEditForm("{{ key }}")'>

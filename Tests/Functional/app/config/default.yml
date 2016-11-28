@@ -1,0 +1,7 @@
+imports:
+    - { resource: framework.yml }
+    - { resource: services.yml }
+
+translation:
+  webui:
+    enabled: true

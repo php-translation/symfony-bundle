@@ -1,0 +1,7 @@
+services:
+    logger:
+        class: Translation\Bundle\Tests\Functional\app\Service\DummyLogger
+    dummy_http_client:
+        class: Translation\Bundle\Tests\Functional\app\Service\DummyHttpClient
+    dummy_message_factory:
+        class: Translation\Bundle\Tests\Functional\app\Service\DummyMessageFactory
