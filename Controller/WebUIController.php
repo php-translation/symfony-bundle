@@ -5,6 +5,7 @@ namespace Translation\Bundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\Translator;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -16,9 +17,18 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function indexAction($domain)
+    public function indexAction($domain, $locale)
     {
-        return new Response();
+        /** @var Translator $translator */
+        $translator = $this->get('translator');
+        $catalogue = $translator->getCatalogue($locale);
+        $domains = $catalogue->getDomains();
+        $messages = $catalogue->all($domain);
+
+        return $this->renderView('Translation:WebUI:index.html.twig', [
+            'domains'=>$domains,
+            'messages'=>$messages,
+        ]);
     }
 
     /**
