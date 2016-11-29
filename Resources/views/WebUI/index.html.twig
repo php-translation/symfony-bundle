@@ -3,18 +3,18 @@
 {% block body %}
 
     <div class="catalogue-list">
-    {% for locale,domains in catalogues %}
+    {% for cataloge in catalogues %}
         <div class="catalouge">
-            <h3>{{ locale }}</h3>
-            {% for domain,size in domains %}
-                <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:locale}) }}">
+            <h3>{{ cataloge.locale }}</h3>
+            {% for domain,messages in cataloge.all %}
+                <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:cataloge.locale}) }}">
                     {{ domain }}
                 </a>
 
-                {{ (100*size/maxDomainSize[domain])|round }} % |
+                {{ (100*messages|length/maxDomainSize[domain])|round }} % |
             {% endfor %}
             <br>
-            {{ (100*catalogueSize[locale]/maxCatalogueSize)|round }} %
+            {{ (100*catalogueSize[cataloge.locale]/maxCatalogueSize)|round }} %
         </div>
     {% endfor %}
     </div>

@@ -19,19 +19,17 @@ class WebUIController extends Controller
         $config = $this->getConfiguration($configName);
 
         $locales = $this->getParameter('php_translation.locales');
-        /** @var Translator $translator */
-        $translator = $this->get('translator');
-        $catalogues = [];
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
         $catalogueSize = [];
         $maxDomainSize = [];
         $maxCatalogueSize = 1;
-        foreach ($locales as $locale) {
-            $domains = $translator->getCatalogue($locale)->all();
+        foreach ($catalogues as $catalogue) {
+            $locale = $catalogue->getLocale();
+            $domains = $catalogue->all();
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
                 $count = count($messages);
                 $catalogueSize[$locale]+=$count;
-                $catalogues[$locale][$domain] = $count;
                 if (!isset($maxDomainSize[$domain]) || $count>$maxDomainSize[$domain]) {
                     $maxDomainSize[$domain] = $count;
                 }
@@ -40,7 +38,6 @@ class WebUIController extends Controller
             if ($catalogueSize[$locale]>$maxCatalogueSize) {
                 $maxCatalogueSize = $catalogueSize[$locale];
             }
-
         }
 
         return $this->render('TranslationBundle:WebUI:index.html.twig', [
