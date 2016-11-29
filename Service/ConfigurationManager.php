@@ -3,8 +3,6 @@
 namespace Translation\Bundle\Service;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class ConfigurationManager
@@ -35,7 +33,6 @@ class ConfigurationManager
     }
 
     /**
-     *
      * @return string
      */
     public function getFirstName()
@@ -43,5 +40,13 @@ class ConfigurationManager
         foreach ($this->configuration as $name => $config) {
             return $name;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getNames()
+    {
+        return array_keys($this->configuration);
     }
 }

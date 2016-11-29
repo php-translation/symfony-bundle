@@ -4,6 +4,13 @@
 </head>
 <body>
 
+<div class="nav">
+    {% for c in configNames %}
+        <a href="{{ path('translation_index', {configName: c}) }}">
+            {{ c }}
+        </a>
+    {% endfor %}
+</div>
 {% block body %}{% endblock %}
 
 <script type="text/javascript" src="{{ asset("bundles/translation/js/webui.js") }}"></script>

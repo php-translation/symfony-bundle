@@ -50,6 +50,7 @@ class WebUIController extends Controller
             'maxCatalogueSize' => $maxCatalogueSize,
             'locales' => $locales,
             'configName' => $configName,
+            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
         ]);
     }
 
@@ -79,6 +80,7 @@ class WebUIController extends Controller
             'locales' => $locales,
             'currentLocale' => $locale,
             'configName' => $configName,
+            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
         ]);
     }
 
