@@ -14,9 +14,11 @@ use Translation\Symfony\Model\Message;
  */
 class WebUIController extends Controller
 {
-    public function indexAction()
+    public function indexAction($configName = null)
     {
-        $locales = $this->getParameter('translation.locales');
+        $config = $this->getConfiguration($configName);
+
+        $locales = $this->getParameter('php_translation.locales');
         /** @var Translator $translator */
         $translator = $this->get('translator');
         $catalogues = [];
@@ -47,6 +49,7 @@ class WebUIController extends Controller
             'maxDomainSize' => $maxDomainSize,
             'maxCatalogueSize' => $maxCatalogueSize,
             'locales' => $locales,
+            'configName' => $configName,
         ]);
     }
 
@@ -56,15 +59,13 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function showAction($locale, $domain)
+    public function showAction($configName, $locale, $domain)
     {
+        $config = $this->getConfiguration($configName);
         $locales = $this->getParameter('php_translation.locales');
         /** @var Translator $translator */
-        $translator = $this->get('translator');
-        $catalogues = [];
-        foreach ($locales as $l) {
-            $catalogues[] = $translator->getCatalogue($l);
-        }
+
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
         $catalogueManager = $this->get('php_translation.catalogue_manager');
         $catalogueManager->load($catalogues);
 
@@ -77,6 +78,7 @@ class WebUIController extends Controller
             'currentDomain' => $domain,
             'locales' => $locales,
             'currentLocale' => $locale,
+            'configName' => $configName,
         ]);
     }
 
@@ -86,7 +88,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $domain)
+    public function createAction(Request $request, $configName, $locale, $domain)
     {
         return new Response('Not yet implemented');
     }
@@ -100,5 +102,27 @@ class WebUIController extends Controller
     public function editAction(Request $request, $domain)
     {
         return new Response('Not yet implemented');
+    }
+
+    /**
+     * @param $configName
+     *
+     * @return array
+     */
+    private function getConfiguration(&$configName)
+    {
+        $configurationManager = $this->get('php_translation.configuration_manager');
+        $configName = $configName !== null ? $configName : $configurationManager->getFirstName();
+        if ($configName === null) {
+            throw new \LogicException('You must configure at least one key under translation.config');
+        }
+
+        $config = $configurationManager->getConfiguration($configName);
+
+        if (empty($config)) {
+            throw $this->createNotFoundException('No translation configuration named "'.$configName.'" was found.');
+        }
+
+        return $config;
     }
 }

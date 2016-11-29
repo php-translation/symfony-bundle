@@ -12,7 +12,7 @@ class ConfigurationManager
     /**
      * @var array name => config
      */
-    private $configuration;
+    private $configuration = [];
 
     /**
      * @param array $configuration
@@ -32,5 +32,16 @@ class ConfigurationManager
         }
 
         return $this->configuration[$name];
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        foreach ($this->configuration as $name => $config) {
+            return $name;
+        }
     }
 }

@@ -3,13 +3,13 @@
 {% block body %}
     <div class="nav">
         {% for locale in locales %}
-            <a href="{{ path('translation_show', {domain:currentDomain, locale:locale}) }}">
+            <a href="{{ path('translation_show', {configName: configName, domain:currentDomain, locale:locale}) }}">
                 {{ locale }}
             </a>
         {% endfor %}
         <br>
         {% for domain in domains %}
-            <a href="{{ path('translation_show', {domain:domain, locale:currentLocale}) }}">
+            <a href="{{ path('translation_show', {configName: configName, domain:domain, locale:currentLocale}) }}">
                 {{ domain }}
             </a>
         {% endfor %}
@@ -50,6 +50,6 @@
     </table>
 
     <script type="text/javascript">
-        var editUrl="{{ path('translation_edit', {locale:currentLocale,domain:currentDomain}) }}";
+        var editUrl="{{ path('translation_edit', {configName: configName, locale:currentLocale,domain:currentDomain}) }}";
     </script>
 {% endblock %}

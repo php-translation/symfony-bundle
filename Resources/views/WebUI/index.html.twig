@@ -7,7 +7,7 @@
         <div class="catalouge">
             <h3>{{ locale }}</h3>
             {% for domain,size in domains %}
-                <a href="{{ path("translation_show", {domain:domain, locale:locale}) }}">
+                <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:locale}) }}">
                     {{ domain }}
                 </a>
 

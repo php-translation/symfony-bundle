@@ -1,15 +1,15 @@
 
 translation_index:
-    path: /
+    path: /_trans/{configName}
     methods: [GET]
-    defaults:  { _controller: TranslationBundle:WebUI:index }
+    defaults:  { _controller: TranslationBundle:WebUI:index, configName: null }
 
 translation_show:
-    path: /{locale}/{domain}
+    path: /_trans/{configName}/{locale}/{domain}
     methods: [GET]
     defaults:  { _controller: TranslationBundle:WebUI:show }
 
 translation_edit:
-    path: /{locale}/{domain}
+    path: /_trans/{configName}/{locale}/{domain}
     methods: [POST]
     defaults:  { _controller: TranslationBundle:WebUI:edit }

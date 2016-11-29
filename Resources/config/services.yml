@@ -1,6 +1,10 @@
 services:
+  php_translation.catalogue_fetcher:
+    class: Translation\Bundle\Service\CatalogueFetcher
+    arguments: ["@translation.loader"]
+
   php_translation.catalogue_manager:
-    class: Translation\Symfony\CatalogueManager
+    class: Translation\Symfony\Catalogue\CatalogueManager
     arguments: ["%kernel.root_dir%/../"]
 
   php_translation.extractor:
