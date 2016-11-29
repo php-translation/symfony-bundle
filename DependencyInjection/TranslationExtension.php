@@ -19,21 +19,28 @@ class TranslationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
+        $configuration = new Configuration($container);
         $config = $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('services.yml');
 
         $container->setParameter('php_translation.locales', $config['locales']);
-        $container->setParameter('php_translation.default_locale', $config['default_locale']);
+        $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
 
         if ($config['webui']['enabled']) {
             $this->enableWebUi($container, $config);
         }
+
+        $container->getDefinition('php_translation.configuration_manager')
+            ->replaceArgument(0, $config['configs']);
     }
 
     private function enableWebUi(ContainerBuilder $container, $config)
+    {
+
+    }
+    private function setupConfigurationManager(ContainerBuilder $container, $config)
     {
 
     }

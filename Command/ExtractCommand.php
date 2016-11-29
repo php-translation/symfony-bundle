@@ -25,7 +25,8 @@ class ExtractCommand extends ContainerAwareCommand
         $this
             ->setName('translation:extract')
             ->setDescription('Extract translations from source code.')
-            ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use');
+            ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use')
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.');
 
     }
 
@@ -34,24 +35,24 @@ class ExtractCommand extends ContainerAwareCommand
         $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($input->getArgument('configuration'));
         $importer = $this->getContainer()->get('php_translation.importer');
 
-        // TODO let the be configurable with arguments
-        $locales= $this->getContainer()->getParameter('php_translation.locales');
+        if ($input->hasArgument('locale')) {
+            $locales = [$input->getArgument('locale')];
+        } else {
+            $locales = $this->getContainer()->getParameter('php_translation.locales');
+        }
 
-        $finder = new Finder();
-        // TODO configure Finder with $config
-
-        // TODO get paths from config
-        $catalogues = $this->getCatalogues($locales, ['']);
+        $finder = $this->getConfiguredFinder($config);
+        $catalogues = $this->getCatalogues($locales, array_merge($config['external_translations_dirs'], [$config['output_dir']]));
         $results = $importer->extractToCatalogues($finder, $catalogues, $config);
 
         $writer = $this->getContainer()->get('translation.writer');
         foreach ($results as $result) {
             $writer->writeTranslations(
                 $result,
-                $input->getOption('output-format'),
+                $config['output_format'],
                 array(
-                    'path' => $bundleTransPath,
-                    'default_locale' => $this->getContainer()->getParameter('kernel.default_locale')
+                    'path' => $config['output_dir'],
+                    'default_locale' => $this->getContainer()->getParameter('php_translation.default_locale')
                 )
             );
         }
@@ -81,6 +82,29 @@ class ExtractCommand extends ContainerAwareCommand
         }
 
         return $catalogues;
+    }
+
+    /**
+     * @param array $configuration
+     *
+     * @return Finder
+     */
+    private function getConfiguredFinder(array $config)
+    {
+        // 'dirs', 'excluded_dirs', 'excluded_names'
+
+        $finder = new Finder();
+        $finder->in($config['dirs']);
+
+        foreach ($config['excluded_dirs'] as $exclude) {
+            $finder->notPath($exclude);
+        }
+
+        foreach ($config['excluded_names'] as $exclude) {
+            $finder->notName($exclude);
+        }
+
+        return $finder;
     }
 
 }
