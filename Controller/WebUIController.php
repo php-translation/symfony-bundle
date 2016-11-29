@@ -58,14 +58,14 @@ class WebUIController extends Controller
      */
     public function showAction($locale, $domain)
     {
-        $locales = $this->getParameter('translation.locales');
+        $locales = $this->getParameter('php_translation.locales');
         /** @var Translator $translator */
         $translator = $this->get('translator');
         $catalogues = [];
         foreach ($locales as $l) {
             $catalogues[] = $translator->getCatalogue($l);
         }
-        $catalogueManager = $this->get('translation.catalogue_manager');
+        $catalogueManager = $this->get('php_translation.catalogue_manager');
         $catalogueManager->load($catalogues);
 
         /** @var Message[] $messages */

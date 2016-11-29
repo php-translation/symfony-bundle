@@ -25,8 +25,8 @@ class TranslationExtension extends Extension
 
         $loader->load('services.yml');
 
-        $container->setParameter('translation.locales', $config['locales']);
-        $container->setParameter('translation.default_locale', $config['default_locale']);
+        $container->setParameter('php_translation.locales', $config['locales']);
+        $container->setParameter('php_translation.default_locale', $config['default_locale']);
 
         if ($config['webui']['enabled']) {
             $this->enableWebUi($container, $config);
