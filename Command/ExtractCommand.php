@@ -41,8 +41,9 @@ class ExtractCommand extends ContainerAwareCommand
             $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
 
+        $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
+        $catalogues = $this->container->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
         $finder = $this->getConfiguredFinder($config);
-        $catalogues = $this->getCatalogues($locales, array_merge($config['external_translations_dirs'], [$config['output_dir']]));
         $results = $importer->extractToCatalogues($finder, $catalogues, $config);
 
         $writer = $this->getContainer()->get('translation.writer');
@@ -56,32 +57,6 @@ class ExtractCommand extends ContainerAwareCommand
                 )
             );
         }
-    }
-
-    /**
-     * load any existing messages from the translation files
-     *
-     * @param array $locales
-     * @param array $transPaths
-     *
-     * @return MessageCatalogue[]
-     */
-    public function getCatalogues(array $locales, array $transPaths)
-    {
-        $catalogues = [];
-        $loader = $this->getContainer()->get('translation.loader');
-
-        foreach ($locales as $locale) {
-            $currentCatalogue = new MessageCatalogue($locale);
-            foreach ($transPaths as $path) {
-                if (is_dir($path)) {
-                    $loader->loadMessages($path, $currentCatalogue);
-                }
-            }
-            $catalogues[] = $currentCatalogue;
-        }
-
-        return $catalogues;
     }
 
     /**
