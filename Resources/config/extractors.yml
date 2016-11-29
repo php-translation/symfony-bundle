@@ -1,0 +1,34 @@
+services:
+  php_translation.extractor.php:
+    class: Translation\Extractor\FileExtractor\PHPFileExtractor
+    tags:
+      - { name: 'php_translation.extractor', type: 'php' }
+
+  php_translation.extractor.twig:
+    class: Translation\Extractor\FileExtractor\TwigFileExtractor
+    arguments: ["@twig"]
+    tags:
+      - { name: 'php_translation.extractor', type: 'twig' }
+
+  # Visitors:
+  php_translation.extractor.php.visitor.ContainerAwareTrans:
+    class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+  php_translation.extractor.php.visitor.ContainerAwareTransChoice:
+    class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+  php_translation.extractor.php.visitor.FlashMessage:
+    class: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.twig.visitor.translation_block:
+    class: Translation\Extractor\Visitor\Twig\TranslationBlock
+    tags:
+      - { name: 'php_translation.visitor', type: 'twig' }
+  php_translation.extractor.twig.visitor.translation_filter:
+    class: Translation\Extractor\Visitor\Twig\TranslationFilter
+    tags:
+      - { name: 'php_translation.visitor', type: 'twig' }

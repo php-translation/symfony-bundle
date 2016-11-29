@@ -24,12 +24,19 @@ class TranslationExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('services.yml');
+        $loader->load('extractors.yml');
 
         $container->setParameter('php_translation.locales', $config['locales']);
         $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
 
         if ($config['webui']['enabled']) {
             $this->enableWebUi($container, $config);
+        }
+
+        foreach ($config['configs'] as &$c) {
+            if (empty($c['project_root'])) {
+                $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
+            }
         }
 
         $container->getDefinition('php_translation.configuration_manager')
@@ -40,8 +47,9 @@ class TranslationExtension extends Extension
     {
 
     }
-    private function setupConfigurationManager(ContainerBuilder $container, $config)
+    private function configureExtractors(ContainerBuilder $container, $config)
     {
+        $def = $container->getDefinition('php_translation.extractor');
 
     }
 

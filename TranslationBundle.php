@@ -2,13 +2,14 @@
 
 namespace Translation\Bundle;
 
-use Happyr\Mq2phpBundle\DependencyInjection\Compiler\RegisterConsumers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 
 class TranslationBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new ExtractorPass());
     }
 }
