@@ -42,7 +42,7 @@ class ExtractCommand extends ContainerAwareCommand
         }
 
         $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
-        $catalogues = $this->container->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
+        $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
         $finder = $this->getConfiguredFinder($config);
         $results = $importer->extractToCatalogues($finder, $catalogues, $config);
 
