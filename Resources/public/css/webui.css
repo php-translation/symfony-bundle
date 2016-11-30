@@ -1,3 +1,20 @@
+/* Navigation */
+.navbar {
+    padding: 0 2rem;
+}
+.navbar-nav .nav-text{
+    font-weight: bold;
+    padding-top: 0.2rem;
+    padding-bottom: 0;
+    display: inline-block;
+    width: 6rem;
+}
+
+.navbar-nav .nav-link {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
+
 
 /* Index page */
 .total-progressbar {
@@ -21,17 +38,25 @@
 .message-textarea {
     width: 100%;
     height: 3rem;
-    min-width: 15rem;
-}
-
-.message-table {
-    width: 100%;
 }
 
 .message-table td {
     vertical-align: top;
-    border-top: 1px solid black;
     padding: 0.1rem 0.5rem 1rem;
+}
+
+.key-column {
+    max-width:30rem;
+    width:33%;
+}
+
+.message-column {
+    min-width:15rem;
+    width:33%;
+}
+
+.additional-column {
+
 }
 
 pre a {
@@ -40,6 +65,7 @@ pre a {
 }
 
 
+/* Ajax results */
 .ajax-result {
     border-radius: 5px;
     padding: 5px;

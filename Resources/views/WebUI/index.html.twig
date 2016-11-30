@@ -2,7 +2,7 @@
 {% import _self as macro %}
 
 {% block body %}
-
+<div class="container">
     <div class="catalogue-list">
     {% for cataloge in catalogues %}
         <div class="catalouge">
@@ -31,6 +31,7 @@
         </div>
     {% endfor %}
     </div>
+</div>
 {% endblock %}
 
 {% macro progress(pg, class) %}
