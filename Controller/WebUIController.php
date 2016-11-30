@@ -5,6 +5,8 @@ namespace Translation\Bundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Intl\Intl;
+use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
 use Translation\Symfony\CatalogueManager;
 use Translation\Symfony\Model\Message;
@@ -18,11 +20,17 @@ class WebUIController extends Controller
     {
         $config = $this->getConfiguration($configName);
 
-        $locales = $this->getParameter('php_translation.locales');
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
+        $configuedLocales = $this->getParameter('php_translation.locales');
+        $allLocales = Intl::getLocaleBundle()->getLocaleNames('en');
+        $locales = [];
+        foreach ($configuedLocales as $l) {
+            $locales[$l] = $allLocales[$l];
+        }
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configuedLocales, [$config['output_dir']]);
         $catalogueSize = [];
         $maxDomainSize = [];
         $maxCatalogueSize = 1;
+        /** @var MessageCatalogue $catalogue */
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
             $domains = $catalogue->all();
