@@ -26,7 +26,7 @@
             {% endfor %}
             </table>
             {% set pg = (100*catalogueSize[cataloge.locale]/maxCatalogueSize)|round %}
-            <div class="text-xs-center">Total progress for this language {{ pg }} %</div>
+            <div class="text-xs-center">Total progress for this language: {{ pg }}%</div>
             {{ macro.progress(pg, "total-progressbar") }}
         </div>
     {% endfor %}
