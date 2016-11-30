@@ -1,4 +1,5 @@
 {% extends "TranslationBundle:WebUI:base.html.twig" %}
+{% import _self as macro %}
 
 {% block body %}
     <nav class="navbar navbar-light bg-faded">
@@ -31,77 +32,54 @@
     <div class="container-fluid message-list">
 
         <h1>Translations</h1>
-        {% for idx, message in messages %}
-            <div class="message row" id="{{ message.key }}">
-                <div class="col-md-6 col-xs-12">
-                {% if message.new %}
-                    <span class="text-primary" title="New">&#x25CF;</span>
-                {% endif %}
-                {% if message.obsolete %}
-                    <span class="text-warning" title="Obsolete">&#x26A0;</span>
-                {% endif %}
-                <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
-                <textarea
-                    class="message-textarea"
-                    data-key="{{ message.key }}"
-                    onchange="editTranslation(this)"
-                    tabindex="{{ idx + 1 }}"
-                >{{ message.message }}</textarea>
-                    <div class="ajax-result"></div>
+        {% for idx, message in messages if message.new %}
+            {{ macro.printMessage(idx + 1, message) }}
+        {% endfor %}
 
-                </div>
-
-                <div class="col-md-6 col-xs-12">
-                    {% for locale,trans in message.otherTranslations %}
-                        <b>{{ locale }}</b>: {{ trans }}<br>
-                    {% endfor %}
-
-                    {% if message.sourceLocations|length > 0 %}
-                    <hr />
-                    <ul>
-                        {% for location in message.sourceLocations %}
-                            <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
+        {% set idxStart = messages|length %}
+        {% for idx, message in messages if not message.new %}
+            {{ macro.printMessage(idx + idxStart, message) }}
         {% endfor %}
     </div>
-    <!--
-    <table class="table">
-        <thead>
-        <tr>
-            <th class="key-column">Translation key</th>
-            <th class="message-column">Message</th>
-            <th class="additional-column">Additional info</th>
-        </tr>
-        </thead>
-        <tbody>
-    {% for idx, message in messages %}
-        <tr class="message" id="{{ message.key }}">
-            <td>
-                <pre><a href="#{{ message.key }}">{{ message.key }}</a></pre>
-                <ul>
-                {% for location in message.sourceLocations %}
-                    <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }}</a></li>
-                {% endfor %}
-                </ul>
-            </td>
-            <td>
 
-            </td>
-            <td>
-                {% for locale,trans in message.otherTranslations %}
-                <b>{{ locale }}</b>: {{ trans }}<br>
-                {% endfor %}
-            </td>
-        </tr>
-    {% endfor %}
-        </tbody>
-    </table>
--->
     <script type="text/javascript">
         var editUrl="{{ path('translation_edit', {configName: configName, locale:currentLocale,domain:currentDomain}) }}";
     </script>
 {% endblock %}
+
+{% macro printMessage(idx, message) %}
+    <div class="message row" id="{{ message.key }}">
+        <div class="col-md-6 col-xs-12">
+            {% if message.new %}
+                <span class="text-primary" title="New">&#x25CF;</span>
+            {% endif %}
+            {% if message.obsolete %}
+                <span class="text-warning" title="Obsolete">&#x26A0;</span>
+            {% endif %}
+            <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
+            <textarea
+                class="message-textarea"
+                data-key="{{ message.key }}"
+                onchange="editTranslation(this)"
+                tabindex="{{ idx }}"
+            >{{ message.message }}</textarea>
+            <div class="ajax-result"></div>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12">
+            {% for locale,trans in message.otherTranslations %}
+                <b>{{ locale }}</b>: {{ trans }}<br>
+            {% endfor %}
+
+            {% if message.sourceLocations|length > 0 %}
+                <hr />
+                <ul>
+                    {% for location in message.sourceLocations %}
+                        <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}

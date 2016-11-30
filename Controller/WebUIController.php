@@ -77,6 +77,9 @@ class WebUIController extends Controller
 
         /** @var Message[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
+        usort($messages, function(Message $a, Message $b) {
+            return strcmp($a->getKey(), $b->getKey());
+        });
 
         return $this->render('TranslationBundle:WebUI:show.html.twig', [
             'messages'=>$messages,
