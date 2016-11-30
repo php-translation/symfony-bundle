@@ -26,7 +26,7 @@ class ExtractCommand extends ContainerAwareCommand
             ->setName('translation:extract')
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use')
-            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.');
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false);
 
     }
 
@@ -35,8 +35,8 @@ class ExtractCommand extends ContainerAwareCommand
         $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($input->getArgument('configuration'));
         $importer = $this->getContainer()->get('php_translation.importer');
 
-        if ($input->hasArgument('locale')) {
-            $locales = [$input->getArgument('locale')];
+        if ($inputLocale = $input->getArgument('locale')) {
+            $locales = [$inputLocale];
         } else {
             $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
