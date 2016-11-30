@@ -34,6 +34,7 @@ class WebUIController extends Controller
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
             $domains = $catalogue->all();
+            ksort($domains);
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
                 $count = count($messages);
