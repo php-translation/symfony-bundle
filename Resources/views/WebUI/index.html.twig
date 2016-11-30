@@ -1,4 +1,5 @@
 {% extends "TranslationBundle:WebUI:base.html.twig" %}
+{% import _self as macro %}
 
 {% block body %}
 
@@ -6,17 +7,39 @@
     {% for cataloge in catalogues %}
         <div class="catalouge">
             <h3>{{ cataloge.locale }}</h3>
+            <table class="domain-table">
             {% for domain,messages in cataloge.all %}
-                <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:cataloge.locale}) }}">
-                    {{ domain }}
-                </a>
-
-                {{ (100*messages|length/maxDomainSize[domain])|round }} % |
+                {% set pg = (100*messages|length/maxDomainSize[domain])|round %}
+                <tr>
+                    <td>
+                        <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:cataloge.locale}) }}">
+                            {{ domain }}
+                        </a>
+                    </td>
+                    <td class="progressbar-cell">
+                        {{ macro.progress(pg, "") }}
+                    </td>
+                    <td>
+                        {{ pg }} %
+                    </td>
+                </tr>
             {% endfor %}
-            <br>
-            {{ (100*catalogueSize[cataloge.locale]/maxCatalogueSize)|round }} %
+            </table>
+            {% set pg = (100*catalogueSize[cataloge.locale]/maxCatalogueSize)|round %}
+            <div class="text-xs-center">Total progress for this language {{ pg }} %</div>
+            {{ macro.progress(pg, "total-progressbar") }}
         </div>
     {% endfor %}
     </div>
-
 {% endblock %}
+
+{% macro progress(pg, class) %}
+    {% if pg < 60 %}
+        {% set type="danger" %}
+    {% elseif pg < 80 %}
+        {% set type="warning" %}
+    {% else %}
+        {% set type="success" %}
+    {% endif %}
+    <progress class="progress progress-striped progress-{{ type }} {{ class }}" value="{{ pg }}" max="100"></progress>
+{% endmacro %}

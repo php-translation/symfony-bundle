@@ -1,18 +1,31 @@
 <html>
 <head>
+    <link rel="stylesheet" href="{{ asset("bundles/translation/css/bootstrap4-alpha5.min.css") }}">
     <link rel="stylesheet" href="{{ asset("bundles/translation/css/webui.css") }}">
 </head>
 <body>
 
 <div class="nav">
-    {% for c in configNames %}
-        <a href="{{ path('translation_index', {configName: c}) }}">
-            {{ c }}
-        </a>
-    {% endfor %}
-</div>
-{% block body %}{% endblock %}
 
+</div>
+
+<nav class="navbar navbar-light bg-faded">
+    <ul class="nav navbar-nav">
+        {% for c in configNames %}
+            <li class="nav-item{% if configName == c %} active{% endif %}">
+                <a class="nav-link" href="{{ path('translation_index', {configName: c}) }}">
+                    {{ c|humanize }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+
+<script type="text/javascript" src="{{ asset("bundles/translation/js/bootstrap4-alpha5.min.js") }}"></script>
 <script type="text/javascript" src="{{ asset("bundles/translation/js/webui.js") }}"></script>
 </body>
 </html>

@@ -1,19 +1,34 @@
-/* Reset */
-* {
-    margin:0;
-    padding:0;
+
+/* Index page */
+.total-progressbar {
+    width: 100%;
 }
 
+.domain-table .progressbar-cell {
+    width: 15rem;
+    padding: 0 1rem;
+}
+
+.domain-table .progressbar-cell .progress{
+    margin: 0;
+}
+
+.domain-table tr td{
+    vertical-align: top;
+}
+
+/* Show page */
 .message-textarea {
     width: 100%;
     height: 3rem;
+    min-width: 15rem;
 }
 
-table {
+.message-table {
     width: 100%;
 }
 
-table td {
+.message-table td {
     vertical-align: top;
     border-top: 1px solid black;
     padding: 0.1rem 0.5rem 1rem;
