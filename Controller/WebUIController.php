@@ -101,6 +101,7 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
+        // TODO use the Translator\Common\Storage interface
         return new Response('Not yet implemented');
     }
 
