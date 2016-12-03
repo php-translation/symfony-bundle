@@ -1,17 +1,22 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Translation\MessageCatalogue;
 
 class ExtractCommand extends ContainerAwareCommand
 {
@@ -27,7 +32,6 @@ class ExtractCommand extends ContainerAwareCommand
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false);
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -51,10 +55,10 @@ class ExtractCommand extends ContainerAwareCommand
             $writer->writeTranslations(
                 $result,
                 $config['output_format'],
-                array(
+                [
                     'path' => $config['output_dir'],
-                    'default_locale' => $this->getContainer()->getParameter('php_translation.default_locale')
-                )
+                    'default_locale' => $this->getContainer()->getParameter('php_translation.default_locale'),
+                ]
             );
         }
     }
@@ -81,5 +85,4 @@ class ExtractCommand extends ContainerAwareCommand
 
         return $finder;
     }
-
 }

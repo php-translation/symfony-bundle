@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Controller;
 
 use Happyr\TranslationBundle\Model\Message;
@@ -11,8 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class SymfonyProfilerController extends Controller
@@ -144,7 +151,7 @@ class SymfonyProfilerController extends Controller
             return new Response('No translations selected.');
         }
 
-        $uploaded = array();
+        $uploaded = [];
         $trans = $this->get('happyr.translation');
         foreach ($messages as $message) {
             if ($trans->createAsset($message)) {
@@ -201,14 +208,14 @@ class SymfonyProfilerController extends Controller
 
         $selected = $request->request->get('selected');
         if (!$selected || count($selected) == 0) {
-            return array();
+            return [];
         }
 
         $profile = $profiler->loadProfile($token);
         $dataCollector = $profile->getCollector('translation');
         $toSave = array_intersect_key($dataCollector->getMessages(), array_flip($selected));
 
-        $messages = array();
+        $messages = [];
         foreach ($toSave as $data) {
             //We do not want do add the placeholder to Loco. That messes up the stats.
             $data['translation'] = '';
