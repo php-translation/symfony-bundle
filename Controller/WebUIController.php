@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
-use Translation\Symfony\CatalogueManager;
 use Translation\Symfony\Model\Message;
 
 /**
@@ -38,20 +46,20 @@ class WebUIController extends Controller
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
                 $count = count($messages);
-                $catalogueSize[$locale]+=$count;
-                if (!isset($maxDomainSize[$domain]) || $count>$maxDomainSize[$domain]) {
+                $catalogueSize[$locale] += $count;
+                if (!isset($maxDomainSize[$domain]) || $count > $maxDomainSize[$domain]) {
                     $maxDomainSize[$domain] = $count;
                 }
             }
 
-            if ($catalogueSize[$locale]>$maxCatalogueSize) {
+            if ($catalogueSize[$locale] > $maxCatalogueSize) {
                 $maxCatalogueSize = $catalogueSize[$locale];
             }
         }
 
         return $this->render('TranslationBundle:WebUI:index.html.twig', [
-            'catalogues'=>$catalogues,
-            'catalogueSize'=>$catalogueSize,
+            'catalogues' => $catalogues,
+            'catalogueSize' => $catalogueSize,
             'maxDomainSize' => $maxDomainSize,
             'maxCatalogueSize' => $maxCatalogueSize,
             'locales' => $locales,
@@ -71,20 +79,19 @@ class WebUIController extends Controller
         $config = $this->getConfiguration($configName);
         $locales = $this->getParameter('php_translation.locales');
         /** @var Translator $translator */
-
         $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
         $catalogueManager = $this->get('php_translation.catalogue_manager');
         $catalogueManager->load($catalogues);
 
         /** @var Message[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
-        usort($messages, function(Message $a, Message $b) {
+        usort($messages, function (Message $a, Message $b) {
             return strcmp($a->getKey(), $b->getKey());
         });
 
         return $this->render('TranslationBundle:WebUI:show.html.twig', [
-            'messages'=>$messages,
-            'domains'=>$catalogueManager->getDomains(),
+            'messages' => $messages,
+            'domains' => $catalogueManager->getDomains(),
             'currentDomain' => $domain,
             'locales' => $locales,
             'currentLocale' => $locale,

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -132,7 +141,6 @@ class Configuration implements ConfigurationInterface
 
     private function addAutoTranslateNode(ArrayNodeDefinition $root)
     {
-
     }
 
     private function addTranslationServiceNode(ArrayNodeDefinition $root)
@@ -141,7 +149,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->enumNode('storage')
                     ->info('Where translations are stored.')
-                    ->values(array('blackhole', 'filesystem', 'loco'))
+                    ->values(['blackhole', 'filesystem', 'loco'])
                     ->defaultValue('filesystem')
                 ->end()
             ->end();
