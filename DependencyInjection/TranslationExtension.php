@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -45,12 +54,11 @@ class TranslationExtension extends Extension
 
     private function enableWebUi(ContainerBuilder $container, $config)
     {
-
     }
+
     private function configureExtractors(ContainerBuilder $container, $config)
     {
         $def = $container->getDefinition('php_translation.extractor');
-
     }
 
     public function getAlias()

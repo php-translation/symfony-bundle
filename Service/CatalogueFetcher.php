@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Service;
 
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 
 /**
- * Fetches catalogues from source files
+ * Fetches catalogues from source files.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -18,7 +27,6 @@ class CatalogueFetcher
     private $loader;
 
     /**
-     *
      * @param TranslationLoader $loader
      */
     public function __construct(TranslationLoader $loader)
@@ -26,9 +34,8 @@ class CatalogueFetcher
         $this->loader = $loader;
     }
 
-
     /**
-     * load any existing messages from the translation files
+     * load any existing messages from the translation files.
      *
      * @param array $locales
      * @param array $dirs
