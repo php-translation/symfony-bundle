@@ -17,15 +17,13 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class ExternalTranslatorPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        /** @var Definition $def */
+        /* @var Definition $def */
         if (!$container->hasDefinition('php_translation.translator_service.external_translator')) {
             return;
         }

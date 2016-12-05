@@ -17,7 +17,6 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Translation\Symfony\Translator\FallbackTranslator;
 
 /**
  * This is the class that loads and manages your bundle configuration.

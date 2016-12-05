@@ -1,9 +1,4 @@
 services:
-
-
-
-
-
   php_translator.fallback_translator:
     class: Translation\Symfony\Translator\FallbackTranslator
     public: false
@@ -13,8 +8,6 @@ services:
       - "%php_translation.default_locale%"
       - "@php_translator.fallback_translator.inner"
       - "@php_translation.translator_service.external_translator"
-
-
 
   php_translation.translator_service.external_translator:
      class: Translation\Translator\Translator
