@@ -74,9 +74,9 @@
 
             {% if message.sourceLocations|length > 0 %}
                 <hr />
-                <ul>
+                <ul class="location-list">
                     {% for location in message.sourceLocations %}
-                        <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }}</a></li>
+                        <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }} at line {{ location['line'] }} </a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
