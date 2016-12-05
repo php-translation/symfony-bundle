@@ -15,9 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
+use Translation\Bundle\Exception\MessageValidationException;
+use Translation\Bundle\Model\GuiMessageRepresentation;
 use Translation\Common\Exception\StorageException;
 use Translation\Symfony\Model\Message;
 
@@ -110,19 +113,19 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
-        $json = $request->getContent();
-        $data = json_decode($json, true);
-        if (!isset($data['key']) || !isset($data['message'])) {
-            throw new BadRequestHttpException('Payload must contain "key" and "message".');
-        }
-
         $storage = $this->get('php_translation.storage.file.'.$configName);
         try {
-            $storage->set($locale, $domain, $data['key'], $data['message']);
+            $message = $this->getMessage($request, ['Create']);
+        } catch (MessageValidationException $e) {
+            return new Response($e->getMessage(), 400);
+        }
+
+        try {
+            $storage->set($locale, $domain, $message->getKey(), $message->getMessage());
         } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
-                $data['key'],
+                $message->getKey(),
                 $locale,
                 $domain
             ), $e);
@@ -141,13 +144,13 @@ class WebUIController extends Controller
      */
     public function editAction(Request $request, $configName, $locale, $domain)
     {
-        $json = $request->getContent();
-        $data = json_decode($json, true);
-        if (!isset($data['key']) || !isset($data['message'])) {
-            throw new BadRequestHttpException('Payload must contain "key" and "message".');
+        try {
+            $message = $this->getMessage($request, ['Edit']);
+        } catch (MessageValidationException $e) {
+            return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->update($locale, $domain, $data['key'], $data['message']);
+        $this->get('php_translation.storage.file.'.$configName)->update($locale, $domain, $message->getKey(), $message->getMessage());
 
         return new Response('Translation updated');
     }
@@ -162,13 +165,13 @@ class WebUIController extends Controller
      */
     public function deleteAction(Request $request, $configName, $locale, $domain)
     {
-        $json = $request->getContent();
-        $data = json_decode($json, true);
-        if (!isset($data['key'])) {
-            throw new BadRequestHttpException('Payload must contain "key".');
+        try {
+            $message = $this->getMessage($request, ['Delete']);
+        } catch (MessageValidationException $e) {
+            return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->delete($locale, $domain, $data['key']);
+        $this->get('php_translation.storage.file.'.$configName)->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
     }
@@ -193,5 +196,31 @@ class WebUIController extends Controller
         }
 
         return $config;
+    }
+
+    /**
+     * @param Request $request
+     * @param array $validationGroups
+     *
+     * @return GuiMessageRepresentation
+     */
+    private function getMessage(Request $request, array $validationGroups = [])
+    {
+        $json = $request->getContent();
+        $data = json_decode($json, true);
+        $message = new GuiMessageRepresentation();
+        if (isset($data['key'])) {
+            $message->setKey($data['key']);
+        }
+        if (isset($data['message'])) {
+            $message->setMessage($data['message']);
+        }
+
+        $errors = $this->get('validator')->validate($message, null, $validationGroups);
+        if (count($errors) > 0) {
+            throw  MessageValidationException::create();
+        }
+
+        return $message;
     }
 }
