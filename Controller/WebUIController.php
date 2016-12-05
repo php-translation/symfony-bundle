@@ -14,9 +14,11 @@ namespace Translation\Bundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
+use Translation\Common\Exception\StorageException;
 use Translation\Symfony\Model\Message;
 
 /**
@@ -108,19 +110,67 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
-        // TODO use the Translator\Common\Storage interface
-        return new Response('Not yet implemented');
+        $json = $request->getContent();
+        $data = json_decode($json, true);
+        if (!isset($data['key']) || !isset($data['message'])) {
+            throw new BadRequestHttpException('Payload must contain "key" and "message".');
+        }
+
+        $storage = $this->get('php_translation.storage.file.'.$configName);
+        try {
+            $storage->set($locale, $domain, $data['key'], $data['message']);
+        } catch (StorageException $e) {
+            throw new BadRequestHttpException(sprintf(
+                'Key "%s" does already exist for "%s" on domain "%s".',
+                $data['key'],
+                $locale,
+                $domain
+            ), $e);
+        }
+
+        return new Response('Translation created');
     }
 
     /**
      * @param Request $request
+     * @param string  $configName
+     * @param string  $locale
      * @param string  $domain
      *
      * @return Response
      */
-    public function editAction(Request $request, $domain)
+    public function editAction(Request $request, $configName, $locale, $domain)
     {
-        return new Response('Not yet implemented');
+        $json = $request->getContent();
+        $data = json_decode($json, true);
+        if (!isset($data['key']) || !isset($data['message'])) {
+            throw new BadRequestHttpException('Payload must contain "key" and "message".');
+        }
+
+        $this->get('php_translation.storage.file.'.$configName)->update($locale, $domain, $data['key'], $data['message']);
+
+        return new Response('Translation updated');
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $configName
+     * @param string  $locale
+     * @param string  $domain
+     *
+     * @return Response
+     */
+    public function deleteAction(Request $request, $configName, $locale, $domain)
+    {
+        $json = $request->getContent();
+        $data = json_decode($json, true);
+        if (!isset($data['key'])) {
+            throw new BadRequestHttpException('Payload must contain "key".');
+        }
+
+        $this->get('php_translation.storage.file.'.$configName)->delete($locale, $domain, $data['key']);
+
+        return new Response('Message was deleted');
     }
 
     /**

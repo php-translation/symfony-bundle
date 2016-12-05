@@ -14,6 +14,7 @@ namespace Translation\Bundle\Storage;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
+use Translation\Common\Exception\StorageException;
 use Translation\Common\Storage;
 
 /**
@@ -34,9 +35,9 @@ class FileStorage implements Storage
     private $loader;
 
     /**
-     * @var array of directory paths
+     * @var string directory path
      */
-    private $dirs;
+    private $dir;
 
     /**
      * @var MessageCatalogue[] Fetched catalogies
@@ -46,17 +47,24 @@ class FileStorage implements Storage
     /**
      * @param TranslationWriter $writer
      * @param TranslationLoader $loader
-     * @param array             $dirs
+     * @param array             $dir
      */
-    public function __construct(TranslationWriter $writer, TranslationLoader $loader, array $dirs)
+    public function __construct(TranslationWriter $writer, TranslationLoader $loader, $dir)
     {
         $this->writer = $writer;
         $this->loader = $loader;
-        $this->dirs = $dirs;
+        $this->dir = $dir;
     }
 
-    public function getAll()
+    public function set($locale, $domain, $key, $message)
     {
+        $originalMessage = $this->get($locale, $domain, $key);
+        if (!empty($originalMessage)) {
+            throw StorageException::translationExists($key, $domain);
+        }
+
+        $catalogue = $this->getCatalogue($locale);
+        $catalogue->set($key, $message, $domain);
     }
 
     public function get($locale, $domain, $key)
@@ -106,7 +114,7 @@ class FileStorage implements Storage
     private function getCatalogue($locale)
     {
         if (empty($this->catalogues[$locale])) {
-            $this->loadCatalogue($locale, $this->dirs);
+            $this->loadCatalogue($locale, [$this->dir]);
         }
 
         return $this->catalogues[$locale];

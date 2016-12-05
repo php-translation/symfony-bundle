@@ -11,15 +11,10 @@
 
 namespace Translation\Bundle\Tests\Functional\app;
 
-use Translation\Bundle\HappyrMq2phpBundle;
-use JMS\SerializerBundle\JMSSerializerBundle;
-use SimpleBus\AsynchronousBundle\SimpleBusAsynchronousBundle;
-use SimpleBus\JMSSerializerBundleBridge\SimpleBusJMSSerializerBundleBridgeBundle;
-use SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle;
-use SimpleBus\SymfonyBridge\SimpleBusEventBusBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
+use Translation\Bundle\TranslationBundle;
 
 class AppKernel extends Kernel
 {
@@ -46,12 +41,8 @@ class AppKernel extends Kernel
     {
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new SimpleBusCommandBusBundle(),
-            new SimpleBusEventBusBundle(),
-            new SimpleBusAsynchronousBundle(),
-            new SimpleBusJMSSerializerBundleBridgeBundle(),
-            new JMSSerializerBundle(),
-            new HappyrMq2phpBundle(),
+            new \Symfony\Bundle\TwigBundle\TwigBundle(),
+            new TranslationBundle(),
         ];
     }
 

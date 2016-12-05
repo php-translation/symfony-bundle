@@ -17,3 +17,8 @@ services:
   php_translation.importer:
     class: Translation\Symfony\Importer
     arguments: ["@php_translation.extractor"]
+
+  php_translation.storage.file.abstract:
+    class: Translation\Bundle\Storage\FileStorage
+    abstract: true
+    arguments: ["@translation.writer", "@translation.loader", ~]

@@ -11,8 +11,7 @@
 
 namespace Translation\Bundle\Tests\Functional;
 
-use Translation\Bundle\Service\ConsumerWrapper;
-use Translation\Bundle\Service\MessageSerializerDecorator;
+use Translation\Bundle\Service\ConfigurationManager;
 
 class BundleInitializationTest extends BaseTestCase
 {
@@ -20,12 +19,8 @@ class BundleInitializationTest extends BaseTestCase
     {
         static::bootKernel();
         $container = static::$kernel->getContainer();
-        $this->assertTrue($container->has('happyr.mq2php.message_serializer'));
-        $client = $container->get('happyr.mq2php.message_serializer');
-        $this->assertInstanceOf(MessageSerializerDecorator::class, $client);
-
-        $this->assertTrue($container->has('happyr.mq2php.consumer_wrapper'));
-        $client = $container->get('happyr.mq2php.consumer_wrapper');
-        $this->assertInstanceOf(ConsumerWrapper::class, $client);
+        $this->assertTrue($container->has('php_translation.configuration_manager'));
+        $config = $container->get('php_translation.configuration_manager');
+        $this->assertInstanceOf(ConfigurationManager::class, $config);
     }
 }

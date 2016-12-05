@@ -13,6 +13,7 @@ namespace Translation\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -42,10 +43,14 @@ class TranslationExtension extends Extension
             $this->enableWebUi($container, $config);
         }
 
-        foreach ($config['configs'] as &$c) {
+        foreach ($config['configs'] as $name => &$c) {
             if (empty($c['project_root'])) {
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
             }
+
+            $def = new DefinitionDecorator('php_translation.storage.file.abstract');
+            $def->replaceArgument(2, $c['output_dir']);
+            $container->setDefinition('php_translation.storage.file.'.$name, $def);
         }
 
         $container->getDefinition('php_translation.configuration_manager')
