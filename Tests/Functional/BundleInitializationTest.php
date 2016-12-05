@@ -22,6 +22,5 @@ class BundleInitializationTest extends BaseTestCase
         $this->assertTrue($container->has('php_translation.configuration_manager'));
         $config = $container->get('php_translation.configuration_manager');
         $this->assertInstanceOf(ConfigurationManager::class, $config);
-
     }
 }
