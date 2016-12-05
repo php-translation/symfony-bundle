@@ -14,6 +14,7 @@ namespace Translation\Bundle\Storage;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
+use Translation\Common\Exception\StorageException;
 use Translation\Common\Storage;
 
 /**
@@ -59,7 +60,7 @@ class FileStorage implements Storage
     {
         $originalMessage = $this->get($locale, $domain, $key);
         if (!empty($originalMessage)) {
-            throw new \LogicException('TODO write other exception class');
+            throw StorageException::translationExists($key, $domain);
         }
 
         $catalogue = $this->getCatalogue($locale);

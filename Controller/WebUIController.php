@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
-use Translation\Common\Storage;
+use Translation\Common\Exception\StorageException;
 use Translation\Symfony\Model\Message;
 
 /**
@@ -119,8 +119,7 @@ class WebUIController extends Controller
         $storage = $this->get('php_translation.storage.file.'.$configName);
         try {
             $storage->set($locale, $domain, $data['key'], $data['message']);
-        } catch (\LogicException $e) {
-            // TODO use other exception
+        } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
                 $data['key'],
