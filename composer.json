@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": "^5.4 || ^7.0",
-        "php-translation/symfony": "dev-master"
+        "php-translation/symfony": "dev-master",
+        "php-translation/common": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.5 || ^5.4",
