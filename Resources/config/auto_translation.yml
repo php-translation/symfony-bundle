@@ -1,0 +1,29 @@
+services:
+
+
+
+
+
+  php_translator.fallback_translator:
+    class: Translation\Symfony\Translator\FallbackTranslator
+    public: false
+    decorates: 'translator'
+    decoration_priority: 10
+    arguments:
+      - "%php_translation.default_locale%"
+      - "@php_translator.fallback_translator.inner"
+      - "@php_translation.translator_service.external_translator"
+
+
+
+  php_translation.translator_service.external_translator:
+     class: Translation\Translator\Translator
+     arguments: []
+     calls:
+       - [ 'setLogger', ["@?logger"]]
+
+  # ----- Services ------
+  php_translation.translator_service.google:
+     class: Translation\Translator\Service\GoogleTranslator
+     arguments: ["%php_translation.translator_service.api_key%"]
+

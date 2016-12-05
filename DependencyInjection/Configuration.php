@@ -141,6 +141,15 @@ class Configuration implements ConfigurationInterface
 
     private function addAutoTranslateNode(ArrayNodeDefinition $root)
     {
+        $root->children()
+            ->arrayNode('fallback_translation')
+                ->canBeEnabled()
+                ->children()
+                    ->enumNode('service')->values(array('google', 'bing'))->defaultValue('google')->end()
+                    ->scalarNode('api_key')->defaultNull()->end()
+                ->end()
+            ->end()
+        ->end();
     }
 
     private function addTranslationServiceNode(ArrayNodeDefinition $root)
