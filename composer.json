@@ -11,6 +11,9 @@
     ],
     "require": {
         "php": "^5.5 || ^7.0",
+        "symfony/framework-bundle": "^2.7 || ^3.0",
+        "symfony/validation": "^2.7 || ^3.0",
+        "symfony/translation": "^2.7 || ^3.0",
         "php-translation/symfony": "dev-master",
         "php-translation/common": "dev-master",
 

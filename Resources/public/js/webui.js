@@ -22,7 +22,7 @@ function editTranslation(el) {
                 resultDiv.innerHTML = "Unknown error";
             }
 
-            setTimeout(function() {removeElement(resultDiv);}, 6000);
+            setTimeout(function() {removeResultElement(resultDiv);}, 6000);
         }
     };
 
@@ -32,10 +32,11 @@ function editTranslation(el) {
 }
 
 /**
- * Remove an element
+ * Remove the result element
  *
  * @param el
  */
-function removeElement(el) {
-    el.parentElement.removeChild(el);
+function removeResultElement(el) {
+    el.innerHTML = '';
+    el.className = "ajax-result";
 }
