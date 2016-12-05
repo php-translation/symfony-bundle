@@ -17,8 +17,7 @@
         "php-translation/symfony": "dev-master",
         "php-translation/common": "dev-master",
 
-        "php-translation/extractor": "dev-master",
-        "nikic/php-parser": "^3.0@beta"
+        "php-translation/extractor": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.5 || ^5.4",
