@@ -19,4 +19,3 @@ services:
   php_translation.translator_service.google:
      class: Translation\Translator\Service\GoogleTranslator
      arguments: ["%php_translation.translator_service.api_key%"]
-
