@@ -14,6 +14,7 @@ namespace Translation\Bundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -43,6 +44,11 @@ class TranslationExtension extends Extension
             $this->enableWebUi($container, $config);
         }
 
+        if ($config['fallback_translation']['enabled']) {
+            $loader->load('auto_translation.yml');
+            $this->enableFallbackAutoTranslator($container, $config);
+        }
+
         foreach ($config['configs'] as $name => &$c) {
             if (empty($c['project_root'])) {
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
@@ -61,9 +67,15 @@ class TranslationExtension extends Extension
     {
     }
 
-    private function configureExtractors(ContainerBuilder $container, $config)
+    private function enableFallbackAutoTranslator(ContainerBuilder $container, $config)
     {
-        $def = $container->getDefinition('php_translation.extractor');
+        $externalTranslatorId = 'php_translation.translator_service.'.$config['fallback_translation']['service'];
+        $externalTranslatorDef = $container->getDefinition($externalTranslatorId);
+        $externalTranslatorDef->addTag('php_translation.external_translator');
+        $externalTranslatorDef->addArgument(new Reference($config['http_client']));
+        $externalTranslatorDef->addArgument(new Reference($config['message_factory']));
+
+        $container->setParameter('php_translation.translator_service.api_key', $config['fallback_translation']['api_key']);
     }
 
     public function getAlias()
