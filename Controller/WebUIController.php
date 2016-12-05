@@ -183,7 +183,7 @@ class WebUIController extends Controller
         $configurationManager = $this->get('php_translation.configuration_manager');
         $configName = $configName !== null ? $configName : $configurationManager->getFirstName();
         if ($configName === null) {
-            throw new \LogicException('You must configure at least one key under translation.config');
+            throw new \LogicException('You must configure at least one key under translation.configs');
         }
 
         $config = $configurationManager->getConfiguration($configName);
