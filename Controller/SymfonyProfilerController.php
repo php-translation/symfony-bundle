@@ -146,12 +146,7 @@ class SymfonyProfilerController extends Controller
             }
         }
 
-        $saved = count($uploaded);
-        if ($saved > 0) {
-            $this->get('happyr.translation.filesystem')->updateMessageCatalog($uploaded);
-        }
-
-        return new Response(sprintf('%s new assets created!', $saved));
+        return new Response(sprintf('%s new assets created!', count($uploaded)));
     }
 
     /**
