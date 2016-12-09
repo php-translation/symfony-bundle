@@ -19,9 +19,9 @@ use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
 use Translation\Bundle\Exception\MessageValidationException;
-use Translation\Bundle\Model\GuiMessageRepresentation;
+use Translation\Bundle\Model\WebUiMessage;
 use Translation\Common\Exception\StorageException;
-use Translation\Bundle\Model\Message;
+use Translation\Bundle\Model\CatalogueMessage;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -87,9 +87,9 @@ class WebUIController extends Controller
         $catalogueManager = $this->get('php_translation.catalogue_manager');
         $catalogueManager->load($catalogues);
 
-        /** @var Message[] $messages */
+        /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
-        usort($messages, function (Message $a, Message $b) {
+        usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
             return strcmp($a->getKey(), $b->getKey());
         });
 
@@ -201,13 +201,13 @@ class WebUIController extends Controller
      * @param Request $request
      * @param array   $validationGroups
      *
-     * @return GuiMessageRepresentation
+     * @return WebUiMessage
      */
     private function getMessage(Request $request, array $validationGroups = [])
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
-        $message = new GuiMessageRepresentation();
+        $message = new WebUiMessage();
         if (isset($data['key'])) {
             $message->setKey($data['key']);
         }

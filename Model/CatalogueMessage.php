@@ -13,7 +13,12 @@ namespace Translation\Bundle\Model;
 
 use Translation\Bundle\Catalogue\CatalogueManager;
 
-class Message
+/**
+ * A message representation for CatalogueManager.
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
+class CatalogueMessage
 {
     /**
      * @var CatalogueManager

@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Translation\Bundle\Service\StorageService;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -44,19 +45,38 @@ class TranslationExtension extends Extension
             $this->enableWebUi($container, $config);
         }
 
+        if ($config['symfony_profiler']['enabled']) {
+            $loader->load('symfony_profiler.yml');
+            $this->enableSymfonyProfiler($container, $config);
+        }
+
         if ($config['fallback_translation']['enabled']) {
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
         }
 
+        $first = null;
         foreach ($config['configs'] as $name => &$c) {
+            if ($first === null || $name === 'default') {
+                $first = $name;
+            }
             if (empty($c['project_root'])) {
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
             }
 
-            $def = new DefinitionDecorator('php_translation.storage.file.abstract');
-            $def->replaceArgument(2, $c['output_dir']);
-            $container->setDefinition('php_translation.storage.file.'.$name, $def);
+            $container->register('php_translation.storage.'.$name, StorageService::class);
+
+            // Register a file storage
+            $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');
+            $def->replaceArgument(2, $c['output_dir'])
+                ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
+            $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
+        }
+
+        if ($first !== null) {
+            // Create some aliases for the default storage
+            $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
+            $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
         }
 
         $container->getDefinition('php_translation.configuration_manager')
@@ -65,6 +85,11 @@ class TranslationExtension extends Extension
 
     private function enableWebUi(ContainerBuilder $container, $config)
     {
+    }
+
+    private function enableSymfonyProfiler(ContainerBuilder $container, $config)
+    {
+        $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
     }
 
     private function enableFallbackAutoTranslator(ContainerBuilder $container, $config)

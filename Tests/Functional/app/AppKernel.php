@@ -53,7 +53,7 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return sys_get_temp_dir().'/HappyrMq2PHPBundle';
+        return sys_get_temp_dir().'/TranslationBundle';
     }
 
     public function serialize()

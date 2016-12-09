@@ -45,7 +45,7 @@
         {% endif %}
     {% endfor %}
 
-<form action="{{ path('_profiler_translations_create_assets', {'token': token}) }}" method="post"
+<form action="{{ path('php_translation_profiler_translation_create_assets', {'token': token}) }}" method="post"
       id="translations-list" onSubmit="return saveTranslations(this);" >
 
     <div class="sf-tabs">
@@ -114,7 +114,7 @@
     <div id="translationResult"></div>
 
 </form>
-    {% include "HappyrTranslationBundle:Profiler:javascripts.html.twig" %}
+    {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
 {% endblock %}
 
 {% macro render_table(messages) %}
@@ -165,8 +165,6 @@
                 <td width="155px">
                     {% spaceless %}
                     <a class="edit"  href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
-                        |
-                    <a class="flag" href="javascript:void(0);" onclick='flagMessage("{{ key }}")'>Flag</a>
                         |
                     <a class="sync"  href="javascript:void(0);" onclick='syncMessage("{{ key }}")'>Sync</a>
                     {% endspaceless %}

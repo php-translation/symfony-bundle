@@ -11,13 +11,12 @@
 
 namespace Translation\Bundle\Controller;
 
-use Happyr\TranslationBundle\Model\Message;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
+use Translation\Bundle\Model\SfProfilerMessage;
+use Translation\Common\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -28,13 +27,11 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @Route("/{token}/translation/edit", name="_profiler_translations_edit")
-     *
      * @return Response
      */
     public function editAction(Request $request, $token)
     {
-        if (!$this->getParameter('translation.toolbar.allow_edit')) {
+        if (!$this->getParameter('php_translation.toolbar.allow_edit')) {
             return new Response('You are not allowed to edit the translations.');
         }
 
@@ -43,20 +40,20 @@ class SymfonyProfilerController extends Controller
         }
 
         $message = $this->getMessage($request, $token);
-        $trans = $this->get('happyr.translation');
+        $storage = $this->get('php_translation.storage');
 
         if ($request->isMethod('GET')) {
-            $trans->fetchTranslation($message);
+            $translation = $storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
 
-            return $this->render('HappyrTranslationBundle:Profiler:edit.html.twig', [
-                'message' => $message,
-                'key' => $request->query->get('message_id'),
+            return $this->render('TranslationBundle:SymfonyProfiler:edit.html.twig', [
+                'message' => $translation,
+                'key' => $message->getLocale().$message->getDomain().$message->getKey(),
             ]);
         }
 
         //Assert: This is a POST request
         $message->setTranslation($request->request->get('translation'));
-        $trans->updateTranslation($message);
+        $storage->update($message->convertToMessage());
 
         return new Response($message->getTranslation());
     }
@@ -64,9 +61,6 @@ class SymfonyProfilerController extends Controller
     /**
      * @param Request $request
      * @param string  $token
-     *
-     * @Route("/{token}/translation/flag", name="_profiler_translations_flag")
-     * @Method("POST")
      *
      * @return Response
      */
@@ -78,7 +72,8 @@ class SymfonyProfilerController extends Controller
 
         $message = $this->getMessage($request, $token);
 
-        $saved = $this->get('happyr.translation')->flagTranslation($message);
+        // TODO
+        $saved = false;
 
         return new Response($saved ? 'OK' : 'ERROR');
     }
@@ -86,9 +81,6 @@ class SymfonyProfilerController extends Controller
     /**
      * @param Request $request
      * @param string  $token
-     *
-     * @Route("/{token}/translation/sync", name="_profiler_translations_sync")
-     * @Method("POST")
      *
      * @return Response
      */
@@ -98,11 +90,11 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        $message = $this->getMessage($request, $token);
-        $translation = $this->get('happyr.translation')->fetchTranslation($message, true);
+        $sfMessage = $this->getMessage($request, $token);
+        $message = $this->get('php_translation.storage')->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
-        if ($translation !== null) {
-            return new Response($translation);
+        if ($message !== null) {
+            return new Response($message->getTranslation());
         }
 
         return new Response('Asset not found', 404);
@@ -112,8 +104,6 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param         $token
      *
-     * @Route("/{token}/translation/sync-all", name="_profiler_translations_sync_all")
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function syncAllAction(Request $request, $token)
@@ -122,7 +112,7 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        $this->get('happyr.translation')->synchronizeAllTranslations();
+        $this->get('php_translation.storage')->sync();
 
         return new Response('Started synchronization of all translations');
     }
@@ -134,9 +124,6 @@ class SymfonyProfilerController extends Controller
      *
      * @param Request $request
      * @param string  $token
-     *
-     * @Route("/{token}/translation/create-asset", name="_profiler_translations_create_assets")
-     * @Method("POST")
      *
      * @return Response
      */
@@ -152,26 +139,21 @@ class SymfonyProfilerController extends Controller
         }
 
         $uploaded = [];
-        $trans = $this->get('happyr.translation');
+        $trans = $this->get('php_translation.storage');
         foreach ($messages as $message) {
-            if ($trans->createAsset($message)) {
+            if ($trans->update($message)) {
                 $uploaded[] = $message;
             }
         }
 
-        $saved = count($uploaded);
-        if ($saved > 0) {
-            $this->get('happyr.translation.filesystem')->updateMessageCatalog($uploaded);
-        }
-
-        return new Response(sprintf('%s new assets created!', $saved));
+        return new Response(sprintf('%s new assets created!', count($uploaded)));
     }
 
     /**
      * @param Request $request
      * @param string  $token
      *
-     * @return Message
+     * @return SfProfilerMessage
      */
     protected function getMessage(Request $request, $token)
     {
@@ -185,7 +167,7 @@ class SymfonyProfilerController extends Controller
         if (!isset($messages[$messageId])) {
             throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
         }
-        $message = new Message($messages[$messageId]);
+        $message = SfProfilerMessage::create($messages[$messageId]);
 
         if ($message->getState() === DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK) {
             $message->setLocale($profile->getCollector('request')->getLocale())

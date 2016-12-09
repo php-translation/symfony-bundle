@@ -12,7 +12,7 @@
 namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogue;
-use Translation\Bundle\Model\Message;
+use Translation\Bundle\Model\CatalogueMessage;
 
 /**
  * A manager that handle loaded catalogues.
@@ -65,7 +65,7 @@ class CatalogueManager
      * @param string $locale
      * @param string $domain
      *
-     * @return Message[]
+     * @return CatalogueMessage[]
      */
     public function getMessages($locale, $domain)
     {
@@ -75,7 +75,7 @@ class CatalogueManager
         }
 
         foreach ($this->catalogues[$locale]->all($domain) as $key => $text) {
-            $messages[] = new Message($this, $locale, $domain, $key, $text);
+            $messages[] = new CatalogueMessage($this, $locale, $domain, $key, $text);
         }
 
         return $messages;
