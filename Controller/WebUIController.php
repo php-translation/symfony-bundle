@@ -21,7 +21,7 @@ use Symfony\Component\Translation\Translator;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\GuiMessageRepresentation;
 use Translation\Common\Exception\StorageException;
-use Translation\Symfony\Model\Message;
+use Translation\Bundle\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
