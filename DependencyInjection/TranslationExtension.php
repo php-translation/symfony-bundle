@@ -44,6 +44,11 @@ class TranslationExtension extends Extension
             $this->enableWebUi($container, $config);
         }
 
+        if ($config['symfony_profiler']['enabled']) {
+            $loader->load('symfony_profiler.yml');
+            $this->enableSymfonyProfiler($container, $config);
+        }
+
         if ($config['fallback_translation']['enabled']) {
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
@@ -65,6 +70,11 @@ class TranslationExtension extends Extension
 
     private function enableWebUi(ContainerBuilder $container, $config)
     {
+    }
+
+    private function enableSymfonyProfiler(ContainerBuilder $container, $config)
+    {
+        $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
     }
 
     private function enableFallbackAutoTranslator(ContainerBuilder $container, $config)

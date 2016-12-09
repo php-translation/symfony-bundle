@@ -18,6 +18,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  * Fetches catalogues from source files.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @deprecated I think this could be removed.. Not sure.
  */
 class CatalogueFetcher
 {

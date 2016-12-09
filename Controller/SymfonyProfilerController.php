@@ -12,8 +12,6 @@
 namespace Translation\Bundle\Controller;
 
 use Happyr\TranslationBundle\Model\Message;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,13 +26,11 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @Route("/{token}/translation/edit", name="_profiler_translations_edit")
-     *
      * @return Response
      */
     public function editAction(Request $request, $token)
     {
-        if (!$this->getParameter('translation.toolbar.allow_edit')) {
+        if (!$this->getParameter('php_translation.toolbar.allow_edit')) {
             return new Response('You are not allowed to edit the translations.');
         }
 
@@ -65,9 +61,6 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @Route("/{token}/translation/flag", name="_profiler_translations_flag")
-     * @Method("POST")
-     *
      * @return Response
      */
     public function flagAction(Request $request, $token)
@@ -86,9 +79,6 @@ class SymfonyProfilerController extends Controller
     /**
      * @param Request $request
      * @param string  $token
-     *
-     * @Route("/{token}/translation/sync", name="_profiler_translations_sync")
-     * @Method("POST")
      *
      * @return Response
      */
@@ -112,8 +102,6 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param         $token
      *
-     * @Route("/{token}/translation/sync-all", name="_profiler_translations_sync_all")
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function syncAllAction(Request $request, $token)
@@ -134,9 +122,6 @@ class SymfonyProfilerController extends Controller
      *
      * @param Request $request
      * @param string  $token
-     *
-     * @Route("/{token}/translation/create-asset", name="_profiler_translations_create_assets")
-     * @Method("POST")
      *
      * @return Response
      */

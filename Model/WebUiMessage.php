@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class GuiMessageRepresentation
+class WebUiMessage
 {
     /**
      * @var string
@@ -41,7 +41,7 @@ class GuiMessageRepresentation
     /**
      * @param string $key
      *
-     * @return GuiMessageRepresentation
+     * @return WebUiMessage
      */
     public function setKey($key)
     {
@@ -61,7 +61,7 @@ class GuiMessageRepresentation
     /**
      * @param string $message
      *
-     * @return GuiMessageRepresentation
+     * @return WebUiMessage
      */
     public function setMessage($message)
     {

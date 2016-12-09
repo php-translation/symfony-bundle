@@ -7,7 +7,7 @@
 {% import _self as translation_helper %}
 
 {% block panelContent %}
-    <h2>Translation Metrics</h2>
+    <h2>Translation Happyr Metrics</h2>
 
     <div>
         <a class="btn" href="javascript:void(0);" onclick='syncAll()'>Synchronize all translations</a><br />
@@ -45,7 +45,7 @@
         {% endif %}
     {% endfor %}
 
-<form action="{{ path('_profiler_translations_create_assets', {'token': token}) }}" method="post"
+<form action="{{ path('php_translation_profiler_translation_create_assets', {'token': token}) }}" method="post"
       id="translations-list" onSubmit="return saveTranslations(this);" >
 
     <div class="sf-tabs">
@@ -114,7 +114,7 @@
     <div id="translationResult"></div>
 
 </form>
-    {% include "HappyrTranslationBundle:Profiler:javascripts.html.twig" %}
+    {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
 {% endblock %}
 
 {% macro render_table(messages) %}

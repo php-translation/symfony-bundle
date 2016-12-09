@@ -16,6 +16,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExternalTranslatorPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 
+/**
+ *
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class TranslationBundle extends Bundle
 {
     public function build(ContainerBuilder $container)

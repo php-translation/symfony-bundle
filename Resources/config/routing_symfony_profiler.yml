@@ -1,0 +1,25 @@
+
+php_translation_profiler_translation_edit:
+  path: /{token}/translation/edit
+  methods: ["GET", "POST"]
+  defaults:  { _controller: TranslationBundle:SymfonyProfiler:edit }
+
+php_translation_profiler_translation_flag:
+  path: /{token}/translation/flag
+  methods: ["POST"]
+  defaults:  { _controller: TranslationBundle:SymfonyProfiler:flag }
+
+php_translation_profiler_translation_sync:
+  path: /{token}/translation/sync
+  methods: ["POST"]
+  defaults:  { _controller: TranslationBundle:SymfonyProfiler:sync }
+
+php_translation_profiler_translation_sync_all:
+  path: /{token}/translation/sync_all
+  methods: ["POST"]
+  defaults:  { _controller: TranslationBundle:SymfonyProfiler:syncAll }
+
+php_translation_profiler_translation_create_assets:
+  path: /{token}/translation/sync_all
+  methods: ["POST"]
+  defaults:  { _controller: TranslationBundle:SymfonyProfiler:createAssets }
