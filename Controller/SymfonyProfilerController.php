@@ -43,9 +43,9 @@ class SymfonyProfilerController extends Controller
         $storage = $this->get('php_translation.storage');
 
         if ($request->isMethod('GET')) {
-            $translation = $storage->get($message->getLocale(), $message->getDomain(), $message->getKey());
+            $translation = $storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
 
-            return $this->render('HappyrTranslationBundle:Profiler:edit.html.twig', [
+            return $this->render('TranslationBundle:SymfonyProfiler:edit.html.twig', [
                 'message' => $translation,
                 'key' => $message->getKey(),
             ]);
@@ -162,7 +162,6 @@ class SymfonyProfilerController extends Controller
      */
     protected function getMessage(Request $request, $token)
     {
-        // TODO Move disable code to somewhere else.
         $profiler = $this->get('profiler');
         $profiler->disable();
 

@@ -44,7 +44,6 @@ class StorageService implements Storage
         // TODO
     }
 
-
     /**
      * Synchronize translations with remote.
      */
@@ -66,7 +65,7 @@ class StorageService implements Storage
 
     /**
      * Download and merge all translations from remote storages down to your local storages.
-     * Only the local storages will be changed
+     * Only the local storages will be changed.
      */
     public function mergeDown()
     {
@@ -75,7 +74,7 @@ class StorageService implements Storage
 
     /**
      * Upload and merge all translations from local storages up to your remote storages.
-     * Only the remote storages will be changed
+     * Only the remote storages will be changed.
      */
     public function mergeUp()
     {
@@ -118,14 +117,14 @@ class StorageService implements Storage
             }
         }
 
-        return null;
+        return;
     }
 
     /**
      * @param Storage[] $storages
-     * @param string $locale
-     * @param string $domain
-     * @param string $key
+     * @param string    $locale
+     * @param string    $domain
+     * @param string    $key
      *
      * @return null|Message
      */
@@ -138,7 +137,7 @@ class StorageService implements Storage
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -155,7 +154,7 @@ class StorageService implements Storage
 
     /**
      * @param Storage[] $storages
-     * @param Message $message
+     * @param Message   $message
      */
     private function updateStorages($storages, Message $message)
     {
@@ -169,9 +168,8 @@ class StorageService implements Storage
         }
     }
 
-
     /**
-     * Delete the message form all storages
+     * Delete the message form all storages.
      *
      * {@inheritdoc}
      */
@@ -182,12 +180,11 @@ class StorageService implements Storage
         }
     }
 
-
     /**
-     * @param $storages
-     * @param $locale
-     * @param $domain
-     * @param $key
+     * @param Storage[] $storages
+     * @param string $locale
+     * @param string $domain
+     * @param string $key
      */
     private function deleteFromStorages($storages, $locale, $domain, $key)
     {
@@ -196,13 +193,12 @@ class StorageService implements Storage
         }
     }
 
-
     /**
      * @param Storage $localStorage
      *
      * @return StorageService
      */
-    public function addLocalStorages(Storage $localStorage)
+    public function addLocalStorage(Storage $localStorage)
     {
         $this->localStorages[] = $localStorage;
 

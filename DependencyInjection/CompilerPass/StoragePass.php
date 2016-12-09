@@ -23,17 +23,24 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class StoragePass implements CompilerPassInterface
 {
+    /**
+     * @var Definition[]
+     */
+    private $definitions;
+
     public function process(ContainerBuilder $container)
     {
-        /** @var Definition $def */
-        $def = $container->getDefinition('php_translation.storage');
         $services = $container->findTaggedServiceIds('php_translation.storage');
         foreach ($services as $id => $tags) {
             foreach ($tags as $tag) {
+                if (!isset($tag['name'])) {
+                    $tag['name'] = 'default';
+                }
                 if (!isset($tag['type'])) {
                     throw new \LogicException('The tag "php_translation.storage" must have a "type".');
                 }
 
+                $def = $this->getDefinition($container, $tag['name']);
                 switch ($tag['type']) {
                     case 'remote':
                         $def->addMethodCall('addRemoteStorage', [new Reference($id)]);
@@ -47,6 +54,20 @@ class StoragePass implements CompilerPassInterface
             }
         }
 
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return Definition
+     */
+    private function getDefinition(ContainerBuilder $container, $name)
+    {
+        if (!isset($this->definitions[$name])) {
+            $this->definitions[$name] = $container->getDefinition('php_translation.storage.'.$name);
+        }
+
+        return $this->definitions[$name];
     }
 
 }

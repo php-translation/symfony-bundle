@@ -64,7 +64,9 @@ class FileStorage implements Storage
     {
         $catalogue = $this->getCatalogue($locale);
 
-        return $catalogue->get($key, $domain);
+        $translation = $catalogue->get($key, $domain);
+
+        return new Message($key, $domain, $locale, $translation);
     }
 
     /**

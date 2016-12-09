@@ -18,12 +18,7 @@ services:
     class: Translation\Bundle\Service\Importer
     arguments: ["@php_translation.extractor"]
 
-  php_translation.storage.file.abstract:
+  php_translation.single_storage.file.abstract:
     class: Translation\Bundle\Storage\FileStorage
     abstract: true
     arguments: ["@translation.writer", "@translation.loader", ~]
-
-  php_translation.storage:
-    class: Translation\Bundle\Service\StorageService
-
-
