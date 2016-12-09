@@ -2,6 +2,8 @@
 
 namespace Translation\Bundle\Model;
 
+use Translation\Common\Model\Message;
+
 /**
  *
  *
@@ -28,7 +30,7 @@ class SfProfilerMessage
      *
      * The key/phrase you write in the source code
      */
-    private $id;
+    private $key;
 
     /**
      * @var string
@@ -73,27 +75,52 @@ class SfProfilerMessage
 
     /**
      * @param array $data
-     *                    array( count = 1, domain = "navigation", id = "logout", locale = "sv", state = 1, translation = "logout" )
+     *
+     * @return SfProfilerMessage
      */
-    public function __construct(array $data)
+    public static function create(array $data)
     {
-        $this->domain = $data['domain'];
-        $this->id = $data['id'];
-        $this->locale = $data['locale'];
-        $this->state = $data['state'];
-        $this->translation = $data['translation'];
-
+        $message = new self();
+        if (isset($data['id'])) {
+            $message->setKey($data['id']);
+        }
+        if (isset($data['domain'])) {
+            $message->setDomain($data['domain']);
+        }
+        if (isset($data['locale'])) {
+            $message->setLocale($data['locale']);
+        }
+        if (isset($data['translation'])) {
+            $message->setTranslation($data['translation']);
+        }
+        if (isset($data['state'])) {
+            $message->setState($data['state']);
+        }
         if (isset($data['count'])) {
-            $this->count = $data['count'];
+            $message->setCount($data['count']);
         }
-
         if (isset($data['transChoiceNumber'])) {
-            $this->transChoiceNumber = $data['transChoiceNumber'];
+            $message->setTransChoiceNumber($data['transChoiceNumber']);
+        }
+        if (isset($data['parameters'])) {
+            $message->setParameters($data['parameters']);
         }
 
-        if (isset($data['parameters'])) {
-            $this->parameters = $data['parameters'];
-        }
+        return $message;
+    }
+
+    /**
+     * Convert to a Common\Message
+     * @return Message
+     */
+    public function convertToMessage()
+    {
+        return new Message(
+            $this->key,
+            $this->domain,
+            $this->locale,
+            $this->translation
+        );
     }
 
     /**
@@ -139,19 +166,19 @@ class SfProfilerMessage
     /**
      * @return string
      */
-    public function getId()
+    public function getKey()
     {
-        return $this->id;
+        return $this->key;
     }
 
     /**
-     * @param string $id
+     * @param string $key
      *
      * @return $this
      */
-    public function setId($id)
+    public function setKey($key)
     {
-        $this->id = $id;
+        $this->key = $key;
 
         return $this;
     }

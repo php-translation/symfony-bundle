@@ -82,6 +82,27 @@ class StorageService implements Storage
         // TODO
     }
 
+    /**
+     * Get the very latest version we know of a message.
+     *
+     * @param string $locale
+     * @param string $domain
+     * @param string $key
+     *
+     * @return null|Message
+     */
+    public function syncAndFetchMessage($locale, $domain, $key)
+    {
+        $message = $this->getFromStorages($this->remoteStorages, $locale, $domain, $key);
+        if (!$message) {
+            // If message is not in remote storages
+            $message = $this->getFromStorages($this->localStorages, $locale, $domain, $key);
+        }
+
+        $this->updateStorages($this->localStorages, $message);
+
+        return $message;
+    }
 
     /**
      * Try to get a translation from all the storages, start looking in the first
@@ -90,15 +111,30 @@ class StorageService implements Storage
      */
     public function get($locale, $domain, $key)
     {
-        $storageSets = [$this->localStorages, $this->remoteStorages];
+        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
+            $value = $this->getFromStorages($storages, $locale, $domain, $key);
+            if (!empty($value)) {
+                return $value;
+            }
+        }
 
-        foreach ($storageSets as $set) {
-            /** @var Storage $storage */
-            foreach ($set as $storage) {
-                $value = $storage->get($locale, $domain, $key);
-                if (!empty($value)) {
-                    return $value;
-                }
+        return null;
+    }
+
+    /**
+     * @param Storage[] $storages
+     * @param string $locale
+     * @param string $domain
+     * @param string $key
+     *
+     * @return null|Message
+     */
+    private function getFromStorages($storages, $locale, $domain, $key)
+    {
+        foreach ($storages as $storage) {
+            $value = $storage->get($locale, $domain, $key);
+            if (!empty($value)) {
+                return $value;
             }
         }
 
@@ -112,15 +148,27 @@ class StorageService implements Storage
      */
     public function update(Message $message)
     {
-        $storageSets = [$this->localStorages, $this->remoteStorages];
-
-        foreach ($storageSets as $set) {
-            /** @var Storage $storage */
-            foreach ($set as $storage) {
-                $storage->update($message);
-            }
+        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
+            $this->updateStorages($storages, $message);
         }
     }
+
+    /**
+     * @param Storage[] $storages
+     * @param Message $message
+     */
+    private function updateStorages($storages, Message $message)
+    {
+        // Validate if message actually has data
+        if (empty((array) $message)) {
+            return;
+        }
+
+        foreach ($storages as $storage) {
+            $storage->update($message);
+        }
+    }
+
 
     /**
      * Delete the message form all storages
@@ -129,15 +177,25 @@ class StorageService implements Storage
      */
     public function delete($locale, $domain, $key)
     {
-        $storageSets = [$this->localStorages, $this->remoteStorages];
-
-        foreach ($storageSets as $set) {
-            /** @var Storage $storage */
-            foreach ($set as $storage) {
-                $storage->delete($locale, $domain, $key);
-            }
+        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
+            $this->deleteFromStorages($storages, $locale, $domain, $key);
         }
     }
+
+
+    /**
+     * @param $storages
+     * @param $locale
+     * @param $domain
+     * @param $key
+     */
+    private function deleteFromStorages($storages, $locale, $domain, $key)
+    {
+        foreach ($storages as $storage) {
+            $storage->delete($locale, $domain, $key);
+        }
+    }
+
 
     /**
      * @param Storage $localStorage

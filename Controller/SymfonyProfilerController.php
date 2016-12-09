@@ -11,11 +11,12 @@
 
 namespace Translation\Bundle\Controller;
 
-use Happyr\TranslationBundle\Model\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
+use Translation\Bundle\Model\SfProfilerMessage;
+use Translation\Common\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -39,20 +40,20 @@ class SymfonyProfilerController extends Controller
         }
 
         $message = $this->getMessage($request, $token);
-        $trans = $this->get('happyr.translation');
+        $storage = $this->get('php_translation.storage');
 
         if ($request->isMethod('GET')) {
-            $trans->fetchTranslation($message);
+            $translation = $storage->get($message->getLocale(), $message->getDomain(), $message->getKey());
 
             return $this->render('HappyrTranslationBundle:Profiler:edit.html.twig', [
-                'message' => $message,
-                'key' => $request->query->get('message_id'),
+                'message' => $translation,
+                'key' => $message->getKey(),
             ]);
         }
 
         //Assert: This is a POST request
         $message->setTranslation($request->request->get('translation'));
-        $trans->updateTranslation($message);
+        $storage->update($message->convertToMessage());
 
         return new Response($message->getTranslation());
     }
@@ -71,7 +72,8 @@ class SymfonyProfilerController extends Controller
 
         $message = $this->getMessage($request, $token);
 
-        $saved = $this->get('happyr.translation')->flagTranslation($message);
+        // TODO
+        $saved = false;
 
         return new Response($saved ? 'OK' : 'ERROR');
     }
@@ -88,11 +90,11 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        $message = $this->getMessage($request, $token);
-        $translation = $this->get('happyr.translation')->fetchTranslation($message, true);
+        $sfMessage = $this->getMessage($request, $token);
+        $message = $this->get('php_translation.storage')->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
-        if ($translation !== null) {
-            return new Response($translation);
+        if ($message !== null) {
+            return new Response($message->getTranslation());
         }
 
         return new Response('Asset not found', 404);
@@ -110,7 +112,7 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        $this->get('happyr.translation')->synchronizeAllTranslations();
+        $this->get('php_translation.storage')->sync();
 
         return new Response('Started synchronization of all translations');
     }
@@ -137,9 +139,9 @@ class SymfonyProfilerController extends Controller
         }
 
         $uploaded = [];
-        $trans = $this->get('happyr.translation');
+        $trans = $this->get('php_translation.storage');
         foreach ($messages as $message) {
-            if ($trans->createAsset($message)) {
+            if ($trans->update($message)) {
                 $uploaded[] = $message;
             }
         }
@@ -156,10 +158,11 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @return Message
+     * @return SfProfilerMessage
      */
     protected function getMessage(Request $request, $token)
     {
+        // TODO Move disable code to somewhere else.
         $profiler = $this->get('profiler');
         $profiler->disable();
 
@@ -170,7 +173,7 @@ class SymfonyProfilerController extends Controller
         if (!isset($messages[$messageId])) {
             throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
         }
-        $message = new Message($messages[$messageId]);
+        $message = SfProfilerMessage::create($messages[$messageId]);
 
         if ($message->getState() === DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK) {
             $message->setLocale($profile->getCollector('request')->getLocale())
