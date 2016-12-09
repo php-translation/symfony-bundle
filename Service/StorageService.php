@@ -82,7 +82,8 @@ class StorageService implements Storage
     }
 
     /**
-     * Get the very latest version we know of a message.
+     * Get the very latest version we know of a message. First look at the remote storage
+     * fall back on the local ones.
      *
      * @param string $locale
      * @param string $domain
