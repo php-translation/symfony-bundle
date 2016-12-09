@@ -4,7 +4,7 @@ services:
     arguments: ["@translation.loader"]
 
   php_translation.catalogue_manager:
-    class: Translation\Symfony\Catalogue\CatalogueManager
+    class: Translation\Bundle\Catalogue\CatalogueManager
     arguments: ["%kernel.root_dir%/../"]
 
   php_translation.extractor:
@@ -15,7 +15,7 @@ services:
     arguments: [[]]
 
   php_translation.importer:
-    class: Translation\Symfony\Importer
+    class: Translation\Bundle\Service\Importer
     arguments: ["@php_translation.extractor"]
 
   php_translation.storage.file.abstract:

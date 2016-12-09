@@ -1,6 +1,6 @@
 services:
   php_translator.fallback_translator:
-    class: Translation\Symfony\Translator\FallbackTranslator
+    class: Translation\Bundle\Translator\FallbackTranslator
     public: false
     decorates: 'translator'
     decoration_priority: 10
