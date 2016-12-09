@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Register all storages in the StorageService
+ * Register all storages in the StorageService.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -53,7 +53,6 @@ class StoragePass implements CompilerPassInterface
                 }
             }
         }
-
     }
 
     /**
@@ -69,5 +68,4 @@ class StoragePass implements CompilerPassInterface
 
         return $this->definitions[$name];
     }
-
 }

@@ -18,8 +18,6 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\StoragePass;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class TranslationBundle extends Bundle

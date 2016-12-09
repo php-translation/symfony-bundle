@@ -1,12 +1,19 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Model;
 
 use Translation\Common\Model\Message;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class SfProfilerMessage
@@ -110,7 +117,8 @@ class SfProfilerMessage
     }
 
     /**
-     * Convert to a Common\Message
+     * Convert to a Common\Message.
+     *
      * @return Message
      */
     public function convertToMessage()

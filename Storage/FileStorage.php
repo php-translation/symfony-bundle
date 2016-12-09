@@ -14,7 +14,6 @@ namespace Translation\Bundle\Storage;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
-use Translation\Common\Exception\StorageException;
 use Translation\Common\Model\Message;
 use Translation\Common\Storage;
 
