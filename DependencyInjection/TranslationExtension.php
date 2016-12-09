@@ -60,7 +60,9 @@ class TranslationExtension extends Extension
             }
 
             $def = new DefinitionDecorator('php_translation.storage.file.abstract');
-            $def->replaceArgument(2, $c['output_dir']);
+            $def->replaceArgument(2, $c['output_dir'])
+                ->addTag('php_translation.storage', ['type'=>'local']);
+
             $container->setDefinition('php_translation.storage.file.'.$name, $def);
         }
 
