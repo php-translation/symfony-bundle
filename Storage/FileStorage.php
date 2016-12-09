@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Translation\Common\Exception\StorageException;
+use Translation\Common\Model\Message;
 use Translation\Common\Storage;
 
 /**
@@ -56,17 +57,9 @@ class FileStorage implements Storage
         $this->dir = $dir;
     }
 
-    public function set($locale, $domain, $key, $message)
-    {
-        $originalMessage = $this->get($locale, $domain, $key);
-        if (!empty($originalMessage)) {
-            throw StorageException::translationExists($key, $domain);
-        }
-
-        $catalogue = $this->getCatalogue($locale);
-        $catalogue->set($key, $message, $domain);
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function get($locale, $domain, $key)
     {
         $catalogue = $this->getCatalogue($locale);
@@ -74,13 +67,19 @@ class FileStorage implements Storage
         return $catalogue->get($key, $domain);
     }
 
-    public function update($locale, $domain, $key, $message)
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Message $message)
     {
-        $catalogue = $this->getCatalogue($locale);
-        $catalogue->set($key, $message, $domain);
-        $this->writeCatalogue($catalogue, $locale, $domain);
+        $catalogue = $this->getCatalogue($message->getLocale());
+        $catalogue->set($message->getKey(), $message->getTranslation(), $message->getDomain());
+        $this->writeCatalogue($catalogue, $message->getLocale(), $message->getDomain());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function delete($locale, $domain, $key)
     {
         $catalogue = $this->getCatalogue($locale);
