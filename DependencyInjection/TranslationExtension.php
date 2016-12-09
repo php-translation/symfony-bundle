@@ -73,9 +73,11 @@ class TranslationExtension extends Extension
             $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
         }
 
-        // Create some aliases for the default storage
-        $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
-        $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+        if ($first !== null) {
+            // Create some aliases for the default storage
+            $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
+            $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+        }
 
         $container->getDefinition('php_translation.configuration_manager')
             ->replaceArgument(0, $config['configs']);
