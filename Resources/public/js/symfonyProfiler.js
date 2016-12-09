@@ -112,8 +112,9 @@ function saveEditForm(key, translation) {
     return false;
 }
 
-function cancelEditForm(key) {
-    syncMessage(key);
+function cancelEditForm(key, orgMessage) {
+    var el = document.getElementById(key).getElementsByClassName("translation");
+    el[0].innerHTML = orgMessage;
 }
 
 var serializeQueryString = function(obj, prefix) {
