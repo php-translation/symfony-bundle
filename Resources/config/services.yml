@@ -22,3 +22,8 @@ services:
     class: Translation\Bundle\Storage\FileStorage
     abstract: true
     arguments: ["@translation.writer", "@translation.loader", ~]
+
+  php_translation.storage:
+    class: Translation\Bundle\Service\StorageService
+
+
