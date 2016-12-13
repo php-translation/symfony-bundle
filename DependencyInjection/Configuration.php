@@ -58,6 +58,9 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('allow_add')->defaultTrue()->end()
                     ->end()
                 ->end()
+                ->arrayNode('edit_in_place')
+                    ->canBeEnabled()
+                ->end()
                 ->scalarNode('http_client')->cannotBeEmpty()->defaultValue('httplug.client')->end()
                 ->scalarNode('message_factory')->cannotBeEmpty()->defaultValue('httplug.message_factory')->end()
             ->end();

@@ -57,6 +57,13 @@ _translation_profiler:
   resource: '@TranslationBundle/Resources/config/routing_symfony_profiler.yml'
 ```
 
+```yaml
+// routing.yml
+_translation_edit_in_place:
+  resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
+  prefix:  /admin
+```
+
 ## Documentation
 
 Read the full documentation at [http://php-translation.readthedocs.io](http://php-translation.readthedocs.io/en/latest/).

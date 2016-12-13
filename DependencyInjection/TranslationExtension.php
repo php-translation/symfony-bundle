@@ -55,6 +55,11 @@ class TranslationExtension extends Extension
             $this->enableSymfonyProfiler($container, $config);
         }
 
+        if ($config['edit_in_place']['enabled']) {
+            $loader->load('edit_in_place.yml');
+            $this->enableEditInPlace($container, $config);
+        }
+
         if ($config['fallback_translation']['enabled']) {
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
@@ -101,6 +106,10 @@ class TranslationExtension extends Extension
     }
 
     private function enableWebUi(ContainerBuilder $container, $config)
+    {
+    }
+
+    private function enableEditInPlace(ContainerBuilder $container, $config)
     {
     }
 
