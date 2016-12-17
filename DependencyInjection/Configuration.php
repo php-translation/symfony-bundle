@@ -131,6 +131,14 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('whitelist_domains')
                             ->prototype('scalar')->end()
                         ->end()
+                        ->arrayNode('local_storage')
+                            ->info('Where translations are stored locally.')
+                            ->prototype('enum')->values($this->getStorages())->defaultValue('filesystem')->end()
+                        ->end()
+                        ->arrayNode('remote_storage')
+                            ->info('Any remote storage for the translation, could be a third party translation service.')
+                            ->prototype('enum')->values($this->getStorages())->defaultValue('blackhole')->end()
+                        ->end()
                         ->scalarNode('output_dir')->isRequired()->cannotBeEmpty()->end()
                         ->scalarNode('project_root')->info("The root dir of your project. By default this will be kernel_root's parent. ")->end()
                     ->end()
@@ -156,11 +164,35 @@ class Configuration implements ConfigurationInterface
     {
         $root
             ->children()
-                ->enumNode('storage')
-                    ->info('Where translations are stored.')
-                    ->values(['blackhole', 'filesystem', 'loco'])
-                    ->defaultValue('filesystem')
+                ->arrayNode('platforms')
+                ->children()
+                    ->arrayNode('loco')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('projects')
+                        ->useAttributeAsKey('name')
+                        ->prototype('array')
+                        ->children()
+                            ->scalarNode('api_key')->info('The API key for this project.')->isRequired()->end()
+                        ->end()
+                    ->end()
+                    ->end()
+                ->end()
                 ->end()
             ->end();
     }
+
+    /**
+     *
+     * @return array
+     */
+    private function getStorages()
+    {
+        return [
+            'blackhole',
+            'filesystem',
+            'loco'
+        ];
+    }
+
 }

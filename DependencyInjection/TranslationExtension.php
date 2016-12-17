@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\DependencyInjection;
 
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -18,6 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Translation\Bundle\Service\StorageService;
+use Translation\PlatformAdapter\Adapter\Loco;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -55,6 +57,8 @@ class TranslationExtension extends Extension
             $this->enableFallbackAutoTranslator($container, $config);
         }
 
+        $this->handlePlatformAdapters($loader, $container, $config['platforms']);
+
         $first = null;
         foreach ($config['configs'] as $name => &$c) {
             if ($first === null || $name === 'default') {
@@ -85,6 +89,41 @@ class TranslationExtension extends Extension
 
     private function enableWebUi(ContainerBuilder $container, $config)
     {
+    }
+
+    /**
+     * @param LoaderInterface $loader
+     * @param ContainerBuilder $container
+     * @param array $config
+     */
+    private function handlePlatformAdapters(LoaderInterface $loader, ContainerBuilder $container, array $config)
+    {
+        foreach ($config as $name => $config) {
+            switch ($name) {
+                case 'loco':
+                        $this->verifyClassExists(Loco::class);
+                        // TODO load
+                    break;
+                default:
+                    throw new \LogicException(sprintf('Platform named "%s" was not found.', $name));
+            }
+        }
+    }
+
+    /**
+     * @param string $class
+     * @param string|null $message
+     *
+     * @throws \LogicException if class does not exist.
+     */
+    private function verifyClassExists($class, $message = null)
+    {
+        if (null === $message) {
+            $message = sprintf('Could not find class "%s" that is needed for your current Translation configration.', $class);
+        }
+        if (!class_exists($class)) {
+            throw new \LogicException($message);
+        }
     }
 
     private function enableSymfonyProfiler(ContainerBuilder $container, $config)
