@@ -4,8 +4,6 @@
  */
 function clearState(key) {
     var row = document.getElementById(key);
-    var cell = row.getElementsByClassName("state");
-    cell[0].innerHTML = "";
 
     // disable the checkbox
     var inputs = row.getElementsByTagName("input");
