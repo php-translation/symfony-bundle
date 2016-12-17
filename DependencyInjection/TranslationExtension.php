@@ -64,13 +64,25 @@ class TranslationExtension extends Extension
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
             }
 
-            $container->register('php_translation.storage.'.$name, StorageService::class);
+            $storageDefinition = $container->register('php_translation.storage.'.$name, StorageService::class);
 
             // Register a file storage
             $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');
             $def->replaceArgument(2, $c['output_dir'])
                 ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
             $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
+
+            // Add storages
+            if (!empty($c['remote_storage'])) {
+                foreach ($c['remote_storage'] as $serviceId) {
+                    $storageDefinition->addMethodCall('addRemoteStorage', [new Reference($serviceId)]);
+                }
+            }
+            if (!empty($c['local_storage'])) {
+                foreach ($c['local_storage'] as $serviceId) {
+                    $storageDefinition->addMethodCall('addLocalStorage', [new Reference($serviceId)]);
+                }
+            }
         }
 
         if ($first !== null) {
