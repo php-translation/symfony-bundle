@@ -10,24 +10,48 @@ services:
     tags:
       - { name: 'php_translation.extractor', type: 'twig' }
 
-  # Visitors:
+  # PHP Visitors:
   php_translation.extractor.php.visitor.ContainerAwareTrans:
     class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
+
   php_translation.extractor.php.visitor.ContainerAwareTransChoice:
     class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
+
   php_translation.extractor.php.visitor.FlashMessage:
     class: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
+  php_translation.extractor.php.visitor.FormTypeChoices:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.php.visitor.FormTypeLabelExplicit:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.php.visitor.FormTypeLabelImplicit:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.php.visitor.FormTypePlaceholder:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  # Twig Visitors:
   php_translation.extractor.twig.visitor.translation_block:
     class: Translation\Extractor\Visitor\Twig\TranslationBlock
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }
+
   php_translation.extractor.twig.visitor.translation_filter:
     class: Translation\Extractor\Visitor\Twig\TranslationFilter
     tags:

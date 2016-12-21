@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Service\StorageService;
 
 /**
@@ -37,6 +38,10 @@ class TranslationExtension extends Extension
 
         $loader->load('services.yml');
         $loader->load('extractors.yml');
+
+        // Add major version to extractor
+        $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
+            ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
 
         $container->setParameter('php_translation.locales', $config['locales']);
         $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
