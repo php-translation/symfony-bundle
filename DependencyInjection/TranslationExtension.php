@@ -14,6 +14,7 @@ namespace Translation\Bundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -111,6 +112,14 @@ class TranslationExtension extends Extension
 
     private function enableEditInPlace(ContainerBuilder $container, $config)
     {
+        $name = $config['edit_in_place']['config_name'];
+
+        if ($name !== 'default' and !isset($config['configs'][$name])) {
+            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
+        }
+
+        $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
+        $def->replaceArgument(3, $name);
     }
 
     private function enableSymfonyProfiler(ContainerBuilder $container, $config)

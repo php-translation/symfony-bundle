@@ -41,6 +41,7 @@ translation:
     enabled: true
   edit_in_place:
     enabled: true
+    config_name: default # the first one or one of your configs
   configs:
     app:
       dirs: ["%kernel.root_dir%/Resources/views", "%kernel.root_dir%/../src"]

@@ -52,11 +52,17 @@ HTML;
      */
     private $packages;
 
-    public function __construct(Activator $activator, Router $router, Packages $packages)
+    /**
+     * @var string
+     */
+    private $configName;
+
+    public function __construct(Activator $activator, Router $router, Packages $packages, $configName = 'default')
     {
         $this->activator = $activator;
         $this->router = $router;
         $this->packages = $packages;
+        $this->configName = $configName;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
@@ -68,7 +74,7 @@ HTML;
 
             // Clean the response: no tags in attributes, no encoded tags
             $content = preg_replace("@=\\s*[\"']\\s*(<x-trans.+<\\/x-trans>)\\s*[\"']@mi", "=\"🚫 Can't be translated here. 🚫\"", $content);
-            $content = preg_replace('@&lt;x-trans.+data-title=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi', '🚫 $1 🚫', $content);
+            $content = preg_replace('@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi', '🚫 $1 🚫', $content);
 
             $html = sprintf(
                 self::HTML,
@@ -77,7 +83,7 @@ HTML;
                 $this->packages->getUrl('bundles/translation/js/editInPlace.js'),
 
                 $this->router->generate('translation_edit_in_place_update', [
-                    'configName' => 'app', // @todo make this parameter dynamic!
+                    'configName' => $this->configName,
                     'locale' => $event->getRequest()->getLocale(),
                 ])
             );
