@@ -72,8 +72,10 @@
                 <b>{{ locale }}</b>: {{ trans }}<br>
             {% endfor %}
 
+        </div>
+
+        <div class="col-xs-12">
             {% if message.sourceLocations|length > 0 %}
-                <hr />
                 <ul class="location-list">
                     {% for location in message.sourceLocations %}
                         <li><a href="{{ location['full_path']|file_link(location['line']) }}">{{ location['path'] }} at line {{ location['line'] }} </a></li>
