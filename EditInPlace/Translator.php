@@ -83,8 +83,16 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
      */
     public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
     {
-        // TODO: Implement transChoice() method with xtrans!
-        return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
+        // @todo cache the result of this method for performance?
+        if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
+            return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
+        }
+
+        $parameters = array_merge(array(
+            '%count%' => $number,
+        ), $parameters);
+
+        return $this->trans($id, $parameters, $domain, $locale);
     }
 
     /**

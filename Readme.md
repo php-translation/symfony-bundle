@@ -39,6 +39,8 @@ translation:
     enabled: true
   webui:
     enabled: true
+  edit_in_place:
+    enabled: true
   configs:
     app:
       dirs: ["%kernel.root_dir%/Resources/views", "%kernel.root_dir%/../src"]
