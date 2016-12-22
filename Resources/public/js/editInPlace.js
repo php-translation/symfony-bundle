@@ -54,8 +54,8 @@ var TranslationBundleEditInPlace = function(saveUrl) {
                     new ContentTools.FlashUI('ok');
                 } else {
                     editor.busy(false);
+                    alert('Error: we could not save the translations! Please retry.');
                     new ContentTools.FlashUI('no');
-                    // @todo display errors!
                 }
             }
         };
