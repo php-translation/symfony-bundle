@@ -12,12 +12,18 @@ services:
     class: Translation\Bundle\EditInPlace\Activator
     arguments: ['@session']
 
-  # todo: better way than overriding Symfony?
-  twig.extension.trans:
-    public: false
-    class: Translation\Bundle\EditInPlace\Twig\TranslationExtension
+  php_translator.edit_in_place.xtrans_html_translator:
+    class: Translation\Bundle\EditInPlace\Translator
     arguments:
       - '@translator'
       - '@php_translation.edit_in_place.activator'
       - '@request_stack'
+
+  php_translation.edit_in_place.extension.trans:
+    public: false
+    class: Translation\Bundle\EditInPlace\Twig\TranslationExtension
+    arguments:
+      - '@php_translator.edit_in_place.xtrans_html_translator'
+    tags:
+      - { name: 'twig.extension' }
 
