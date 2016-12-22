@@ -17,9 +17,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class Activator
+class Activator implements ActivatorInterface
 {
-    const TOKEN_KEY = 'translation_bundle.edit_in_place.token';
+    const KEY = 'translation_bundle.edit_in_place.enabled';
 
     /**
      * @var Session
@@ -31,31 +31,31 @@ class Activator
         $this->session = $session;
     }
 
-    public function generateUniqueToken()
+    /**
+     * {@inheritdoc}
+     */
+    public function activate()
     {
-        $random = preg_replace('/[^a-zA-Z0-9]+/', '', base64_encode(random_bytes(10)));
-
-        $this->session->set(self::TOKEN_KEY, $random);
-
-        return $random;
+        $this->session->set(self::KEY, true);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function deactivate()
+    {
+        $this->session->remove(self::KEY);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function checkRequest(Request $request = null)
     {
-        return true;
-
-        if (!$request) {
+        if (!$this->session->has(self::KEY)) {
             return false;
         }
 
-        if (!$this->session->has(self::TOKEN_KEY)) {
-            return false;
-        }
-
-        if (empty($request->get('translation_token'))) {
-            return false;
-        }
-
-        return hash_equals($this->session->get(self::TOKEN_KEY), $request->get('translation_token'));
+        return $this->session->has(self::KEY);
     }
 }
