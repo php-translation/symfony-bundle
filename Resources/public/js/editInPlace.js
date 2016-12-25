@@ -76,7 +76,8 @@ var TranslationBundleEditInPlace = function(saveUrl) {
         var target = event.target || event.srcElement;
 
         while (target) {
-            if (target instanceof HTMLAnchorElement || target instanceof HTMLButtonElement) {
+            // Disable the default behavior on some active elements
+            if (target instanceof HTMLAnchorElement || target instanceof HTMLButtonElement || target instanceof HTMLLabelElement) {
                 if(ContentTools.EditorApp.get().isEditing()) {
                     // Link or button found, prevent default!
                     event.preventDefault();
