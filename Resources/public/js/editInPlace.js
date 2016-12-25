@@ -49,11 +49,14 @@ var TranslationBundleEditInPlace = function(saveUrl) {
 
         httpRequest.onreadystatechange = function() {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                editor.busy(false);
+
                 if (httpRequest.status === 200) {
-                    editor.busy(false);
                     new ContentTools.FlashUI('ok');
+                } else if (httpRequest.status === 400) {
+                    alert(httpRequest.responseText);
+                    new ContentTools.FlashUI('no');
                 } else {
-                    editor.busy(false);
                     alert('Error: we could not save the translations! Please retry.');
                     new ContentTools.FlashUI('no');
                 }

@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
+use Translation\Bundle\Model\EditInPlaceMessage;
 use Translation\Common\Model\Message;
 
 /**
@@ -32,13 +33,15 @@ class EditInPlaceController extends Controller
     public function editAction(Request $request, $configName, $locale)
     {
         try {
-            $messages = $this->getMessages($request, ['Edit'], $locale);
+            $messages = $this->getMessages($request, ['Edit']);
         } catch (MessageValidationException $e) {
-            return new Response($e->getMessage(), 400);
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         foreach ($messages as $message) {
-            $this->get('php_translation.storage.'.$configName)->update($message);
+            $this->get('php_translation.storage.'.$configName)->update(
+                new Message($message->getKey(), $message->getDomain(), $locale, $message->getMessage())
+            );
         }
 
         return new Response();
@@ -49,10 +52,11 @@ class EditInPlaceController extends Controller
      *
      * @param Request $request
      * @param array $validationGroups
-     * @param $locale
-     * @return array
+     *
+     * @return EditInPlaceMessage[]
+     * @throws MessageValidationException
      */
-    private function getMessages(Request $request, array $validationGroups = [], $locale)
+    private function getMessages(Request $request, array $validationGroups = [])
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
@@ -61,17 +65,16 @@ class EditInPlaceController extends Controller
 
         foreach ($data as $key => $value) {
             list($domain, $translationKey) = explode('|', $key);
-            $message = new Message();
-            $message->setKey($translationKey);
-            $message->setTranslation($value);
-            $message->setDomain($domain);
-            $message->setLocale($locale);
 
-            // @todo validation
-            //$errors = $validator->validate($message, null, $validationGroups);
-            //if (count($errors) > 0) {
-            //    throw  MessageValidationException::create();
-            //}
+            $message = new EditInPlaceMessage();
+            $message->setKey($translationKey);
+            $message->setMessage($value);
+            $message->setDomain($domain);
+
+            $errors = $validator->validate($message, null, $validationGroups);
+            if (count($errors) > 0) {
+                throw MessageValidationException::create();
+            }
 
             $messages[] = $message;
         }
