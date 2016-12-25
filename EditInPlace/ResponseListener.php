@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Routing\Router;
 
 /**
- * Adds Javascript/CSS files to the response if the request matches the requirements
+ * Adds Javascript/CSS files to the Response if the Activator returns true
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
@@ -72,7 +72,7 @@ HTML;
         if ($this->activator->checkRequest($request)) {
             $content = $event->getResponse()->getContent();
 
-            // Clean the response: no tags in attributes, no encoded tags
+            // Clean the content for malformed tags in attributes or encoded tags
             $content = preg_replace("@=\\s*[\"']\\s*(<x-trans.+<\\/x-trans>)\\s*[\"']@mi", "=\"🚫 Can't be translated here. 🚫\"", $content);
             $content = preg_replace('@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi', '🚫 $1 🚫', $content);
 
@@ -89,7 +89,13 @@ HTML;
             );
             $content = str_replace('</body>', $html."\n".'</body>', $content);
 
-            // @todo remove cache header / force NON CACHE response
+            $response = $event->getResponse();
+
+            // Remove the cache because we do not want the modified page to be cached
+            $response->headers->set('cache-control', 'no-cache, no-store, must-revalidate');
+            $response->headers->set('pragma', 'no-cache');
+            $response->headers->set('expires', '0');
+
             $event->getResponse()->setContent($content);
         }
     }
