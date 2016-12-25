@@ -4,7 +4,7 @@ services:
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
     arguments:
-      - '@php_translation.edit_in_place.activator'
+      - ~
       - '@router'
       - '@assets.packages'
       - ~
@@ -17,7 +17,7 @@ services:
     class: Translation\Bundle\EditInPlace\Translator
     arguments:
       - '@translator'
-      - '@php_translation.edit_in_place.activator'
+      - ~
       - '@request_stack'
 
   php_translation.edit_in_place.extension.trans:

@@ -32,7 +32,7 @@ class Activator implements ActivatorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Enable the Edit In Place mode
      */
     public function activate()
     {
@@ -40,7 +40,7 @@ class Activator implements ActivatorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Disable the Edit In Place mode
      */
     public function deactivate()
     {

@@ -118,8 +118,14 @@ class TranslationExtension extends Extension
             throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
         }
 
+        $activatorRef = new Reference($config['edit_in_place']['activator']);
+
         $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
+        $def->replaceArgument(0, $activatorRef);
         $def->replaceArgument(3, $name);
+
+        $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
+        $def->replaceArgument(1, $activatorRef);
     }
 
     private function enableSymfonyProfiler(ContainerBuilder $container, $config)

@@ -28,7 +28,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
     private $translator;
 
     /**
-     * @var Activator
+     * @var ActivatorInterface
      */
     private $activator;
 
@@ -37,7 +37,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
      */
     private $requestStack;
 
-    public function __construct(TranslatorInterface $translator, Activator $activator, RequestStack $requestStack)
+    public function __construct(TranslatorInterface $translator, ActivatorInterface $activator, RequestStack $requestStack)
     {
         $this->translator = $translator;
         $this->activator = $activator;

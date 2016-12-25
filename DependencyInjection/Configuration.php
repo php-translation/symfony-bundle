@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->scalarNode('config_name')->defaultValue('default')->end()
+                        ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
                     ->end()
                 ->end()
                 ->scalarNode('http_client')->cannotBeEmpty()->defaultValue('httplug.client')->end()

@@ -19,20 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
 interface ActivatorInterface
 {
     /**
-     * Enable the Edit In Place mode
-     *
-     * @return void
-     */
-    public function activate();
-
-    /**
-     * Disable the Edit In Place mode
-     *
-     * @return void
-     */
-    public function deactivate();
-
-    /**
      * Tells if the Edit In Place mode is enabled for this request
      *
      * @param Request|null $request

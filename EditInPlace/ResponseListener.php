@@ -38,7 +38,7 @@ window.onload = function() {
 HTML;
 
     /**
-     * @var Activator
+     * @var ActivatorInterface
      */
     private $activator;
 
@@ -57,7 +57,7 @@ HTML;
      */
     private $configName;
 
-    public function __construct(Activator $activator, Router $router, Packages $packages, $configName = 'default')
+    public function __construct(ActivatorInterface $activator, Router $router, Packages $packages, $configName = 'default')
     {
         $this->activator = $activator;
         $this->router = $router;
