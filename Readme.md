@@ -42,6 +42,7 @@ translation:
   edit_in_place:
     enabled: true
     config_name: default # the first one or one of your configs
+    activator: php_translation.edit_in_place.activator
   configs:
     app:
       dirs: ["%kernel.root_dir%/Resources/views", "%kernel.root_dir%/../src"]

@@ -16,13 +16,13 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Routing\Router;
 
 /**
- * Adds Javascript/CSS files to the Response if the Activator returns true
+ * Adds Javascript/CSS files to the Response if the Activator returns true.
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
 class ResponseListener
 {
-    const HTML = <<<HTML
+    const HTML = <<<'HTML'
 <!-- TranslationBundle -->
 <link rel="stylesheet" type="text/css" href="%s">
 

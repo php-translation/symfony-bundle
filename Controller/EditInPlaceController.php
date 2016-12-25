@@ -48,12 +48,13 @@ class EditInPlaceController extends Controller
     }
 
     /**
-     * Get and validate messages from the request
+     * Get and validate messages from the request.
      *
      * @param Request $request
-     * @param array $validationGroups
+     * @param array   $validationGroups
      *
      * @return EditInPlaceMessage[]
+     *
      * @throws MessageValidationException
      */
     private function getMessages(Request $request, array $validationGroups = [])

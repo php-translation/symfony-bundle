@@ -19,9 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 interface ActivatorInterface
 {
     /**
-     * Tells if the Edit In Place mode is enabled for this request
+     * Tells if the Edit In Place mode is enabled for this request.
      *
      * @param Request|null $request
+     *
      * @return bool
      */
     public function checkRequest(Request $request = null);

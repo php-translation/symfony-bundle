@@ -12,7 +12,7 @@
 namespace Translation\Bundle\EditInPlace\Twig;
 
 /**
- * Just override the trans functions "is_safe" option to allow HTML output from the translator
+ * Override the `trans` functions `is_safe` option to allow HTML output from the translator.
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
@@ -23,10 +23,10 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('trans', array($this, 'trans'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('transchoice', array($this, 'transchoice'), array('is_safe' => array('html'))),
-        );
+        return [
+            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe' => ['html']]),
+        ];
     }
 
     /**

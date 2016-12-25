@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
+ * Default Activator implementation.
+ *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
 class Activator implements ActivatorInterface
@@ -32,7 +34,7 @@ class Activator implements ActivatorInterface
     }
 
     /**
-     * Enable the Edit In Place mode
+     * Enable the Edit In Place mode.
      */
     public function activate()
     {
@@ -40,7 +42,7 @@ class Activator implements ActivatorInterface
     }
 
     /**
-     * Disable the Edit In Place mode
+     * Disable the Edit In Place mode.
      */
     public function deactivate()
     {
@@ -49,6 +51,8 @@ class Activator implements ActivatorInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Cache this call result for performance?
      */
     public function checkRequest(Request $request = null)
     {

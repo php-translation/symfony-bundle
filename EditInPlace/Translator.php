@@ -16,7 +16,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 
 /**
- * Custom Translator for HTML rendering only (output <x-trans> tags)
+ * Custom Translator for HTML rendering only (output `<x-trans>` tags).
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
@@ -44,7 +44,6 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
         $this->requestStack = $requestStack;
     }
 
-
     /**
      * @see Translator::getCatalogue
      */
@@ -56,9 +55,8 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
     /**
      * @see Translator::trans
      */
-    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-        // @todo cache the result of this method for performance?
         if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
             return $this->translator->trans($id, $parameters, $domain, $locale);
         }
@@ -67,7 +65,6 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
             $domain = 'messages';
         }
 
-        //$original = $this->getTranslator()->getCatalogue()->get((string) $message, $domain);
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
 
         // todo add data-value="" or data-type with real content, add parameters, domain...
@@ -81,16 +78,15 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
     /**
      * @see Translator::trans
      */
-    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
+    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
     {
-        // @todo cache the result of this method for performance?
         if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         }
 
-        $parameters = array_merge(array(
+        $parameters = array_merge([
             '%count%' => $number,
-        ), $parameters);
+        ], $parameters);
 
         return $this->trans($id, $parameters, $domain, $locale);
     }

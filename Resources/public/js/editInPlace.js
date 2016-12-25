@@ -9,21 +9,55 @@
 document.registerElement('x-trans', { prototype: Object.create(HTMLElement.prototype) });
 
 /**
- * TranslationBundleEditInPlace boot the ContentTools editor and handle saves
+ * TranslationBundleEditInPlace boot the ContentTools editor and handle saves.
  *
- * @author dalexandre@jolicode.com
+ * @author Damien Alexandre <dalexandre@jolicode.com>
  * @param saveUrl The AJAX API Endpoint
  */
 var TranslationBundleEditInPlace = function(saveUrl) {
     var editor, httpRequest;
 
-    // @todo Maybe improve this to switch back to the default tools for HTML
-    ContentTools.DEFAULT_TOOLS = [['undo', 'redo']];
+    /* Tools for HTML blocks - no image or video support */
+    var HTML_TOOLS = [
+        [
+            'bold',
+            'italic',
+            'link',
+            'align-left',
+            'align-center',
+            'align-right'
+        ], [
+            'heading',
+            'subheading',
+            'paragraph',
+            'unordered-list',
+            'ordered-list',
+            'table',
+            'indent',
+            'unindent',
+            'line-break'
+        ], [
+            'undo',
+            'redo',
+            'remove'
+        ]
+    ];
 
+    /* Tools for basic string, no HTML allowed */
+    var STRING_TOOLS = [
+        [
+            'undo',
+            'redo'
+        ]
+    ];
+
+    // Set the default to SIMPLE
+    ContentTools.DEFAULT_TOOLS = STRING_TOOLS;
     editor = ContentTools.EditorApp.get();
-    editor.init('x-trans', 'data-key', function() {
-        // @todo If there is "html" in the key, return false?
-        return true;
+    editor.init('x-trans', 'data-key', function(domRegion) {
+        // true = fixture (string of text)
+        // false = classic HTML block
+        return domRegion.dataset.key.split('.').pop() !== 'html';
     });
 
     // Treat x-trans tags as Text
@@ -70,7 +104,17 @@ var TranslationBundleEditInPlace = function(saveUrl) {
     // On focus, change the tools
     ContentEdit.Root.get().bind('focus', function(element) {
         // @todo Display the translation key & placeholder somewhere in the UI?
-        // @todo Change the tools between element.isFixed() and not (editor.toolbox().tools(tools))
+        var tools;
+
+        if (element.isFixed()) {
+            tools = STRING_TOOLS;
+        } else {
+            tools = HTML_TOOLS;
+        }
+
+        if (editor.toolbox().tools() !== tools) {
+            return editor.toolbox().tools(tools);
+        }
     });
 
     // Any click on links / button... should prevent default if editing is on
