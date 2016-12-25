@@ -1,0 +1,8 @@
+translated_page:
+    path: /foobar
+    methods: [GET]
+    defaults:  { _controller: \Translation\Bundle\Tests\Functional\app\Controller\TestController::translatedAction }
+
+_translation_edit_in_place:
+  resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
+  prefix:  /admin
