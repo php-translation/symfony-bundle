@@ -76,69 +76,6 @@ class TranslationExtension extends Extension
         }
     }
 
-    /**
-     * Handle config for WebUI.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function enableWebUi(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter('php_translation.webui.enabled', true);
-        $container->setParameter('php_translation.webui.allow_add', $config['webui']['allow_add']);
-    }
-
-    /**
-     * Handle config for EditInPlace.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function enableEditInPlace(ContainerBuilder $container, array $config)
-    {
-        $name = $config['edit_in_place']['config_name'];
-
-        if ($name !== 'default' and !isset($config['configs'][$name])) {
-            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
-        }
-
-        $activatorRef = new Reference($config['edit_in_place']['activator']);
-
-        $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
-        $def->replaceArgument(0, $activatorRef);
-        $def->replaceArgument(3, $name);
-
-        $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
-        $def->replaceArgument(1, $activatorRef);
-    }
-
-    /**
-     * Handle config for Symfony Profiler.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function enableSymfonyProfiler(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
-    }
-
-    /**
-     * Handle config for fallback auto translate.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
-     */
-    private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config)
-    {
-        $externalTranslatorId = 'php_translation.translator_service.'.$config['fallback_translation']['service'];
-        $externalTranslatorDef = $container->getDefinition($externalTranslatorId);
-        $externalTranslatorDef->addTag('php_translation.external_translator');
-        $externalTranslatorDef->addArgument(new Reference($config['http_client']));
-        $externalTranslatorDef->addArgument(new Reference($config['message_factory']));
-
-        $container->setParameter('php_translation.translator_service.api_key', $config['fallback_translation']['api_key']);
-    }
 
     /**
      * Handle the config node to prepare the config manager.
@@ -194,6 +131,71 @@ class TranslationExtension extends Extension
 
         $container->getDefinition('php_translation.configuration_manager')
             ->replaceArgument(0, $config['configs']);
+    }
+
+    /**
+     * Handle config for WebUI.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableWebUi(ContainerBuilder $container, array $config)
+    {
+        $container->setParameter('php_translation.webui.enabled', true);
+        $container->setParameter('php_translation.webui.allow_create', $config['webui']['allow_create']);
+        $container->setParameter('php_translation.webui.allow_delete', $config['webui']['allow_delete']);
+    }
+
+    /**
+     * Handle config for EditInPlace.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableEditInPlace(ContainerBuilder $container, array $config)
+    {
+        $name = $config['edit_in_place']['config_name'];
+
+        if ($name !== 'default' and !isset($config['configs'][$name])) {
+            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
+        }
+
+        $activatorRef = new Reference($config['edit_in_place']['activator']);
+
+        $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
+        $def->replaceArgument(0, $activatorRef);
+        $def->replaceArgument(3, $name);
+
+        $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
+        $def->replaceArgument(1, $activatorRef);
+    }
+
+    /**
+     * Handle config for Symfony Profiler.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableSymfonyProfiler(ContainerBuilder $container, array $config)
+    {
+        $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
+    }
+
+    /**
+     * Handle config for fallback auto translate.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config)
+    {
+        $externalTranslatorId = 'php_translation.translator_service.'.$config['fallback_translation']['service'];
+        $externalTranslatorDef = $container->getDefinition($externalTranslatorId);
+        $externalTranslatorDef->addTag('php_translation.external_translator');
+        $externalTranslatorDef->addArgument(new Reference($config['http_client']));
+        $externalTranslatorDef->addArgument(new Reference($config['message_factory']));
+
+        $container->setParameter('php_translation.translator_service.api_key', $config['fallback_translation']['api_key']);
     }
 
     /**

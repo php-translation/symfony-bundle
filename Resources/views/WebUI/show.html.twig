@@ -31,11 +31,16 @@
 
     <div class="container-fluid message-list">
 
-        <h1>Translations <a href="javascript:void(0);"
-                            class="btn btn-secondary"
-                            onclick='toggleElement("create-translation")'
-                            aria-controls="create-translation">Add new</a></h1>
+        <h1>Translations
+            {% if allow_create %}
+            <a href="javascript:void(0);"
+                class="btn btn-secondary"
+                onclick='toggleElement("create-translation")'
+                aria-controls="create-translation">Add new</a>
+            {% endif %}
+        </h1>
 
+        {% if allow_create %}
         <div class="collapse" id="create-translation">
             <form class="form" onsubmit="return createTranslation(this, '{{ path('translation_create', {configName: configName, locale:currentLocale,domain:currentDomain}) }}')">
                 <div class="form-group">
@@ -50,15 +55,16 @@
                 <div class="ajax-result"></div>
             </form>
         </div>
+        {% endif %}
 
         <div id="new-translations"></div>
         {% for idx, message in messages if message.new %}
-            {{ macro.printMessage(idx + 1, message) }}
+            {{ macro.printMessage(idx + 1, message, allow_delete) }}
         {% endfor %}
 
         {% set idxStart = messages|length %}
         {% for idx, message in messages if not message.new %}
-            {{ macro.printMessage(idx + idxStart, message) }}
+            {{ macro.printMessage(idx + idxStart, message, allow_delete) }}
         {% endfor %}
     </div>
 
@@ -67,7 +73,7 @@
     </script>
 {% endblock %}
 
-{% macro printMessage(idx, message) %}
+{% macro printMessage(idx, message, allow_delete) %}
     <div class="message row" id="{{ message.key }}">
         <div class="col-md-6 col-xs-12">
             {% if message.new %}
@@ -77,8 +83,9 @@
                 <span class="text-warning" title="Obsolete">&#x26A0;</span>
             {% endif %}
             <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
+            {% if allow_delete %}
             <a class="message-delete" href="javascript:void(0)" data-key="{{ message.key }}" title="Delete translation" onclick='confirm("Are you sure?")?deleteTranslation(this):false;'>&#x274C;</a>
-
+            {% endif %}
             <textarea
                 class="message-textarea"
                 data-key="{{ message.key }}"

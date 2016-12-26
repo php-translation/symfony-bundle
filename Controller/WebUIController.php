@@ -109,6 +109,8 @@ class WebUIController extends Controller
             'currentLocale' => $locale,
             'configName' => $configName,
             'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
+            'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
         ]);
     }
 
@@ -122,6 +124,10 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.allow_create')) {
+            return new Response('You are not allowed to create. Check you config. ', 400);
+        }
+
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
         try {
@@ -179,6 +185,10 @@ class WebUIController extends Controller
      */
     public function deleteAction(Request $request, $configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.allow_delete')) {
+            return new Response('You are not allowed to create. Check you config. ', 400);
+        }
+
         try {
             $message = $this->getMessage($request, ['Delete']);
         } catch (MessageValidationException $e) {
