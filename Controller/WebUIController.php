@@ -31,17 +31,14 @@ class WebUIController extends Controller
     public function indexAction($configName = null)
     {
         $config = $this->getConfiguration($configName);
+        $localeMap = $this->getLocale2LanguageMap();
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config['output_dir']]);
 
-        $configuedLocales = $this->getParameter('php_translation.locales');
-        $allLocales = Intl::getLocaleBundle()->getLocaleNames('en');
-        $locales = [];
-        foreach ($configuedLocales as $l) {
-            $locales[$l] = $allLocales[$l];
-        }
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configuedLocales, [$config['output_dir']]);
         $catalogueSize = [];
         $maxDomainSize = [];
         $maxCatalogueSize = 1;
+
+        // For each catalogue (or locale)
         /** @var MessageCatalogue $catalogue */
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
@@ -66,7 +63,7 @@ class WebUIController extends Controller
             'catalogueSize' => $catalogueSize,
             'maxDomainSize' => $maxDomainSize,
             'maxCatalogueSize' => $maxCatalogueSize,
-            'locales' => $locales,
+            'localeMap' => $localeMap,
             'configName' => $configName,
             'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
         ]);
@@ -221,5 +218,22 @@ class WebUIController extends Controller
         }
 
         return $message;
+    }
+
+    /**
+     * This will return a map of our configured locales and their language name.
+     *
+     * @return array locale => language
+     */
+    private function getLocale2LanguageMap()
+    {
+        $configuedLocales = $this->getParameter('php_translation.locales');
+        $names = Intl::getLocaleBundle()->getLocaleNames('en');
+        $map = [];
+        foreach ($configuedLocales as $l) {
+            $map[$l] = $names[$l];
+        }
+
+        return $map;
     }
 }

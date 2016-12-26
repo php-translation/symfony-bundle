@@ -6,7 +6,7 @@
     <div class="catalogue-list">
     {% for cataloge in catalogues %}
         <div class="catalouge">
-            <h3>{{ locales[cataloge.locale] }}</h3>
+            <h3>{{ localeMap[cataloge.locale] }}</h3>
             <table class="domain-table">
             {% for domain,messages in cataloge.all %}
                 {% set pg = (100*messages|length/maxDomainSize[domain])|round %}
