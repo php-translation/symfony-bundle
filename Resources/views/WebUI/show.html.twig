@@ -31,7 +31,27 @@
 
     <div class="container-fluid message-list">
 
-        <h1>Translations</h1>
+        <h1>Translations <a href="javascript:void(0);"
+                            class="btn btn-secondary"
+                            onclick='toggleElement("create-translation")'
+                            aria-controls="create-translation">Add new</a></h1>
+
+        <div class="collapse" id="create-translation">
+            <form class="form" onsubmit="return createTranslation(this, '{{ path('translation_create', {configName: configName, locale:currentLocale,domain:currentDomain}) }}')">
+                <div class="form-group">
+                    <label for="create-key">Key</label>
+                    <input type="text" class="form-control" id="create-key" placeholder="foo.label">
+                </div>
+                <div class="form-group">
+                    <label for="create-message">Translation</label>
+                    <input type="email" class="form-control" id="create-message" placeholder="Lorem Ipsum">
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+                <div class="ajax-result"></div>
+            </form>
+        </div>
+
+        <div id="new-translations"></div>
         {% for idx, message in messages if message.new %}
             {{ macro.printMessage(idx + 1, message) }}
         {% endfor %}

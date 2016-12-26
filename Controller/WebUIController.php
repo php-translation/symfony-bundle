@@ -142,7 +142,9 @@ class WebUIController extends Controller
             ), $e);
         }
 
-        return new Response('Translation created');
+        return $this->render('TranslationBundle:WebUI:create.html.twig', [
+            'message' => $message,
+        ]);
     }
 
     /**
