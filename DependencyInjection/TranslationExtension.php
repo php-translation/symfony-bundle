@@ -76,7 +76,6 @@ class TranslationExtension extends Extension
         }
     }
 
-
     /**
      * Handle the config node to prepare the config manager.
      *
