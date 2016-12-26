@@ -28,6 +28,13 @@ use Translation\Bundle\Model\CatalogueMessage;
  */
 class WebUIController extends Controller
 {
+    /**
+     * Show a dashboard for the configuration.
+     *
+     * @param string|null $configName
+     *
+     * @return Response
+     */
     public function indexAction($configName = null)
     {
         $config = $this->getConfiguration($configName);
@@ -70,8 +77,11 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param $locale
-     * @param $domain
+     * Show a catalogue.
+     *
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
@@ -79,10 +89,10 @@ class WebUIController extends Controller
     {
         $config = $this->getConfiguration($configName);
         $locales = $this->getParameter('php_translation.locales');
-        /** @var Translator $translator */
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
+
+        // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($catalogues);
+        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]));
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
