@@ -16,7 +16,7 @@
         "symfony/translation": "^2.7 || ^3.0",
         "symfony/finder": "^2.7 || ^3.0",
 
-        "php-translation/common": "^0.1",
+        "php-translation/common": "^0.2",
         "php-translation/extractor": "^0.1.1"
     },
     "require-dev": {
