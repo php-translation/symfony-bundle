@@ -39,6 +39,10 @@ translation:
     enabled: true
   webui:
     enabled: true
+  edit_in_place:
+    enabled: true
+    config_name: default # the first one or one of your configs
+    activator: php_translation.edit_in_place.activator
   configs:
     app:
       dirs: ["%kernel.root_dir%/Resources/views", "%kernel.root_dir%/../src"]
@@ -55,6 +59,13 @@ _translation_webui:
   
 _translation_profiler:
   resource: '@TranslationBundle/Resources/config/routing_symfony_profiler.yml'
+```
+
+```yaml
+// routing.yml
+_translation_edit_in_place:
+  resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
+  prefix:  /admin
 ```
 
 ## Documentation

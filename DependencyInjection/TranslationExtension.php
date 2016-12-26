@@ -14,6 +14,7 @@ namespace Translation\Bundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -53,6 +54,11 @@ class TranslationExtension extends Extension
         if ($config['symfony_profiler']['enabled']) {
             $loader->load('symfony_profiler.yml');
             $this->enableSymfonyProfiler($container, $config);
+        }
+
+        if ($config['edit_in_place']['enabled']) {
+            $loader->load('edit_in_place.yml');
+            $this->enableEditInPlace($container, $config);
         }
 
         if ($config['fallback_translation']['enabled']) {
@@ -102,6 +108,24 @@ class TranslationExtension extends Extension
 
     private function enableWebUi(ContainerBuilder $container, $config)
     {
+    }
+
+    private function enableEditInPlace(ContainerBuilder $container, $config)
+    {
+        $name = $config['edit_in_place']['config_name'];
+
+        if ($name !== 'default' and !isset($config['configs'][$name])) {
+            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
+        }
+
+        $activatorRef = new Reference($config['edit_in_place']['activator']);
+
+        $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
+        $def->replaceArgument(0, $activatorRef);
+        $def->replaceArgument(3, $name);
+
+        $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
+        $def->replaceArgument(1, $activatorRef);
     }
 
     private function enableSymfonyProfiler(ContainerBuilder $container, $config)

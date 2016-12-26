@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ 'translated.title'|trans }}</title>
+</head>
+<body>
+    <h1>{{ 'translated.heading'|transchoice(12) }}</h1>
+    <p>{{ 'translated.paragraph0'|trans }}</p>
+    <p>{% trans %}translated.paragraph1{% endtrans %}</p>
+    <p>{% transchoice 21 %}translated.paragraph2{% endtranschoice %}</p>
+</body>
+</html>

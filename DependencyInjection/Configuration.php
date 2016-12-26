@@ -58,6 +58,13 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('allow_add')->defaultTrue()->end()
                     ->end()
                 ->end()
+                ->arrayNode('edit_in_place')
+                    ->canBeEnabled()
+                    ->children()
+                        ->scalarNode('config_name')->defaultValue('default')->end()
+                        ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
+                    ->end()
+                ->end()
                 ->scalarNode('http_client')->cannotBeEmpty()->defaultValue('httplug.client')->end()
                 ->scalarNode('message_factory')->cannotBeEmpty()->defaultValue('httplug.message_factory')->end()
             ->end();
