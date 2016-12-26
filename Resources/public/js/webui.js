@@ -73,6 +73,41 @@ function createTranslation(el, url) {
     return false;
 }
 
+
+/**
+ * Delete a translation.
+ * @param el
+ */
+function deleteTranslation(el) {
+    var xmlhttp = new XMLHttpRequest();
+    var messageKey = el.getAttribute("data-key");
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+            var row = document.getElementById(messageKey);
+            var errorDiv = row.getElementsByClassName("ajax-result")[0];
+
+            if (xmlhttp.status == 200) {
+                row.parentNode.removeChild(row);
+            }
+            else if (xmlhttp.status == 400) {
+                errorDiv.className += ' error';
+                errorDiv.innerHTML = xmlhttp.responseText;
+            }
+            else {
+                errorDiv.className += ' error';
+                errorDiv.innerHTML = "Unknown error";
+            }
+
+            setTimeout(function() {removeResultElement(errorDiv);}, 6000);
+        }
+    };
+
+    xmlhttp.open("DELETE", editUrl, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({key: messageKey}));
+}
+
 /**
  * Remove the result element
  *

@@ -77,6 +77,8 @@
                 <span class="text-warning" title="Obsolete">&#x26A0;</span>
             {% endif %}
             <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
+            <a class="message-delete" href="javascript:void(0)" data-key="{{ message.key }}" title="Delete translation" onclick='confirm("Are you sure?")?deleteTranslation(this):false;'>&#x274C;</a>
+
             <textarea
                 class="message-textarea"
                 data-key="{{ message.key }}"
