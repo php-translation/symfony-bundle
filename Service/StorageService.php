@@ -175,7 +175,7 @@ class StorageService implements Storage
         }
 
         foreach ($storages as $storage) {
-            $storage->create($message);
+            $storage->update($message);
         }
     }
 

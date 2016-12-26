@@ -64,7 +64,7 @@ class TranslationExtension extends Extension
         if ($config['auto_add_missing_translations']['enabled']) {
             $loader->load('auto_add.yml');
             $container->getDefinition('php_translator.auto_adder')
-                ->replaceArgument(0, 'php_translation.storage.'.$config['auto_add_missing_translations']['config_name']);
+                ->replaceArgument(0, new Reference('php_translation.storage.'.$config['auto_add_missing_translations']['config_name']));
         }
 
         if ($config['fallback_translation']['enabled']) {

@@ -45,7 +45,7 @@ class AutoAddMissingTranslations
         $messages = $this->dataCollector->getCollectedMessages();
         foreach ($messages as $message) {
             if ($message['state'] === DataCollectorTranslator::MESSAGE_MISSING) {
-                $m = new Message($message);
+                $m = new Message($message['id'], $message['domain'], $message['locale'], $message['translation']);
                 $this->storage->create($m);
             }
         }
