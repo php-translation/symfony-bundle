@@ -17,31 +17,36 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Translation\Translator;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\WebUiMessage;
+use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Bundle\Model\CatalogueMessage;
+use Translation\Common\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class WebUIController extends Controller
 {
+    /**
+     * Show a dashboard for the configuration.
+     *
+     * @param string|null $configName
+     *
+     * @return Response
+     */
     public function indexAction($configName = null)
     {
         $config = $this->getConfiguration($configName);
+        $localeMap = $this->getLocale2LanguageMap();
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config['output_dir']]);
 
-        $configuedLocales = $this->getParameter('php_translation.locales');
-        $allLocales = Intl::getLocaleBundle()->getLocaleNames('en');
-        $locales = [];
-        foreach ($configuedLocales as $l) {
-            $locales[$l] = $allLocales[$l];
-        }
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configuedLocales, [$config['output_dir']]);
         $catalogueSize = [];
         $maxDomainSize = [];
         $maxCatalogueSize = 1;
+
+        // For each catalogue (or locale)
         /** @var MessageCatalogue $catalogue */
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
@@ -66,15 +71,18 @@ class WebUIController extends Controller
             'catalogueSize' => $catalogueSize,
             'maxDomainSize' => $maxDomainSize,
             'maxCatalogueSize' => $maxCatalogueSize,
-            'locales' => $locales,
+            'localeMap' => $localeMap,
             'configName' => $configName,
             'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
         ]);
     }
 
     /**
-     * @param $locale
-     * @param $domain
+     * Show a catalogue.
+     *
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
@@ -82,10 +90,10 @@ class WebUIController extends Controller
     {
         $config = $this->getConfiguration($configName);
         $locales = $this->getParameter('php_translation.locales');
-        /** @var Translator $translator */
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]);
+
+        // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($catalogues);
+        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]));
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
@@ -106,13 +114,16 @@ class WebUIController extends Controller
 
     /**
      * @param Request $request
+     * @param string  $configName
+     * @param string  $locale
      * @param string  $domain
      *
      * @return Response
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
-        $storage = $this->get('php_translation.storage.file.'.$configName);
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
         try {
             $message = $this->getMessage($request, ['Create']);
         } catch (MessageValidationException $e) {
@@ -120,7 +131,7 @@ class WebUIController extends Controller
         }
 
         try {
-            $storage->set($locale, $domain, $message->getKey(), $message->getMessage());
+            $storage->create(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
         } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
@@ -130,7 +141,9 @@ class WebUIController extends Controller
             ), $e);
         }
 
-        return new Response('Translation created');
+        return $this->render('TranslationBundle:WebUI:create.html.twig', [
+            'message' => $message,
+        ]);
     }
 
     /**
@@ -149,7 +162,9 @@ class WebUIController extends Controller
             return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->update($locale, $domain, $message->getKey(), $message->getMessage());
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage->update(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
 
         return new Response('Translation updated');
     }
@@ -170,7 +185,9 @@ class WebUIController extends Controller
             return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->delete($locale, $domain, $message->getKey());
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
     }
@@ -221,5 +238,22 @@ class WebUIController extends Controller
         }
 
         return $message;
+    }
+
+    /**
+     * This will return a map of our configured locales and their language name.
+     *
+     * @return array locale => language
+     */
+    private function getLocale2LanguageMap()
+    {
+        $configuedLocales = $this->getParameter('php_translation.locales');
+        $names = Intl::getLocaleBundle()->getLocaleNames('en');
+        $map = [];
+        foreach ($configuedLocales as $l) {
+            $map[$l] = $names[$l];
+        }
+
+        return $map;
     }
 }

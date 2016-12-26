@@ -1,0 +1,11 @@
+<div class="message row" id="{{ message.key }}">
+    <div class="col-md-6 col-xs-12">
+        <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
+        <textarea
+            class="message-textarea"
+            data-key="{{ message.key }}"
+            onchange="editTranslation(this)"
+        >{{ message.message }}</textarea>
+        <div class="ajax-result"></div>
+    </div>
+</div>

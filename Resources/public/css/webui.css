@@ -60,6 +60,9 @@
     font-weight: bold;
     font-size: 110%
 }
+.message-delete {
+    float: right;
+}
 
 pre a {
     text-decoration: none;

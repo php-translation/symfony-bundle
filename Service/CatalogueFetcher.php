@@ -15,11 +15,10 @@ use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 
 /**
- * Fetches catalogues from source files.
+ * Fetches catalogues from source files. This will only work with local file storage
+ * and the actions are read only.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
- *
- * @deprecated I think this could be removed.. Not sure.
  */
 class CatalogueFetcher
 {
