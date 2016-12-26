@@ -65,6 +65,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
                     ->end()
                 ->end()
+                ->arrayNode('auto_add_missing_translations')
+                    ->canBeEnabled()
+                    ->children()
+                        ->scalarNode('config_name')->defaultValue('default')->end()
+                    ->end()
+                ->end()
                 ->scalarNode('http_client')->cannotBeEmpty()->defaultValue('httplug.client')->end()
                 ->scalarNode('message_factory')->cannotBeEmpty()->defaultValue('httplug.message_factory')->end()
             ->end();

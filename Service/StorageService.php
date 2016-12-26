@@ -151,7 +151,37 @@ class StorageService implements Storage
     }
 
     /**
-     * Update all configured storages with this message.
+     * Create all configured storages with this message. This will not overwrite
+     * existing message.
+     *
+     * {@inheritdoc}
+     */
+    public function create(Message $message)
+    {
+        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
+            $this->createStorages($storages, $message);
+        }
+    }
+
+    /**
+     * @param Storage[] $storages
+     * @param Message   $message
+     */
+    private function createStorages($storages, Message $message)
+    {
+        // Validate if message actually has data
+        if (empty((array) $message)) {
+            return;
+        }
+
+        foreach ($storages as $storage) {
+            $storage->create($message);
+        }
+    }
+
+    /**
+     * Update all configured storages with this message. If messages does not exist
+     * it will be created.
      *
      * {@inheritdoc}
      */

@@ -61,6 +61,12 @@ class TranslationExtension extends Extension
             $this->enableEditInPlace($container, $config);
         }
 
+        if ($config['auto_add_missing_translations']['enabled']) {
+            $loader->load('auto_add.yml');
+            $container->getDefinition('php_translator.auto_adder')
+                ->replaceArgument(0, 'php_translation.storage.'.$config['auto_add_missing_translations']['config_name']);
+        }
+
         if ($config['fallback_translation']['enabled']) {
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
