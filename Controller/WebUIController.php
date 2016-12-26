@@ -20,8 +20,10 @@ use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Translator;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\WebUiMessage;
+use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Bundle\Model\CatalogueMessage;
+use Translation\Common\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -113,13 +115,16 @@ class WebUIController extends Controller
 
     /**
      * @param Request $request
-     * @param string  $domain
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
-        $storage = $this->get('php_translation.storage.file.'.$configName);
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
         try {
             $message = $this->getMessage($request, ['Create']);
         } catch (MessageValidationException $e) {
@@ -127,7 +132,7 @@ class WebUIController extends Controller
         }
 
         try {
-            $storage->set($locale, $domain, $message->getKey(), $message->getMessage());
+            $storage->create(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
         } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
@@ -156,7 +161,9 @@ class WebUIController extends Controller
             return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->update($locale, $domain, $message->getKey(), $message->getMessage());
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage->update(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
 
         return new Response('Translation updated');
     }
@@ -177,7 +184,9 @@ class WebUIController extends Controller
             return new Response($e->getMessage(), 400);
         }
 
-        $this->get('php_translation.storage.file.'.$configName)->delete($locale, $domain, $message->getKey());
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
     }
