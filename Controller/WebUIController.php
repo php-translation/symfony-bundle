@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Translation\Translator;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\WebUiMessage;
 use Translation\Bundle\Service\StorageService;
@@ -115,9 +114,9 @@ class WebUIController extends Controller
 
     /**
      * @param Request $request
-     * @param string $configName
-     * @param string $locale
-     * @param string $domain
+     * @param string  $configName
+     * @param string  $locale
+     * @param string  $domain
      *
      * @return Response
      */
