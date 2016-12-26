@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
 
         $this->configsNode($root);
         $this->addAutoTranslateNode($root);
-        $this->addTranslationServiceNode($root);
+        $this->addEditInPlaceNode($root);
 
         $root
             ->children()
@@ -56,13 +56,6 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->booleanNode('allow_add')->defaultTrue()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('edit_in_place')
-                    ->canBeEnabled()
-                    ->children()
-                        ->scalarNode('config_name')->defaultValue('default')->end()
-                        ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
                     ->end()
                 ->end()
                 ->arrayNode('auto_add_missing_translations')
@@ -173,15 +166,17 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    private function addTranslationServiceNode(ArrayNodeDefinition $root)
+    private function addEditInPlaceNode(ArrayNodeDefinition $root)
     {
-        $root
-            ->children()
-                ->enumNode('storage')
-                    ->info('Where translations are stored.')
-                    ->values(['blackhole', 'filesystem', 'loco'])
-                    ->defaultValue('filesystem')
+        $root->children()
+            ->arrayNode('edit_in_place')
+                ->canBeEnabled()
+                ->children()
+                    ->scalarNode('config_name')->defaultValue('default')->end()
+                    ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
                 ->end()
-            ->end();
+            ->end()
+        ->end();
     }
+
 }
