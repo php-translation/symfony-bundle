@@ -81,13 +81,13 @@ class CatalogueManager
         return $messages;
     }
 
-
     /**
      * @param array $config {
+     *
      *      @var string $domain
      *      @var string $locale
-     *      @var boolean $isNew
-     *      @var boolean $isObsolete
+     *      @var bool $isNew
+     *      @var bool $isObsolete
      * }
      *
      * @return CatalogueMessage[]
@@ -116,7 +116,6 @@ class CatalogueManager
             }
             foreach ($domains as $domain) {
                 foreach ($catalogue->all($domain) as $key => $text) {
-
                     // Filter on new and obsolete
                     if (null !== $isNew || null !== $isObsolete) {
                         $notes = $this->getNotes($domain, $key, $catalogue);
@@ -140,8 +139,6 @@ class CatalogueManager
 
         return $messages;
     }
-
-
 
     /**
      * @param string $domain

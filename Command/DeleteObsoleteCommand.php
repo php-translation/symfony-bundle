@@ -53,7 +53,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
 
         /** @var StorageService $storage */
         $storage = $this->getContainer()->get('php_translation.storage.'.$configName);
-        $messages = $catalogueManager->findMessages(['locale'=>$inputLocale, 'isObsolete'=>true]);
+        $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue?', count($messages)), false);
@@ -67,7 +67,6 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
             $progress->advance();
         }
         $progress->finish();
-
     }
 
     /**
