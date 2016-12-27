@@ -46,9 +46,12 @@ class TranslationExtension extends Extension
 
         $container->setParameter('php_translation.locales', $config['locales']);
         $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
+        $this->handleConfigNode($container, $config);
 
         if ($config['webui']['enabled']) {
             $this->enableWebUi($container, $config);
+        } else {
+            $container->setParameter('php_translation.webui.enabled', false);
         }
 
         if ($config['symfony_profiler']['enabled']) {
@@ -71,13 +74,24 @@ class TranslationExtension extends Extension
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
         }
+    }
 
+    /**
+     * Handle the config node to prepare the config manager.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function handleConfigNode(ContainerBuilder $container, array $config)
+    {
+        // $first will be the "default" configuration.
         $first = null;
         foreach ($config['configs'] as $name => &$c) {
             if ($first === null || $name === 'default') {
                 $first = $name;
             }
             if (empty($c['project_root'])) {
+                // Add a project root of none is set.
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
             }
 
@@ -104,19 +118,40 @@ class TranslationExtension extends Extension
 
         if ($first !== null) {
             // Create some aliases for the default storage
-            $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
-            $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+            $container->setAlias(
+                'php_translation.storage',
+                'php_translation.storage.'.$first
+            );
+            $container->setAlias(
+                'php_translation.storage.default',
+                'php_translation.storage.'.$first
+            );
         }
 
         $container->getDefinition('php_translation.configuration_manager')
             ->replaceArgument(0, $config['configs']);
     }
 
-    private function enableWebUi(ContainerBuilder $container, $config)
+    /**
+     * Handle config for WebUI.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableWebUi(ContainerBuilder $container, array $config)
     {
+        $container->setParameter('php_translation.webui.enabled', true);
+        $container->setParameter('php_translation.webui.allow_create', $config['webui']['allow_create']);
+        $container->setParameter('php_translation.webui.allow_delete', $config['webui']['allow_delete']);
     }
 
-    private function enableEditInPlace(ContainerBuilder $container, $config)
+    /**
+     * Handle config for EditInPlace.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableEditInPlace(ContainerBuilder $container, array $config)
     {
         $name = $config['edit_in_place']['config_name'];
 
@@ -134,12 +169,24 @@ class TranslationExtension extends Extension
         $def->replaceArgument(1, $activatorRef);
     }
 
-    private function enableSymfonyProfiler(ContainerBuilder $container, $config)
+    /**
+     * Handle config for Symfony Profiler.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableSymfonyProfiler(ContainerBuilder $container, array $config)
     {
         $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
     }
 
-    private function enableFallbackAutoTranslator(ContainerBuilder $container, $config)
+    /**
+     * Handle config for fallback auto translate.
+     *
+     * @param ContainerBuilder $container
+     * @param array            $config
+     */
+    private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config)
     {
         $externalTranslatorId = 'php_translation.translator_service.'.$config['fallback_translation']['service'];
         $externalTranslatorDef = $container->getDefinition($externalTranslatorId);
@@ -150,6 +197,9 @@ class TranslationExtension extends Extension
         $container->setParameter('php_translation.translator_service.api_key', $config['fallback_translation']['api_key']);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAlias()
     {
         return 'translation';

@@ -38,6 +38,9 @@ class WebUIController extends Controller
      */
     public function indexAction($configName = null)
     {
+        if (!$this->getParameter('php_translation.webui.enabled')) {
+            return new Response('You are not allowed here. Check you config. ', 400);
+        }
         $config = $this->getConfiguration($configName);
         $localeMap = $this->getLocale2LanguageMap();
         $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config['output_dir']]);
@@ -88,6 +91,9 @@ class WebUIController extends Controller
      */
     public function showAction($configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.enabled')) {
+            return new Response('You are not allowed here. Check you config. ', 400);
+        }
         $config = $this->getConfiguration($configName);
         $locales = $this->getParameter('php_translation.locales');
 
@@ -109,6 +115,8 @@ class WebUIController extends Controller
             'currentLocale' => $locale,
             'configName' => $configName,
             'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
+            'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
         ]);
     }
 
@@ -122,6 +130,10 @@ class WebUIController extends Controller
      */
     public function createAction(Request $request, $configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_create')) {
+            return new Response('You are not allowed to create. Check you config. ', 400);
+        }
+
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
         try {
@@ -156,6 +168,10 @@ class WebUIController extends Controller
      */
     public function editAction(Request $request, $configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.enabled')) {
+            return new Response('You are not allowed here. Check you config. ', 400);
+        }
+
         try {
             $message = $this->getMessage($request, ['Edit']);
         } catch (MessageValidationException $e) {
@@ -179,6 +195,10 @@ class WebUIController extends Controller
      */
     public function deleteAction(Request $request, $configName, $locale, $domain)
     {
+        if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_delete')) {
+            return new Response('You are not allowed to create. Check you config. ', 400);
+        }
+
         try {
             $message = $this->getMessage($request, ['Delete']);
         } catch (MessageValidationException $e) {
