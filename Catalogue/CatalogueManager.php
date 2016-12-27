@@ -81,6 +81,68 @@ class CatalogueManager
         return $messages;
     }
 
+
+    /**
+     * @param array $config {
+     *      @var string $domain
+     *      @var string $locale
+     *      @var boolean $isNew
+     *      @var boolean $isObsolete
+     * }
+     *
+     * @return CatalogueMessage[]
+     */
+    public function findMessages(array $config = [])
+    {
+        $inputDomain = isset($config['domain']) ? $config['domain'] : null;
+        $isNew = isset($config['isNew']) ? $config['isNew'] : null;
+        $isObsolete = isset($config['isObsolete']) ? $config['isObsolete'] : null;
+
+        $messages = [];
+        $catalogues = [];
+        if (isset($config['locale'])) {
+            $locale = $config['locale'];
+            if (isset($this->catalogues[$locale])) {
+                $catalogues = [$locale => $this->catalogues[$locale]];
+            }
+        } else {
+            $catalogues = $this->catalogues;
+        }
+
+        foreach ($catalogues as $locale => $catalogue) {
+            $domains = $catalogue->getDomains();
+            if (null !== $inputDomain) {
+                $domains = [$inputDomain];
+            }
+            foreach ($domains as $domain) {
+                foreach ($catalogue->all($domain) as $key => $text) {
+
+                    // Filter on new and obsolete
+                    if (null !== $isNew || null !== $isObsolete) {
+                        $notes = $this->getNotes($domain, $key, $catalogue);
+
+                        if (null !== $isNew) {
+                            if ($isNew !== $this->hasNoteNew($notes)) {
+                                continue;
+                            }
+                        }
+                        if (null !== $isObsolete) {
+                            if ($isObsolete !== $this->hasNoteObsolete($notes)) {
+                                continue;
+                            }
+                        }
+                    }
+
+                    $messages[] = new CatalogueMessage($this, $locale, $domain, $key, $text);
+                }
+            }
+        }
+
+        return $messages;
+    }
+
+
+
     /**
      * @param string $domain
      * @param string $key
@@ -128,13 +190,8 @@ class CatalogueManager
     public function isNew($domain, $key)
     {
         $notes = $this->getNotes($domain, $key);
-        foreach ($notes as $note) {
-            if ($note['content'] === 'status:new') {
-                return true;
-            }
-        }
 
-        return false;
+        return $this->hasNoteNew($notes);
     }
 
     /**
@@ -146,6 +203,38 @@ class CatalogueManager
     public function isObsolete($domain, $key)
     {
         $notes = $this->getNotes($domain, $key);
+
+        return $this->hasNoteObsolete($notes);
+    }
+
+    /**
+     * @param $domain
+     * @param $key
+     *
+     * @return array
+     */
+    private function getNotes($domain, $key, MessageCatalogue $catalogue = null)
+    {
+        if (null === $catalogue) {
+            /** @var MessageCatalogue $c */
+            $catalogue = reset($this->catalogues);
+        }
+        $meta = $catalogue->getMetadata($key, $domain);
+
+        if (!isset($meta['notes'])) {
+            return [];
+        }
+
+        return $meta['notes'];
+    }
+
+    /**
+     * @param array $notes
+     *
+     * @return bool
+     */
+    private function hasNoteObsolete(array $notes)
+    {
         foreach ($notes as $note) {
             if ($note['content'] === 'status:obsolete') {
                 return true;
@@ -156,21 +245,18 @@ class CatalogueManager
     }
 
     /**
-     * @param $domain
-     * @param $key
+     * @param array $notes
      *
-     * @return array
+     * @return bool
      */
-    private function getNotes($domain, $key)
+    private function hasNoteNew(array $notes)
     {
-        /** @var MessageCatalogue $c */
-        $c = reset($this->catalogues);
-        $meta = $c->getMetadata($key, $domain);
-
-        if (!isset($meta['notes'])) {
-            return [];
+        foreach ($notes as $note) {
+            if ($note['content'] === 'status:new') {
+                return true;
+            }
         }
 
-        return $meta['notes'];
+        return false;
     }
 }
