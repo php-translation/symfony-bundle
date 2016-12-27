@@ -38,6 +38,7 @@ class ConfigurationManager
             if ($name === 'default') {
                 return $this->getConfiguration($this->getFirstName());
             }
+
             return [];
         }
 
