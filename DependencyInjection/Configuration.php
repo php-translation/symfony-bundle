@@ -173,6 +173,7 @@ class Configuration implements ConfigurationInterface
             ->end()
         ->end();
     }
+
     private function addWebUINode(ArrayNodeDefinition $root)
     {
         $root->children()
