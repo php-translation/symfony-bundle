@@ -35,6 +35,9 @@ class ConfigurationManager
     public function getConfiguration($name)
     {
         if (!isset($this->configuration[$name])) {
+            if ($name === 'default') {
+                return $this->getConfiguration($this->getFirstName());
+            }
             return [];
         }
 

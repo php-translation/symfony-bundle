@@ -33,7 +33,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $this
             ->setName('translation:delete-obsolete')
             ->setDescription('Delete all translations marked as obsolete.')
-            ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use')
+            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null);
     }
 
