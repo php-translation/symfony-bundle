@@ -30,7 +30,7 @@ class ExtractCommand extends ContainerAwareCommand
         $this
             ->setName('translation:extract')
             ->setDescription('Extract translations from source code.')
-            ->addArgument('configuration', InputArgument::REQUIRED, 'The configuration to use')
+            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false);
     }
 
