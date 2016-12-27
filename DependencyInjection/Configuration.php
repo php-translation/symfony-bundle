@@ -39,6 +39,7 @@ class Configuration implements ConfigurationInterface
         $this->configsNode($root);
         $this->addAutoTranslateNode($root);
         $this->addEditInPlaceNode($root);
+        $this->addWebUINode($root);
 
         $root
             ->children()
@@ -50,13 +51,6 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->booleanNode('allow_edit')->defaultTrue()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('webui')
-                    ->canBeEnabled()
-                    ->children()
-                        ->booleanNode('allow_create')->defaultTrue()->end()
-                        ->booleanNode('allow_delete')->defaultTrue()->end()
                     ->end()
                 ->end()
                 ->arrayNode('auto_add_missing_translations')
@@ -175,6 +169,18 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('config_name')->defaultValue('default')->end()
                     ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
+                ->end()
+            ->end()
+        ->end();
+    }
+    private function addWebUINode(ArrayNodeDefinition $root)
+    {
+        $root->children()
+            ->arrayNode('webui')
+                ->canBeEnabled()
+                ->children()
+                    ->booleanNode('allow_create')->defaultTrue()->end()
+                    ->booleanNode('allow_delete')->defaultTrue()->end()
                 ->end()
             ->end()
         ->end();
