@@ -12,7 +12,6 @@ services:
 
   php_translation.configuration_manager:
     class: Translation\Bundle\Service\ConfigurationManager
-    arguments: [[]]
 
   php_translation.importer:
     class: Translation\Bundle\Service\Importer

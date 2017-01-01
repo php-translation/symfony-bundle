@@ -43,7 +43,7 @@ class WebUIController extends Controller
         }
         $config = $this->getConfiguration($configName);
         $localeMap = $this->getLocale2LanguageMap();
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config['output_dir']]);
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config->getOutputDir()]);
 
         $catalogueSize = [];
         $maxDomainSize = [];
@@ -99,7 +99,7 @@ class WebUIController extends Controller
 
         // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config['output_dir']]));
+        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config->getOutputDir()]));
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
@@ -213,9 +213,9 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param $configName
+     * @param string $configName
      *
-     * @return array
+     * @return null|\Translation\Bundle\Model\Configuration
      */
     private function getConfiguration(&$configName)
     {

@@ -46,7 +46,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
             $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
 
-        $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
+        $transPaths = $config->getPathsToTranslationFiles();
         $catalogueManager = $this->getContainer()->get('php_translation.catalogue_manager');
         $catalogueManager->load($this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths));
 

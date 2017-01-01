@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\Kernel;
+use Translation\Bundle\Model\Configuration as ConfigurationModel;
 use Translation\Bundle\Service\StorageService;
 
 /**
@@ -84,6 +85,7 @@ class TranslationExtension extends Extension
      */
     private function handleConfigNode(ContainerBuilder $container, array $config)
     {
+        $configurationManager = $container->getDefinition('php_translation.configuration_manager');
         // $first will be the "default" configuration.
         $first = null;
         foreach ($config['configs'] as $name => &$c) {
@@ -94,7 +96,16 @@ class TranslationExtension extends Extension
                 // Add a project root of none is set.
                 $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
             }
+            $c['name'] = $name;
+            $c['locales'] = $config['locales'];
+            $configurationServiceId = 'php_translation.configuration.'.$name;
+            $configDef = $container->register($configurationServiceId, ConfigurationModel::class);
+            $configDef->setPublic(false)->addArgument($c);
+            $configurationManager->addMethodCall('addConfiguration', [new Reference($configurationServiceId)]);
 
+            /*
+             * Configure storage service
+             */
             $storageDefinition = $container->register('php_translation.storage.'.$name, StorageService::class);
 
             // Register a file storage
@@ -118,18 +129,9 @@ class TranslationExtension extends Extension
 
         if ($first !== null) {
             // Create some aliases for the default storage
-            $container->setAlias(
-                'php_translation.storage',
-                'php_translation.storage.'.$first
-            );
-            $container->setAlias(
-                'php_translation.storage.default',
-                'php_translation.storage.'.$first
-            );
+            $container->setAlias('php_translation.storage', 'php_translation.sstorage.'.$first);
+            $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
         }
-
-        $container->getDefinition('php_translation.configuration_manager')
-            ->replaceArgument(0, $config['configs']);
     }
 
     /**
