@@ -12,6 +12,8 @@
 namespace Translation\Bundle\Service;
 
 /**
+ * A service to easily access different configurations.
+ *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class ConfigurationManager
