@@ -68,27 +68,4 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         }
         $progress->finish();
     }
-
-    /**
-     * @param array $configuration
-     *
-     * @return Finder
-     */
-    private function getConfiguredFinder(array $config)
-    {
-        // 'dirs', 'excluded_dirs', 'excluded_names'
-
-        $finder = new Finder();
-        $finder->in($config['dirs']);
-
-        foreach ($config['excluded_dirs'] as $exclude) {
-            $finder->notPath($exclude);
-        }
-
-        foreach ($config['excluded_names'] as $exclude) {
-            $finder->notName($exclude);
-        }
-
-        return $finder;
-    }
 }
