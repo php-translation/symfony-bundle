@@ -18,6 +18,11 @@ use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
 use Translation\Bundle\Catalogue\Operation\MetadataAwareMerge;
 
+/**
+ * Use extractors to import translations to message catalogues.
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class Importer
 {
     /**
