@@ -16,7 +16,7 @@ use Translation\Common\Model\Message;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class SfProfilerMessage
+final class SfProfilerMessage
 {
     /**
      * @var int

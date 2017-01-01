@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class Activator implements ActivatorInterface
+final class Activator implements ActivatorInterface
 {
     const KEY = 'translation_bundle.edit_in_place.enabled';
 

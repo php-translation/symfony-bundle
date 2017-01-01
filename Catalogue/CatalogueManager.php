@@ -19,7 +19,7 @@ use Translation\Bundle\Model\CatalogueMessage;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class CatalogueManager
+final class CatalogueManager
 {
     /**
      * @var MessageCatalogueInterface[]

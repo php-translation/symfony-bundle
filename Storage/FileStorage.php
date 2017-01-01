@@ -22,7 +22,7 @@ use Translation\Common\Storage;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class FileStorage implements Storage
+final class FileStorage implements Storage
 {
     /**
      * @var TranslationWriter

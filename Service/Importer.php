@@ -23,7 +23,7 @@ use Translation\Bundle\Catalogue\Operation\MetadataAwareMerge;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class Importer
+final class Importer
 {
     /**
      * @var Extractor

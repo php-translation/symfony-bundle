@@ -20,7 +20,7 @@ use Translation\Translator\Translator;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class FallbackTranslator implements TranslatorInterface, TranslatorBagInterface
+final class FallbackTranslator implements TranslatorInterface, TranslatorBagInterface
 {
     /**
      * @var TranslatorInterface|TranslatorBagInterface

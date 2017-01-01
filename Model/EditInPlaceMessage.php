@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class EditInPlaceMessage
+final class EditInPlaceMessage
 {
     /**
      * @var string

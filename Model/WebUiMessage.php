@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class WebUiMessage
+final class WebUiMessage
 {
     /**
      * @var string

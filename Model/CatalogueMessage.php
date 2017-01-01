@@ -18,7 +18,7 @@ use Translation\Bundle\Catalogue\CatalogueManager;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class CatalogueMessage
+final class CatalogueMessage
 {
     /**
      * @var CatalogueManager
