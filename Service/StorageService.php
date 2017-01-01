@@ -22,7 +22,7 @@ use Translation\Common\TransferableStorage;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class StorageService implements Storage
+final class StorageService implements Storage
 {
     const DIRECTION_UP = 'up';
     const DIRECTION_DOWN = 'down';
@@ -43,12 +43,19 @@ class StorageService implements Storage
     private $catalogueFetcher;
 
     /**
+     * @var Configuration
+     */
+    private $config;
+
+    /**
      *
      * @param CatalogueFetcher $catalogueFetcher
+     * @param Configuration $config
      */
-    public function __construct(CatalogueFetcher $catalogueFetcher)
+    public function __construct(CatalogueFetcher $catalogueFetcher, Configuration $config)
     {
         $this->catalogueFetcher = $catalogueFetcher;
+        $this->config = $config;
     }
 
 
@@ -60,9 +67,7 @@ class StorageService implements Storage
      */
     public function download($configName)
     {
-        $config = $this->configManager->getConfiguration($configName);
-        $locales = $config['locales'];
-        foreach ($locales as $locale) {
+        foreach ($this->config->getLocales() as $locale) {
             $catalogue[$locale] = new MessageCatalogue($locale);
             foreach ($this->remoteStorages as $storage) {
                 if ($storage instanceof TransferableStorage) {
@@ -82,10 +87,7 @@ class StorageService implements Storage
      */
     public function upload($configName)
     {
-        $config = $this->configManager->getConfiguration($configName);
-        $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
-
-        $catalogues = $this->catalogueFetcher->getCatalogues($config['locales'], $transPaths);
+        $catalogues = $this->catalogueFetcher->getCatalogues($this->config->getLocales(), $this->config->getPathsToTranslationFiles());
         foreach ($catalogues as $catalogue) {
             foreach ($this->remoteStorages as $storage) {
                 if ($storage instanceof TransferableStorage) {
