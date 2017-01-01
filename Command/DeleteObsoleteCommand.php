@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Service\StorageService;
 
 class DeleteObsoleteCommand extends ContainerAwareCommand
@@ -67,28 +66,5 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
             $progress->advance();
         }
         $progress->finish();
-    }
-
-    /**
-     * @param array $configuration
-     *
-     * @return Finder
-     */
-    private function getConfiguredFinder(array $config)
-    {
-        // 'dirs', 'excluded_dirs', 'excluded_names'
-
-        $finder = new Finder();
-        $finder->in($config['dirs']);
-
-        foreach ($config['excluded_dirs'] as $exclude) {
-            $finder->notPath($exclude);
-        }
-
-        foreach ($config['excluded_names'] as $exclude) {
-            $finder->notName($exclude);
-        }
-
-        return $finder;
     }
 }

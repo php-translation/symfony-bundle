@@ -71,11 +71,23 @@ class FileStorage implements Storage
     /**
      * {@inheritdoc}
      */
-    public function update(Message $message)
+    public function create(Message $m)
     {
-        $catalogue = $this->getCatalogue($message->getLocale());
-        $catalogue->set($message->getKey(), $message->getTranslation(), $message->getDomain());
-        $this->writeCatalogue($catalogue, $message->getLocale(), $message->getDomain());
+        $catalogue = $this->getCatalogue($m->getLocale());
+        if (!$catalogue->defines($m->getKey(), $m->getDomain())) {
+            $catalogue->set($m->getKey(), $m->getTranslation(), $m->getDomain());
+            $this->writeCatalogue($catalogue, $m->getLocale(), $m->getDomain());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Message $m)
+    {
+        $catalogue = $this->getCatalogue($m->getLocale());
+        $catalogue->set($m->getKey(), $m->getTranslation(), $m->getDomain());
+        $this->writeCatalogue($catalogue, $m->getLocale(), $m->getDomain());
     }
 
     /**
@@ -109,7 +121,9 @@ class FileStorage implements Storage
     }
 
     /**
-     * @param $locale
+     * @param string $locale
+     *
+     * @return MessageCatalogue
      */
     private function getCatalogue($locale)
     {
@@ -123,8 +137,8 @@ class FileStorage implements Storage
     /**
      * Load catalogue from files.
      *
-     * @param $locale
-     * @param array $dirs
+     * @param string $locale
+     * @param array  $dirs
      */
     private function loadCatalogue($locale, array $dirs)
     {
