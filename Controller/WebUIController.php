@@ -106,7 +106,6 @@ class WebUIController extends Controller
             return strcmp($a->getKey(), $b->getKey());
         });
 
-
         return $this->render('TranslationBundle:WebUI:show.html.twig', [
             'messages' => $messages,
             'domains' => $catalogueManager->getDomains(),

@@ -35,9 +35,8 @@ class CatalogueWriter
     private $defaultLocale;
 
     /**
-     *
      * @param TranslationWriter $writer
-     * @param string $defaultLocale
+     * @param string            $defaultLocale
      */
     public function __construct(
         TranslationWriter $writer,
@@ -47,9 +46,8 @@ class CatalogueWriter
         $this->defaultLocale = $defaultLocale;
     }
 
-
     /**
-     * @param Configuration $config
+     * @param Configuration      $config
      * @param MessageCatalogue[] $catalogues
      */
     public function writeCatalogues(Configuration $config, array $catalogues)

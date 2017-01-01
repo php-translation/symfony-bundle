@@ -31,7 +31,7 @@ final class CatalogueFetcher
     private $loader;
 
     /**
-     * @param TranslationLoader    $loader
+     * @param TranslationLoader $loader
      */
     public function __construct(TranslationLoader $loader)
     {

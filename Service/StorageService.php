@@ -56,10 +56,9 @@ final class StorageService implements Storage
     private $config;
 
     /**
-     *
      * @param CatalogueFetcher $catalogueFetcher
-     * @param CatalogueWriter $catalogueWriter
-     * @param Configuration $config
+     * @param CatalogueWriter  $catalogueWriter
+     * @param Configuration    $config
      */
     public function __construct(
         CatalogueFetcher $catalogueFetcher,

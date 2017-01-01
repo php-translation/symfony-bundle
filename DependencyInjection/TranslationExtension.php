@@ -20,7 +20,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Model\Configuration as ConfigurationModel;
-use Translation\Bundle\Service\StorageService;
 
 /**
  * This is the class that loads and manages your bundle configuration.
