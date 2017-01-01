@@ -24,7 +24,7 @@ class ConfigurationManager
     private $configuration = [];
 
     /**
-     * @param string $name
+     * @param string        $name
      * @param Configuration $configuration
      */
     public function addConfiguration($name, Configuration $configuration)
@@ -44,7 +44,7 @@ class ConfigurationManager
                 return $this->getConfiguration($this->getFirstName());
             }
 
-            return null;
+            return;
         }
 
         return $this->configuration[$name];

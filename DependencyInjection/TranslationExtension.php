@@ -131,8 +131,6 @@ class TranslationExtension extends Extension
             $container->setAlias('php_translation.storage', 'php_translation.sstorage.'.$first);
             $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
         }
-
-
     }
 
     /**

@@ -50,9 +50,9 @@ class ExtractCommand extends ContainerAwareCommand
         $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
         $finder = $this->getConfiguredFinder($config);
         $results = $importer->extractToCatalogues($finder, $catalogues, [
-            'blacklist_domains'=>$config->getBlacklistDomains(),
-            'whitelist_domains'=>$config->getWhitelistDomains(),
-            'project_root'=>$config->getProjectRoot(),
+            'blacklist_domains' => $config->getBlacklistDomains(),
+            'whitelist_domains' => $config->getWhitelistDomains(),
+            'project_root' => $config->getProjectRoot(),
         ]);
 
         $writer = $this->getContainer()->get('translation.writer');
