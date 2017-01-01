@@ -11,7 +11,7 @@
 
 namespace Translation\Bundle\Catalogue;
 
-use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Translation\Bundle\Model\CatalogueMessage;
 
 /**
@@ -22,7 +22,7 @@ use Translation\Bundle\Model\CatalogueMessage;
 class CatalogueManager
 {
     /**
-     * @var MessageCatalogue[]
+     * @var MessageCatalogueInterface[]
      */
     private $catalogues;
 
@@ -40,7 +40,7 @@ class CatalogueManager
     }
 
     /**
-     * @param MessageCatalogue[] $catalogues
+     * @param MessageCatalogueInterface[] $catalogues
      */
     public function load(array $catalogues)
     {
@@ -55,7 +55,7 @@ class CatalogueManager
      */
     public function getDomains()
     {
-        /** @var MessageCatalogue $c */
+        /** @var MessageCatalogueInterface $c */
         $c = reset($this->catalogues);
 
         return $c->getDomains();
@@ -210,10 +210,10 @@ class CatalogueManager
      *
      * @return array
      */
-    private function getNotes($domain, $key, MessageCatalogue $catalogue = null)
+    private function getNotes($domain, $key, MessageCatalogueInterface $catalogue = null)
     {
         if (null === $catalogue) {
-            /** @var MessageCatalogue $c */
+            /** @var MessageCatalogueInterface $c */
             $catalogue = reset($this->catalogues);
         }
         $meta = $catalogue->getMetadata($key, $domain);
