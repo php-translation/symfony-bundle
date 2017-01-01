@@ -109,12 +109,6 @@ class TranslationExtension extends Extension
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
 
-            // Register a file storage
-            $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');
-            $def->replaceArgument(2, $c['output_dir'])
-                ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
-            $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
-
             // Add storages
             if (!empty($c['remote_storage'])) {
                 foreach ($c['remote_storage'] as $serviceId) {
@@ -125,6 +119,12 @@ class TranslationExtension extends Extension
                 foreach ($c['local_storage'] as $serviceId) {
                     $storageDefinition->addMethodCall('addLocalStorage', [new Reference($serviceId)]);
                 }
+            } else {
+                // If there is no local storage configured, register a file storage
+                $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');
+                $def->replaceArgument(2, $c['output_dir'])
+                    ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
+                $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
             }
         }
 
