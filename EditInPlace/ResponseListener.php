@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Router;
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class ResponseListener
+final class ResponseListener
 {
     const HTML = <<<'HTML'
 <!-- TranslationBundle -->

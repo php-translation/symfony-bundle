@@ -19,7 +19,7 @@ use Translation\Bundle\Service\StorageService;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class AutoAddMissingTranslations
+final class AutoAddMissingTranslations
 {
     /**
      * @var DataCollectorTranslator

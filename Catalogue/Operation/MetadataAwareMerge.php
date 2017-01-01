@@ -17,7 +17,7 @@ use Symfony\Component\Translation\Catalogue\AbstractOperation;
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class MetadataAwareMerge extends AbstractOperation
+final class MetadataAwareMerge extends AbstractOperation
 {
     protected function processDomain($domain)
     {

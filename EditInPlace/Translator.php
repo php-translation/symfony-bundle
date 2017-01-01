@@ -20,7 +20,7 @@ use Symfony\Component\Translation\TranslatorBagInterface;
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class Translator implements TranslatorInterface, TranslatorBagInterface
+final class Translator implements TranslatorInterface, TranslatorBagInterface
 {
     /**
      * @var TranslatorInterface|\Symfony\Component\Translation\Translator

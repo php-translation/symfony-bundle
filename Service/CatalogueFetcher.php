@@ -20,7 +20,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class CatalogueFetcher
+final class CatalogueFetcher
 {
     /**
      * @var TranslationLoader
