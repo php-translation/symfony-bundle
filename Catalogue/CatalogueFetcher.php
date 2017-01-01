@@ -19,7 +19,7 @@ use Translation\Bundle\Model\Configuration;
  * Fetches catalogues from source files. This will only work with local file storage
  * and the actions are read only.
  *
- * This should be considered as a ReadFromCache service.
+ * This should be considered as a "ReadFromCache" service.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */

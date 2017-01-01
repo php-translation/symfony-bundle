@@ -18,7 +18,7 @@ use Translation\Bundle\Model\Configuration;
 /**
  * Write catalogues back to disk.
  *
- * This should be considered as a WriteToCache service.
+ * This should be considered as a "WriteToCache" service.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
