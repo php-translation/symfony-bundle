@@ -20,7 +20,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Model\Configuration as ConfigurationModel;
-use Translation\Bundle\Service\StorageService;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -106,7 +105,9 @@ class TranslationExtension extends Extension
             /*
              * Configure storage service
              */
-            $storageDefinition = $container->register('php_translation.storage.'.$name, StorageService::class);
+            $storageDefinition = new DefinitionDecorator('php_translation.storage.abstract');
+            $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
+            $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
 
             // Register a file storage
             $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');

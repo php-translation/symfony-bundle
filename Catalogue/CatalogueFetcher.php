@@ -9,14 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\Service;
+namespace Translation\Bundle\Catalogue;
 
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Translation\Bundle\Model\Configuration;
 
 /**
  * Fetches catalogues from source files. This will only work with local file storage
  * and the actions are read only.
+ *
+ * This should be considered as a "ReadFromCache" service.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -38,13 +41,17 @@ final class CatalogueFetcher
     /**
      * load any existing messages from the translation files.
      *
-     * @param array $locales
-     * @param array $dirs
+     * @param Configuration $config
+     * @param array         $locales
      *
      * @return MessageCatalogue[]
      */
-    public function getCatalogues(array $locales, array $dirs)
+    public function getCatalogues(Configuration $config, array $locales = [])
     {
+        $dirs = $config->getPathsToTranslationFiles();
+        if (empty($locales)) {
+            $locales = $config->getLocales();
+        }
         $catalogues = [];
         foreach ($locales as $locale) {
             $currentCatalogue = new MessageCatalogue($locale);

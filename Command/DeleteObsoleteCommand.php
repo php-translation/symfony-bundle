@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Translation\Bundle\Service\StorageService;
 
 class DeleteObsoleteCommand extends ContainerAwareCommand
 {
@@ -38,20 +37,18 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
-        $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($configName);
+        $locales = [];
         if (null !== $inputLocale = $input->getArgument('locale', null)) {
             $locales = [$inputLocale];
-        } else {
-            $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
 
-        $transPaths = $config->getPathsToTranslationFiles();
-        $catalogueManager = $this->getContainer()->get('php_translation.catalogue_manager');
-        $catalogueManager->load($this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths));
+        $catalogueManager = $container->get('php_translation.catalogue_manager');
+        $config = $container->get('php_translation.configuration_manager')->getConfiguration($configName);
+        $catalogueManager->load($container->get('php_translation.catalogue_fetcher')->getCatalogues($config, $locales));
 
-        /** @var StorageService $storage */
-        $storage = $this->getContainer()->get('php_translation.storage.'.$configName);
+        $storage = $container->get('php_translation.storage.'.$configName);
         $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $helper = $this->getHelper('question');

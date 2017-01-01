@@ -11,16 +11,21 @@
 
 namespace Translation\Bundle\Service;
 
+use Symfony\Component\Translation\MessageCatalogue;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Catalogue\CatalogueWriter;
+use Translation\Bundle\Model\Configuration;
 use Translation\Common\Exception\LogicException;
 use Translation\Common\Model\Message;
 use Translation\Common\Storage;
+use Translation\Common\TransferableStorage;
 
 /**
  * A service that you use to handle the storages.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class StorageService implements Storage
+final class StorageService implements Storage
 {
     const DIRECTION_UP = 'up';
     const DIRECTION_DOWN = 'down';
@@ -36,12 +41,52 @@ class StorageService implements Storage
     private $remoteStorages = [];
 
     /**
+     * @var CatalogueFetcher
+     */
+    private $catalogueFetcher;
+
+    /**
+     * @var CatalogueWriter
+     */
+    private $catalogueWriter;
+
+    /**
+     * @var Configuration
+     */
+    private $config;
+
+    /**
+     * @param CatalogueFetcher $catalogueFetcher
+     * @param CatalogueWriter  $catalogueWriter
+     * @param Configuration    $config
+     */
+    public function __construct(
+        CatalogueFetcher $catalogueFetcher,
+        CatalogueWriter $catalogueWriter,
+        Configuration $config
+    ) {
+        $this->catalogueFetcher = $catalogueFetcher;
+        $this->catalogueWriter = $catalogueWriter;
+        $this->config = $config;
+    }
+
+    /**
      * Download all remote storages into all local storages.
      * This will overwrite your local copy.
      */
     public function download()
     {
-        // TODO
+        $catalogues = [];
+        foreach ($this->config->getLocales() as $locale) {
+            $catalogues[$locale] = new MessageCatalogue($locale);
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->export($catalogues[$locale]);
+                }
+            }
+        }
+
+        $this->catalogueWriter->writeCatalogues($this->config, $catalogues);
     }
 
     /**
@@ -50,7 +95,14 @@ class StorageService implements Storage
      */
     public function upload()
     {
-        // TODO
+        $catalogues = $this->catalogueFetcher->getCatalogues($this->config);
+        foreach ($catalogues as $catalogue) {
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->import($catalogue);
+                }
+            }
+        }
     }
 
     /**
