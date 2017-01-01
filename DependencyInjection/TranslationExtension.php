@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\Kernel;
-use Translation\Bundle\Model\Configuration;
+use Translation\Bundle\Model\Configuration as ConfigurationModel;
 use Translation\Bundle\Service\StorageService;
 
 /**
@@ -99,8 +99,10 @@ class TranslationExtension extends Extension
             }
             $c['name'] = $name;
             $c['locales'] = $config['locales'];
-            $configDef = (new Definition(Configuration::class))->addArgument($c);
-            $configurationManager->addMethodCall('addConfiguration', [$configDef]);
+            $configurationServiceId = 'php_translation.configuration.'.$name;
+            $configDef = $container->register($configurationServiceId, ConfigurationModel::class);
+            $configDef->setPublic(false)->addArgument($c);
+            $configurationManager->addMethodCall('addConfiguration', [new Reference($configurationServiceId)]);
 
             /*
              * Configure storage service
