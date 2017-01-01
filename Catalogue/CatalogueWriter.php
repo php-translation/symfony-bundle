@@ -22,7 +22,7 @@ use Translation\Bundle\Model\Configuration;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class CatalogueWriter
+final class CatalogueWriter
 {
     /**
      * @var TranslationWriter

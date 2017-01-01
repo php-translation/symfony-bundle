@@ -20,7 +20,7 @@ use Translation\Translator\TranslatorService;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class FallbackTranslatorTest extends \PHPUnit_Framework_TestCase
+final class FallbackTranslatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testTranslateWithSubstitutedParameters()
     {

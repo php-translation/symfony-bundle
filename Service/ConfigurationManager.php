@@ -18,7 +18,7 @@ use Translation\Bundle\Model\Configuration;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class ConfigurationManager
+final class ConfigurationManager
 {
     /**
      * @var Configuration[]
