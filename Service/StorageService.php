@@ -76,33 +76,9 @@ final class StorageService implements Storage
      */
     public function download()
     {
-        $catalogues = [];
-        foreach ($this->config->getLocales() as $locale) {
-            $catalogues[$locale] = new MessageCatalogue($locale);
-            foreach ($this->remoteStorages as $storage) {
-                if ($storage instanceof TransferableStorage) {
-                    $storage->export($catalogues[$locale]);
-                }
-            }
-        }
+        $catalogues = $this->doDownload();
 
         $this->catalogueWriter->writeCatalogues($this->config, $catalogues);
-    }
-
-    /**
-     * Upload all local storages into all remote storages
-     * This will overwrite your remote copy.
-     */
-    public function upload()
-    {
-        $catalogues = $this->catalogueFetcher->getCatalogues($this->config);
-        foreach ($catalogues as $catalogue) {
-            foreach ($this->remoteStorages as $storage) {
-                if ($storage instanceof TransferableStorage) {
-                    $storage->import($catalogue);
-                }
-            }
-        }
     }
 
     /**
@@ -130,16 +106,34 @@ final class StorageService implements Storage
      */
     public function mergeDown()
     {
-        // TODO
+        $catalogues = $this->doDownload();
+
+        foreach ($catalogues as $locale => $catalogue) {
+            foreach ($catalogue->all() as $domain => $messages) {
+                foreach ($messages as $key => $translation) {
+                    $message = new Message($key, $domain, $locale, $translation);
+                    $this->updateStorages($this->localStorages, $message);
+                }
+            }
+        }
     }
 
     /**
      * Upload and merge all translations from local storages up to your remote storages.
      * Only the remote storages will be changed.
+     *
+     * This will overwrite your remote copy.
      */
     public function mergeUp()
     {
-        // TODO
+        $catalogues = $this->catalogueFetcher->getCatalogues($this->config);
+        foreach ($catalogues as $catalogue) {
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->import($catalogue);
+                }
+            }
+        }
     }
 
     /**
@@ -307,5 +301,25 @@ final class StorageService implements Storage
         $this->remoteStorages[] = $remoteStorage;
 
         return $this;
+    }
+
+    /**
+     * Download catalogues from all storages.
+     *
+     * @return MessageCatalogue[]
+     */
+    private function doDownload()
+    {
+        $catalogues = [];
+        foreach ($this->config->getLocales() as $locale) {
+            $catalogues[$locale] = new MessageCatalogue($locale);
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->export($catalogues[$locale]);
+                }
+            }
+        }
+
+        return $catalogues;
     }
 }
