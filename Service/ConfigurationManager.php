@@ -11,35 +11,40 @@
 
 namespace Translation\Bundle\Service;
 
+use Translation\Bundle\Model\Configuration;
+
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class ConfigurationManager
 {
     /**
-     * @var array name => config
+     * @var Configuration[]
      */
     private $configuration = [];
 
     /**
-     * @param array $configuration
+     * @param string $name
+     * @param Configuration $configuration
      */
-    public function __construct(array $configuration)
+    public function addConfiguration($name, Configuration $configuration)
     {
-        $this->configuration = $configuration;
+        $this->configuration[$name] = $configuration;
     }
 
     /**
-     * @return array
+     * @param string $name
+     *
+     * @return null|Configuration
      */
-    public function getConfiguration($name)
+    public function getConfiguration($name = 'default')
     {
         if (!isset($this->configuration[$name])) {
             if ($name === 'default') {
                 return $this->getConfiguration($this->getFirstName());
             }
 
-            return [];
+            return null;
         }
 
         return $this->configuration[$name];

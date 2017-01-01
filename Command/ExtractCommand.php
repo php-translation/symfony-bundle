@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
+use Translation\Bundle\Model\Configuration;
 
 class ExtractCommand extends ContainerAwareCommand
 {
@@ -45,18 +46,22 @@ class ExtractCommand extends ContainerAwareCommand
             $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
 
-        $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
+        $transPaths = $config->getPathsToTranslationFiles();
         $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
         $finder = $this->getConfiguredFinder($config);
-        $results = $importer->extractToCatalogues($finder, $catalogues, $config);
+        $results = $importer->extractToCatalogues($finder, $catalogues, [
+            'blacklist_domains'=>$config->getBlacklistDomains(),
+            'whitelist_domains'=>$config->getWhitelistDomains(),
+            'project_root'=>$config->getProjectRoot(),
+        ]);
 
         $writer = $this->getContainer()->get('translation.writer');
         foreach ($results as $result) {
             $writer->writeTranslations(
                 $result,
-                $config['output_format'],
+                $config->getOutputFormat(),
                 [
-                    'path' => $config['output_dir'],
+                    'path' => $config->getOutputDir(),
                     'default_locale' => $this->getContainer()->getParameter('php_translation.default_locale'),
                 ]
             );
@@ -64,22 +69,22 @@ class ExtractCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param array $configuration
+     * @param Configuration $configuration
      *
      * @return Finder
      */
-    private function getConfiguredFinder(array $config)
+    private function getConfiguredFinder(Configuration $config)
     {
         // 'dirs', 'excluded_dirs', 'excluded_names'
 
         $finder = new Finder();
-        $finder->in($config['dirs']);
+        $finder->in($config->getDirs());
 
-        foreach ($config['excluded_dirs'] as $exclude) {
+        foreach ($config->getExcludedDirs() as $exclude) {
             $finder->notPath($exclude);
         }
 
-        foreach ($config['excluded_names'] as $exclude) {
+        foreach ($config->getExcludedNames() as $exclude) {
             $finder->notName($exclude);
         }
 
