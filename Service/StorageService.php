@@ -11,9 +11,11 @@
 
 namespace Translation\Bundle\Service;
 
+use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Common\Exception\LogicException;
 use Translation\Common\Model\Message;
 use Translation\Common\Storage;
+use Translation\Common\TransferableStorage;
 
 /**
  * A service that you use to handle the storages.
@@ -36,21 +38,61 @@ class StorageService implements Storage
     private $remoteStorages = [];
 
     /**
+     * @var CatalogueFetcher
+     */
+    private $catalogueFetcher;
+
+    /**
+     *
+     * @param CatalogueFetcher $catalogueFetcher
+     */
+    public function __construct(CatalogueFetcher $catalogueFetcher)
+    {
+        $this->catalogueFetcher = $catalogueFetcher;
+    }
+
+
+    /**
      * Download all remote storages into all local storages.
      * This will overwrite your local copy.
+     *
+     * @param string $configName
      */
-    public function download()
+    public function download($configName)
     {
-        // TODO
+        $config = $this->configManager->getConfiguration($configName);
+        $locales = $config['locales'];
+        foreach ($locales as $locale) {
+            $catalogue[$locale] = new MessageCatalogue($locale);
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->export($catalogue[$locale]);
+                }
+            }
+        }
+
+        //TODO write catalogues
     }
 
     /**
      * Upload all local storages into all remote storages
      * This will overwrite your remote copy.
+     *
+     * @param string $configName
      */
-    public function upload()
+    public function upload($configName)
     {
-        // TODO
+        $config = $this->configManager->getConfiguration($configName);
+        $transPaths = array_merge($config['external_translations_dirs'], [$config['output_dir']]);
+
+        $catalogues = $this->catalogueFetcher->getCatalogues($config['locales'], $transPaths);
+        foreach ($catalogues as $catalogue) {
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->import($catalogue);
+                }
+            }
+        }
     }
 
     /**
