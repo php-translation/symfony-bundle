@@ -41,9 +41,8 @@ class WebUIController extends Controller
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
-        $config = $this->getConfiguration($configName);
         $localeMap = $this->getLocale2LanguageMap();
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues(array_keys($localeMap), [$config->getOutputDir()]);
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configName);
 
         $catalogueSize = [];
         $maxDomainSize = [];
@@ -94,12 +93,10 @@ class WebUIController extends Controller
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
-        $config = $this->getConfiguration($configName);
-        $locales = $this->getParameter('php_translation.locales');
 
         // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($locales, [$config->getOutputDir()]));
+        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($configName));
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
@@ -111,7 +108,7 @@ class WebUIController extends Controller
             'messages' => $messages,
             'domains' => $catalogueManager->getDomains(),
             'currentDomain' => $domain,
-            'locales' => $locales,
+            'locales' => $this->getParameter('php_translation.locales'),
             'currentLocale' => $locale,
             'configName' => $configName,
             'configNames' => $this->get('php_translation.configuration_manager')->getNames(),

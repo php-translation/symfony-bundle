@@ -37,17 +37,16 @@ class ExtractCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($input->getArgument('configuration'));
+        $configName = $input->getArgument('configuration');
+        $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($configName);
         $importer = $this->getContainer()->get('php_translation.importer');
 
+        $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
-        } else {
-            $locales = $this->getContainer()->getParameter('php_translation.locales');
         }
 
-        $transPaths = $config->getPathsToTranslationFiles();
-        $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($locales, $transPaths);
+        $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($configName, $locales);
         $finder = $this->getConfiguredFinder($config);
         $results = $importer->extractToCatalogues($finder, $catalogues, [
             'blacklist_domains' => $config->getBlacklistDomains(),

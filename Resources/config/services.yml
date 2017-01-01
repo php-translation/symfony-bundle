@@ -1,11 +1,16 @@
 services:
   php_translation.catalogue_fetcher:
     class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.loader"]
+    arguments: ["@translation.loader", "@php_translation.configuration_manager"]
 
   php_translation.catalogue_writer:
     class: Translation\Bundle\Catalogue\CatalogueWriter
     arguments: ["@translation.writer", "@php_translation.configuration_manager", "%php_translation.default_locale%"]
+
+  php_translation.storage.abstract:
+    class: Translation\Bundle\Service\StorageService
+    abstract: true
+    arguments: ["@php_translation.catalogue_fetcher", "@php_translation.catalogue_fetcher", ~]
 
   php_translation.catalogue_manager:
     class: Translation\Bundle\Catalogue\CatalogueManager

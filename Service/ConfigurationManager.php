@@ -42,7 +42,7 @@ class ConfigurationManager
     public function getConfiguration($name = 'default')
     {
         if (!isset($this->configuration[$name])) {
-            if ($name === 'default') {
+            if ($name === 'default' || empty($name)) {
                 return $this->getConfiguration($this->getFirstName());
             }
 
