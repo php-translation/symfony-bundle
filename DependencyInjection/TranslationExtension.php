@@ -107,7 +107,8 @@ class TranslationExtension extends Extension
              * Configure storage service
              */
             $storageDefinition = $container->register('php_translation.storage.'.$name, StorageService::class);
-            $storageDefinition->addArgument(new Reference('php_translation.catalogue_fetcher'));
+            $storageDefinition->addArgument(new Reference('php_translation.catalogue_fetcher'))
+                ->addArgument(new Reference($configurationServiceId));
 
             // Register a file storage
             $def = new DefinitionDecorator('php_translation.single_storage.file.abstract');

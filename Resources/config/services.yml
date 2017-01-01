@@ -1,7 +1,11 @@
 services:
   php_translation.catalogue_fetcher:
-    class: Translation\Bundle\Service\CatalogueFetcher
+    class: Translation\Bundle\Catalogue\CatalogueFetcher
     arguments: ["@translation.loader"]
+
+  php_translation.catalogue_writer:
+    class: Translation\Bundle\Catalogue\CatalogueWriter
+    arguments: ["@translation.writer", "@php_translation.configuration_manager", "%php_translation.default_locale%"]
 
   php_translation.catalogue_manager:
     class: Translation\Bundle\Catalogue\CatalogueManager

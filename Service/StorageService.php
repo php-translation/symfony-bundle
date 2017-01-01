@@ -12,6 +12,9 @@
 namespace Translation\Bundle\Service;
 
 use Symfony\Component\Translation\MessageCatalogue;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Catalogue\CatalogueWriter;
+use Translation\Bundle\Model\Configuration;
 use Translation\Common\Exception\LogicException;
 use Translation\Common\Model\Message;
 use Translation\Common\Storage;
@@ -43,6 +46,11 @@ final class StorageService implements Storage
     private $catalogueFetcher;
 
     /**
+     * @var CatalogueWriter
+     */
+    private $catalogueWriter;
+
+    /**
      * @var Configuration
      */
     private $config;
@@ -50,42 +58,42 @@ final class StorageService implements Storage
     /**
      *
      * @param CatalogueFetcher $catalogueFetcher
+     * @param CatalogueWriter $catalogueWriter
      * @param Configuration $config
      */
-    public function __construct(CatalogueFetcher $catalogueFetcher, Configuration $config)
-    {
+    public function __construct(
+        CatalogueFetcher $catalogueFetcher,
+        CatalogueWriter $catalogueWriter,
+        Configuration $config
+    ) {
         $this->catalogueFetcher = $catalogueFetcher;
+        $this->catalogueWriter = $catalogueWriter;
         $this->config = $config;
     }
-
 
     /**
      * Download all remote storages into all local storages.
      * This will overwrite your local copy.
-     *
-     * @param string $configName
      */
-    public function download($configName)
+    public function download()
     {
         foreach ($this->config->getLocales() as $locale) {
-            $catalogue[$locale] = new MessageCatalogue($locale);
+            $catalogues[$locale] = new MessageCatalogue($locale);
             foreach ($this->remoteStorages as $storage) {
                 if ($storage instanceof TransferableStorage) {
-                    $storage->export($catalogue[$locale]);
+                    $storage->export($catalogues[$locale]);
                 }
             }
         }
 
-        //TODO write catalogues
+        $this->catalogueWriter->writeCatalogues($this->config->getName(), $catalogues);
     }
 
     /**
      * Upload all local storages into all remote storages
      * This will overwrite your remote copy.
-     *
-     * @param string $configName
      */
-    public function upload($configName)
+    public function upload()
     {
         $catalogues = $this->catalogueFetcher->getCatalogues($this->config->getLocales(), $this->config->getPathsToTranslationFiles());
         foreach ($catalogues as $catalogue) {
