@@ -77,6 +77,7 @@ final class StorageService implements Storage
      */
     public function download()
     {
+        $catalogues = [];
         foreach ($this->config->getLocales() as $locale) {
             $catalogues[$locale] = new MessageCatalogue($locale);
             foreach ($this->remoteStorages as $storage) {
@@ -86,7 +87,7 @@ final class StorageService implements Storage
             }
         }
 
-        $this->catalogueWriter->writeCatalogues($this->config->getName(), $catalogues);
+        $this->catalogueWriter->writeCatalogues($this->config, $catalogues);
     }
 
     /**
@@ -95,7 +96,7 @@ final class StorageService implements Storage
      */
     public function upload()
     {
-        $catalogues = $this->catalogueFetcher->getCatalogues($this->config->getLocales(), $this->config->getPathsToTranslationFiles());
+        $catalogues = $this->catalogueFetcher->getCatalogues($this->config);
         foreach ($catalogues as $catalogue) {
             foreach ($this->remoteStorages as $storage) {
                 if ($storage instanceof TransferableStorage) {

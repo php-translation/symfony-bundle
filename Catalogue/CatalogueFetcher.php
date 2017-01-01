@@ -13,7 +13,7 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
-use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Model\Configuration;
 
 /**
  * Fetches catalogues from source files. This will only work with local file storage
@@ -31,34 +31,23 @@ final class CatalogueFetcher
     private $loader;
 
     /**
-     * @var ConfigurationManager
+     * @param TranslationLoader    $loader
      */
-    private $configManager;
-
-    /**
-     *
-     * @param TranslationLoader $loader
-     * @param ConfigurationManager $configManager
-     */
-    public function __construct(
-        TranslationLoader $loader,
-        ConfigurationManager $configManager
-    ) {
+    public function __construct(TranslationLoader $loader)
+    {
         $this->loader = $loader;
-        $this->configManager = $configManager;
     }
 
     /**
      * load any existing messages from the translation files.
      *
-     * @param string $configName
-     * @param array  $locales
+     * @param Configuration $config
+     * @param array         $locales
      *
      * @return MessageCatalogue[]
      */
-    public function getCatalogues($configName, array $locales = [])
+    public function getCatalogues(Configuration $config, array $locales = [])
     {
-        $config = $this->configManager->getConfiguration($configName);
         $dirs = $config->getPathsToTranslationFiles();
         if (empty($locales)) {
             $locales = $config->getLocales();

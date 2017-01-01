@@ -41,8 +41,9 @@ class WebUIController extends Controller
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
+        $configurationManager = $this->get('php_translation.configuration_manager');
         $localeMap = $this->getLocale2LanguageMap();
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configName);
+        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($configurationManager->getConfiguration($configName));
 
         $catalogueSize = [];
         $maxDomainSize = [];
@@ -75,7 +76,7 @@ class WebUIController extends Controller
             'maxCatalogueSize' => $maxCatalogueSize,
             'localeMap' => $localeMap,
             'configName' => $configName,
-            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'configNames' => $configurationManager->getNames(),
         ]);
     }
 
@@ -93,16 +94,18 @@ class WebUIController extends Controller
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
+        $configurationManager = $this->get('php_translation.configuration_manager');
 
         // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($configName));
+        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($configurationManager->getConfiguration($configName)));
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
         usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
             return strcmp($a->getKey(), $b->getKey());
         });
+
 
         return $this->render('TranslationBundle:WebUI:show.html.twig', [
             'messages' => $messages,
@@ -111,7 +114,7 @@ class WebUIController extends Controller
             'locales' => $this->getParameter('php_translation.locales'),
             'currentLocale' => $locale,
             'configName' => $configName,
-            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'configNames' => $configurationManager->getNames(),
             'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
             'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
         ]);

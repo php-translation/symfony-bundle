@@ -37,16 +37,17 @@ class ExtractCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
-        $config = $this->getContainer()->get('php_translation.configuration_manager')->getConfiguration($configName);
-        $importer = $this->getContainer()->get('php_translation.importer');
+        $config = $container->get('php_translation.configuration_manager')->getConfiguration($configName);
+        $importer = $container->get('php_translation.importer');
 
         $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
         }
 
-        $catalogues = $this->getContainer()->get('php_translation.catalogue_fetcher')->getCatalogues($configName, $locales);
+        $catalogues = $container->get('php_translation.catalogue_fetcher')->getCatalogues($config, $locales);
         $finder = $this->getConfiguredFinder($config);
         $results = $importer->extractToCatalogues($finder, $catalogues, [
             'blacklist_domains' => $config->getBlacklistDomains(),
@@ -54,14 +55,14 @@ class ExtractCommand extends ContainerAwareCommand
             'project_root' => $config->getProjectRoot(),
         ]);
 
-        $writer = $this->getContainer()->get('translation.writer');
+        $writer = $container->get('translation.writer');
         foreach ($results as $result) {
             $writer->writeTranslations(
                 $result,
                 $config->getOutputFormat(),
                 [
                     'path' => $config->getOutputDir(),
-                    'default_locale' => $this->getContainer()->getParameter('php_translation.default_locale'),
+                    'default_locale' => $container->getParameter('php_translation.default_locale'),
                 ]
             );
         }

@@ -11,10 +11,9 @@
 
 namespace Translation\Bundle\Catalogue;
 
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
-use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Model\Configuration;
 
 /**
  * Write catalogues back to disk.
@@ -31,11 +30,6 @@ class CatalogueWriter
     private $writer;
 
     /**
-     * @var ConfigurationManager
-     */
-    private $configManager;
-
-    /**
      * @var string
      */
     private $defaultLocale;
@@ -43,27 +37,23 @@ class CatalogueWriter
     /**
      *
      * @param TranslationWriter $writer
-     * @param ConfigurationManager $configManager
      * @param string $defaultLocale
      */
     public function __construct(
         TranslationWriter $writer,
-        ConfigurationManager $configManager,
         $defaultLocale
     ) {
         $this->writer = $writer;
-        $this->configManager = $configManager;
         $this->defaultLocale = $defaultLocale;
     }
 
 
     /**
-     * @param string $configName
+     * @param Configuration $config
      * @param MessageCatalogue[] $catalogues
      */
-    public function writeCatalogues($configName, array $catalogues)
+    public function writeCatalogues(Configuration $config, array $catalogues)
     {
-        $config = $this->configManager->getConfiguration($configName);
         foreach ($catalogues as $catalogue) {
             $this->writer->writeTranslations(
                 $catalogue,
