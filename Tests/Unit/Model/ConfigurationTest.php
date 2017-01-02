@@ -9,15 +9,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     public function testAccessors()
     {
         $key2Function = $this->getDefaultData();
+        $conf = new Configuration($key2Function);
 
-        $data = [];
-        foreach ($key2Function as $key => $func) {
-            $data[$key] = $key;
-        }
-        $conf = new Configuration($data);
-
-        foreach ($key2Function as $key => $func) {
-            $this->assertEquals($key, call_user_func([$conf, $func]));
+        foreach ($key2Function as $key => $value) {
+            $func = $value;
+            if (is_array($func)) {
+                $func = reset($func);
+            }
+            $this->assertEquals($value, call_user_func([$conf, $func]));
         }
     }
 
