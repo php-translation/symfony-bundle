@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Translation\Bundle\Model\SfProfilerMessage;
+use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\Message;
 
 /**
@@ -40,6 +41,7 @@ class SymfonyProfilerController extends Controller
         }
 
         $message = $this->getMessage($request, $token);
+        /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage');
 
         if ($request->isMethod('GET')) {
