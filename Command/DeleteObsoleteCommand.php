@@ -17,15 +17,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class DeleteObsoleteCommand extends ContainerAwareCommand
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
     protected function configure()
     {
         $this

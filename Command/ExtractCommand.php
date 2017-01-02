@@ -15,17 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Model\Configuration;
 
+/**
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class ExtractCommand extends ContainerAwareCommand
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
     protected function configure()
     {
         $this
@@ -38,16 +35,18 @@ class ExtractCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $configName = $input->getArgument('configuration');
-        $config = $container->get('php_translation.configuration_manager')->getConfiguration($configName);
         $importer = $container->get('php_translation.importer');
+        $config = $container->get('php_translation.configuration_manager')
+            ->getConfiguration($input->getArgument('configuration'));
 
         $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
         }
 
-        $catalogues = $container->get('php_translation.catalogue_fetcher')->getCatalogues($config, $locales);
+        $catalogues = $container->get('php_translation.catalogue_fetcher')
+            ->getCatalogues($config, $locales);
+
         $finder = $this->getConfiguredFinder($config);
         $results = $importer->extractToCatalogues($finder, $catalogues, [
             'blacklist_domains' => $config->getBlacklistDomains(),
@@ -55,17 +54,8 @@ class ExtractCommand extends ContainerAwareCommand
             'project_root' => $config->getProjectRoot(),
         ]);
 
-        $writer = $container->get('translation.writer');
-        foreach ($results as $result) {
-            $writer->writeTranslations(
-                $result,
-                $config->getOutputFormat(),
-                [
-                    'path' => $config->getOutputDir(),
-                    'default_locale' => $container->getParameter('php_translation.default_locale'),
-                ]
-            );
-        }
+        $container->get('php_translation.catalogue_writer')
+            ->writeCatalogues($config, $results);
     }
 
     /**
