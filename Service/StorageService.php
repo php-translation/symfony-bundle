@@ -148,10 +148,13 @@ final class StorageService implements Storage
      */
     public function syncAndFetchMessage($locale, $domain, $key)
     {
-        $message = $this->getFromStorages($this->remoteStorages, $locale, $domain, $key);
-        if (!$message) {
-            // If message is not in remote storages
+        if (null === $message = $this->getFromStorages($this->remoteStorages, $locale, $domain, $key)) {
+            // If message is not in remote storages, try local
             $message = $this->getFromStorages($this->localStorages, $locale, $domain, $key);
+        }
+
+        if (!$message) {
+            return;
         }
 
         $this->updateStorages($this->localStorages, $message);
@@ -184,7 +187,7 @@ final class StorageService implements Storage
      *
      * @return null|Message
      */
-    private function getFromStorages($storages, $locale, $domain, $key)
+    private function getFromStorages(array $storages, $locale, $domain, $key)
     {
         foreach ($storages as $storage) {
             $value = $storage->get($locale, $domain, $key);
@@ -204,24 +207,16 @@ final class StorageService implements Storage
      */
     public function create(Message $message)
     {
-        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
-            $this->createStorages($storages, $message);
-        }
-    }
-
-    /**
-     * @param Storage[] $storages
-     * @param Message   $message
-     */
-    private function createStorages($storages, Message $message)
-    {
         // Validate if message actually has data
         if (empty((array) $message)) {
             return;
         }
 
-        foreach ($storages as $storage) {
-            $storage->update($message);
+        foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
+            /** @var Storage $storage */
+            foreach ($storages as $storage) {
+                $storage->create($message);
+            }
         }
     }
 
@@ -242,7 +237,7 @@ final class StorageService implements Storage
      * @param Storage[] $storages
      * @param Message   $message
      */
-    private function updateStorages($storages, Message $message)
+    private function updateStorages(array $storages, Message $message)
     {
         // Validate if message actually has data
         if (empty((array) $message)) {
@@ -262,20 +257,10 @@ final class StorageService implements Storage
     public function delete($locale, $domain, $key)
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
-            $this->deleteFromStorages($storages, $locale, $domain, $key);
-        }
-    }
-
-    /**
-     * @param Storage[] $storages
-     * @param string    $locale
-     * @param string    $domain
-     * @param string    $key
-     */
-    private function deleteFromStorages($storages, $locale, $domain, $key)
-    {
-        foreach ($storages as $storage) {
-            $storage->delete($locale, $domain, $key);
+            /** @var Storage $storage */
+            foreach ($storages as $storage) {
+                $storage->delete($locale, $domain, $key);
+            }
         }
     }
 
