@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
         $container = $this->container;
         $root->children()
             ->arrayNode('configs')
+            ->addDefaultChildrenIfNoneSet('default')
                 ->useAttributeAsKey('name')
                 ->prototype('array')
                     ->fixXmlConfig('dir', 'dirs')
@@ -84,8 +85,7 @@ class Configuration implements ConfigurationInterface
                     ->fixXmlConfig('whitelist_domain')
                     ->children()
                         ->arrayNode('dirs')
-                            ->info('Directories we should scan for translation files')
-                            ->requiresAtLeastOneElement()
+                            ->info('Directories we should scan for translations')
                             ->prototype('scalar')
                                 ->validate()
                                     ->always(function ($value) use ($container) {
@@ -140,7 +140,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Service ids with to classes that supports local storage of translations.')
                             ->prototype('scalar')->end()
                         ->end()
-                        ->scalarNode('output_dir')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('output_dir')->isRequired()->cannotBeEmpty()->defaultValue('%kernel.root_dir%/Resources/translations')->end()
                         ->scalarNode('project_root')->info("The root dir of your project. By default this will be kernel_root's parent. ")->end()
                     ->end()
                 ->end()

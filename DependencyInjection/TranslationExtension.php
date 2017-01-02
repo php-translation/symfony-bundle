@@ -100,7 +100,7 @@ class TranslationExtension extends Extension
             $configurationServiceId = 'php_translation.configuration.'.$name;
             $configDef = $container->register($configurationServiceId, ConfigurationModel::class);
             $configDef->setPublic(false)->addArgument($c);
-            $configurationManager->addMethodCall('addConfiguration', [new Reference($configurationServiceId)]);
+            $configurationManager->addMethodCall('addConfiguration', [$name, new Reference($configurationServiceId)]);
 
             /*
              * Configure storage service
@@ -131,7 +131,9 @@ class TranslationExtension extends Extension
         if ($first !== null) {
             // Create some aliases for the default storage
             $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
-            $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+            if ($first !== 'default') {
+                $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+            }
         }
     }
 
