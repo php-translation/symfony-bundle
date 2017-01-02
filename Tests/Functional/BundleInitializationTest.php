@@ -17,10 +17,16 @@ class BundleInitializationTest extends BaseTestCase
 {
     public function testRegisterBundle()
     {
-        static::bootKernel();
-        $container = static::$kernel->getContainer();
+        $this->bootKernel();
+        $container = $this->getContainer();
         $this->assertTrue($container->has('php_translation.configuration_manager'));
         $config = $container->get('php_translation.configuration_manager');
         $this->assertInstanceOf(ConfigurationManager::class, $config);
+
+        $default = $config->getConfiguration();
+        $root = $container->getParameter('kernel.root_dir');
+        $this->assertEquals($root.'/Resources/translations', $default->getOutputDir());
+
+        $this->assertTrue($container->has('php_translation.storage'));
     }
 }

@@ -20,10 +20,12 @@ class AppKernel extends Kernel
 {
     private $config;
 
-    public function __construct($config)
+    private $cachePrefix = '';
+
+    public function __construct($cachePrefix, $config)
     {
         parent::__construct('test', true);
-
+        $this->cachePrefix = $cachePrefix;
         $fs = new Filesystem();
 
         if (!$fs->isAbsolutePath($config)) {
@@ -53,16 +55,6 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return sys_get_temp_dir().'/TranslationBundle';
-    }
-
-    public function serialize()
-    {
-        return $this->config;
-    }
-
-    public function unserialize($config)
-    {
-        $this->__construct($config);
+        return sys_get_temp_dir().'/TranslationBundle/'.$this->cachePrefix;
     }
 }

@@ -20,7 +20,7 @@ class EditInPlaceTest extends BaseTestCase
 {
     public function testDeactivatedTest()
     {
-        $kernel = self::createKernel();
+        $kernel = $this->createKernel();
         $request = Request::create('/foobar');
         $response = $kernel->handle($request);
 
@@ -30,7 +30,7 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testActivatedTest()
     {
-        $kernel = self::createKernel();
+        $kernel = $this->createKernel();
         $request = Request::create('/foobar');
 
         // Activate the feature
