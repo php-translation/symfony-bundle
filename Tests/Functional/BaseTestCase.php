@@ -16,8 +16,6 @@ use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Tests\Functional\app\AppKernel;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
