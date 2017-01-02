@@ -27,6 +27,6 @@ services:
     arguments: ["@php_translation.extractor"]
 
   php_translation.single_storage.file.abstract:
-    class: Translation\Bundle\Storage\FileStorage
+    class: Translation\SymfonyStorage\FileStorage
     abstract: true
     arguments: ["@translation.writer", "@translation.loader", ~]
