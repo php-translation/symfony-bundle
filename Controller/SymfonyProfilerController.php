@@ -66,34 +66,16 @@ class SymfonyProfilerController extends Controller
      *
      * @return Response
      */
-    public function flagAction(Request $request, $token)
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('_profiler', ['token' => $token]);
-        }
-
-        $message = $this->getMessage($request, $token);
-
-        // TODO
-        $saved = false;
-
-        return new Response($saved ? 'OK' : 'ERROR');
-    }
-
-    /**
-     * @param Request $request
-     * @param string  $token
-     *
-     * @return Response
-     */
     public function syncAction(Request $request, $token)
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage');
         $sfMessage = $this->getMessage($request, $token);
-        $message = $this->get('php_translation.storage')->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
+        $message = $storage->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
         if ($message !== null) {
             return new Response($message->getTranslation());
@@ -114,7 +96,9 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        $this->get('php_translation.storage')->sync();
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage');
+        $storage->sync();
 
         return new Response('Started synchronization of all translations');
     }
@@ -141,11 +125,11 @@ class SymfonyProfilerController extends Controller
         }
 
         $uploaded = [];
-        $trans = $this->get('php_translation.storage');
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage');
         foreach ($messages as $message) {
-            if ($trans->update($message)) {
-                $uploaded[] = $message;
-            }
+            $storage->create($message);
+            $uploaded[] = $message;
         }
 
         return new Response(sprintf('%s new assets created!', count($uploaded)));
@@ -157,7 +141,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return SfProfilerMessage
      */
-    protected function getMessage(Request $request, $token)
+    private function getMessage(Request $request, $token)
     {
         $profiler = $this->get('profiler');
         $profiler->disable();
@@ -183,7 +167,7 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @return array
+     * @return Message[]
      */
     protected function getSelectedMessages(Request $request, $token)
     {
@@ -204,7 +188,7 @@ class SymfonyProfilerController extends Controller
             //We do not want do add the placeholder to Loco. That messes up the stats.
             $data['translation'] = '';
 
-            $messages[] = new Message($data);
+            $messages[] = SfProfilerMessage::create($data)->convertToMessage();
         }
 
         return $messages;
