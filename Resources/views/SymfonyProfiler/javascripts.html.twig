@@ -1,10 +1,7 @@
 <script type="text/javascript">
-    var translationFlagUrl = "{{ path('php_translation_profiler_translation_flag', {'token': token}) }}";
     var translationSyncUrl = "{{ path('php_translation_profiler_translation_sync', {'token': token}) }}";
     var translationSyncAllUrl = "{{ path('php_translation_profiler_translation_sync_all', {'token': token}) }}";
     var translationEditUrl = "{{ path('php_translation_profiler_translation_edit', {'token': token}) }}";
 </script>
-
-
 
 <script type="text/javascript" src="{{ asset('bundles/translation/js/symfonyProfiler.js') }}"></script>

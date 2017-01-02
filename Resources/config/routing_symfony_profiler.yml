@@ -4,11 +4,6 @@ php_translation_profiler_translation_edit:
   methods: ["GET", "POST"]
   defaults:  { _controller: TranslationBundle:SymfonyProfiler:edit }
 
-php_translation_profiler_translation_flag:
-  path: /{token}/translation/flag
-  methods: ["POST"]
-  defaults:  { _controller: TranslationBundle:SymfonyProfiler:flag }
-
 php_translation_profiler_translation_sync:
   path: /{token}/translation/sync
   methods: ["POST"]

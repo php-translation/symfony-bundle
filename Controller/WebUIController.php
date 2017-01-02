@@ -42,7 +42,8 @@ class WebUIController extends Controller
             return new Response('You are not allowed here. Check you config. ', 400);
         }
 
-        $config = $this->getConfiguration($configName);
+        $configManager = $this->get('php_translation.configuration_manager');
+        $config = $configManager->getConfiguration($configName);
         $localeMap = $this->getLocale2LanguageMap();
         $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($config);
 
@@ -76,8 +77,8 @@ class WebUIController extends Controller
             'maxDomainSize' => $maxDomainSize,
             'maxCatalogueSize' => $maxCatalogueSize,
             'localeMap' => $localeMap,
-            'configName' => $configName,
-            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'configName' => $config->getName(),
+            'configNames' => $configManager->getNames(),
         ]);
     }
 
@@ -95,7 +96,8 @@ class WebUIController extends Controller
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
-        $config = $this->getConfiguration($configName);
+        $configManager = $this->get('php_translation.configuration_manager');
+        $config = $configManager->getConfiguration($configName);
 
         // Get a catalogue manager and load it with all the catalogues
         $catalogueManager = $this->get('php_translation.catalogue_manager');
@@ -113,8 +115,8 @@ class WebUIController extends Controller
             'currentDomain' => $domain,
             'locales' => $this->getParameter('php_translation.locales'),
             'currentLocale' => $locale,
-            'configName' => $configName,
-            'configNames' => $this->get('php_translation.configuration_manager')->getNames(),
+            'configName' => $config->getName(),
+            'configNames' => $configManager->getNames(),
             'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
             'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
         ]);
@@ -210,28 +212,6 @@ class WebUIController extends Controller
         $storage->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
-    }
-
-    /**
-     * @param string $configName
-     *
-     * @return null|\Translation\Bundle\Model\Configuration
-     */
-    private function getConfiguration(&$configName)
-    {
-        $configurationManager = $this->get('php_translation.configuration_manager');
-        $configName = $configName !== null ? $configName : $configurationManager->getFirstName();
-        if ($configName === null) {
-            throw new \LogicException('You must configure at least one key under translation.configs');
-        }
-
-        $config = $configurationManager->getConfiguration($configName);
-
-        if (empty($config)) {
-            throw $this->createNotFoundException('No translation configuration named "'.$configName.'" was found.');
-        }
-
-        return $config;
     }
 
     /**

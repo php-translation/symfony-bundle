@@ -15,23 +15,6 @@ function clearState(key) {
     }
 }
 
-function flagMessage(key) {
-    Sfjs.request(
-        translationFlagUrl,
-        function(xhr) {
-            // Success
-            var el = document.getElementById(key).getElementsByClassName("flag");
-            el[0].innerHTML = "Flag - OK";
-        },
-        function(xhr) {
-            // Error
-            console.log("Flagging message "+key+" - Error");
-        },
-        serializeQueryString({message_id: key}),
-        { method: 'POST' }
-    );
-}
-
 function syncMessage(key) {
     Sfjs.request(
         translationSyncUrl,
