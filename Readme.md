@@ -4,6 +4,7 @@
 [![Build Status](https://img.shields.io/travis/php-translation/symfony-bundle.svg?style=flat-square)](https://travis-ci.org/php-translation/symfony-bundle)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/php-translation/symfony-bundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-translation/symfony-bundle)
 [![Quality Score](https://img.shields.io/scrutinizer/g/php-translation/symfony-bundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/php-translation/symfony-bundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c289ebe2-41c4-429f-afba-de2f905b9bdb/mini.png)](https://insight.sensiolabs.com/projects/c289ebe2-41c4-429f-afba-de2f905b9bdb)
 [![Total Downloads](https://img.shields.io/packagist/dt/php-translation/symfony-bundle.svg?style=flat-square)](https://packagist.org/packages/php-translation/symfony-bundle)
 
 **Symfony integration for PHP Translation**

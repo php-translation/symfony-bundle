@@ -65,8 +65,6 @@ class ExtractCommand extends ContainerAwareCommand
      */
     private function getConfiguredFinder(Configuration $config)
     {
-        // 'dirs', 'excluded_dirs', 'excluded_names'
-
         $finder = new Finder();
         $finder->in($config->getDirs());
 
