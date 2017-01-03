@@ -147,7 +147,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Options passed to the local file storage\'s dumper.')
                             ->defaultValue([])
                             ->validate()
-                                ->ifTrue(function($value) {
+                                ->ifTrue(function ($value) {
                                     return !is_array($value);
                                 })
                                 ->thenInvalid('"local_file_storage_options" must be an array.')
