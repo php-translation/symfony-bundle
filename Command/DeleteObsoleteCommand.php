@@ -37,7 +37,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
         $locales = [];
-        if (null !== $inputLocale = $input->getArgument('locale', null)) {
+        if (null !== $inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
         }
 

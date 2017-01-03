@@ -277,7 +277,7 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage $remoteStorages
+     * @param Storage $remoteStorage
      *
      * @return StorageService
      */
