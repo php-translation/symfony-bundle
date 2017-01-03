@@ -160,7 +160,7 @@ class TranslationExtension extends Extension
     {
         $name = $config['edit_in_place']['config_name'];
 
-        if ($name !== 'default' and !isset($config['configs'][$name])) {
+        if ($name !== 'default' && !isset($config['configs'][$name])) {
             throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
         }
 
