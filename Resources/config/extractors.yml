@@ -46,6 +46,11 @@ services:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
+  php_translation.extractor.php.visitor.SourceLocationContainerVisitor:
+    class: Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
   # Twig Visitors:
   php_translation.extractor.twig.visitor.translation_block:
     class: Translation\Extractor\Visitor\Twig\TranslationBlock
