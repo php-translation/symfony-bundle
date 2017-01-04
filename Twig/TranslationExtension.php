@@ -9,10 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\EditInPlace\Twig;
+namespace Translation\Bundle\Twig;
 
 /**
- * Override the `trans` functions `is_safe` option to allow HTML output from the translator.
+ * Override the `trans` functions `is_safe` option to allow HTML output from the
+ * translator. This extension is used by for the EditInPlace feature.
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
