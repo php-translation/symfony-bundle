@@ -51,8 +51,6 @@ final class Activator implements ActivatorInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @todo Cache this call result for performance?
      */
     public function checkRequest(Request $request = null)
     {
@@ -60,6 +58,6 @@ final class Activator implements ActivatorInterface
             return false;
         }
 
-        return $this->session->has(self::KEY);
+        return $this->session->get(self::KEY, false);
     }
 }
