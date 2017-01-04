@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Translation\Common\Model\Message;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
@@ -35,6 +36,23 @@ final class EditInPlaceMessage
      * @Assert\NotBlank(groups={"Create", "Edit", "Delete"})
      */
     private $domain;
+
+    /**
+     * Convert to a Common\Message.
+     *
+     * @param string $locale
+     *
+     * @return Message
+     */
+    public function convertToMessage($locale)
+    {
+        return new Message(
+            $this->key,
+            $this->domain,
+            $locale,
+            $this->message
+        );
+    }
 
     /**
      * @return string

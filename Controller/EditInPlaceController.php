@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\EditInPlaceMessage;
-use Translation\Common\Model\Message;
+use Translation\Bundle\Service\StorageService;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
@@ -38,10 +38,10 @@ class EditInPlaceController extends Controller
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage.'.$configName);
         foreach ($messages as $message) {
-            $this->get('php_translation.storage.'.$configName)->update(
-                new Message($message->getKey(), $message->getDomain(), $locale, $message->getMessage())
-            );
+            $storage->update($message->convertToMessage($locale));
         }
 
         return new Response();
