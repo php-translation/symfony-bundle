@@ -14,6 +14,7 @@ namespace Translation\Bundle\Translator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
+use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
  * Custom Translator for HTML rendering only (output `<x-trans>` tags).
