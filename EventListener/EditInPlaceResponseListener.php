@@ -9,18 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\EditInPlace;
+namespace Translation\Bundle\EventListener;
 
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Routing\Router;
+use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
  * Adds Javascript/CSS files to the Response if the Activator returns true.
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-final class ResponseListener
+final class EditInPlaceResponseListener
 {
     const HTML = <<<'HTML'
 <!-- TranslationBundle -->

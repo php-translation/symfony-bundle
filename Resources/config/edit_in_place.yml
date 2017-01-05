@@ -1,6 +1,6 @@
 services:
   php_translation.edit_in_place.response_listener:
-    class: Translation\Bundle\EditInPlace\ResponseListener
+    class: Translation\Bundle\EventListener\EditInPlaceResponseListener
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
     arguments:
@@ -14,7 +14,7 @@ services:
     arguments: ['@session']
 
   php_translator.edit_in_place.xtrans_html_translator:
-    class: Translation\Bundle\EditInPlace\Translator
+    class: Translation\Bundle\Translator\EditInPlaceTranslator
     arguments:
       - '@translator'
       - ~
@@ -22,7 +22,7 @@ services:
 
   php_translation.edit_in_place.extension.trans:
     public: false
-    class: Translation\Bundle\EditInPlace\Twig\TranslationExtension
+    class: Translation\Bundle\Twig\TranslationExtension
     arguments:
       - '@php_translator.edit_in_place.xtrans_html_translator'
     tags:

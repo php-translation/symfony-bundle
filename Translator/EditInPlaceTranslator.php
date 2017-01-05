@@ -9,18 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\EditInPlace;
+namespace Translation\Bundle\Translator;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
+use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
  * Custom Translator for HTML rendering only (output `<x-trans>` tags).
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-final class Translator implements TranslatorInterface, TranslatorBagInterface
+final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagInterface
 {
     /**
      * @var TranslatorInterface|\Symfony\Component\Translation\Translator
