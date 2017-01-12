@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
@@ -44,28 +45,35 @@ class EditInPlaceController extends Controller
             $storage->update($message->convertToMessage($locale));
         }
 
-        $this->rebuildTranslations();
+        $this->rebuildTranslations($locale);
 
         return new Response();
     }
 
     /**
      * Remove the Symfony translation cache and warm it up again.
+     *
+     * @param $locale
      */
-    private function rebuildTranslations()
+    private function rebuildTranslations($locale)
     {
         $cacheDir = $this->getParameter('kernel.cache_dir');
-        $translationDir = sprintf("%s/translations", $cacheDir);
+        $translationDir = sprintf('%s/translations', $cacheDir);
 
         $filesystem = $this->get('filesystem');
+        $finder = new Finder();
+
         if (!is_writable($translationDir)) {
             throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $translationDir));
         }
 
-        if ($filesystem->exists($translationDir)) {
-            $filesystem->remove($translationDir);
+        // Remove the translations for this locale
+        $files = $finder->files()->name('*.'.$locale.'.*')->in($translationDir);
+        foreach ($files as $file) {
+            $filesystem->remove($file);
         }
 
+        // Build them again
         $this->get('translator')->warmUp();
     }
 
