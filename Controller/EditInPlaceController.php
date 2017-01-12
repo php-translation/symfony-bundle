@@ -44,7 +44,29 @@ class EditInPlaceController extends Controller
             $storage->update($message->convertToMessage($locale));
         }
 
+        $this->rebuildTranslations();
+
         return new Response();
+    }
+
+    /**
+     * Remove the Symfony translation cache and warm it up again.
+     */
+    private function rebuildTranslations()
+    {
+        $cacheDir = $this->getParameter('kernel.cache_dir');
+        $translationDir = sprintf("%s/translations", $cacheDir);
+
+        $filesystem = $this->get('filesystem');
+        if (!is_writable($translationDir)) {
+            throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $translationDir));
+        }
+
+        if ($filesystem->exists($translationDir)) {
+            $filesystem->remove($translationDir);
+        }
+
+        $this->get('translator')->warmUp();
     }
 
     /**
