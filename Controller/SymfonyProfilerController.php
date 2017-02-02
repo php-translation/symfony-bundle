@@ -149,7 +149,11 @@ class SymfonyProfilerController extends Controller
         $messageId = $request->request->get('message_id', $request->query->get('message_id'));
 
         $profile = $profiler->loadProfile($token);
-        $messages = $profile->getCollector('translation')->getMessages();
+        if (null === $dataCollector = $profile->getCollector('translation')) {
+            throw $this->createNotFoundException('No collector with name "translation" was found.');
+        }
+
+        $messages = $dataCollector->getMessages();
         if (!isset($messages[$messageId])) {
             throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
         }
