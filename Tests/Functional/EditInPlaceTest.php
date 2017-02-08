@@ -46,8 +46,17 @@ class EditInPlaceTest extends BaseTestCase
         @$dom->loadHTML($response->getContent());
         $xpath = new \DomXpath($dom);
 
+        // Check number of x-trans tags
         $xtrans = $xpath->query('//x-trans');
+        self::assertEquals(6, $xtrans->length);
 
-        self::assertEquals(5, $xtrans->length);
+        // Check attribute with prefix (href="mailto:...")
+        $emailTag = $dom->getElementById('email');
+        self::assertEquals('🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
+        self::assertEquals('localized.email', $emailTag->textContent);
+
+        // Check attribute
+        $attributeDiv = $dom->getElementById('attribute-div');
+        self::assertEquals('🚫 Can\'t be translated here. 🚫', $attributeDiv->getAttribute('data-value'));
     }
 }
