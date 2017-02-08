@@ -74,7 +74,7 @@ HTML;
             $content = $event->getResponse()->getContent();
 
             // Clean the content for malformed tags in attributes or encoded tags
-            $content = preg_replace("@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi", "=\"🚫 Can't be translated here. 🚫\"", $content);
+            $content = preg_replace("@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi", "=\"$1🚫 Can't be translated here. 🚫\"", $content);
             $content = preg_replace('@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi', '🚫 $1 🚫', $content);
 
             $html = sprintf(

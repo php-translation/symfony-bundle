@@ -52,7 +52,7 @@ class EditInPlaceTest extends BaseTestCase
 
         // Check attribute with prefix (href="mailto:...")
         $emailTag = $dom->getElementById('email');
-        self::assertEquals('🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
+        self::assertEquals('mailto:🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
         self::assertEquals('localized.email', $emailTag->textContent);
 
         // Check attribute
