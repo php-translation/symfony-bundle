@@ -42,12 +42,21 @@ class EditInPlaceTest extends BaseTestCase
         self::assertSame(200, $response->getStatusCode());
         self::assertContains('<!-- TranslationBundle -->', $response->getContent());
 
-        $dom = new \DOMDocument();
-        @$dom->loadHTML($response->getContent());
+        $dom = new \DOMDocument('1.0', 'utf-8');
+        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
         $xpath = new \DomXpath($dom);
 
+        // Check number of x-trans tags
         $xtrans = $xpath->query('//x-trans');
+        self::assertEquals(6, $xtrans->length);
 
-        self::assertEquals(5, $xtrans->length);
+        // Check attribute with prefix (href="mailto:...")
+        $emailTag = $dom->getElementById('email');
+        self::assertEquals('mailto:'.'🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
+        self::assertEquals('localized.email', $emailTag->textContent);
+
+        // Check attribute
+        $attributeDiv = $dom->getElementById('attribute-div');
+        self::assertEquals('🚫 Can\'t be translated here. 🚫', $attributeDiv->getAttribute('data-value'));
     }
 }
