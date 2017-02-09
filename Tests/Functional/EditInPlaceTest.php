@@ -42,7 +42,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertSame(200, $response->getStatusCode());
         self::assertContains('<!-- TranslationBundle -->', $response->getContent());
 
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument('1.0', 'utf-8');
         @$dom->loadHTML($response->getContent());
         $xpath = new \DomXpath($dom);
 
@@ -52,7 +52,7 @@ class EditInPlaceTest extends BaseTestCase
 
         // Check attribute with prefix (href="mailto:...")
         $emailTag = $dom->getElementById('email');
-        self::assertEquals('mailto:🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
+        self::assertEquals('mailto:' . '🚫 Can\'t be translated here. 🚫', $emailTag->getAttribute('href'));
         self::assertEquals('localized.email', $emailTag->textContent);
 
         // Check attribute
