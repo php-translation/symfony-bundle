@@ -43,7 +43,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertContains('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
-        @$dom->loadHTML($response->getContent());
+        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
         $xpath = new \DomXpath($dom);
 
         // Check number of x-trans tags
