@@ -53,11 +53,11 @@ services:
 
   # Twig Visitors:
   php_translation.extractor.twig.visitor.translation_block:
-    class: Translation\Extractor\Visitor\Twig\TranslationBlock
+    class: %php_translation.extractor.twig.visitor.translation_block.class%
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }
 
   php_translation.extractor.twig.visitor.translation_filter:
-    class: Translation\Extractor\Visitor\Twig\TranslationFilter
+    class: %php_translation.extractor.twig.visitor.translation_filter.class%
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }

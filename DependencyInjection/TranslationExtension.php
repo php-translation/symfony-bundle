@@ -20,6 +20,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Model\Configuration as ConfigurationModel;
+use Translation\Extractor\Visitor\Twig\TranslationBlock;
+use Translation\Extractor\Visitor\Twig\TranslationFilter;
+use Translation\Extractor\Visitor\Twig\Twig2TranslationBlock;
+use Translation\Extractor\Visitor\Twig\Twig2TranslationFilter;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -43,6 +47,14 @@ class TranslationExtension extends Extension
         // Add major version to extractor
         $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
             ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
+
+        if (\Twig_Environment::MAJOR_VERSION === 1) {
+            $container->setParameter('php_translation.extractor.twig.visitor.translation_block.class', TranslationBlock::class);
+            $container->setParameter('php_translation.extractor.twig.visitor.translation_filter.class', TranslationFilter::class);
+        } else {
+            $container->setParameter('php_translation.extractor.twig.visitor.translation_block.class', Twig2TranslationBlock::class);
+            $container->setParameter('php_translation.extractor.twig.visitor.translation_filter.class', Twig2TranslationFilter::class);
+        }
 
         $container->setParameter('php_translation.locales', $config['locales']);
         $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
