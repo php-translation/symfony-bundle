@@ -48,7 +48,7 @@ class TranslationExtension extends Extension
         $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
             ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
 
-        if (\Twig_Environment::MAJOR_VERSION === 1) {
+        if (version_compare(\Twig_Environment::VERSION, 2) === -1) {
             $container->setParameter('php_translation.extractor.twig.visitor.translation_block.class', TranslationBlock::class);
             $container->setParameter('php_translation.extractor.twig.visitor.translation_filter.class', TranslationFilter::class);
         } else {
