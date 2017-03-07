@@ -4,6 +4,24 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## UNRELEASED
 
+## 0.3.0
+
+### Added
+
+- Support for Twig2
+- Allow to pass options ot the dumper
+- Use stable version of extractor
+- Clear cache when updating translations with EditInPlace
+
+### Changed
+
+- Updated namespace for EditInPlace feature
+
+### Fixed
+
+- Bug when DataCollector might be missing
+- Better regex for EditInPlace attribute replacement
+
 ## 0.2.0
 
 ### Added
