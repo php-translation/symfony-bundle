@@ -48,14 +48,6 @@ class TranslationExtension extends Extension
         $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
             ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
 
-        if (version_compare(\Twig_Environment::VERSION, 2) === -1) {
-            $container->setParameter('php_translation.extractor.twig.visitor.translation_block.class', TranslationBlock::class);
-            $container->setParameter('php_translation.extractor.twig.visitor.translation_filter.class', TranslationFilter::class);
-        } else {
-            $container->setParameter('php_translation.extractor.twig.visitor.translation_block.class', Twig2TranslationBlock::class);
-            $container->setParameter('php_translation.extractor.twig.visitor.translation_filter.class', Twig2TranslationFilter::class);
-        }
-
         $container->setParameter('php_translation.locales', $config['locales']);
         $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
         $this->handleConfigNode($container, $config);
