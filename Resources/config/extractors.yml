@@ -52,12 +52,8 @@ services:
       - { name: 'php_translation.visitor', type: 'php' }
 
   # Twig Visitors:
-  php_translation.extractor.twig.visitor.translation_block:
-    class: '%php_translation.extractor.twig.visitor.translation_block.class%'
-    tags:
-      - { name: 'php_translation.visitor', type: 'twig' }
-
-  php_translation.extractor.twig.visitor.translation_filter:
-    class: '%php_translation.extractor.twig.visitor.translation_filter.class%'
+  php_translation.extractor.twig.visitor.twig:
+    class: Translation\Extractor\Visitor\Twig\Twig2Visitor
+    factory: [Translation\Extractor\Visitor\Twig\TwigVisitor, create]
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }
