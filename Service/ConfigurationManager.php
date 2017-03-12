@@ -39,13 +39,17 @@ final class ConfigurationManager
      *
      * @return null|Configuration
      */
-    public function getConfiguration($name = 'default')
+    public function getConfiguration($name = null)
     {
+        if (empty($name)) {
+            return $this->getConfiguration('default');
+        }
+
         if (isset($this->configuration[$name])) {
             return $this->configuration[$name];
         }
 
-        if ($name === 'default' || empty($name)) {
+        if ($name === 'default') {
             $name = $this->getFirstName();
             if (isset($this->configuration[$name])) {
                 return $this->configuration[$name];
