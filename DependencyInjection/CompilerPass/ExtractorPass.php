@@ -34,6 +34,10 @@ class ExtractorPass implements CompilerPassInterface
      */
     private function getExtractors(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition('php_translation.extractor')) {
+            return [];
+        }
+
         /** @var Definition $def */
         $def = $container->getDefinition('php_translation.extractor');
         $services = $container->findTaggedServiceIds('php_translation.extractor');
