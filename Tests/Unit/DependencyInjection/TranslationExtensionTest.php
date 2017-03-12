@@ -1,6 +1,6 @@
 <?php
 
-namespace Translation\Bundle\Tests\Unit\Model;
+namespace Translation\Bundle\Tests\Unit\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
