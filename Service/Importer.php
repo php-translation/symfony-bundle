@@ -45,7 +45,7 @@ final class Importer
 
     /**
      * @param Finder             $finder
-     * @param MessageCatalogue[] $catalogue
+     * @param MessageCatalogue[] $catalogues
      * @param array              $config    {
      *
      *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
