@@ -1,15 +1,21 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Tests\Unit\DependencyInjection\CompilerPass;
-
-
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
-use Translation\Bundle\DependencyInjection\CompilerPass\StoragePass;
 
 class ExtractorPassTest extends AbstractCompilerPassTestCase
 {
@@ -27,7 +33,7 @@ class ExtractorPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('php_translation.extractor', $collectingService);
 
         $collectedService = new Definition();
-        $collectedService->addTag('php_translation.extractor', ['type'=>'html']);
+        $collectedService->addTag('php_translation.extractor', ['type' => 'html']);
         $this->setDefinition('collected_service', $collectedService);
 
         $this->compile();
