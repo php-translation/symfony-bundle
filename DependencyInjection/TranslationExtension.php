@@ -103,7 +103,7 @@ class TranslationExtension extends Extension
             $configurationManager->addMethodCall('addConfiguration', [$name, new Reference($configurationServiceId)]);
 
             /*
-             * Configure storage service
+             * Configure storage chain service
              */
             $storageDefinition = new DefinitionDecorator('php_translation.storage.abstract');
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
