@@ -59,7 +59,7 @@ class ExtractCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param Configuration $configuration
+     * @param Configuration $config
      *
      * @return Finder
      */
