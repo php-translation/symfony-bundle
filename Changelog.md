@@ -4,6 +4,13 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## UNRELEASED
 
+## 0.3.1
+
+### Added
+
+- More tests
+- Using Extractor 1.1.1.
+
 ## 0.3.0
 
 ### Added
