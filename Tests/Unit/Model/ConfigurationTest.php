@@ -17,7 +17,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testAccessors()
     {
-        $key2Function = $this->getDefaultData();
+        $key2Function = self::getDefaultData();
         $conf = new Configuration($key2Function);
 
         foreach ($key2Function as $key => $value) {
@@ -31,7 +31,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPathsToTranslationFiles()
     {
-        $data = $this->getDefaultData();
+        $data = self::getDefaultData();
         $data['external_translations_dirs'] = ['foo', 'bar'];
         $data['output_dir'] = 'biz';
 
@@ -43,7 +43,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    private function getDefaultData()
+    public static function getDefaultData()
     {
         return [
             'name' => 'getName',
