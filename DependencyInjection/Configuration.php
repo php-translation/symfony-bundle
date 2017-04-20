@@ -180,6 +180,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('config_name')->defaultValue('default')->end()
                     ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
+                    ->scalarNode('show_untranslatable')->defaultTrue()->end()
                 ->end()
             ->end()
         ->end();
