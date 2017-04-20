@@ -85,10 +85,10 @@ HTML;
         $content = $event->getResponse()->getContent();
 
         // Clean the content for malformed tags in attributes or encoded tags
-        $replacement = "=\"$1🚫 Can't be translated here. 🚫\"";
-        $pattern = "@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+data-value=\"([^&\"]+)\".+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi";
+        $replacement = "\"$1🚫 Can't be translated here. 🚫\"";
+        $pattern = "@\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+data-value=\"([^&\"]+)\".+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi";
         if (!$this->showUntranslatable) {
-            $replacement = '="$3"';
+            $replacement = '"$3"';
         }
         $content = preg_replace($pattern, $replacement, $content);
 
