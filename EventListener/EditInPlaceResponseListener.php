@@ -97,7 +97,7 @@ HTML;
         $pattern = '@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+data-value=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi';
         $replacement = '🚫 $1 🚫';
         if (!$this->showUntranslatable) {
-            $replacement = "$2";
+            $replacement = '="$3"';
         }
         $content = preg_replace($pattern, $replacement, $content);
 
