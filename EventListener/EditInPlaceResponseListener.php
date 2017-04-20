@@ -65,7 +65,6 @@ HTML;
      */
     private $showUntranslatable;
 
-
     public function __construct(ActivatorInterface $activator, Router $router, Packages $packages, $configName = 'default', $showUntranslatable)
     {
         $this->activator = $activator;
