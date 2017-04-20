@@ -8,6 +8,7 @@ services:
       - '@router'
       - '@assets.packages'
       - ~
+      - ~
 
   php_translation.edit_in_place.activator:
     class: Translation\Bundle\EditInPlace\Activator

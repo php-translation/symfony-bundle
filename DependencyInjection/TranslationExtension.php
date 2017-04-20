@@ -169,6 +169,7 @@ class TranslationExtension extends Extension
         $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
         $def->replaceArgument(0, $activatorRef);
         $def->replaceArgument(3, $name);
+        $def->replaceArgument(4, $config['edit_in_place']['show_untranslatable']);
 
         $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
         $def->replaceArgument(1, $activatorRef);

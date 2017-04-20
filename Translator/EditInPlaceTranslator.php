@@ -58,20 +58,28 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
+        $original = $this->translator->trans($id, $parameters, $domain, $locale);
         if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
-            return $this->translator->trans($id, $parameters, $domain, $locale);
+            return $original;
         }
+
+        $plain = $this->translator->trans($id, [], $domain, $locale);
 
         if (null === $domain) {
             $domain = 'messages';
         }
+        if (null === $locale) {
+            $locale = $this->translator->getLocale();
+        }
 
-        $original = $this->translator->trans($id, $parameters, $domain, $locale);
-
-        // todo add data-value="" or data-type with real content, add parameters, domain...
-        return sprintf('<x-trans data-key="%s|%s">%s</x-trans>',
+        // Render all data in the translation tag required to allow in-line translation
+        return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
+            $original,
+            $plain,
+            $domain,
+            $locale,
             $original
         );
     }

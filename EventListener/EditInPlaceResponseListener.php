@@ -58,46 +58,69 @@ HTML;
      */
     private $configName;
 
-    public function __construct(ActivatorInterface $activator, Router $router, Packages $packages, $configName = 'default')
+    /**
+     * Determines whether the message for untranslatable content like placeholders will be rendered.
+     *
+     * @var bool
+     */
+    private $showUntranslatable;
+
+
+    public function __construct(ActivatorInterface $activator, Router $router, Packages $packages, $configName = 'default', $showUntranslatable)
     {
         $this->activator = $activator;
         $this->router = $router;
         $this->packages = $packages;
         $this->configName = $configName;
+        $this->showUntranslatable = $showUntranslatable;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $request = $event->getRequest();
 
-        if ($this->activator->checkRequest($request)) {
-            $content = $event->getResponse()->getContent();
-
-            // Clean the content for malformed tags in attributes or encoded tags
-            $content = preg_replace("@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi", "=\"$1🚫 Can't be translated here. 🚫\"", $content);
-            $content = preg_replace('@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi', '🚫 $1 🚫', $content);
-
-            $html = sprintf(
-                self::HTML,
-                $this->packages->getUrl('bundles/translation/css/content-tools.min.css'),
-                $this->packages->getUrl('bundles/translation/js/content-tools.min.js'),
-                $this->packages->getUrl('bundles/translation/js/editInPlace.js'),
-
-                $this->router->generate('translation_edit_in_place_update', [
-                    'configName' => $this->configName,
-                    'locale' => $event->getRequest()->getLocale(),
-                ])
-            );
-            $content = str_replace('</body>', $html."\n".'</body>', $content);
-
-            $response = $event->getResponse();
-
-            // Remove the cache because we do not want the modified page to be cached
-            $response->headers->set('cache-control', 'no-cache, no-store, must-revalidate');
-            $response->headers->set('pragma', 'no-cache');
-            $response->headers->set('expires', '0');
-
-            $event->getResponse()->setContent($content);
+        if (!$this->activator->checkRequest($request)) {
+            return;
         }
+
+        $content = $event->getResponse()->getContent();
+
+        // Clean the content for malformed tags in attributes or encoded tags
+        $replacement = "=\"$1🚫 Can't be translated here. 🚫\"";
+        $pattern = "@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+data-value=\"([^&\"]+)\".+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi";
+        if (!$this->showUntranslatable) {
+            $replacement = "=\"$3\"";
+        }
+        $content = preg_replace($pattern, $replacement, $content);
+
+        // Remove escaped content (e.g. Javascript)
+        $pattern = '@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+data-value=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi';
+        $replacement = '🚫 $1 🚫';
+        if (!$this->showUntranslatable) {
+            $replacement = "$2";
+        }
+        $content = preg_replace($pattern, $replacement, $content);
+
+        $html = sprintf(
+            self::HTML,
+            $this->packages->getUrl('bundles/translation/css/content-tools.min.css'),
+            $this->packages->getUrl('bundles/translation/js/content-tools.min.js'),
+            $this->packages->getUrl('bundles/translation/js/editInPlace.js'),
+
+            $this->router->generate('translation_edit_in_place_update', [
+                'configName' => $this->configName,
+                'locale' => $event->getRequest()->getLocale(),
+            ])
+        );
+        $content = str_replace('</body>', $html."\n".'</body>', $content);
+
+        $response = $event->getResponse();
+
+        // Remove the cache because we do not want the modified page to be cached
+        $response->headers->set('cache-control', 'no-cache, no-store, must-revalidate');
+        $response->headers->set('pragma', 'no-cache');
+        $response->headers->set('expires', '0');
+
+        $event->getResponse()->setContent($content);
     }
 }
