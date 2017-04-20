@@ -89,7 +89,7 @@ HTML;
         $replacement = "=\"$1🚫 Can't be translated here. 🚫\"";
         $pattern = "@=\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+data-value=\"([^&\"]+)\".+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi";
         if (!$this->showUntranslatable) {
-            $replacement = "=\"$3\"";
+            $replacement = '="$3"';
         }
         $content = preg_replace($pattern, $replacement, $content);
 
@@ -97,7 +97,7 @@ HTML;
         $pattern = '@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+data-value=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi';
         $replacement = '🚫 $1 🚫';
         if (!$this->showUntranslatable) {
-            $replacement = '="$3"';
+            $replacement = '$2';
         }
         $content = preg_replace($pattern, $replacement, $content);
 
