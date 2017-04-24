@@ -26,7 +26,6 @@
         "php-http/curl-client": "^1.0",
         "php-http/message": "^1.0",
         "php-http/message-factory": "^1.0.2",
-        "symfony/phpunit-bridge": "^3.2",
         "symfony/twig-bundle": "^2.7 || ^3.0",
         "symfony/twig-bridge": "^2.7 || ^3.0",
         "symfony/asset": "^2.7 || ^3.0",
