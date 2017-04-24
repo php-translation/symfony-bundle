@@ -74,7 +74,7 @@ class EditInPlaceController extends Controller
         }
 
         // Build them again
-        $this->get('translator')->warmUp();
+        $this->get('translator')->warmUp($translationDir);
     }
 
     /**
