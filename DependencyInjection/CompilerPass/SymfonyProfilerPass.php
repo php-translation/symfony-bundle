@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Make sure we have all the dependencies for Symfony Profiler
+ * Make sure we have all the dependencies for Symfony Profiler.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
