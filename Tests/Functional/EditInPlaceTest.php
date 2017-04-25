@@ -20,9 +20,9 @@ class EditInPlaceTest extends BaseTestCase
 {
     public function testDeactivatedTest()
     {
-        $kernel = $this->createKernel();
+        $this->bootKernel();
         $request = Request::create('/foobar');
-        $response = $kernel->handle($request);
+        $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertNotContains('x-trans', $response->getContent());
@@ -30,14 +30,13 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testActivatedTest()
     {
-        $kernel = $this->createKernel();
+        $this->bootKernel();
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $kernel->boot();
-        $kernel->getContainer()->get('php_translation.edit_in_place.activator')->activate();
+        $this->getContainer()->get('php_translation.edit_in_place.activator')->activate();
 
-        $response = $kernel->handle($request);
+        $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertContains('<!-- TranslationBundle -->', $response->getContent());
