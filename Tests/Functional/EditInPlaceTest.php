@@ -61,14 +61,14 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled()
     {
-        $kernel = $this->createKernel(['config' => 'disabled_label.yml']);
+        $this->kernel->addConfigFile(__DIR__.'/app/config/disabled_label.yml');
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $kernel->boot();
-        $kernel->getContainer()->get('php_translation.edit_in_place.activator')->activate();
+        $this->bootKernel();
+        $this->getContainer()->get('php_translation.edit_in_place.activator')->activate();
 
-        $response = $kernel->handle($request);
+        $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertContains('<!-- TranslationBundle -->', $response->getContent());
