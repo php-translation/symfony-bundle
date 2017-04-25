@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Tests\Functional;
 
+use Nyholm\BundleTest\AppKernel;
 use Nyholm\BundleTest\BaseBundleTestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -23,7 +24,7 @@ use Translation\Bundle\TranslationBundle;
 abstract class BaseTestCase extends BaseBundleTestCase
 {
     /**
-     * @var Kernel
+     * @var AppKernel
      */
     protected $kernel;
 
