@@ -58,4 +58,36 @@ class EditInPlaceTest extends BaseTestCase
         $attributeDiv = $dom->getElementById('attribute-div');
         self::assertEquals('🚫 Can\'t be translated here. 🚫', $attributeDiv->getAttribute('data-value'));
     }
+
+    public function testIfUntranslatableLabelGetsDisabled()
+    {
+        $this->kernel->addConfigFile(__DIR__.'/app/config/disabled_label.yml');
+        $request = Request::create('/foobar');
+
+        // Activate the feature
+        $this->bootKernel();
+        $this->getContainer()->get('php_translation.edit_in_place.activator')->activate();
+
+        $response = $this->kernel->handle($request);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertContains('<!-- TranslationBundle -->', $response->getContent());
+
+        $dom = new \DOMDocument('1.0', 'utf-8');
+        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
+        $xpath = new \DomXpath($dom);
+
+        // Check number of x-trans tags
+        $xtrans = $xpath->query('//x-trans');
+        self::assertEquals(6, $xtrans->length);
+
+        // Check attribute with prefix (href="mailto:...")
+        $emailTag = $dom->getElementById('email');
+        self::assertEquals('localized.email', $emailTag->getAttribute('href'));
+        self::assertEquals('localized.email', $emailTag->textContent);
+
+        // Check attribute
+        $attributeDiv = $dom->getElementById('attribute-div');
+        self::assertEquals('translated.attribute', $attributeDiv->getAttribute('data-value'));
+    }
 }

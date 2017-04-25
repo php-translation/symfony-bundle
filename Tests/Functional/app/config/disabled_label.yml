@@ -1,0 +1,6 @@
+imports:
+    - { resource: default.yml }
+
+translation:
+  edit_in_place:
+    show_untranslatable: false
