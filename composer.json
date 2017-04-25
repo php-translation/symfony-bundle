@@ -34,7 +34,8 @@
         "symfony/web-profiler-bundle": "^2.7 || ^3.0",
         "matthiasnoback/symfony-dependency-injection-test": "^1.0",
         "guzzlehttp/psr7": "^1.3",
-        "nyholm/nsa": "^1.0"
+        "nyholm/nsa": "^1.0",
+        "nyholm/symfony-bundle-test": "^1.0.1"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."

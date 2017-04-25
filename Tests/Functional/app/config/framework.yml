@@ -8,6 +8,11 @@ framework:
     validation:
         enabled: false
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%test.root_dir%/config/routing.yml"
+        type: 'yaml'
     templating:
         engines: ['twig']
+
+twig:
+  paths:
+    "%test.root_dir%/Resources/views": App

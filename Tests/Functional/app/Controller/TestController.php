@@ -20,6 +20,6 @@ class TestController extends Controller
 {
     public function translatedAction()
     {
-        return $this->render('::translated.html.twig');
+        return $this->render('@App/translated.html.twig');
     }
 }
