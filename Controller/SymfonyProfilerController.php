@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Bundle\Model\SfProfilerMessage;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\Message;
@@ -154,6 +155,11 @@ class SymfonyProfilerController extends Controller
         }
 
         $messages = $dataCollector->getMessages();
+
+        if ($messages instanceof Data) {
+            $messages = $messages->getValue(true);
+        }
+
         if (!isset($messages[$messageId])) {
             throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
         }
@@ -185,7 +191,13 @@ class SymfonyProfilerController extends Controller
 
         $profile = $profiler->loadProfile($token);
         $dataCollector = $profile->getCollector('translation');
-        $toSave = array_intersect_key($dataCollector->getMessages(), array_flip($selected));
+        $messages = $dataCollector->getMessages();
+
+        if ($messages instanceof Data) {
+            $messages = $messages->getValue(true);
+        }
+
+        $toSave = array_intersect_key($messages, array_flip($selected));
 
         $messages = [];
         foreach ($toSave as $data) {
