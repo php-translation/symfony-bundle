@@ -4,6 +4,23 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## UNRELEASED
 
+## 0.3.2
+
+### Changed
+
+- HTML fixes on profiler page
+
+### Added
+
+- Support for Symfony 3.3.x
+- Option to not show "untranslatable" in WebUI
+- Make sure we fail with an exception if SfTranslation is not enabled
+- Improved testing
+
+### Fixed
+
+- Added translation cache dir on warmup
+
 ## 0.3.1
 
 ### Added
