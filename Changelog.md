@@ -4,6 +4,12 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## UNRELEASED
 
+## 0.3.2
+
+### Added
+
+- Support for Symfony 3.3.x
+
 ## 0.3.1
 
 ### Added
