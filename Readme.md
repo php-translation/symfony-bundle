@@ -36,7 +36,7 @@ An example configuration looks like this:
 // config.yml
 translation:
   locales: ["en", "sv"]
-  symfony_profiler: 
+  symfony_profiler: # must be placed in config_dev.yml
     enabled: true
   webui:
     enabled: true
