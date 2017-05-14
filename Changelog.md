@@ -1,8 +1,12 @@
 # Change Log
 
-The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release. 
+The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
 ## UNRELEASED
+
+### Changed
+
+- Add meta informations from the profiler to `Translation\Common\Model\Message`
 
 ## 0.3.2
 
@@ -58,19 +62,19 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Changed
 
 - `Translation\Bundle\Service\CatalogueFetcher` moved to `Translation\Bundle\Catalogue\CatalogueFetcher`
-- Made most (if not all) classes final. 
+- Made most (if not all) classes final.
 - `CatalogueFetcher` requires a `Configuration` object.
 
 ### Removed
 
 - Dead code in the `SymfonyProfilerController`
-- `FileStorage` was moved to `php-translation/symfony-storage` 
+- `FileStorage` was moved to `php-translation/symfony-storage`
 
 ### Fixed
 
-- The bundle works without any configuration. 
+- The bundle works without any configuration.
 - You may have an config named "default".
 
 ## 0.1.0
 
-First release. 
+First release.
