@@ -126,7 +126,8 @@ final class SfProfilerMessage
          $meta = [];
 
          if (!empty($this->getParameters())) {
-             $meta['parameters'] = $this->getParameters();
+             // Reduce to only get one value of each parameter, not all the usages.
+             $meta['parameters'] = array_reduce($this->getParameters(), 'array_merge', array());
          }
 
          if (!empty($this->getCount())) {
