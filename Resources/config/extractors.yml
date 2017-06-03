@@ -53,7 +53,7 @@ services:
 
   # Twig Visitors:
   php_translation.extractor.twig.visitor.twig:
-    class: Translation\Extractor\Visitor\Twig\Twig2Visitor
+    class: Translation\Bundle\Twig\DummyTwigVisitor
     factory: [Translation\Extractor\Visitor\Twig\TwigVisitor, create]
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }
