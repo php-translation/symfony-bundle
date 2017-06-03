@@ -2,11 +2,15 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## UNRELEASED
+## 0.3.3
 
 ### Changed
 
 - Add meta informations from the profiler to `Translation\Common\Model\Message`
+
+### Fixed
+
+- Make Dependency Injection work with Twig1
 
 ## 0.3.2
 
