@@ -25,8 +25,8 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFilter('trans', [$this, 'trans']),
+            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice']),
         ];
     }
 
