@@ -39,41 +39,19 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('trans', [$this, 'transAutoEscape'], ['is_safe' => ['html'], 'needs_environment' => true]),
-            new \Twig_SimpleFilter('transchoice', [$this, 'transchoiceAutoEscape'], ['is_safe' => ['html'], 'needs_environment' => true]),
+            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
         ];
     }
 
     /**
      * Escape output if the EditInPlace is disabled.
      *
-     * @return bool
+     * @return array
      */
-    private function escapeOutput()
+    public function isSafe($node)
     {
-        return !$this->activator->checkRequest($this->requestStack->getMasterRequest());
-    }
-
-    public function transAutoEscape(Environment $env, $message, array $arguments = [], $domain = null, $locale = null)
-    {
-        $value = $this->trans($message, $arguments, $domain, $locale);
-
-        if ($this->escapeOutput()) {
-            return twig_escape_filter($env, $value, 'html', null, true);
-        }
-
-        return $value;
-    }
-
-    public function transchoiceAutoEscape(Environment $env, $message, $count, array $arguments = [], $domain = null, $locale = null)
-    {
-        $value = $this->transchoice($message, $count, $arguments, $domain, $locale);
-
-        if ($this->escapeOutput()) {
-            return twig_escape_filter($env, $value, 'html', null, true);
-        }
-
-        return $value;
+        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? []: ['html'];
     }
 
     /**
