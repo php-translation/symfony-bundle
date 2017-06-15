@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.3.4
+
+### Fixed
+
+- When using EditInPlace, we only mark twig filters (`trans` & `transchoice`) as "safe" when EditInPlace in active. 
+
 ## 0.3.3
 
 ### Changed
