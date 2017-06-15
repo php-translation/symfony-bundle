@@ -59,7 +59,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
         $value = $this->trans($message, $arguments, $domain, $locale);
 
         if ($this->escapeOutput()) {
-            return  twig_escape_filter($env, $value, 'html', null, true);
+            return twig_escape_filter($env, $value, 'html', null, true);
         }
 
         return $value;
@@ -70,7 +70,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
         $value = $this->transchoice($message, $count, $arguments, $domain, $locale);
 
         if ($this->escapeOutput()) {
-            return  twig_escape_filter($env, $value, 'html', null, true);
+            return twig_escape_filter($env, $value, 'html', null, true);
         }
 
         return $value;
