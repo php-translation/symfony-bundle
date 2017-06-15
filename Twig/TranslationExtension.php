@@ -54,7 +54,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
         return !$this->activator->checkRequest($this->requestStack->getMasterRequest());
     }
 
-    public function transAutoEscape(Environment $env, $message, array $arguments = array(), $domain = null, $locale = null)
+    public function transAutoEscape(Environment $env, $message, array $arguments = [], $domain = null, $locale = null)
     {
         $value = $this->trans($message, $arguments, $domain, $locale);
 
@@ -65,7 +65,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
         return $value;
     }
 
-    public function transchoiceAutoEscape(Environment $env, $message, $count, array $arguments = array(), $domain = null, $locale = null)
+    public function transchoiceAutoEscape(Environment $env, $message, $count, array $arguments = [], $domain = null, $locale = null)
     {
         $value = $this->transchoice($message, $count, $arguments, $domain, $locale);
 
