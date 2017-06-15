@@ -13,7 +13,6 @@ namespace Translation\Bundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
-use Twig\Environment;
 
 /**
  * Override the `trans` functions `is_safe` option to allow HTML output from the
@@ -51,7 +50,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
      */
     public function isSafe($node)
     {
-        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? []: ['html'];
+        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? [] : ['html'];
     }
 
     /**
