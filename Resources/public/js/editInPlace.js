@@ -59,6 +59,14 @@ var TranslationBundleEditInPlace = function(saveUrl) {
         // false = classic HTML block
         return domRegion.dataset.key.split('.').pop() !== 'html';
     });
+    
+    // Always use `plain` value without parsed parameters
+    editor.addEventListener('start', function (ev) {
+        var elements = Array.prototype.slice.call(document.getElementsByTagName('x-trans'));
+        elements.forEach(function(item, index) {
+            item.innerHTML = item.dataset.plain;
+        });
+    });
 
     // Treat x-trans tags as Text
     ContentEdit.TagNames.get().register(ContentEdit.Text, 'x-trans');
