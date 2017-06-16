@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EditInPlaceTest extends BaseTestCase
 {
-
     public function testActivatedTest()
     {
         $this->bootKernel();
