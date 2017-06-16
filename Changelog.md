@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.3.5
+
+### Fixed
+
+- Fix incorrect EditInPlace activation on Twig `is_safe` comparison
+
 ## 0.3.4
 
 ### Fixed
