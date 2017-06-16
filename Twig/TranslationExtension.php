@@ -50,7 +50,7 @@ class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExt
      */
     public function isSafe($node)
     {
-        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? [] : ['html'];
+        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
     }
 
     /**
