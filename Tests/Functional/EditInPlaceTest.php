@@ -81,7 +81,7 @@ class EditInPlaceTest extends BaseTestCase
         $attributeDiv = $dom->getElementById('attribute-div');
         self::assertEquals('translated.attribute', $attributeDiv->getAttribute('data-value'));
     }
-    
+
     public function testDeactivatedTest()
     {
         $this->bootKernel();
