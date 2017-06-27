@@ -16,11 +16,13 @@ function clearState(key) {
 }
 
 function syncMessage(key) {
+    var el = document.getElementById(key).getElementsByClassName("translation");
+    el[0].innerHTML = getLoaderHTML();
+
     Sfjs.request(
         translationSyncUrl,
         function(xhr) {
             // Success
-            var el = document.getElementById(key).getElementsByClassName("translation");
             el[0].innerHTML = xhr.responseText;
 
             if (xhr.responseText !== "") {
@@ -29,7 +31,7 @@ function syncMessage(key) {
         },
         function(xhr) {
             // Error
-            console.log("Syncing message "+key + " - Error");
+            el[0].innerHTML = "<span style='color:red;'>Error - Syncing message " + key + "</span>";
         },
         serializeQueryString({message_id: key}),
         { method: 'POST' }
@@ -37,16 +39,18 @@ function syncMessage(key) {
 }
 
 function syncAll() {
+    var el = document.getElementById("top-result-area");
+    el[0].innerHTML = getLoaderHTML();
+
     Sfjs.request(
         translationSyncAllUrl,
         function(xhr) {
             // Success
-            var el = document.getElementById("top-result-area");
             el.innerHTML = xhr.responseText;
         },
         function(xhr) {
             // Error
-            console.log("Syncing message "+key + " - Error");
+            el[0].innerHTML = "<span style='color:red;'>Error - Syncing all messages</span>";
         },
         {},
         { method: 'POST' }
@@ -54,29 +58,31 @@ function syncAll() {
 }
 
 function getEditForm(key) {
+    var el = document.getElementById(key).getElementsByClassName("translation");
+    el[0].innerHTML = getLoaderHTML();
 
     Sfjs.request(
         translationEditUrl + "?" + serializeQueryString({message_id: key}),
         function(xhr) {
             // Success
-            var el = document.getElementById(key).getElementsByClassName("translation");
             el[0].innerHTML = xhr.responseText;
         },
         function(xhr) {
             // Error
-            console.log("Getting edit form "+key+" - Error");
+            el[0].innerHTML = "<span style='color:red;'>Error - Getting edit form " + key + "</span>";
         },
         { method: 'GET' }
     );
 }
 
 function saveEditForm(key, translation) {
+    var el = document.getElementById(key).getElementsByClassName("translation");
+    el[0].innerHTML = getLoaderHTML();
 
     Sfjs.request(
         translationEditUrl,
         function(xhr) {
             // Success
-            var el = document.getElementById(key).getElementsByClassName("translation");
             el[0].innerHTML = xhr.responseText;
 
             if (xhr.responseText !== "") {
@@ -85,7 +91,7 @@ function saveEditForm(key, translation) {
         },
         function(xhr) {
             // Error
-            console.log("Saving edit form "+key +" - Error");
+            el[0].innerHTML = "<span style='color:red;'>Error - Saving edit form " + key + "</span>";
         },
         serializeQueryString({message_id: key, translation:translation}),
         { method: 'POST' }
@@ -105,6 +111,12 @@ function toggleCheckAll(controller) {
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = controller.checked;
     }
+}
+
+function getLoaderHTML() {
+    var loader = document.getElementById('svg-loader');
+
+    return loader.outerHTML;
 }
 
 var serializeQueryString = function(obj, prefix) {
@@ -131,11 +143,14 @@ var serializeQueryString = function(obj, prefix) {
 
 var saveTranslations = function(form) {
     "use strict";
+
     if (typeof(form.translationKey) === 'undefined') {
         return false;
     }
+
     var inputs = form.translationKey;
     var selected = [];
+
     if (!inputs.value) {
         for (var val in inputs) {
             if (inputs.hasOwnProperty(val) && inputs[val].value) {
@@ -147,15 +162,26 @@ var saveTranslations = function(form) {
     } else if (inputs.checked) {
         selected.push(inputs.value);
     }
+
+    var el = document.getElementById('translationResult');
+    el.innerHTML = getLoaderHTML();
+    el.classList.remove('label');
+    el.classList.remove('status-error');
+    el.classList.remove('status-success');
+
     Sfjs.request(
         form.action,
         function(xhr) {
             // Success
-            document.getElementById('translationResult').innerHTML = xhr.responseText;
+            el.classList.add('label');
+            el.classList.add('status-success');
+            el.innerHTML = xhr.responseText;
         },
         function(xhr) {
             // Error
-            document.getElementById('translationResult').innerHTML = xhr.responseText;
+            el.classList.add('label');
+            el.classList.add('status-error');
+            el.innerHTML = xhr.responseText;
         },
         serializeQueryString({selected: selected}),
         { method: 'POST' }

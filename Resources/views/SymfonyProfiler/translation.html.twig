@@ -47,6 +47,9 @@
 
 <form action="{{ path('php_translation_profiler_translation_create_assets', {'token': token}) }}" method="post"
       id="translations-list" onSubmit="return saveTranslations(this);" >
+    <span class="hidden">
+        <img src="{{ asset("bundles/translation/css/images/loader.svg") }}" width="60" id="svg-loader">
+    </span>
 
     <div class="sf-tabs">
         <div class="tab">
@@ -107,11 +110,11 @@
         </div>
     </div>
 
+    <p class="full-width" id="translationResult"></p>
+
     <button type="submit" class="btn">
         Send selected translations to SaaS
     </button>
-
-    <div id="translationResult"></div>
 
 </form>
     {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
@@ -163,7 +166,9 @@
                         </div>
                     {% endif %}
                 </td>
-                <td class="translation">{{ message.translation }}</td>
+                <td class="translation">
+                    {{ message.translation }}
+                </td>
                 <td width="155px">
                     {% spaceless %}
                     <a class="edit"  href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
