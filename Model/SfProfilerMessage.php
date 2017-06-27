@@ -116,20 +116,36 @@ final class SfProfilerMessage
         return $message;
     }
 
-    /**
-     * Convert to a Common\Message.
-     *
-     * @return Message
-     */
-    public function convertToMessage()
-    {
-        return new Message(
-            $this->key,
-            $this->domain,
-            $this->locale,
-            $this->translation
-        );
-    }
+     /**
+      * Convert to a Common\Message.
+      *
+      * @return Message
+      */
+     public function convertToMessage()
+     {
+         $meta = [];
+
+         if (!empty($this->getParameters())) {
+             // Reduce to only get one value of each parameter, not all the usages.
+             $meta['parameters'] = array_reduce($this->getParameters(), 'array_merge', []);
+         }
+
+         if (!empty($this->getCount())) {
+             $meta['count'] = $this->getCount();
+         }
+
+         if (!empty($this->getTransChoiceNumber())) {
+             $meta['transChoiceNumber'] = $this->getTransChoiceNumber();
+         }
+
+         return new Message(
+             $this->key,
+             $this->domain,
+             $this->locale,
+             $this->translation,
+             $meta
+         );
+     }
 
     /**
      * @return int

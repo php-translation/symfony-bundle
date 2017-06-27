@@ -1,8 +1,45 @@
 # Change Log
 
-The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release. 
+The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## UNRELEASED
+## 0.3.5
+
+### Fixed
+
+- Fix incorrect EditInPlace activation on Twig `is_safe` comparison
+
+## 0.3.4
+
+### Fixed
+
+- When using EditInPlace, we only mark twig filters (`trans` & `transchoice`) as "safe" when EditInPlace in active. 
+
+## 0.3.3
+
+### Changed
+
+- Add meta informations from the profiler to `Translation\Common\Model\Message`
+
+### Fixed
+
+- Make Dependency Injection work with Twig1
+
+## 0.3.2
+
+### Changed
+
+- HTML fixes on profiler page
+
+### Added
+
+- Support for Symfony 3.3.x
+- Option to not show "untranslatable" in WebUI
+- Make sure we fail with an exception if SfTranslation is not enabled
+- Improved testing
+
+### Fixed
+
+- Added translation cache dir on warmup
 
 ## 0.3.2
 
@@ -58,19 +95,19 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Changed
 
 - `Translation\Bundle\Service\CatalogueFetcher` moved to `Translation\Bundle\Catalogue\CatalogueFetcher`
-- Made most (if not all) classes final. 
+- Made most (if not all) classes final.
 - `CatalogueFetcher` requires a `Configuration` object.
 
 ### Removed
 
 - Dead code in the `SymfonyProfilerController`
-- `FileStorage` was moved to `php-translation/symfony-storage` 
+- `FileStorage` was moved to `php-translation/symfony-storage`
 
 ### Fixed
 
-- The bundle works without any configuration. 
+- The bundle works without any configuration.
 - You may have an config named "default".
 
 ## 0.1.0
 
-First release. 
+First release.

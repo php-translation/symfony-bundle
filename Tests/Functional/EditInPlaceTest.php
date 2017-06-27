@@ -18,16 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class EditInPlaceTest extends BaseTestCase
 {
-    public function testDeactivatedTest()
-    {
-        $this->bootKernel();
-        $request = Request::create('/foobar');
-        $response = $this->kernel->handle($request);
-
-        self::assertSame(200, $response->getStatusCode());
-        self::assertNotContains('x-trans', $response->getContent());
-    }
-
     public function testActivatedTest()
     {
         $this->bootKernel();
@@ -89,5 +79,15 @@ class EditInPlaceTest extends BaseTestCase
         // Check attribute
         $attributeDiv = $dom->getElementById('attribute-div');
         self::assertEquals('translated.attribute', $attributeDiv->getAttribute('data-value'));
+    }
+
+    public function testDeactivatedTest()
+    {
+        $this->bootKernel();
+        $request = Request::create('/foobar');
+        $response = $this->kernel->handle($request);
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertNotContains('x-trans', $response->getContent());
     }
 }
