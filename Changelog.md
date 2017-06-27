@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.3.6
+
+### Added
+
+- Improve UI/UX in Profiler (loader during AJAX requests, select/deselect all messages)
+
 ## 0.3.5
 
 ### Fixed
