@@ -101,7 +101,7 @@
                         <p>There are no messages of this category.</p>
                     </div>
                 {% else %}
-                    {{ translation_helper.render_table(messages_missing) }}
+                    {{ translation_helper.render_table(messages_missing, true) }}
                 {% endif %}
             </div>
         </div>
@@ -117,11 +117,13 @@
     {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
 {% endblock %}
 
-{% macro render_table(messages) %}
+{% macro render_table(messages, checkedByDefault = false) %}
     <table>
         <thead>
         <tr>
-            <th></th>
+            <th>
+                <input type="checkbox" id="check-all-control" onchange="toggleCheckAll(this)" {% if checkedByDefault %}checked="checked"{% endif %}>
+            </th>
             <th>Locale</th>
             <th>Domain</th>
             <th>Times used</th>
@@ -135,7 +137,7 @@
             <tr id="{{ key }}">
                 <td>
                     {% if message.state == constant('Symfony\\Component\\Translation\\DataCollectorTranslator::MESSAGE_MISSING') %}
-                        <input type="checkbox" name="translationKey" value="{{ key }}" checked="checked">
+                        <input type="checkbox" name="translationKey" value="{{ key }}" checked="checked" class="translation-key-checkbox">
                     {% else %}
                         <input type="checkbox" disabled="disabled">
                     {% endif %}

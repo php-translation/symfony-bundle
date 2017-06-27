@@ -35,6 +35,7 @@ function syncMessage(key) {
         { method: 'POST' }
     );
 }
+
 function syncAll() {
     Sfjs.request(
         translationSyncAllUrl,
@@ -96,6 +97,14 @@ function saveEditForm(key, translation) {
 function cancelEditForm(key, orgMessage) {
     var el = document.getElementById(key).getElementsByClassName("translation");
     el[0].innerHTML = orgMessage;
+}
+
+function toggleCheckAll(controller) {
+    var checkboxes = document.querySelectorAll('.translation-key-checkbox');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = controller.checked;
+    }
 }
 
 var serializeQueryString = function(obj, prefix) {
