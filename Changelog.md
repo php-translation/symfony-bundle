@@ -8,6 +8,10 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 - Improve UI/UX in Profiler (loader during AJAX requests, select/deselect all messages)
 
+### Changed
+
+- Do not throw exception when SF Translation collector is not found.
+
 ## 0.3.5
 
 ### Fixed
