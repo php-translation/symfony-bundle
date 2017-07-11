@@ -41,6 +41,7 @@ class Configuration implements ConfigurationInterface
         $this->addEditInPlaceNode($root);
         $this->addWebUINode($root);
 
+        $debug = $this->container->getParameter('kernel.debug');
         $root
             ->children()
                 ->arrayNode('locales')
@@ -48,7 +49,22 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('default_locale')->info('Your default language or fallback locale. Default will be kernel.default_locale')->end()
                 ->arrayNode('symfony_profiler')
-                    ->canBeEnabled()
+                    ->addDefaultsIfNotSet()
+                    ->treatFalseLike(['enabled' => false])
+                    ->treatTrueLike(['enabled' => true])
+                    ->treatNullLike(['enabled' => $debug])
+                    ->info('Extend the debug profiler with information about requests.')
+                    ->children()
+                        ->booleanNode('enabled')
+                            ->info('Turn the symfony profiler integration on or off. Defaults to kernel debug mode.')
+                            ->defaultValue($debug)
+                        ->end()
+                        ->scalarNode('formatter')->defaultNull()->end()
+                        ->integerNode('captured_body_length')
+                            ->defaultValue(0)
+                            ->info('Limit long HTTP message bodies to x characters. If set to 0 we do not read the message body. Only available with the default formatter (FullHttpMessageFormatter).')
+                        ->end()
+                    ->end()
                     ->children()
                         ->booleanNode('allow_edit')->defaultTrue()->end()
                     ->end()
