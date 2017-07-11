@@ -24,6 +24,7 @@ class TranslationExtensionTest extends AbstractExtensionTestCase
     {
         $this->setParameter('kernel.default_locale', 'ar');
         $this->setParameter('kernel.root_dir', __DIR__);
+        $this->setParameter('kernel.debug', true);
 
         return [
             new TranslationExtension(),
