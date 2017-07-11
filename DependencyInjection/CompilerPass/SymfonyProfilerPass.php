@@ -30,7 +30,8 @@ class SymfonyProfilerPass implements CompilerPassInterface
         }
 
         if (!$container->hasDefinition('translator.data_collector')) {
-            throw new \LogicException('[PHP-Translation] To integrate with the Symfony profiler you first need to enable it. Please set framework.translator.enabled: true');
+            // No Symfony translation data collector was found. We cannot use our collection without it.
+            $container->removeDefinition('php_translation.data_collector');
         }
     }
 }
