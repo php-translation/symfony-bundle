@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Model;
 
+use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Common\Model\Message;
 
 /**
@@ -116,36 +117,36 @@ final class SfProfilerMessage
         return $message;
     }
 
-     /**
-      * Convert to a Common\Message.
-      *
-      * @return Message
-      */
-     public function convertToMessage()
-     {
-         $meta = [];
+    /**
+     * Convert to a Common\Message.
+     *
+     * @return Message
+     */
+    public function convertToMessage()
+    {
+        $meta = [];
 
-         if (!empty($this->getParameters())) {
-             // Reduce to only get one value of each parameter, not all the usages.
-             $meta['parameters'] = array_reduce($this->getParameters(), 'array_merge', []);
-         }
+        if ($this->hasParameters()) {
+            // Reduce to only get one value of each parameter, not all the usages.
+            $meta['parameters'] = array_reduce($this->getParameters(), 'array_merge', []);
+        }
 
-         if (!empty($this->getCount())) {
-             $meta['count'] = $this->getCount();
-         }
+        if (!empty($this->getCount())) {
+            $meta['count'] = $this->getCount();
+        }
 
-         if (!empty($this->getTransChoiceNumber())) {
-             $meta['transChoiceNumber'] = $this->getTransChoiceNumber();
-         }
+        if (!empty($this->getTransChoiceNumber())) {
+            $meta['transChoiceNumber'] = $this->getTransChoiceNumber();
+        }
 
-         return new Message(
-             $this->key,
-             $this->domain,
-             $this->locale,
-             $this->translation,
-             $meta
-         );
-     }
+        return new Message(
+            $this->key,
+            $this->domain,
+            $this->locale,
+            $this->translation,
+            $meta
+        );
+    }
 
     /**
      * @return int
@@ -292,7 +293,15 @@ final class SfProfilerMessage
      */
     public function getParameters()
     {
-        return $this->parameters;
+        $pure = [];
+        foreach ($this->parameters as $p) {
+            if ($p instanceof Data) {
+                $p = $p->getRawData();
+            }
+            $pure[] = $p;
+        }
+
+        return $pure;
     }
 
     /**
