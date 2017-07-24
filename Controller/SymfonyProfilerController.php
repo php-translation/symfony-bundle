@@ -201,9 +201,6 @@ class SymfonyProfilerController extends Controller
 
         $messages = [];
         foreach ($toSave as $data) {
-            //We do not want do add the placeholder to Loco. That messes up the stats.
-            $data['translation'] = '';
-
             $messages[] = SfProfilerMessage::create($data)->convertToMessage();
         }
 
