@@ -51,7 +51,7 @@ class ExtractCommand extends ContainerAwareCommand
         $catalogues = $container->get('php_translation.catalogue_fetcher')
             ->getCatalogues($config, $locales);
 
-        $definedBefore = $container->get('php_translation.catalogue_counter')->getNumberOfDefinedMessages($catalogues[0]);
+
 
         $finder = $this->getConfiguredFinder($config);
         $errors = [];
@@ -64,7 +64,9 @@ class ExtractCommand extends ContainerAwareCommand
         $container->get('php_translation.catalogue_writer')
             ->writeCatalogues($config, $results);
 
-        $definedAfter = $container->get('php_translation.catalogue_counter')->getNumberOfDefinedMessages($catalogues[0]);
+        $catalogueCounter = $container->get('php_translation.catalogue_counter');
+        $definedBefore = $catalogueCounter->getNumberOfDefinedMessages($catalogues[0]);
+        $definedAfter = $catalogueCounter->getNumberOfDefinedMessages($results[0]);
 
         /*
          * Print results
