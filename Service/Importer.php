@@ -42,8 +42,7 @@ final class Importer
     private $metadataWriter;
 
     /**
-     *
-     * @param Extractor $extractor
+     * @param Extractor      $extractor
      * @param MetadataWriter $metadataWriter
      */
     public function __construct(Extractor $extractor, MetadataWriter $metadataWriter)
@@ -61,7 +60,8 @@ final class Importer
      *     @var array $whitelist_domains Whitlelist the domains we should include. Cannot be used with blacklist.
      *     @var string project_root The project root will be removed from the source location.
      * }
-     * @param array              $errors from extractor, by reference.
+     *
+     * @param array $errors from extractor, by reference.
      *
      * @return MessageCatalogue[]
      */

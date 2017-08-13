@@ -38,8 +38,7 @@ final class CatalogueManager
     private $noteParser;
 
     /**
-     *
-     * @param string $projectRoot
+     * @param string     $projectRoot
      * @param NoteParser $noteParser
      */
     public function __construct($projectRoot, NoteParser $noteParser)
