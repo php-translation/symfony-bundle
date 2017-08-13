@@ -117,6 +117,7 @@ class TranslationExtension extends Extension
             foreach ($c['local_storage'] as $serviceId) {
                 if ($serviceId !== 'php_translation.local_file_storage.abstract') {
                     $storageDefinition->addMethodCall('addLocalStorage', [new Reference($serviceId)]);
+
                     continue;
                 }
 

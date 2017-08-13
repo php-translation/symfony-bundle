@@ -49,6 +49,7 @@ final class MetadataAwareMerge extends AbstractOperation
                 if (null === $keySourceMetadata) {
                     // If there were no metadata in source. Just use target's metadata
                     $this->result->setMetadata($id, $keyTargetMetadata, $domain);
+
                     continue;
                 }
 

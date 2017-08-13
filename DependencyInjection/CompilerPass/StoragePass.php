@@ -44,9 +44,11 @@ class StoragePass implements CompilerPassInterface
                 switch ($tag['type']) {
                     case 'remote':
                         $def->addMethodCall('addRemoteStorage', [new Reference($id)]);
+
                         break;
                     case 'local':
                         $def->addMethodCall('addLocalStorage', [new Reference($id)]);
+
                         break;
                     default:
                         throw new \LogicException(sprintf('The tag "php_translation.storage" must have a "type" of value "local" or "remote". Value "%s" was provided', $tag['type']));
