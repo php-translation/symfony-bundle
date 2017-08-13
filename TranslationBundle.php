@@ -18,6 +18,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ExternalTranslatorPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\StoragePass;
 use Translation\Bundle\DependencyInjection\CompilerPass\SymfonyProfilerPass;
+use Translation\Bundle\DependencyInjection\CompilerPass\ValidatorVisitorPass;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -27,6 +28,7 @@ class TranslationBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new SymfonyProfilerPass());
+        $container->addCompilerPass(new ValidatorVisitorPass());
         $container->addCompilerPass(new ExternalTranslatorPass());
         $container->addCompilerPass(new ExtractorPass());
         $container->addCompilerPass(new StoragePass());
