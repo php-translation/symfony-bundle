@@ -31,6 +31,16 @@ services:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
+  php_translation.extractor.php.visitor.FormTypeEmptyValue:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.php.visitor.FormTypeInvalidMessage:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
   php_translation.extractor.php.visitor.FormTypeLabelExplicit:
     class: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
     tags:
@@ -43,6 +53,12 @@ services:
 
   php_translation.extractor.php.visitor.FormTypePlaceholder:
     class: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
+  php_translation.extractor.php.visitor.ValidationAnnotation:
+    class: Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation
+    arguments: ['@validator']
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 

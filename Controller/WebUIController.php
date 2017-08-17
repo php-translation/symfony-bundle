@@ -138,6 +138,7 @@ class WebUIController extends Controller
 
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
+
         try {
             $message = $this->getMessage($request, ['Create']);
         } catch (MessageValidationException $e) {

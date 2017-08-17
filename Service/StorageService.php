@@ -90,10 +90,12 @@ final class StorageService implements Storage
             case self::DIRECTION_DOWN:
                 $this->mergeDown();
                 $this->mergeUp();
+
                 break;
             case self::DIRECTION_UP:
                 $this->mergeUp();
                 $this->mergeDown();
+
                 break;
             default:
                 throw new LogicException(sprintf('Direction must be either "up" or "down". Value "%s" was provided', $direction));
