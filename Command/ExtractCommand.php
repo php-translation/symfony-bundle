@@ -51,8 +51,6 @@ class ExtractCommand extends ContainerAwareCommand
         $catalogues = $container->get('php_translation.catalogue_fetcher')
             ->getCatalogues($config, $locales);
 
-
-
         $finder = $this->getConfiguredFinder($config);
         $errors = [];
         $results = $importer->extractToCatalogues($finder, $catalogues, [
