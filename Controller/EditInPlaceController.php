@@ -63,6 +63,10 @@ class EditInPlaceController extends Controller
         $filesystem = $this->get('filesystem');
         $finder = new Finder();
 
+        if (!is_dir($translationDir)) {
+            mkdir($translationDir);
+        }
+
         if (!is_writable($translationDir)) {
             throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $translationDir));
         }
@@ -74,7 +78,10 @@ class EditInPlaceController extends Controller
         }
 
         // Build them again
-        $this->get('translator')->warmUp($translationDir);
+        $translator = $this->get('translator');
+        if (method_exists($translator, 'warmUp')) {
+            $translator->warmUp($translationDir);
+        }
     }
 
     /**
