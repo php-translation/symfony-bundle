@@ -14,7 +14,6 @@ services:
 
   php_translation.catalogue_manager:
     class: Translation\Bundle\Catalogue\CatalogueManager
-    arguments: ["%kernel.root_dir%/../", "@php_translation.notes_parser"]
 
   php_translation.extractor:
     class: Translation\Extractor\Extractor
@@ -33,7 +32,7 @@ services:
 
   php_translation.catalogue_counter:
     class: Translation\Bundle\Catalogue\CatalogueCounter
-    arguments: ["@php_translation.notes_parser"]
+    arguments: []
 
   php_translation.notes_parser:
     class: Translation\Bundle\Catalogue\NoteParser

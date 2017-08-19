@@ -14,6 +14,7 @@ namespace Translation\Bundle\Catalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\MetadataAwareInterface;
 use Translation\Bundle\Model\CatalogueMessage;
+use Translation\Bundle\Model\Metadata;
 
 /**
  * A manager that handle loaded catalogues.
@@ -26,26 +27,6 @@ final class CatalogueManager
      * @var MessageCatalogueInterface[]
      */
     private $catalogues;
-
-    /**
-     * @var string
-     */
-    private $projectRoot;
-
-    /**
-     * @var NoteParser
-     */
-    private $noteParser;
-
-    /**
-     * @param string     $projectRoot
-     * @param NoteParser $noteParser
-     */
-    public function __construct($projectRoot, NoteParser $noteParser)
-    {
-        $this->projectRoot = $projectRoot;
-        $this->noteParser = $noteParser;
-    }
 
     /**
      * @param MessageCatalogueInterface[] $catalogues
@@ -83,7 +64,8 @@ final class CatalogueManager
         }
 
         foreach ($this->catalogues[$locale]->all($domain) as $key => $text) {
-            $messages[] = new CatalogueMessage($this, $locale, $domain, $key, $text);
+            $messages[] = $this->createMessage($this->catalogues[$locale], $locale, $domain, $key, $text);
+
         }
 
         return $messages;
@@ -96,6 +78,7 @@ final class CatalogueManager
      *      @var string $locale
      *      @var bool $isNew
      *      @var bool $isObsolete
+     *      @var bool $isApproved
      * }
      *
      * @return CatalogueMessage[]
@@ -105,6 +88,7 @@ final class CatalogueManager
         $inputDomain = isset($config['domain']) ? $config['domain'] : null;
         $isNew = isset($config['isNew']) ? $config['isNew'] : null;
         $isObsolete = isset($config['isObsolete']) ? $config['isObsolete'] : null;
+        $isApproved = isset($config['isApproved']) ? $config['isApproved'] : null;
 
         $messages = [];
         $catalogues = [];
@@ -124,26 +108,24 @@ final class CatalogueManager
             }
             foreach ($domains as $domain) {
                 foreach ($catalogue->all($domain) as $key => $text) {
-                    // Filter on new and obsolete
-                    if (null !== $isNew || null !== $isObsolete) {
-                        $notes = $this->getNotes($domain, $key, $catalogue);
-
-                        if (null !== $isNew) {
-                            if ($isNew !== $this->noteParser->hasNoteNew($notes)) {
-                                continue;
-                            }
-                        }
-                        if (null !== $isObsolete) {
-                            if ($isObsolete !== $this->noteParser->hasNoteObsolete($notes)) {
-                                continue;
-                            }
-                        }
-                    }
-
-                    $messages[] = new CatalogueMessage($this, $locale, $domain, $key, $text);
+                    $messages[] = $this->createMessage($catalogue, $locale, $domain, $key, $text);
                 }
             }
         }
+
+        $messages = array_filter($messages, function(CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved){
+            if (null !== $isNew && $m->isNew() !== $isNew) {
+                return false;
+            }
+            if (null !== $isObsolete && $m->isObsolete() !== $isObsolete) {
+                return false;
+            }
+            if (null !== $isApproved && $m->isApproved() !== $isApproved) {
+                return false;
+            }
+
+            return true;
+        });
 
         return $messages;
     }
@@ -167,69 +149,21 @@ final class CatalogueManager
     }
 
     /**
-     * @param string $domain
-     * @param string $key
-     *
-     * @return array
-     */
-    public function getSourceLocations($domain, $key)
-    {
-        $notes = $this->getNotes($domain, $key);
-        $sources = [];
-        foreach ($notes as $note) {
-            if ($note['content'] === 'file-source') {
-                list($path, $line) = explode(':', $note['from'], 2);
-                $sources[] = ['full_path' => $this->projectRoot.$path, 'path' => $path, 'line' => $line];
-            }
-        }
-
-        return $sources;
-    }
-
-    /**
-     * @param string $domain
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function isNew($domain, $key)
-    {
-        $notes = $this->getNotes($domain, $key);
-
-        return $this->noteParser->hasNoteNew($notes);
-    }
-
-    /**
-     * @param string $domain
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function isObsolete($domain, $key)
-    {
-        $notes = $this->getNotes($domain, $key);
-
-        return $this->noteParser->hasNoteObsolete($notes);
-    }
-
-    /**
+     * @param MessageCatalogueInterface $catalogue
+     * @param $locale
      * @param $domain
      * @param $key
-     * @param MessageCatalogueInterface|null $catalogue
-     *
-     * @return array
+     * @param $text
+     * @return CatalogueMessage
      */
-    private function getNotes($domain, $key, MessageCatalogueInterface $catalogue = null)
+    private function createMessage(MessageCatalogueInterface $catalogue, $locale, $domain, $key, $text)
     {
-        if (null === $catalogue) {
-            /** @var MessageCatalogueInterface $c */
-            $catalogue = reset($this->catalogues);
+        $catalogueMessage = new CatalogueMessage($this, $locale, $domain, $key, $text);
+
+        if ($catalogue instanceof MetadataAwareInterface) {
+            $catalogueMessage->setMetadata(new Metadata($catalogue->getMetadata($key, $domain)));
         }
 
-        if (!$catalogue instanceof MetadataAwareInterface) {
-            return [];
-        }
-
-        return $this->noteParser->getNotes($domain, $key, $catalogue);
+        return $catalogueMessage;
     }
 }
