@@ -49,7 +49,6 @@ XML
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
     }
 
-
     public function testIndexAction()
     {
         $request = Request::create('/_trans', 'GET');
