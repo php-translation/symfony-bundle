@@ -159,7 +159,7 @@ class TranslationExtension extends Extension
             }
         }
 
-        $container->setParameter('php_translation.webui.file_base_path', rtrim($path, '/') . '/');
+        $container->setParameter('php_translation.webui.file_base_path', rtrim($path, '/').'/');
     }
 
     /**
