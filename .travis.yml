@@ -31,6 +31,8 @@ matrix:
     - php: 7.0
       env: SYMFONY_VERSION=2.7.*
     - php: 7.0
+      env: SYMFONY_VERSION="2.8.* twig/twig:^1.34"
+    - php: 7.0
       env: SYMFONY_VERSION=2.8.*
 
 before_install:

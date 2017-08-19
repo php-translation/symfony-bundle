@@ -69,7 +69,7 @@ services:
 
   # Twig Visitors:
   php_translation.extractor.twig.factory:
-    class: Translation\Extractor\Visitor\Twig\Twig2Visitor
+    class: Translation\Extractor\Visitor\Twig\TwigVisitorFactory
     public: false
 
   php_translation.extractor.twig.visitor.twig:
