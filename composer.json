@@ -21,10 +21,10 @@
         "php-translation/extractor": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.5 || ^5.4",
+        "phpunit/phpunit": "^4.8.36 || ^5.5 || ^6.2",
         "php-translation/translator": "^0.1",
-        "php-http/curl-client": "^1.0",
-        "php-http/message": "^1.0",
+        "php-http/curl-client": "^1.7",
+        "php-http/message": "^1.6",
         "php-http/message-factory": "^1.0.2",
         "symfony/twig-bundle": "^2.7 || ^3.0",
         "symfony/twig-bridge": "^2.7 || ^3.0",
@@ -32,10 +32,10 @@
         "symfony/templating": "^2.7 || ^3.0",
         "symfony/dependency-injection": "^2.7 || ^3.0",
         "symfony/web-profiler-bundle": "^2.7 || ^3.0",
-        "matthiasnoback/symfony-dependency-injection-test": "^1.0",
-        "guzzlehttp/psr7": "^1.3",
-        "nyholm/nsa": "^1.0",
-        "nyholm/symfony-bundle-test": "^1.0.2"
+        "matthiasnoback/symfony-dependency-injection-test": "^1.0 || ^2.0",
+        "guzzlehttp/psr7": "^1.4",
+        "nyholm/nsa": "^1.1",
+        "nyholm/symfony-bundle-test": "^1.2"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."
@@ -49,6 +49,7 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "prefer-dist": true,
     "extra": {
         "branch-alias": {
             "dev-master": "0.4-dev"

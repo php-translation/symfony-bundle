@@ -13,12 +13,12 @@ namespace Translation\Bundle\Service;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
-use Translation\Bundle\Catalogue\MetadataWriter;
 use Translation\Bundle\Model\ImportResult;
+use Translation\Bundle\Model\Metadata;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
-use Translation\Bundle\Catalogue\Operation\MetadataAwareMerge;
+use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 
 /**
  * Use extractors to import translations to message catalogues.
@@ -38,18 +38,11 @@ final class Importer
     private $config;
 
     /**
-     * @var MetadataWriter
+     * @param Extractor $extractor
      */
-    private $metadataWriter;
-
-    /**
-     * @param Extractor      $extractor
-     * @param MetadataWriter $metadataWriter
-     */
-    public function __construct(Extractor $extractor, MetadataWriter $metadataWriter)
+    public function __construct(Extractor $extractor)
     {
         $this->extractor = $extractor;
-        $this->metadataWriter = $metadataWriter;
     }
 
     /**
@@ -58,8 +51,8 @@ final class Importer
      * @param array              $config     {
      *
      *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
-     *     @var array $whitelist_domains Whitlelist the domains we should include. Cannot be used with blacklist.
-     *     @var string project_root The project root will be removed from the source location.
+     *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
+     *     @var string $project_root The project root will be removed from the source location.
      * }
      *
      * @return ImportResult
@@ -73,38 +66,37 @@ final class Importer
             $target = new MessageCatalogue($catalogue->getLocale());
             $this->convertSourceLocationsToMessages($target, $sourceCollection);
 
-            $merge = new MetadataAwareMerge($catalogue, $target);
+            // Remove all SourceLocation and State form catalogue.
+            foreach ($catalogue->getDomains() as $domain) {
+                foreach ($catalogue->all($domain) as $key => $translation) {
+                    $meta = $this->getMetadata($catalogue, $key, $domain);
+                    $meta->removeAllInCategory('file-source');
+                    $meta->removeAllInCategory('state');
+                    $this->setMetadata($catalogue, $key, $domain, $meta);
+                }
+            }
+
+            $merge = new ReplaceOperation($target, $catalogue);
             $result = $merge->getResult();
             $domains = $merge->getDomains();
 
             // Mark new messages as new/obsolete
             foreach ($domains as $domain) {
                 foreach ($merge->getNewMessages($domain) as $key => $translation) {
-                    $this->metadataWriter->write($result, $key, $domain, 'notes', ['content' => 'status:new']);
+                    $meta = $this->getMetadata($result, $key, $domain);
+                    $meta->setState('new');
+                    $this->setMetadata($result, $key, $domain, $meta);
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
-                    $this->metadataWriter->write($result, $key, $domain, 'notes', ['content' => 'status:obsolete']);
+                    $meta = $this->getMetadata($result, $key, $domain);
+                    $meta->setState('obsolete');
+                    $this->setMetadata($result, $key, $domain, $meta);
                 }
             }
             $results[] = $result;
         }
 
         return new ImportResult($results, $sourceCollection->getErrors());
-    }
-
-    /**
-     * See docs for extractToCatalogues.
-     *
-     * @return MessageCatalogue
-     *
-     * @deprecated use extractToCatalogues instead.
-     */
-    public function extractToCatalogue(Finder $finder, MessageCatalogue $catalogue, array $config = [])
-    {
-        $result = $this->extractToCatalogues($finder, [$catalogue], $config);
-        $messageCatalogue = $result->getMessageCatalogues();
-
-        return reset($messageCatalogue);
     }
 
     /**
@@ -122,17 +114,37 @@ final class Importer
                 continue;
             }
 
-            $catalogue->set($sourceLocation->getMessage(), null, $domain);
+            $key = $sourceLocation->getMessage();
+            $catalogue->set($key, null, $domain);
             $trimLength = 1 + strlen($this->config['project_root']);
 
-            $this->metadataWriter->write(
-                $catalogue,
-                $sourceLocation->getMessage(),
-                $domain,
-                'notes',
-                ['from' => sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()), 'content' => 'file-source']
-            );
+            $meta = $this->getMetadata($catalogue, $key, $domain);
+            $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            $this->setMetadata($catalogue, $key, $domain, $meta);
         }
+    }
+
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param $key
+     * @param $domain
+     *
+     * @return Metadata
+     */
+    private function getMetadata(MessageCatalogue $catalogue, $key, $domain)
+    {
+        return new Metadata($catalogue->getMetadata($key, $domain));
+    }
+
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param $key
+     * @param $domain
+     * @param Metadata $metadata
+     */
+    private function setMetadata(MessageCatalogue $catalogue, $key, $domain, Metadata $metadata)
+    {
+        $catalogue->setMetadata($key, $metadata->toArray(), $domain);
     }
 
     /**

@@ -17,6 +17,6 @@ namespace Translation\Bundle\Twig;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class DummyTwigVisitor
+final class DummyTwigVisitor
 {
 }

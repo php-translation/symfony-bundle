@@ -11,7 +11,14 @@
 
 namespace Translation\Bundle\Tests\Functional;
 
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Catalogue\CatalogueManager;
+use Translation\Bundle\Catalogue\CatalogueWriter;
 use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Service\StorageService;
+use Translation\Extractor\Extractor;
+use Translation\Extractor\FileExtractor\PHPFileExtractor;
+use Translation\Extractor\FileExtractor\TwigFileExtractor;
 
 class BundleInitializationTest extends BaseTestCase
 {
@@ -27,6 +34,20 @@ class BundleInitializationTest extends BaseTestCase
         $root = $container->getParameter('kernel.root_dir');
         $this->assertEquals($root.'/Resources/translations', $default->getOutputDir());
 
-        $this->assertTrue($container->has('php_translation.storage'));
+        $services = [
+            'php_translation.storage' => StorageService::class,
+            'php_translation.extractor.twig' => TwigFileExtractor::class,
+            'php_translation.extractor.php' => PHPFileExtractor::class,
+            'php_translation.catalogue_fetcher' => CatalogueFetcher::class,
+            'php_translation.catalogue_writer' => CatalogueWriter::class,
+            'php_translation.catalogue_manager' => CatalogueManager::class,
+            'php_translation.extractor' => Extractor::class,
+        ];
+
+        foreach ($services as $id => $class) {
+            $this->assertTrue($container->has($id));
+            $s = $container->get($id);
+            $this->assertInstanceOf($class, $s);
+        }
     }
 }
