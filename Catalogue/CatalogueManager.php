@@ -65,7 +65,6 @@ final class CatalogueManager
 
         foreach ($this->catalogues[$locale]->all($domain) as $key => $text) {
             $messages[] = $this->createMessage($this->catalogues[$locale], $locale, $domain, $key, $text);
-
         }
 
         return $messages;
@@ -113,7 +112,7 @@ final class CatalogueManager
             }
         }
 
-        $messages = array_filter($messages, function(CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved){
+        $messages = array_filter($messages, function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
             if (null !== $isNew && $m->isNew() !== $isNew) {
                 return false;
             }
@@ -154,6 +153,7 @@ final class CatalogueManager
      * @param $domain
      * @param $key
      * @param $text
+     *
      * @return CatalogueMessage
      */
     private function createMessage(MessageCatalogueInterface $catalogue, $locale, $domain, $key, $text)

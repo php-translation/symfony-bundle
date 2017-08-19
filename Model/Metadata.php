@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\Model;
 
 /**
- * Message metadata abstraction
+ * Message metadata abstraction.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -20,7 +29,6 @@ final class Metadata
     private $notes = [];
 
     /**
-     *
      * @param array $metadata
      */
     public function __construct(array $metadata)
@@ -44,7 +52,6 @@ final class Metadata
         }
     }
 
-
     /**
      * @param string $state
      */
@@ -53,7 +60,6 @@ final class Metadata
         $this->removeAllInCategory('state');
         $this->addCategory('state', $state);
     }
-
 
     /**
      * @return bool
@@ -76,7 +82,7 @@ final class Metadata
     public function setApproved($bool)
     {
         $this->removeAllInCategory('approved');
-        $this->addCategory('approved', $bool ? 'true': 'false');
+        $this->addCategory('approved', $bool ? 'true' : 'false');
     }
 
     /**
@@ -97,16 +103,15 @@ final class Metadata
         return $sources;
     }
 
-
     /**
-     * Add metadata
+     * Add metadata.
      *
      * @param string $name
      * @param string $content
      */
     public function addCategory($name, $content, $priority = 1)
     {
-        $this->notes[] = ['category'=>$name, 'content'=> $content, 'priority'=>$priority];
+        $this->notes[] = ['category' => $name, 'content' => $content, 'priority' => $priority];
     }
 
     /**
@@ -133,7 +138,7 @@ final class Metadata
         foreach ($this->notes as &$note) {
             if ($note['category'] === $category) {
                 if (!isset($note['priority'])) {
-                    $note['priority'] = "1";
+                    $note['priority'] = '1';
                 }
                 $data[] = $note;
             }
@@ -147,7 +152,7 @@ final class Metadata
     }
 
     /**
-     * Remove all metadata in category
+     * Remove all metadata in category.
      *
      * @param string $category
      */

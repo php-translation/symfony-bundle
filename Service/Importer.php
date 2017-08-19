@@ -139,13 +139,13 @@ final class Importer
      * @param MessageCatalogue $catalogue
      * @param $key
      * @param $domain
+     *
      * @return Metadata
      */
     private function getMetadata(MessageCatalogue $catalogue, $key, $domain)
     {
         return new Metadata($catalogue->getMetadata($key, $domain));
     }
-
 
     /**
      * @param MessageCatalogue $catalogue

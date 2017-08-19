@@ -110,7 +110,7 @@ final class ReplaceOperation extends AbstractOperation
                     // Add new value
                     $source[$key] = $value;
                 }
-            // if sequential
+                // if sequential
             } elseif (!in_array($value, $source)) {
                 $source[] = $value;
             }
@@ -121,7 +121,7 @@ final class ReplaceOperation extends AbstractOperation
 
     public function isArrayAssociative(array $arr)
     {
-        if (array() === $arr) {
+        if ([] === $arr) {
             return false;
         }
 
