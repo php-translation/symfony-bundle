@@ -17,7 +17,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Translation\Bundle\Service\StorageService;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -56,13 +55,14 @@ class StatusCommand extends ContainerAwareCommand
 
         if ($input->getOption('json')) {
             $output->writeln(json_encode($stats));
+
             return;
         }
 
         $io = new SymfonyStyle($input, $output);
         foreach ($stats as $locale => $stat) {
             $rows = [];
-            foreach($stat as $domain => $data) {
+            foreach ($stat as $domain => $data) {
                 $rows[] = [$domain, $data['defined'], $data['new'], $data['obsolete']];
             }
             $io->title('Locale: '.$locale);
