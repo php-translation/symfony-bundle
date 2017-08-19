@@ -102,7 +102,7 @@ class EditInPlaceController extends Controller
             $message->setKey($translationKey);
             $message->setTranslation($value);
             $message->setDomain($domain);
-            $message->setDomain($locale);
+            $message->setLocale($locale);
 
             $errors = $validator->validate($message, null, $validationGroups);
             if (count($errors) > 0) {
