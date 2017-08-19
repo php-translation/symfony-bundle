@@ -14,6 +14,7 @@ namespace Translation\Bundle\Service;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Catalogue\MetadataWriter;
+use Translation\Bundle\Model\ImportResult;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
@@ -61,15 +62,12 @@ final class Importer
      *     @var string project_root The project root will be removed from the source location.
      * }
      *
-     * @param array $errors from extractor, by reference.
-     *
-     * @return MessageCatalogue[]
+     * @return ImportResult
      */
-    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], &$errors = [])
+    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [])
     {
         $this->processConfig($config);
         $sourceCollection = $this->extractor->extract($finder);
-        $errors = $sourceCollection->getErrors();
         $results = [];
         foreach ($catalogues as $catalogue) {
             $target = new MessageCatalogue($catalogue->getLocale());
@@ -91,19 +89,22 @@ final class Importer
             $results[] = $result;
         }
 
-        return $results;
+        return new ImportResult($results, $sourceCollection->getErrors());
     }
 
     /**
      * See docs for extractToCatalogues.
      *
      * @return MessageCatalogue
+     *
+     * @deprecated use extractToCatalogues instead.
      */
     public function extractToCatalogue(Finder $finder, MessageCatalogue $catalogue, array $config = [])
     {
-        $results = $this->extractToCatalogues($finder, [$catalogue], $config);
+        $result = $this->extractToCatalogues($finder, [$catalogue], $config);
+        $messageCatalogue = $result->getMessageCatalogues();
 
-        return reset($results);
+        return reset($messageCatalogue);
     }
 
     /**
