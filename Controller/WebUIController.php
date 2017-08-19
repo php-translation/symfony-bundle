@@ -140,13 +140,15 @@ class WebUIController extends Controller
         $storage = $this->get('php_translation.storage.'.$configName);
 
         try {
-            $message = $this->getMessage($request, ['Create']);
+            $message = $this->getMessage($request, ['WebUi_Create']);
+            $message->setDomain($domain);
+            $message->setLocale($locale);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
 
         try {
-            $storage->create(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
+            $storage->create($message);
         } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
@@ -176,7 +178,7 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['Edit']);
+            $message = $this->getMessage($request, ['WebUi_Edit']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -203,7 +205,7 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['Delete']);
+            $message = $this->getMessage($request, ['WebUi_Delete']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -219,18 +221,18 @@ class WebUIController extends Controller
      * @param Request $request
      * @param array   $validationGroups
      *
-     * @return WebUiMessage
+     * @return Message
      */
     private function getMessage(Request $request, array $validationGroups = [])
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
-        $message = new WebUiMessage();
+        $message = new Message();
         if (isset($data['key'])) {
             $message->setKey($data['key']);
         }
         if (isset($data['message'])) {
-            $message->setMessage($data['message']);
+            $message->setTranslation($data['message']);
         }
 
         $errors = $this->get('validator')->validate($message, null, $validationGroups);

@@ -1,0 +1,9 @@
+Translation\Common\Model\Message:
+    properties:
+        key:
+            - NotBlank:
+                groups: ["WebUi_Create", "WebUi_Edit", "WebUi_Delete"]
+
+        message:
+            - NotBlank:
+                groups: ["WebUi_Create", "WebUi_Edit"]
