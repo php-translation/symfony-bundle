@@ -30,6 +30,16 @@ services:
     abstract: true
     arguments: ["@translation.writer", "@translation.loader", ~, []]
 
+  php_translation.storage.xlf_loader:
+    class: Translation\SymfonyStorage\Loader\XliffLoader
+    tags:
+      - { name: translation.loader, alias: xlf, legacy-alias: xliff }
+
+  php_translation.storage.xlf_dumper:
+    class: Translation\SymfonyStorage\Dumper\XliffDumper
+    tags:
+      - { name: translation.dumper, alias: xlf, legacy-alias: xliff }
+
   php_translation.catalogue_counter:
     class: Translation\Bundle\Catalogue\CatalogueCounter
     arguments: []
