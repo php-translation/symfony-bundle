@@ -33,7 +33,7 @@ class AppKernel extends Kernel
 An example configuration looks like this: 
 
 ```yaml
-// config.yml
+# config.yml
 translation:
   locales: ["en", "sv"]
   symfony_profiler: # must be placed in config_dev.yml
@@ -53,7 +53,7 @@ translation:
 ```
 
 ```yaml
-// routing_dev.yml
+# routing_dev.yml
 _translation_webui:
   resource: "@TranslationBundle/Resources/config/routing_webui.yml"
   prefix:  /admin
@@ -63,7 +63,7 @@ _translation_profiler:
 ```
 
 ```yaml
-// routing.yml
+# routing.yml
 _translation_edit_in_place:
   resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
   prefix:  /admin
