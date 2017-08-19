@@ -149,6 +149,17 @@ class TranslationExtension extends Extension
         $container->setParameter('php_translation.webui.enabled', true);
         $container->setParameter('php_translation.webui.allow_create', $config['webui']['allow_create']);
         $container->setParameter('php_translation.webui.allow_delete', $config['webui']['allow_delete']);
+
+        $path = $config['webui']['file_base_path'];
+        if (null === $path) {
+            if ($container->hasParameter('kernel.project_dir')) {
+                $path = $container->getParameter('kernel.project_dir');
+            } else {
+                $path = $container->getParameter('kernel.root_dir').'/..';
+            }
+        }
+
+        $container->setParameter('php_translation.webui.file_base_path', rtrim($path, '/') . '/');
     }
 
     /**
