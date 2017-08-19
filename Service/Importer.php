@@ -115,6 +115,7 @@ final class Importer
             }
 
             $key = $sourceLocation->getMessage();
+            $catalogue->set($key, null, $domain);
             $trimLength = 1 + strlen($this->config['project_root']);
 
             $meta = $this->getMetadata($catalogue, $key, $domain);
