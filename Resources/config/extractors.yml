@@ -68,12 +68,8 @@ services:
       - { name: 'php_translation.visitor', type: 'php' }
 
   # Twig Visitors:
-  php_translation.extractor.twig.factory:
-    class: Translation\Extractor\Visitor\Twig\Twig2Visitor
-    public: false
-
   php_translation.extractor.twig.visitor.twig:
     class: Translation\Bundle\Twig\DummyTwigVisitor
-    factory: ["@php_translation.extractor.twig.factory", create]
+    factory: [Translation\Extractor\Visitor\Twig\TwigVisitor, create]
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }
