@@ -18,7 +18,7 @@ use Translation\Bundle\Model\ImportResult;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
-use Translation\Bundle\Catalogue\Operation\MetadataAwareMerge;
+use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 
 /**
  * Use extractors to import translations to message catalogues.
@@ -73,7 +73,7 @@ final class Importer
             $target = new MessageCatalogue($catalogue->getLocale());
             $this->convertSourceLocationsToMessages($target, $sourceCollection);
 
-            $merge = new MetadataAwareMerge($catalogue, $target);
+            $merge = new ReplaceOperation($catalogue, $target);
             $result = $merge->getResult();
             $domains = $merge->getDomains();
 
