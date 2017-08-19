@@ -31,8 +31,12 @@ final class Metadata
     /**
      * @param array $metadata
      */
-    public function __construct(array $metadata)
+    public function __construct($metadata)
     {
+        if (empty($metadata)) {
+            $metadata = [];
+        }
+
         $this->metadata = $metadata;
         if (isset($metadata['notes'])) {
             $this->notes = $metadata['notes'];
@@ -136,6 +140,9 @@ final class Metadata
     {
         $data = [];
         foreach ($this->notes as &$note) {
+            if (!isset($note['category'])) {
+                continue;
+            }
             if ($note['category'] === $category) {
                 if (!isset($note['priority'])) {
                     $note['priority'] = '1';
