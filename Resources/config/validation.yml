@@ -2,8 +2,12 @@ Translation\Common\Model\Message:
     properties:
         key:
             - NotBlank:
-                groups: ["WebUi_Create", "WebUi_Edit", "WebUi_Delete"]
+                groups: ["Create", "Edit", "Delete"]
 
         translation:
             - NotBlank:
-                groups: ["WebUi_Create", "WebUi_Edit"]
+                groups: ["Create", "Edit"]
+
+        domain:
+            - NotBlank:
+                groups: ["Create", "Edit", "Delete"]

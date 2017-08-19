@@ -139,9 +139,10 @@ class WebUIController extends Controller
         $storage = $this->get('php_translation.storage.'.$configName);
 
         try {
-            $message = $this->getMessage($request, ['WebUi_Create']);
+            $message = $this->getMessageFromRequest($request);
             $message->setDomain($domain);
             $message->setLocale($locale);
+            $this->validateMessage($message, ['Create']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -177,9 +178,10 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['WebUi_Edit']);
+            $message = $this->getMessageFromRequest($request);
             $message->setDomain($domain);
             $message->setLocale($locale);
+            $this->validateMessage($message, ['Edit']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -206,7 +208,10 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['WebUi_Delete']);
+            $message = $this->getMessageFromRequest($request);
+            $message->setLocale($locale);
+            $message->setDomain($domain);
+            $this->validateMessage($message, ['Delete']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -220,11 +225,10 @@ class WebUIController extends Controller
 
     /**
      * @param Request $request
-     * @param array   $validationGroups
      *
      * @return Message
      */
-    private function getMessage(Request $request, array $validationGroups = [])
+    private function getMessageFromRequest(Request $request)
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
@@ -234,11 +238,6 @@ class WebUIController extends Controller
         }
         if (isset($data['message'])) {
             $message->setTranslation($data['message']);
-        }
-
-        $errors = $this->get('validator')->validate($message, null, $validationGroups);
-        if (count($errors) > 0) {
-            throw  MessageValidationException::create();
         }
 
         return $message;
@@ -259,5 +258,18 @@ class WebUIController extends Controller
         }
 
         return $map;
+    }
+
+    /**
+     * @param Message $message
+     * @param array $validationGroups
+     * @throws MessageValidationException
+     */
+    private function validateMessage(Message $message, array $validationGroups)
+    {
+        $errors = $this->get('validator')->validate($message, null, $validationGroups);
+        if (count($errors) > 0) {
+            throw  MessageValidationException::create();
+        }
     }
 }

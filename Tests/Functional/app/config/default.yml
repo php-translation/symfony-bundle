@@ -12,4 +12,3 @@ translation:
   configs:
     app:
       dirs: ["%test.root_dir%/Resources/views"]
-      output_dir: "%test.root_dir%/Resources/translations"

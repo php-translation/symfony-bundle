@@ -31,7 +31,7 @@ class BundleInitializationTest extends BaseTestCase
         $this->assertInstanceOf(ConfigurationManager::class, $config);
 
         $default = $config->getConfiguration();
-        $root = $container->getParameter('kernel.root_dir');
+        $root = $container->getParameter('test.root_dir');
         $this->assertEquals($root.'/Resources/translations', $default->getOutputDir());
 
         $services = [
