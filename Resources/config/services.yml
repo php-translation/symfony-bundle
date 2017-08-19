@@ -14,7 +14,6 @@ services:
 
   php_translation.catalogue_manager:
     class: Translation\Bundle\Catalogue\CatalogueManager
-    arguments: ["%kernel.root_dir%/../", "@php_translation.notes_parser"]
 
   php_translation.extractor:
     class: Translation\Extractor\Extractor
@@ -24,7 +23,7 @@ services:
 
   php_translation.importer:
     class: Translation\Bundle\Service\Importer
-    arguments: ["@php_translation.extractor", "@php_translation.metadata_writer"]
+    arguments: ["@php_translation.extractor"]
 
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
@@ -33,10 +32,4 @@ services:
 
   php_translation.catalogue_counter:
     class: Translation\Bundle\Catalogue\CatalogueCounter
-    arguments: ["@php_translation.notes_parser"]
-
-  php_translation.notes_parser:
-    class: Translation\Bundle\Catalogue\NoteParser
-
-  php_translation.metadata_writer:
-    class: Translation\Bundle\Catalogue\MetadataWriter
+    arguments: []

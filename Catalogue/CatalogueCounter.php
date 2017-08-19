@@ -13,6 +13,7 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\MetadataAwareInterface;
+use Translation\Bundle\Model\Metadata;
 
 /**
  * Calculate the number of messages in a catalogue.
@@ -21,19 +22,6 @@ use Symfony\Component\Translation\MetadataAwareInterface;
  */
 class CatalogueCounter
 {
-    /**
-     * @var NoteParser
-     */
-    private $noteParser;
-
-    /**
-     * @param NoteParser $noteParser
-     */
-    public function __construct(NoteParser $noteParser)
-    {
-        $this->noteParser = $noteParser;
-    }
-
     /**
      * @param MessageCatalogueInterface $catalogue
      *
@@ -78,13 +66,18 @@ class CatalogueCounter
             $result[$domain]['obsolete'] = 0;
 
             foreach ($catalogue->all($domain) as $key => $text) {
-                $notes = $this->noteParser->getNotes($domain, $key, $catalogue);
-                if ($this->noteParser->hasNoteNew($notes)) {
+                $metadata = new Metadata($catalogue->getMetadata($key, $domain));
+                $state = $metadata->getState();
+                if ($state === 'new') {
                     ++$result[$domain]['new'];
                 }
 
-                if ($this->noteParser->hasNoteObsolete($notes)) {
+                if ($state === 'obsolete') {
                     ++$result[$domain]['obsolete'];
+                }
+
+                if ($metadata->isApproved()) {
+                    ++$result[$domain]['approved'];
                 }
             }
         }
@@ -95,6 +88,7 @@ class CatalogueCounter
         foreach ($domains as $domain) {
             $result['_total']['new'] += $result[$domain]['new'];
             $result['_total']['obsolete'] += $result[$domain]['obsolete'];
+            $result['_total']['approved'] += $result[$domain]['approved'];
         }
 
         return $result;

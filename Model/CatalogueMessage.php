@@ -46,6 +46,11 @@ final class CatalogueMessage
     private $locale;
 
     /**
+     * @var Metadata|null
+     */
+    private $metadata;
+
+    /**
      * @param CatalogueManager $catalogueManager
      * @param string           $locale
      * @param string           $domain
@@ -59,6 +64,14 @@ final class CatalogueMessage
         $this->domain = $domain;
         $this->key = $key;
         $this->message = $message;
+    }
+
+    /**
+     * @param null|Metadata $metadata
+     */
+    public function setMetadata(Metadata $metadata)
+    {
+        $this->metadata = $metadata;
     }
 
     public function __toString()
@@ -109,16 +122,37 @@ final class CatalogueMessage
 
     public function getSourceLocations()
     {
-        return $this->catalogueManager->getSourceLocations($this->domain, $this->key);
+        if (null === $this->metadata) {
+            return [];
+        }
+
+        return $this->metadata->getSourceLocations();
     }
 
     public function isNew()
     {
-        return $this->catalogueManager->isNew($this->domain, $this->key);
+        if (null === $this->metadata) {
+            return false;
+        }
+
+        return $this->metadata->getState() === 'new';
     }
 
     public function isObsolete()
     {
-        return $this->catalogueManager->isObsolete($this->domain, $this->key);
+        if (null === $this->metadata) {
+            return false;
+        }
+
+        return $this->metadata->getState() === 'obsolete';
+    }
+
+    public function isApproved()
+    {
+        if (null === $this->metadata) {
+            return false;
+        }
+
+        return $this->metadata->isApproved();
     }
 }
