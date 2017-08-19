@@ -24,8 +24,8 @@ class CatalogueManagerTest extends TestCase
     public function testGetMessages()
     {
         $manager = new CatalogueManager();
-        $catA = new MessageCatalogue('en', ['messages'=>['a' => 'aTrans', 'b' => 'bTrans']]);
-        $catB = new MessageCatalogue('fr', ['messages'=>['a' => 'aTransFr', 'c' => 'cTransFr']]);
+        $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans']]);
+        $catB = new MessageCatalogue('fr', ['messages' => ['a' => 'aTransFr', 'c' => 'cTransFr']]);
         $manager->load([$catA, $catB]);
         $messages = $manager->getMessages('en', 'messages');
 
@@ -35,8 +35,8 @@ class CatalogueManagerTest extends TestCase
     public function testFindMessagesNoMetadata()
     {
         $manager = new CatalogueManager();
-        $catA = new MessageCatalogue('en', ['messages'=>['a' => 'aTrans', 'b' => 'bTrans']]);
-        $catB = new MessageCatalogue('fr', ['messages'=>['a' => 'aTransFr', 'c' => 'cTransFr']]);
+        $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans']]);
+        $catB = new MessageCatalogue('fr', ['messages' => ['a' => 'aTransFr', 'c' => 'cTransFr']]);
         $manager->load([$catA, $catB]);
         $messages = $manager->findMessages(['locale' => 'en']);
 
@@ -46,12 +46,12 @@ class CatalogueManagerTest extends TestCase
     public function testFindMessages()
     {
         $manager = new CatalogueManager();
-        $catA = new MessageCatalogue('en', ['messages'=>['a' => 'aTrans', 'b' => 'bTrans', 'c' => 'cTrans', 'd' => 'dTrans']]);
+        $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans', 'c' => 'cTrans', 'd' => 'dTrans']]);
         $catA->setMetadata('a', ['notes' => [['category' => 'state', 'content' => 'new']]]);
         $catA->setMetadata('b', ['notes' => [['category' => 'state', 'content' => 'obsolete']]]);
         $catA->setMetadata('d', ['notes' => [['category' => 'approved', 'content' => 'true']]]);
 
-        $catB = new MessageCatalogue('fr', ['messages'=>['a' => 'aTransFr', 'c' => 'cTransFr', 'e' => 'eTransFr']]);
+        $catB = new MessageCatalogue('fr', ['messages' => ['a' => 'aTransFr', 'c' => 'cTransFr', 'e' => 'eTransFr']]);
         $catB->setMetadata('c', ['notes' => [['category' => 'approved', 'content' => 'true']]]);
         $catB->setMetadata('e', ['notes' => [['category' => 'approved', 'content' => 'true']]]);
 
