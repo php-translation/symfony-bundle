@@ -51,7 +51,7 @@ final class Metadata
     public function setState($state)
     {
         $this->removeAllInCategory('state');
-        $this->notes[] = ['category'=>'state', 'content'=> $state];
+        $this->addCategory('state', $state);
     }
 
 
@@ -76,7 +76,7 @@ final class Metadata
     public function setApproved($bool)
     {
         $this->removeAllInCategory('approved');
-        $this->notes[] = ['category'=>'approved', 'content'=> $bool ? 'true': 'false'];
+        $this->addCategory('approved', $bool ? 'true': 'false');
     }
 
     /**
@@ -97,6 +97,18 @@ final class Metadata
         return $sources;
     }
 
+
+    /**
+     * Add metadata
+     *
+     * @param string $name
+     * @param string $content
+     */
+    public function addCategory($name, $content, $priority = 1)
+    {
+        $this->notes[] = ['category'=>$name, 'content'=> $content, 'priority'=>$priority];
+    }
+
     /**
      * @return array
      */
@@ -115,7 +127,7 @@ final class Metadata
      *
      * @return array
      */
-    private function getAllInCategory($category)
+    public function getAllInCategory($category)
     {
         $data = [];
         foreach ($this->notes as &$note) {
@@ -139,7 +151,7 @@ final class Metadata
      *
      * @param string $category
      */
-    private function removeAllInCategory($category)
+    public function removeAllInCategory($category)
     {
         foreach ($this->notes as $i => $note) {
             if ($note['category'] === $category) {
