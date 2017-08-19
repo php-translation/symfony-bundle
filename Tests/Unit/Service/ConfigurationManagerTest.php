@@ -11,11 +11,12 @@
 
 namespace Translation\Bundle\Tests\Unit\Service;
 
+use PHPUnit\Framework\TestCase;
 use Translation\Bundle\Model\Configuration;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Tests\Unit\Model\ConfigurationTest;
 
-class ConfigurationManagerTest extends \PHPUnit_Framework_TestCase
+class ConfigurationManagerTest extends TestCase
 {
     public function testGetConfigurationFirst()
     {

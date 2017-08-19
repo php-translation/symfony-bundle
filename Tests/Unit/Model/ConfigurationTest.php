@@ -11,9 +11,10 @@
 
 namespace Translation\Bundle\Tests\Unit\Model;
 
+use PHPUnit\Framework\TestCase;
 use Translation\Bundle\Model\Configuration;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     public function testAccessors()
     {

@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Tests\Unit\Translator;
 
 use Nyholm\NSA;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\Translator\FallbackTranslator;
 use Translation\Translator\Translator;
@@ -20,7 +21,7 @@ use Translation\Translator\TranslatorService;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-final class FallbackTranslatorTest extends \PHPUnit_Framework_TestCase
+final class FallbackTranslatorTest extends TestCase
 {
     public function testTranslateWithSubstitutedParameters()
     {
