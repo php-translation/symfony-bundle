@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogueInterface;
+use Symfony\Component\Translation\MetadataAwareInterface;
 use Translation\Bundle\Model\CatalogueMessage;
 
 /**
@@ -32,11 +33,18 @@ final class CatalogueManager
     private $projectRoot;
 
     /**
-     * @param string $projectRoot
+     * @var NoteParser
      */
-    public function __construct($projectRoot)
+    private $noteParser;
+
+    /**
+     * @param string     $projectRoot
+     * @param NoteParser $noteParser
+     */
+    public function __construct($projectRoot, NoteParser $noteParser)
     {
         $this->projectRoot = $projectRoot;
+        $this->noteParser = $noteParser;
     }
 
     /**
@@ -121,12 +129,12 @@ final class CatalogueManager
                         $notes = $this->getNotes($domain, $key, $catalogue);
 
                         if (null !== $isNew) {
-                            if ($isNew !== $this->hasNoteNew($notes)) {
+                            if ($isNew !== $this->noteParser->hasNoteNew($notes)) {
                                 continue;
                             }
                         }
                         if (null !== $isObsolete) {
-                            if ($isObsolete !== $this->hasNoteObsolete($notes)) {
+                            if ($isObsolete !== $this->noteParser->hasNoteObsolete($notes)) {
                                 continue;
                             }
                         }
@@ -188,7 +196,7 @@ final class CatalogueManager
     {
         $notes = $this->getNotes($domain, $key);
 
-        return $this->hasNoteNew($notes);
+        return $this->noteParser->hasNoteNew($notes);
     }
 
     /**
@@ -201,12 +209,13 @@ final class CatalogueManager
     {
         $notes = $this->getNotes($domain, $key);
 
-        return $this->hasNoteObsolete($notes);
+        return $this->noteParser->hasNoteObsolete($notes);
     }
 
     /**
      * @param $domain
      * @param $key
+     * @param MessageCatalogueInterface|null $catalogue
      *
      * @return array
      */
@@ -216,44 +225,11 @@ final class CatalogueManager
             /** @var MessageCatalogueInterface $c */
             $catalogue = reset($this->catalogues);
         }
-        $meta = $catalogue->getMetadata($key, $domain);
 
-        if (!isset($meta['notes'])) {
+        if (!$catalogue instanceof MetadataAwareInterface) {
             return [];
         }
 
-        return $meta['notes'];
-    }
-
-    /**
-     * @param array $notes
-     *
-     * @return bool
-     */
-    private function hasNoteObsolete(array $notes)
-    {
-        foreach ($notes as $note) {
-            if ($note['content'] === 'status:obsolete') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param array $notes
-     *
-     * @return bool
-     */
-    private function hasNoteNew(array $notes)
-    {
-        foreach ($notes as $note) {
-            if ($note['content'] === 'status:new') {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->noteParser->getNotes($domain, $key, $catalogue);
     }
 }

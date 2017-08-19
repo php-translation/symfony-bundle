@@ -13,6 +13,7 @@ namespace Translation\Bundle\Service;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
+use Translation\Bundle\Catalogue\MetadataWriter;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
@@ -36,11 +37,18 @@ final class Importer
     private $config;
 
     /**
-     * @param Extractor $extractor
+     * @var MetadataWriter
      */
-    public function __construct(Extractor $extractor)
+    private $metadataWriter;
+
+    /**
+     * @param Extractor      $extractor
+     * @param MetadataWriter $metadataWriter
+     */
+    public function __construct(Extractor $extractor, MetadataWriter $metadataWriter)
     {
         $this->extractor = $extractor;
+        $this->metadataWriter = $metadataWriter;
     }
 
     /**
@@ -53,12 +61,15 @@ final class Importer
      *     @var string project_root The project root will be removed from the source location.
      * }
      *
+     * @param array $errors from extractor, by reference.
+     *
      * @return MessageCatalogue[]
      */
-    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [])
+    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], &$errors = [])
     {
         $this->processConfig($config);
         $sourceCollection = $this->extractor->extract($finder);
+        $errors = $sourceCollection->getErrors();
         $results = [];
         foreach ($catalogues as $catalogue) {
             $target = new MessageCatalogue($catalogue->getLocale());
@@ -71,10 +82,10 @@ final class Importer
             // Mark new messages as new/obsolete
             foreach ($domains as $domain) {
                 foreach ($merge->getNewMessages($domain) as $key => $translation) {
-                    $this->addMetadata($result, $key, $domain, 'notes', ['content' => 'status:new']);
+                    $this->metadataWriter->write($result, $key, $domain, 'notes', ['content' => 'status:new']);
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
-                    $this->addMetadata($result, $key, $domain, 'notes', ['content' => 'status:obsolete']);
+                    $this->metadataWriter->write($result, $key, $domain, 'notes', ['content' => 'status:obsolete']);
                 }
             }
             $results[] = $result;
@@ -113,7 +124,7 @@ final class Importer
             $catalogue->set($sourceLocation->getMessage(), null, $domain);
             $trimLength = 1 + strlen($this->config['project_root']);
 
-            $this->addMetadata(
+            $this->metadataWriter->write(
                 $catalogue,
                 $sourceLocation->getMessage(),
                 $domain,
@@ -121,24 +132,6 @@ final class Importer
                 ['from' => sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()), 'content' => 'file-source']
             );
         }
-    }
-
-    /**
-     * @param MessageCatalogue $catalogue
-     * @param $sourceLocation
-     * @param $domain
-     * @param $type
-     * @param $value
-     */
-    private function addMetadata(MessageCatalogue $catalogue, $key, $domain, $type, $value)
-    {
-        $meta = $catalogue->getMetadata($key, $domain);
-        if (!isset($meta[$type])) {
-            $meta[$type] = [];
-        }
-
-        $meta[$type][] = $value;
-        $catalogue->setMetadata($key, $meta, $domain);
     }
 
     /**

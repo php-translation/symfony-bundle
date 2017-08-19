@@ -14,9 +14,12 @@ namespace Translation\Bundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Model\Configuration;
+use Translation\Extractor\Model\Error;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -29,7 +32,8 @@ class ExtractCommand extends ContainerAwareCommand
             ->setName('translation:extract')
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false);
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
+            ->addOption('hide-errors', null, InputOption::VALUE_NONE, 'If we should print error or not');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,14 +52,38 @@ class ExtractCommand extends ContainerAwareCommand
             ->getCatalogues($config, $locales);
 
         $finder = $this->getConfiguredFinder($config);
+        $errors = [];
         $results = $importer->extractToCatalogues($finder, $catalogues, [
             'blacklist_domains' => $config->getBlacklistDomains(),
             'whitelist_domains' => $config->getWhitelistDomains(),
             'project_root' => $config->getProjectRoot(),
-        ]);
+        ], $errors);
 
         $container->get('php_translation.catalogue_writer')
             ->writeCatalogues($config, $results);
+
+        $catalogueCounter = $container->get('php_translation.catalogue_counter');
+        $definedBefore = $catalogueCounter->getNumberOfDefinedMessages($catalogues[0]);
+        $definedAfter = $catalogueCounter->getNumberOfDefinedMessages($results[0]);
+
+        /*
+         * Print results
+         */
+        $io = new SymfonyStyle($input, $output);
+        $io->table(['Type', 'Count'], [
+            ['Total defined messages', $definedAfter],
+            ['New messages', $definedAfter - $definedBefore],
+            ['Errors', count($errors)],
+        ]);
+
+        if (!$input->getOption('hide-errors')) {
+            /** @var Error $error */
+            foreach ($errors as $error) {
+                $io->error(
+                    sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
+                );
+            }
+        }
     }
 
     /**
