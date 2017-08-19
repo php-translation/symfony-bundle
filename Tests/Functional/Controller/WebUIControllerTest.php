@@ -1,0 +1,107 @@
+<?php
+
+
+namespace Translation\Bundle\Tests\Functional\Controller;
+
+
+use Symfony\Component\HttpFoundation\Request;
+use Translation\Bundle\Tests\Functional\BaseTestCase;
+
+class WebUIControllerTest extends BaseTestCase
+{
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
+    <file id="messages.en_US">
+        <unit id="LCa0a2j">
+            <segment>
+                <source>key0</source>
+                <target>trans0</target>
+            </segment>
+        </unit>
+        <unit id="LCa0a2b">
+            <segment>
+                <source>key1</source>
+                <target>trans1</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
+
+XML
+    );
+    }
+
+    public function testIndexAction()
+    {
+        $request = Request::create('/_trans', 'GET');
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $request = Request::create('/_trans/app', 'GET');
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+
+    public function testShowAction()
+    {
+        $request = Request::create('/_trans/app/en/messages', 'GET');
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+
+    public function testCreateAction()
+    {
+        $request = Request::create('/_trans/app/sv/messages/new', 'POST', [], [], [], [], json_encode([
+            'key'=>'foo'
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $request = Request::create('/_trans/app/sv/messages/new', 'POST', [], [], [], [], json_encode([
+            'key'=>'foo',
+            'message'=>'bar'
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testEditAction()
+    {
+        $request = Request::create('/_trans/app/sv/messages', 'POST', [], [], [], [], json_encode([
+            'key'=>'foo'
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $request = Request::create('/_trans/app/sv/messages', 'POST', [], [], [], [], json_encode([
+            'key'=>'key1',
+            'message'=>'bar'
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+
+    public function testDeleteAction()
+    {
+        // Removing something that does not exists is okey.
+        $request = Request::create('/_trans/app/sv/messages', 'DELETE', [], [], [], [], json_encode([
+            'key'=>'empty'
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $request = Request::create('/_trans/app/sv/messages', 'DELETE', [], [], [], [], json_encode([
+            'key'=>'foo',
+        ]));
+        $response = $this->kernel->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+}

@@ -4,6 +4,6 @@ Translation\Common\Model\Message:
             - NotBlank:
                 groups: ["WebUi_Create", "WebUi_Edit", "WebUi_Delete"]
 
-        message:
+        translation:
             - NotBlank:
                 groups: ["WebUi_Create", "WebUi_Edit"]

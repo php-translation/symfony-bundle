@@ -6,7 +6,7 @@ framework:
     form: false
     csrf_protection: false
     validation:
-        enabled: false
+        enabled: true
     router:
         resource: "%test.root_dir%/config/routing.yml"
         type: 'yaml'

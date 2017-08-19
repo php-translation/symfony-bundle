@@ -179,13 +179,15 @@ class WebUIController extends Controller
 
         try {
             $message = $this->getMessage($request, ['WebUi_Edit']);
+            $message->setDomain($domain);
+            $message->setLocale($locale);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
 
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
-        $storage->update(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
+        $storage->update($message);
 
         return new Response('Translation updated');
     }

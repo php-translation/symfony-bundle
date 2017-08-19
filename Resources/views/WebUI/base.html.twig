@@ -17,7 +17,7 @@
         {% for c in configNames %}
             <li class="nav-item{% if configName == c %} active{% endif %}">
                 <a class="nav-link" href="{{ path('translation_index', {configName: c}) }}">
-                    {{ c|humanize }}
+                    {{ c }}
                 </a>
             </li>
         {% endfor %}
