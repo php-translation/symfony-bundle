@@ -1,0 +1,10 @@
+translation:
+  locales: ["en", "sv"]
+  webui:
+    enabled: true
+  edit_in_place:
+    enabled: true
+  configs:
+    app:
+      dirs: ["%test.root_dir%/Resources/views"]
+      output_dir: "%test.root_dir%/Resources/translations"
