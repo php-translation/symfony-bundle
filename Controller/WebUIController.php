@@ -18,7 +18,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Exception\MessageValidationException;
-use Translation\Bundle\Model\WebUiMessage;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Bundle\Model\CatalogueMessage;
