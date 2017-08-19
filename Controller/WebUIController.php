@@ -262,7 +262,8 @@ class WebUIController extends Controller
 
     /**
      * @param Message $message
-     * @param array $validationGroups
+     * @param array   $validationGroups
+     *
      * @throws MessageValidationException
      */
     private function validateMessage(Message $message, array $validationGroups)
