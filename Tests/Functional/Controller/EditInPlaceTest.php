@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\Tests\Functional;
+namespace Translation\Bundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
@@ -51,7 +52,7 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled()
     {
-        $this->kernel->addConfigFile(__DIR__.'/app/config/disabled_label.yml');
+        $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yml');
         $request = Request::create('/foobar');
 
         // Activate the feature

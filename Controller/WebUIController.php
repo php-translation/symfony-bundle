@@ -18,7 +18,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Exception\MessageValidationException;
-use Translation\Bundle\Model\WebUiMessage;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Bundle\Model\CatalogueMessage;
@@ -140,13 +139,16 @@ class WebUIController extends Controller
         $storage = $this->get('php_translation.storage.'.$configName);
 
         try {
-            $message = $this->getMessage($request, ['Create']);
+            $message = $this->getMessageFromRequest($request);
+            $message->setDomain($domain);
+            $message->setLocale($locale);
+            $this->validateMessage($message, ['Create']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
 
         try {
-            $storage->create(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
+            $storage->create($message);
         } catch (StorageException $e) {
             throw new BadRequestHttpException(sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
@@ -176,14 +178,17 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['Edit']);
+            $message = $this->getMessageFromRequest($request);
+            $message->setDomain($domain);
+            $message->setLocale($locale);
+            $this->validateMessage($message, ['Edit']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
 
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
-        $storage->update(new Message($message->getKey(), $domain, $locale, $message->getMessage()));
+        $storage->update($message);
 
         return new Response('Translation updated');
     }
@@ -203,7 +208,10 @@ class WebUIController extends Controller
         }
 
         try {
-            $message = $this->getMessage($request, ['Delete']);
+            $message = $this->getMessageFromRequest($request);
+            $message->setLocale($locale);
+            $message->setDomain($domain);
+            $this->validateMessage($message, ['Delete']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
         }
@@ -217,25 +225,19 @@ class WebUIController extends Controller
 
     /**
      * @param Request $request
-     * @param array   $validationGroups
      *
-     * @return WebUiMessage
+     * @return Message
      */
-    private function getMessage(Request $request, array $validationGroups = [])
+    private function getMessageFromRequest(Request $request)
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
-        $message = new WebUiMessage();
+        $message = new Message();
         if (isset($data['key'])) {
             $message->setKey($data['key']);
         }
         if (isset($data['message'])) {
-            $message->setMessage($data['message']);
-        }
-
-        $errors = $this->get('validator')->validate($message, null, $validationGroups);
-        if (count($errors) > 0) {
-            throw  MessageValidationException::create();
+            $message->setTranslation($data['message']);
         }
 
         return $message;
@@ -256,5 +258,19 @@ class WebUIController extends Controller
         }
 
         return $map;
+    }
+
+    /**
+     * @param Message $message
+     * @param array   $validationGroups
+     *
+     * @throws MessageValidationException
+     */
+    private function validateMessage(Message $message, array $validationGroups)
+    {
+        $errors = $this->get('validator')->validate($message, null, $validationGroups);
+        if (count($errors) > 0) {
+            throw  MessageValidationException::create();
+        }
     }
 }

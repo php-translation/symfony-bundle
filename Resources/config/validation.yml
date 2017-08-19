@@ -1,0 +1,13 @@
+Translation\Common\Model\Message:
+    properties:
+        key:
+            - NotBlank:
+                groups: ["Create", "Edit", "Delete"]
+
+        translation:
+            - NotBlank:
+                groups: ["Create", "Edit"]
+
+        domain:
+            - NotBlank:
+                groups: ["Create", "Edit", "Delete"]

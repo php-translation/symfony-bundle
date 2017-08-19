@@ -6,3 +6,6 @@ translated_page:
 _translation_edit_in_place:
   resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
   prefix:  /admin
+
+_translation_web_ui:
+  resource: '@TranslationBundle/Resources/config/routing_webui.yml'
