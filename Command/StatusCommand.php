@@ -36,7 +36,7 @@ class StatusCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $counter = $storage = $container->get('php_translation.catalogue_counter');
+        $counter = $container->get('php_translation.catalogue_counter');
         $config = $container->get('php_translation.configuration_manager')
             ->getConfiguration($input->getArgument('configuration'));
 
