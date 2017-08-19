@@ -19,7 +19,7 @@ use Translation\Extractor\Model\Error;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class ImportResult
+final class ImportResult
 {
     /**
      * @var MessageCatalogueInterface[]
