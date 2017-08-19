@@ -50,7 +50,7 @@ final class Importer
      * @param array              $config     {
      *
      *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
-     *     @var array $whitelist_domains Whitlelist the domains we should include. Cannot be used with blacklist.
+     *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
      *     @var string $project_root The project root will be removed from the source location.
      * }
      *
