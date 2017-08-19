@@ -18,7 +18,7 @@
         "symfony/intl": "^2.7 || ^3.0",
 
         "php-translation/common": "^0.2.1",
-        "php-translation/symfony-storage": "^0.3.1",
+        "php-translation/symfony-storage": "^0.3.2",
         "php-translation/extractor": "^1.2"
     },
     "require-dev": {
