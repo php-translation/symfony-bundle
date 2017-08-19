@@ -13,6 +13,11 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogue;
 
+/**
+ * Write metadata to the catalogue.
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class MetadataWriter
 {
     /**

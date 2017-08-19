@@ -52,19 +52,20 @@ class ExtractCommand extends ContainerAwareCommand
             ->getCatalogues($config, $locales);
 
         $finder = $this->getConfiguredFinder($config);
-        $errors = [];
-        $results = $importer->extractToCatalogues($finder, $catalogues, [
+
+        $result = $importer->extractToCatalogues($finder, $catalogues, [
             'blacklist_domains' => $config->getBlacklistDomains(),
             'whitelist_domains' => $config->getWhitelistDomains(),
             'project_root' => $config->getProjectRoot(),
-        ], $errors);
+        ]);
+        $errors = $result->getErrors();
 
         $container->get('php_translation.catalogue_writer')
-            ->writeCatalogues($config, $results);
+            ->writeCatalogues($config, $result->getMessageCatalogues());
 
         $catalogueCounter = $container->get('php_translation.catalogue_counter');
         $definedBefore = $catalogueCounter->getNumberOfDefinedMessages($catalogues[0]);
-        $definedAfter = $catalogueCounter->getNumberOfDefinedMessages($results[0]);
+        $definedAfter = $catalogueCounter->getNumberOfDefinedMessages($result->getMessageCatalogues()[0]);
 
         /*
          * Print results

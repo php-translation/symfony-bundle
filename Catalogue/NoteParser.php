@@ -13,6 +13,11 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MetadataAwareInterface;
 
+/**
+ * Parse a "note" for data.
+ *
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 class NoteParser
 {
     /**
