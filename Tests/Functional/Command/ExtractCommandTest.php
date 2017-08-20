@@ -14,6 +14,7 @@ namespace Translation\Bundle\Tests\Functional\Command;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Translation\Bundle\Command\ExtractCommand;
+use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class ExtractCommandTest extends BaseTestCase
@@ -40,6 +41,9 @@ class ExtractCommandTest extends BaseTestCase
       </segment>
     </unit>
     <unit id="xx3">
+      <notes>
+        <note category="file-source" priority="1">foobar.html.twig:9</note>
+      </notes>
       <segment>
         <source>translated.paragraph1</source>
         <target>My translated paragraph1</target>
@@ -83,6 +87,20 @@ XML
         $config = $container->get('php_translation.configuration_manager')->getConfiguration('app');
         $catalogues = $container->get('php_translation.catalogue_fetcher')->getCatalogues($config, ['sv']);
 
-        $this->assertEquals('My translated heading', $catalogues[0]->get('translated.heading'));
+        $catalogue = $catalogues[0];
+        $this->assertEquals('My translated heading', $catalogue->get('translated.heading'), 'Translated strings MUST NOT disappear.');
+
+        // Test meta, source-location
+        $meta = new Metadata($catalogue->getMetadata('translated.paragraph1'));
+        $this->assertFalse($meta->getState() === 'new');
+        foreach ($meta->getSourceLocations() as $sourceLocation) {
+            $this->assertNotEquals('foobar.html.twig', $sourceLocation['path']);
+        }
+
+        $meta = new Metadata($catalogue->getMetadata('not.in.source'));
+        $this->assertTrue($meta->getState() === 'obsolete');
+
+        $meta = new Metadata($catalogue->getMetadata('translated.title'));
+        $this->assertTrue($meta->getState() === 'new');
     }
 }
