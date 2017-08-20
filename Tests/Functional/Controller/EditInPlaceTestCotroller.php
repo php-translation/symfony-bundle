@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 /**
- *
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class EditInPlaceTestCotroller extends BaseTestCase
@@ -47,6 +45,7 @@ class EditInPlaceTestCotroller extends BaseTestCase
 XML
         );
     }
+
     protected function setUp()
     {
         parent::setUp();
