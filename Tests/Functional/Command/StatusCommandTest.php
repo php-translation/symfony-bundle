@@ -14,7 +14,6 @@ namespace Translation\Bundle\Tests\Functional\Command;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Translation\Bundle\Command\ExtractCommand;
-use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class StatusCommandTest extends BaseTestCase
@@ -57,7 +56,5 @@ class StatusCommandTest extends BaseTestCase
         $this->assertEquals(1, $total['new']);
         $this->assertEquals(0, $total['obsolete']);
         $this->assertEquals(1, $total['approved']);
-
-
     }
 }

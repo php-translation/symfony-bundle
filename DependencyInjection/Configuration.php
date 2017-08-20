@@ -159,7 +159,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('output_dir')->cannotBeEmpty()->defaultValue('%kernel.root_dir%/Resources/translations')->end()
                         ->scalarNode('project_root')->info("The root dir of your project. By default this will be kernel_root's parent.")->end()
-                        ->scalarNode('xliff_version')->info("The version of XLIFF XML you want to use (if dumping to this format).")->defaultValue('2.0')->end()
+                        ->scalarNode('xliff_version')->info('The version of XLIFF XML you want to use (if dumping to this format).')->defaultValue('2.0')->end()
                         ->variableNode('local_file_storage_options')
                             ->info('Options passed to the local file storage\'s dumper.')
                             ->defaultValue([])
