@@ -59,12 +59,12 @@
 
         <div id="new-translations"></div>
         {% for idx, message in messages if message.new %}
-            {{ macro.printMessage(idx + 1, message, allow_delete) }}
+            {{ macro.printMessage(idx + 1, message, allow_delete, file_base_path) }}
         {% endfor %}
 
         {% set idxStart = messages|length %}
         {% for idx, message in messages if not message.new %}
-            {{ macro.printMessage(idx + idxStart, message, allow_delete) }}
+            {{ macro.printMessage(idx + idxStart, message, allow_delete, file_base_path) }}
         {% endfor %}
     </div>
 
@@ -73,7 +73,7 @@
     </script>
 {% endblock %}
 
-{% macro printMessage(idx, message, allow_delete) %}
+{% macro printMessage(idx, message, allow_delete, base_path) %}
     <div class="message row" id="{{ message.key }}">
         <div class="col-md-6 col-xs-12">
             {% if message.new %}
@@ -107,7 +107,7 @@
             {% if message.sourceLocations|length > 0 %}
                 <ul class="location-list">
                     {% for location in message.sourceLocations %}
-                        <li><a href="{{ (file_base_path ~ location['path'])|file_link(location['line']) }}">{{ location['path'] }} at line {{ location['line'] }} </a></li>
+                        <li><a href="{{ (base_path ~ location['path'])|file_link(location['line']) }}">{{ location['path'] }} at line {{ location['line'] }} </a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
