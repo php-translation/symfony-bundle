@@ -48,9 +48,15 @@ final class ReplaceOperation extends AbstractOperation
         }
 
         foreach ($sourceMessages as $id => $message) {
-            $this->messages[$domain]['all'][$id] = $message;
+            if (!empty($message)) {
+                $this->messages[$domain]['all'][$id] = $message;
+            }
+
             if (!$this->target->has($id, $domain)) {
                 $this->messages[$domain]['new'][$id] = $message;
+
+                // Make sure to add it to the source if even if empty($message)
+                $this->messages[$domain]['all'][$id] = $message;
             }
         }
 
