@@ -16,8 +16,8 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
-use Translation\Bundle\Model\EditInPlaceMessage;
 use Translation\Bundle\Service\StorageService;
+use Translation\Common\Model\Message;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
@@ -34,7 +34,7 @@ class EditInPlaceController extends Controller
     public function editAction(Request $request, $configName, $locale)
     {
         try {
-            $messages = $this->getMessages($request, ['Edit']);
+            $messages = $this->getMessages($request, $locale, ['Edit']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
@@ -42,7 +42,7 @@ class EditInPlaceController extends Controller
         /** @var StorageService $storage */
         $storage = $this->get('php_translation.storage.'.$configName);
         foreach ($messages as $message) {
-            $storage->update($message->convertToMessage($locale));
+            $storage->update($message);
         }
 
         $this->rebuildTranslations($locale);
@@ -63,6 +63,10 @@ class EditInPlaceController extends Controller
         $filesystem = $this->get('filesystem');
         $finder = new Finder();
 
+        if (!is_dir($translationDir)) {
+            mkdir($translationDir);
+        }
+
         if (!is_writable($translationDir)) {
             throw new \RuntimeException(sprintf('Unable to write in the "%s" directory', $translationDir));
         }
@@ -74,20 +78,24 @@ class EditInPlaceController extends Controller
         }
 
         // Build them again
-        $this->get('translator')->warmUp($translationDir);
+        $translator = $this->get('translator');
+        if (method_exists($translator, 'warmUp')) {
+            $translator->warmUp($translationDir);
+        }
     }
 
     /**
      * Get and validate messages from the request.
      *
      * @param Request $request
+     * @param string  $locale
      * @param array   $validationGroups
      *
-     * @return EditInPlaceMessage[]
+     * @return Message[]
      *
      * @throws MessageValidationException
      */
-    private function getMessages(Request $request, array $validationGroups = [])
+    private function getMessages(Request $request, $locale, array $validationGroups = [])
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
@@ -97,10 +105,11 @@ class EditInPlaceController extends Controller
         foreach ($data as $key => $value) {
             list($domain, $translationKey) = explode('|', $key);
 
-            $message = new EditInPlaceMessage();
+            $message = new Message();
             $message->setKey($translationKey);
-            $message->setMessage($value);
+            $message->setTranslation($value);
             $message->setDomain($domain);
+            $message->setLocale($locale);
 
             $errors = $validator->validate($message, null, $validationGroups);
             if (count($errors) > 0) {
