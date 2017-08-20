@@ -139,7 +139,7 @@ final class Metadata
     public function getAllInCategory($category)
     {
         $data = [];
-        foreach ($this->notes as &$note) {
+        foreach ($this->notes as $note) {
             if (!isset($note['category'])) {
                 continue;
             }
