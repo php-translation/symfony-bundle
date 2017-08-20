@@ -40,7 +40,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * @param string              $defaultLocale
      * @param TranslatorInterface $symfonyTranslator
-     * @param Translator          $translatorService
+     * @param Translator          $externalTranslator
      */
     public function __construct($defaultLocale, TranslatorInterface $symfonyTranslator, Translator $externalTranslator)
     {
@@ -55,7 +55,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
         $id = (string) $id;
-        if (!$domain) {
+        if (empty($domain)) {
             $domain = 'messages';
         }
 
@@ -81,7 +81,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
     {
         $id = (string) $id;
-        if (!$domain) {
+        if (empty($domain)) {
             $domain = 'messages';
         }
 
