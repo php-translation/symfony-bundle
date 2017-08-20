@@ -59,6 +59,7 @@ final class CatalogueWriter
                 [
                     'path' => $config->getOutputDir(),
                     'default_locale' => $this->defaultLocale,
+                    'xliff_version' => $config->getXliffVersion(),
                 ]
             );
         }
