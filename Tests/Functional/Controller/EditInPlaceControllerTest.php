@@ -17,7 +17,7 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class EditInPlaceTestCotroller extends BaseTestCase
+class EditInPlaceControllerTest extends BaseTestCase
 {
     public static function setUpBeforeClass()
     {
