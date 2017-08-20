@@ -88,6 +88,11 @@ final class Configuration
     private $whitelistDomains;
 
     /**
+     * @var string
+     */
+    private $xliffVersion;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -103,6 +108,7 @@ final class Configuration
         $this->outputFormat = $data['output_format'];
         $this->blacklistDomains = $data['blacklist_domains'];
         $this->whitelistDomains = $data['whitelist_domains'];
+        $this->xliffVersion = $data['xliff_version'];
     }
 
     /**
@@ -202,5 +208,13 @@ final class Configuration
     public function getPathsToTranslationFiles()
     {
         return array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getXliffVersion()
+    {
+        return $this->xliffVersion;
     }
 }
