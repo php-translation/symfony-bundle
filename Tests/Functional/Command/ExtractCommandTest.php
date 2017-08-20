@@ -70,11 +70,11 @@ XML
 
         $command = $application->find('translation:extract');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
-            'command'  => $command->getName(),
+        $commandTester->execute([
+            'command' => $command->getName(),
             'configuration' => 'app',
             'locale' => 'sv',
-        ));
+        ]);
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
