@@ -166,7 +166,7 @@ final class Metadata
     public function removeAllInCategory($category)
     {
         foreach ($this->notes as $i => $note) {
-            if ($note['category'] === $category) {
+            if (isset($note['category']) && $note['category'] === $category) {
                 unset($this->notes[$i]);
             }
         }
