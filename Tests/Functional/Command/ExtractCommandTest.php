@@ -64,6 +64,7 @@ XML
 
     public function testExecute()
     {
+        $this->bootKernel();
         $application = new Application($this->kernel);
 
         $application->add(new ExtractCommand());
