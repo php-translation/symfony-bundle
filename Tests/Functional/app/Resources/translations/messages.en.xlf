@@ -13,6 +13,11 @@
             </segment>
         </unit>
         <unit id="LCa0a2b">
+            <notes>
+                <note category="file-source" priority="1">Resources/views/translated.html.twig:11</note>
+                <note>file-source</note>
+                <note>status:new</note>
+            </notes>
             <segment>
                 <source>key1</source>
                 <target>trans1</target>
