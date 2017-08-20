@@ -64,6 +64,7 @@ class CatalogueCounter
         foreach ($domains as $domain) {
             $result[$domain]['new'] = 0;
             $result[$domain]['obsolete'] = 0;
+            $result[$domain]['approved'] = 0;
 
             foreach ($catalogue->all($domain) as $key => $text) {
                 $metadata = new Metadata($catalogue->getMetadata($key, $domain));
@@ -85,6 +86,7 @@ class CatalogueCounter
         // Sum the number of new and obsolete messages.
         $result['_total']['new'] = 0;
         $result['_total']['obsolete'] = 0;
+        $result['_total']['approved'] = 0;
         foreach ($domains as $domain) {
             $result['_total']['new'] += $result[$domain]['new'];
             $result['_total']['obsolete'] += $result[$domain]['obsolete'];
