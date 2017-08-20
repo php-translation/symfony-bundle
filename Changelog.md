@@ -2,6 +2,39 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.4.0
+
+Major improvements on this version. Be aware that the default format to store translation has changed to XLIFF 2.0. If you
+run the extract command you will automatically get updated files. 
+
+### Added
+
+- More extractors from `php-translation/extractor`
+- Show status after extract command 
+- Added status command
+- Support for PHPUnit6
+- Support for `php-translation/symfony-storage` 0.3.0
+- Using dumper and loader from `php-translation/extractor`
+- `CatalogeCounter` to show statistics about a catalogue. 
+- Lots of more tests. Test coverage increased from 27% to 69%.
+
+### Changed
+
+- `Importer` returns an `ImportResult` value object
+- Improved internal management of metadata. Introduced a new `Metadata` model
+- Renamed `MetadataAwareMerged` to `ReplaceOperation`, read the class doc for the updated syntax. 
+
+### Fixed
+
+- Issue with WebProfiler's `ClonerData` on Symfony 3.3
+
+### Removed
+
+- Removed `WebUIMessage` and `EditInPlaceMessage`. Use `Message` from `php-translation/common` instead
+- Removed metadata related functions from `CatalogueManager` 
+
+### Changed
+
 ## 0.3.6
 
 ### Added
