@@ -118,6 +118,7 @@ class WebUIController extends Controller
             'configNames' => $configManager->getNames(),
             'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
             'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
+            'file_base_path' => $this->getParameter('php_translation.webui.file_base_path'),
         ]);
     }
 

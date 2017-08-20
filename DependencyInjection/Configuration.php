@@ -210,6 +210,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->booleanNode('allow_create')->defaultTrue()->end()
                     ->booleanNode('allow_delete')->defaultTrue()->end()
+                    ->scalarNode('file_base_path')->defaultNull()->info('Base path for SourceLocation\'s. Defaults to "%kernel.project_dir%".')->end()
                 ->end()
             ->end()
         ->end();
