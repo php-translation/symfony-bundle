@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Service\StorageService;
 use Translation\Bundle\Model\Configuration;
 
@@ -51,8 +52,8 @@ class DownloadCommand extends ContainerAwareCommand
             $md5AfterDownload = $this->hashDirectory($translationsDirectory);
 
             if ($md5BeforeDownload !== $md5AfterDownload) {
-                $command = $this->getApplication()->find('cache:clear');
-                $command->run(new ArrayInput(['--no-warmup' => true]), $output);
+                $cacheClearer = $this->getContainer()->get('php_translation.cache_clearer');
+                $cacheClearer->clearAndWarmUp();
             }
         } else {
             $storage->download();
@@ -61,25 +62,14 @@ class DownloadCommand extends ContainerAwareCommand
 
     private function hashDirectory($directory)
     {
-        if (!is_dir($directory)) {
-            return false;
+        $finder = new Finder();
+        $finder->files()->in($directory);
+
+        $hash = hash_init('md5');
+        foreach ($finder as $file) {
+            hash_update_file($hash, $file->getRealPath());
         }
 
-        $files = [];
-        $dir = dir($directory);
-
-        while (false !== ($file = $dir->read())) {
-            if ($file !== '.' and $file !== '..') {
-                if (is_dir($directory.'/'.$file)) {
-                    $files[] = $this->hashDirectory($directory.'/'.$file);
-                } else {
-                    $files[] = md5_file($directory.'/'.$file);
-                }
-            }
-        }
-
-        $dir->close();
-
-        return md5(implode('', $files));
+        return hash_final($hash);
     }
 }
