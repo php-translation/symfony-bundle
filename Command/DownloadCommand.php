@@ -62,6 +62,10 @@ class DownloadCommand extends ContainerAwareCommand
 
     private function hashDirectory($directory)
     {
+        if (!is_dir($directory)) {
+            return false;
+        }
+
         $finder = new Finder();
         $finder->files()->in($directory);
 
