@@ -67,7 +67,7 @@ class DownloadCommand extends ContainerAwareCommand
         }
 
         $finder = new Finder();
-        $finder->files()->in($directory);
+        $finder->files()->in($directory)->notName('/~$/')->sortByName();
 
         $hash = hash_init('md5');
         foreach ($finder as $file) {

@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * A service able to read and clear the Symfony Translation cache
+ * A service able to read and clear the Symfony Translation cache.
  *
  * @author Damien A. <dalexandre@jolicode.com>
  */
