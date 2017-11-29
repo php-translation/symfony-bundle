@@ -48,7 +48,7 @@ class SymfonyProfilerController extends Controller
         if ($request->isMethod('GET')) {
             $translation = $storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
 
-            return $this->render('TranslationBundle:SymfonyProfiler:edit.html.twig', [
+            return $this->render('@Translation/SymfonyProfiler/edit.html.twig', [
                 'message' => $translation,
                 'key' => $message->getLocale().$message->getDomain().$message->getKey(),
             ]);
