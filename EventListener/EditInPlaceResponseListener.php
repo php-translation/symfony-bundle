@@ -13,7 +13,7 @@ namespace Translation\Bundle\EventListener;
 
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
@@ -44,7 +44,7 @@ HTML;
     private $activator;
 
     /**
-     * @var Router
+     * @var RouterInterface
      */
     private $router;
 
@@ -65,7 +65,7 @@ HTML;
      */
     private $showUntranslatable;
 
-    public function __construct(ActivatorInterface $activator, Router $router, Packages $packages, $configName = 'default', $showUntranslatable = true)
+    public function __construct(ActivatorInterface $activator, RouterInterface $router, Packages $packages, $configName = 'default', $showUntranslatable = true)
     {
         $this->activator = $activator;
         $this->router = $router;
