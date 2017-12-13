@@ -39,7 +39,7 @@ class ExtractCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $importer = $container->get('php_translation.importer');
+        $importer = $container->get('test.php_translation.importer');
         $config = $container->get('php_translation.configuration_manager')
             ->getConfiguration($input->getArgument('configuration'));
 

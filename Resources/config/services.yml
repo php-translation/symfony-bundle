@@ -1,9 +1,11 @@
 services:
   php_translation.catalogue_fetcher:
+    public: true
     class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.loader"]
+    arguments: ["@translation.reader"]
 
   php_translation.catalogue_writer:
+    public: true
     class: Translation\Bundle\Catalogue\CatalogueWriter
     arguments: ["@translation.writer", "%php_translation.default_locale%"]
 
@@ -19,11 +21,16 @@ services:
     class: Translation\Extractor\Extractor
 
   php_translation.configuration_manager:
+    public: true
     class: Translation\Bundle\Service\ConfigurationManager
 
   php_translation.importer:
     class: Translation\Bundle\Service\Importer
     arguments: ["@php_translation.extractor"]
+
+  test.php_translation.importer:
+    public: true
+    alias: 'php_translation.importer'
 
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
@@ -41,5 +48,6 @@ services:
       - { name: translation.dumper, alias: xlf, legacy-alias: xliff }
 
   php_translation.catalogue_counter:
+    public: true
     class: Translation\Bundle\Catalogue\CatalogueCounter
     arguments: []

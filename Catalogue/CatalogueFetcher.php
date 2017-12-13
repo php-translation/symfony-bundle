@@ -11,8 +11,8 @@
 
 namespace Translation\Bundle\Catalogue;
 
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Reader\TranslationReader;
 use Translation\Bundle\Model\Configuration;
 
 /**
@@ -26,16 +26,16 @@ use Translation\Bundle\Model\Configuration;
 final class CatalogueFetcher
 {
     /**
-     * @var TranslationLoader
+     * @var TranslationReader
      */
-    private $loader;
+    private $reader;
 
     /**
-     * @param TranslationLoader $loader
+     * @param TranslationReader $reader
      */
-    public function __construct(TranslationLoader $loader)
+    public function __construct(TranslationReader $reader)
     {
-        $this->loader = $loader;
+        $this->reader = $reader;
     }
 
     /**
@@ -57,7 +57,7 @@ final class CatalogueFetcher
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
                 if (is_dir($path)) {
-                    $this->loader->loadMessages($path, $currentCatalogue);
+                    $this->reader->read($path, $currentCatalogue);
                 }
             }
             $catalogues[] = $currentCatalogue;
