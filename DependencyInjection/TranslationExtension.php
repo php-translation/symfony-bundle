@@ -107,6 +107,7 @@ class TranslationExtension extends Extension
              */
             $storageDefinition = new ChildDefinition('php_translation.storage.abstract');
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
+            $storageDefinition->setPublic(true);
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
 
             // Add storages
