@@ -13,7 +13,7 @@ namespace Translation\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -105,7 +105,7 @@ class TranslationExtension extends Extension
             /*
              * Configure storage chain service
              */
-            $storageDefinition = new DefinitionDecorator('php_translation.storage.abstract');
+            $storageDefinition = new ChildDefinition('php_translation.storage.abstract');
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
 
@@ -121,7 +121,7 @@ class TranslationExtension extends Extension
                     continue;
                 }
 
-                $def = new DefinitionDecorator($serviceId);
+                $def = new ChildDefinition($serviceId);
                 $def->replaceArgument(2, [$c['output_dir']])
                     ->replaceArgument(3, [$c['local_file_storage_options']])
                     ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
