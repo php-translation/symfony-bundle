@@ -182,7 +182,7 @@ class Configuration implements ConfigurationInterface
             ->arrayNode('fallback_translation')
                 ->canBeEnabled()
                 ->children()
-                    ->enumNode('service')->values(['google', 'yandex', 'bing'])->defaultValue('google')->end()
+                    ->enumNode('service')->values(['google', 'yandex'])->defaultValue('google')->end()
                     ->scalarNode('api_key')->defaultNull()->end()
                 ->end()
             ->end()
