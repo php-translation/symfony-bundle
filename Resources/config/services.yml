@@ -19,6 +19,7 @@ services:
     class: Translation\Bundle\Catalogue\CatalogueManager
 
   php_translation.extractor:
+    public: true
     class: Translation\Extractor\Extractor
 
   php_translation.configuration_manager:
@@ -36,7 +37,6 @@ services:
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
     abstract: true
-    # TODO Update Translation\SymfonyStorage\FileStorage, the 2nd arg should be @translation.reader instead of translation.reader
     arguments: ["@translation.writer", "@translation.reader", ~, []]
 
   php_translation.storage.xlf_loader:

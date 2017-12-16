@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -132,7 +133,7 @@ class TranslationExtension extends Extension
 
         if ($first !== null) {
             // Create some aliases for the default storage
-            $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
+            $container->setAlias('php_translation.storage', new Alias('php_translation.storage.'.$first, true));
             if ($first !== 'default') {
                 $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
             }
