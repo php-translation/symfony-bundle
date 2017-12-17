@@ -151,7 +151,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
         $replacedString = str_replace(array_keys($replacements), array_values($replacements), $orgString);
         $translatedString = $this->externalTranslator->translate($replacedString, $this->defaultLocale, $locale);
 
-        if ($translatedString === null) {
+        if (null === $translatedString) {
             // Could not be translated
             return $orgString;
         }

@@ -93,15 +93,15 @@ XML
 
         // Test meta, source-location
         $meta = new Metadata($catalogue->getMetadata('translated.paragraph1'));
-        $this->assertFalse($meta->getState() === 'new');
+        $this->assertFalse('new' === $meta->getState());
         foreach ($meta->getSourceLocations() as $sourceLocation) {
             $this->assertNotEquals('foobar.html.twig', $sourceLocation['path']);
         }
 
         $meta = new Metadata($catalogue->getMetadata('not.in.source'));
-        $this->assertTrue($meta->getState() === 'obsolete');
+        $this->assertTrue('obsolete' === $meta->getState());
 
         $meta = new Metadata($catalogue->getMetadata('translated.title'));
-        $this->assertTrue($meta->getState() === 'new');
+        $this->assertTrue('new' === $meta->getState());
     }
 }

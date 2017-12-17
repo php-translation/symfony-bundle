@@ -78,7 +78,7 @@ class SymfonyProfilerController extends Controller
         $sfMessage = $this->getMessage($request, $token);
         $message = $storage->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
-        if ($message !== null) {
+        if (null !== $message) {
             return new Response($message->getTranslation());
         }
 
@@ -165,7 +165,7 @@ class SymfonyProfilerController extends Controller
         }
         $message = SfProfilerMessage::create($messages[$messageId]);
 
-        if ($message->getState() === DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK) {
+        if (DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK === $message->getState()) {
             $message->setLocale($profile->getCollector('request')->getLocale())
                 ->setTranslation(sprintf('[%s]', $message->getTranslation()));
         }
@@ -185,7 +185,7 @@ class SymfonyProfilerController extends Controller
         $profiler->disable();
 
         $selected = $request->request->get('selected');
-        if (!$selected || count($selected) == 0) {
+        if (!$selected || 0 == count($selected)) {
             return [];
         }
 
