@@ -70,7 +70,7 @@ class WebUIController extends Controller
             }
         }
 
-        return $this->render('TranslationBundle:WebUI:index.html.twig', [
+        return $this->render('@Translation/WebUI/index.html.twig', [
             'catalogues' => $catalogues,
             'catalogueSize' => $catalogueSize,
             'maxDomainSize' => $maxDomainSize,
@@ -108,7 +108,7 @@ class WebUIController extends Controller
             return strcmp($a->getKey(), $b->getKey());
         });
 
-        return $this->render('TranslationBundle:WebUI:show.html.twig', [
+        return $this->render('@Translation/WebUI/show.html.twig', [
             'messages' => $messages,
             'domains' => $catalogueManager->getDomains(),
             'currentDomain' => $domain,
@@ -159,7 +159,7 @@ class WebUIController extends Controller
             ), $e);
         }
 
-        return $this->render('TranslationBundle:WebUI:create.html.twig', [
+        return $this->render('@Translation/WebUI/create.html.twig', [
             'message' => $message,
         ]);
     }

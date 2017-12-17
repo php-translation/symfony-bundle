@@ -34,6 +34,10 @@ services:
     public: true
     alias: 'php_translation.importer'
 
+  php_translation.cache_clearer:
+    class: Translation\Bundle\Service\CacheClearer
+    arguments: ["%kernel.cache_dir%", "@translator", "@filesystem"]
+
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
     abstract: true
