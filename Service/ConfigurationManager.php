@@ -49,7 +49,7 @@ final class ConfigurationManager
             return $this->configuration[$name];
         }
 
-        if ($name === 'default') {
+        if ('default' === $name) {
             $name = $this->getFirstName();
             if (isset($this->configuration[$name])) {
                 return $this->configuration[$name];

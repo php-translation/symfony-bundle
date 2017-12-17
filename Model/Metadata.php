@@ -73,7 +73,7 @@ final class Metadata
         $notes = $this->getAllInCategory('approved');
         foreach ($notes as $note) {
             if (isset($note['content'])) {
-                return $note['content'] === 'true';
+                return 'true' === $note['content'];
             }
         }
 

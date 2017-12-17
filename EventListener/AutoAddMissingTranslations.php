@@ -43,13 +43,13 @@ final class AutoAddMissingTranslations
 
     public function onTerminate(Event $event)
     {
-        if ($this->dataCollector === null) {
+        if (null === $this->dataCollector) {
             return;
         }
 
         $messages = $this->dataCollector->getCollectedMessages();
         foreach ($messages as $message) {
-            if ($message['state'] === DataCollectorTranslator::MESSAGE_MISSING) {
+            if (DataCollectorTranslator::MESSAGE_MISSING === $message['state']) {
                 $m = new Message($message['id'], $message['domain'], $message['locale'], $message['translation']);
                 $this->storage->create($m);
             }

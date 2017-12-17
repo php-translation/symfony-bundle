@@ -69,11 +69,11 @@ class CatalogueCounter
             foreach ($catalogue->all($domain) as $key => $text) {
                 $metadata = new Metadata($catalogue->getMetadata($key, $domain));
                 $state = $metadata->getState();
-                if ($state === 'new') {
+                if ('new' === $state) {
                     ++$result[$domain]['new'];
                 }
 
-                if ($state === 'obsolete') {
+                if ('obsolete' === $state) {
                     ++$result[$domain]['obsolete'];
                 }
 

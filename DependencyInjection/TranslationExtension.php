@@ -88,7 +88,7 @@ class TranslationExtension extends Extension
         // $first will be the "default" configuration.
         $first = null;
         foreach ($config['configs'] as $name => &$c) {
-            if ($first === null || $name === 'default') {
+            if (null === $first || 'default' === $name) {
                 $first = $name;
             }
             if (empty($c['project_root'])) {
@@ -115,7 +115,7 @@ class TranslationExtension extends Extension
             }
 
             foreach ($c['local_storage'] as $serviceId) {
-                if ($serviceId !== 'php_translation.local_file_storage.abstract') {
+                if ('php_translation.local_file_storage.abstract' !== $serviceId) {
                     $storageDefinition->addMethodCall('addLocalStorage', [new Reference($serviceId)]);
 
                     continue;
@@ -129,10 +129,10 @@ class TranslationExtension extends Extension
             }
         }
 
-        if ($first !== null) {
+        if (null !== $first) {
             // Create some aliases for the default storage
             $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
-            if ($first !== 'default') {
+            if ('default' !== $first) {
                 $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
             }
         }
@@ -172,7 +172,7 @@ class TranslationExtension extends Extension
     {
         $name = $config['edit_in_place']['config_name'];
 
-        if ($name !== 'default' && !isset($config['configs'][$name])) {
+        if ('default' !== $name && !isset($config['configs'][$name])) {
             throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
         }
 
