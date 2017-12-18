@@ -50,7 +50,7 @@ class SymfonyProfilerController extends Controller
 
             return $this->render('@Translation/SymfonyProfiler/edit.html.twig', [
                 'message' => $translation,
-                'key' => $message->getLocale().$message->getDomain().$message->getKey(),
+                'key' => $request->query->get('message_id'),
             ]);
         }
 
