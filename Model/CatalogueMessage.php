@@ -135,7 +135,7 @@ final class CatalogueMessage
             return false;
         }
 
-        return $this->metadata->getState() === 'new';
+        return 'new' === $this->metadata->getState();
     }
 
     public function isObsolete()
@@ -144,7 +144,7 @@ final class CatalogueMessage
             return false;
         }
 
-        return $this->metadata->getState() === 'obsolete';
+        return 'obsolete' === $this->metadata->getState();
     }
 
     public function isApproved()

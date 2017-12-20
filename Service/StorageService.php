@@ -28,6 +28,7 @@ use Translation\Common\TransferableStorage;
 final class StorageService implements Storage
 {
     const DIRECTION_UP = 'up';
+
     const DIRECTION_DOWN = 'down';
 
     /**
