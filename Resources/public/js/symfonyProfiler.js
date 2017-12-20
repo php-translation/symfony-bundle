@@ -40,7 +40,7 @@ function syncMessage(key) {
 
 function syncAll() {
     var el = document.getElementById("top-result-area");
-    el[0].innerHTML = getLoaderHTML();
+    el.innerHTML = getLoaderHTML();
 
     Sfjs.request(
         translationSyncAllUrl,
