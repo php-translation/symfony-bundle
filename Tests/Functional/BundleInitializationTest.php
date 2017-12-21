@@ -41,7 +41,7 @@ class BundleInitializationTest extends BaseTestCase
             'php_translation.catalogue_fetcher' => CatalogueFetcher::class,
             'php_translation.catalogue_writer' => CatalogueWriter::class,
             'php_translation.catalogue_manager' => CatalogueManager::class,
-            'php_translation.extractor' => Extractor::class,
+            'test.php_translation.extractor' => Extractor::class,
         ];
 
         foreach ($services as $id => $class) {

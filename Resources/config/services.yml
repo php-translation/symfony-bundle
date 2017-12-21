@@ -19,8 +19,11 @@ services:
     class: Translation\Bundle\Catalogue\CatalogueManager
 
   php_translation.extractor:
-    public: true
     class: Translation\Extractor\Extractor
+
+  test.php_translation.extractor:
+    public: true
+    alias: 'php_translation.extractor'
 
   php_translation.configuration_manager:
     public: true
