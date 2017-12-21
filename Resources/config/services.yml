@@ -35,6 +35,7 @@ services:
     alias: 'php_translation.importer'
 
   php_translation.cache_clearer:
+    public: true
     class: Translation\Bundle\Service\CacheClearer
     arguments: ["%kernel.cache_dir%", "@translator", "@filesystem"]
 
