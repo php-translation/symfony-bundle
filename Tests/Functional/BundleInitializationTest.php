@@ -36,7 +36,7 @@ class BundleInitializationTest extends BaseTestCase
 
         $services = [
             'php_translation.storage' => StorageService::class,
-            'php_translation.extractor.twig' => TwigFileExtractor::class,
+            'test.php_translation.extractor.twig' => TwigFileExtractor::class,
             'test.php_translation.extractor.php' => PHPFileExtractor::class,
             'php_translation.catalogue_fetcher' => CatalogueFetcher::class,
             'php_translation.catalogue_writer' => CatalogueWriter::class,

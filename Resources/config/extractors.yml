@@ -9,11 +9,14 @@ services:
     alias: 'php_translation.extractor.php'
 
   php_translation.extractor.twig:
-    public: true
     class: Translation\Extractor\FileExtractor\TwigFileExtractor
     arguments: ["@twig"]
     tags:
       - { name: 'php_translation.extractor', type: 'twig' }
+
+  test.php_translation.extractor.twig:
+    public: true
+    alias: 'php_translation.extractor.twig'
 
   # PHP Visitors:
   php_translation.extractor.php.visitor.ContainerAwareTrans:
