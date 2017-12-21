@@ -1,9 +1,12 @@
 services:
   php_translation.extractor.php:
-    public: true
     class: Translation\Extractor\FileExtractor\PHPFileExtractor
     tags:
       - { name: 'php_translation.extractor', type: 'php' }
+
+  test.php_translation.extractor.php:
+    public: true
+    alias: 'php_translation.extractor.php'
 
   php_translation.extractor.twig:
     public: true
