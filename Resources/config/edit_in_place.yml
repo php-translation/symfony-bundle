@@ -11,9 +11,12 @@ services:
       - ~
 
   php_translation.edit_in_place.activator:
-    public: true
     class: Translation\Bundle\EditInPlace\Activator
     arguments: ['@session']
+
+  test.php_translation.edit_in_place.activator:
+    public: true
+    alias: 'php_translation.edit_in_place.activator'
 
   php_translator.edit_in_place.xtrans_html_translator:
     class: Translation\Bundle\Translator\EditInPlaceTranslator

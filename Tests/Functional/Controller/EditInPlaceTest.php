@@ -25,7 +25,7 @@ class EditInPlaceTest extends BaseTestCase
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->getContainer()->get('php_translation.edit_in_place.activator')->activate();
+        $this->getContainer()->get('test.php_translation.edit_in_place.activator')->activate();
 
         $response = $this->kernel->handle($request);
 
@@ -57,7 +57,7 @@ class EditInPlaceTest extends BaseTestCase
 
         // Activate the feature
         $this->bootKernel();
-        $this->getContainer()->get('php_translation.edit_in_place.activator')->activate();
+        $this->getContainer()->get('test.php_translation.edit_in_place.activator')->activate();
 
         $response = $this->kernel->handle($request);
 
