@@ -2,7 +2,7 @@ services:
   php_translation.catalogue_fetcher:
     public: true
     class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.reader"]
+    arguments: ["@translation.loader.or.reader"]
 
   php_translation.catalogue_writer:
     public: true

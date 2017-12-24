@@ -14,6 +14,7 @@ namespace Translation\Bundle\Catalogue;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Reader\TranslationReader;
 use Translation\Bundle\Model\Configuration;
+use Translation\SymfonyStorage\TranslationLoader;
 
 /**
  * Fetches catalogues from source files. This will only work with local file storage
@@ -26,14 +27,14 @@ use Translation\Bundle\Model\Configuration;
 final class CatalogueFetcher
 {
     /**
-     * @var TranslationReader
+     * @var TranslationReader|TranslationLoader
      */
     private $reader;
 
     /**
-     * @param TranslationReader $reader
+     * @param TranslationReader|TranslationLoader $reader
      */
-    public function __construct(TranslationReader $reader)
+    public function __construct($reader)
     {
         $this->reader = $reader;
     }
@@ -57,12 +58,29 @@ final class CatalogueFetcher
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
                 if (is_dir($path)) {
-                    $this->reader->read($path, $currentCatalogue);
+                    $this->readTranslations($path, $currentCatalogue);
                 }
             }
             $catalogues[] = $currentCatalogue;
         }
 
         return $catalogues;
+    }
+
+    /**
+     * This method calls TranslationLoader::loadMessages() for  SF < 3.4,
+     * or TranslationReader::read() for SF >= 3.4 to avoid BC breaks.
+     *
+     * @param $path
+     * @param MessageCatalogue $currentCatalogue
+     */
+    private function readTranslations($path, MessageCatalogue $currentCatalogue)
+    {
+        if (method_exists($this->reader, 'read')) {
+            $this->reader->read($path, $currentCatalogue);
+        } else {
+            // This method is deprecated since 3.4, maintained to avoid BC breaks
+            $this->reader->loadMessages($path, $currentCatalogue);
+        }
     }
 }
