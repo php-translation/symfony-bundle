@@ -21,6 +21,6 @@ class LoaderOrReaderPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasAlias('translation.loader.or.reader');
+        $this->assertContainerBuilderHasAlias('translation.loader_or_reader');
     }
 }

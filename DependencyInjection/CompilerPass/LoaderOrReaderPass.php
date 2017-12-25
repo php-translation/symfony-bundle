@@ -10,13 +10,13 @@ class LoaderOrReaderPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if ($container->has('translation.reader')) {
-            $container->setAlias('translation.loader.or.reader', 'translation.reader');
+            $container->setAlias('translation.loader_or_reader', 'translation.reader');
 
             return;
         }
 
         if ($container->has('translation.loader')) {
-            $container->setAlias('translation.loader.or.reader', 'translation.loader');
+            $container->setAlias('translation.loader_or_reader', 'translation.loader');
 
             return;
         }
