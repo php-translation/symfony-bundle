@@ -7,10 +7,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Translation\Bundle\DependencyInjection\CompilerPass\LoaderOrReaderPass;
 
-
 class LoaderOrReaderPassTest extends AbstractCompilerPassTestCase
 {
-
     protected function registerCompilerPass(ContainerBuilder $container)
     {
         $container->addCompilerPass(new LoaderOrReaderPass());

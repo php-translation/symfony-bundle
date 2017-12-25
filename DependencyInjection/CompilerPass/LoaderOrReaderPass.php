@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class LoaderOrReaderPass implements CompilerPassInterface
 {
-
     public function process(ContainerBuilder $container)
     {
         if ($container->has('translation.reader')) {
@@ -21,6 +20,5 @@ class LoaderOrReaderPass implements CompilerPassInterface
 
             return;
         }
-
     }
 }

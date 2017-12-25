@@ -7,7 +7,6 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class CatalogueFetcherTest extends BaseTestCase
 {
-
     /**
      * @var CatalogueFetcher
      */
@@ -86,5 +85,4 @@ XML
 
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
     }
-
 }
