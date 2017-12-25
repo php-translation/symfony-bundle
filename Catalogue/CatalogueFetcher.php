@@ -11,9 +11,11 @@
 
 namespace Translation\Bundle\Catalogue;
 
+use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Reader\TranslationReader;
 use Translation\Bundle\Model\Configuration;
+use Translation\SymfonyStorage\LegacyTranslationLoader;
 use Translation\SymfonyStorage\TranslationLoader;
 
 /**
@@ -27,16 +29,24 @@ use Translation\SymfonyStorage\TranslationLoader;
 final class CatalogueFetcher
 {
     /**
-     * @var TranslationReader|TranslationLoader
+     * @var TranslationLoader|SymfonyTranslationLoader
      */
-    private $reader;
+    private $loader;
 
     /**
-     * @param TranslationReader|TranslationLoader $reader
+     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReader $loader
      */
-    public function __construct($reader)
+    public function __construct($loader)
     {
-        $this->reader = $reader;
+        // Create a legacy loader which is a wrapper for TranslationReader
+        if ($loader instanceof TranslationReader) {
+            $loader = new LegacyTranslationLoader($loader);
+        }
+        if (!$loader instanceof SymfonyTranslationLoader && !$loader instanceof TranslationLoader) {
+            throw new \LogicException('First parameter of CatalogueFetcher must be a Symfony translation loader or implement Translation\SymfonyStorage\TranslationLoader');
+        }
+
+        $this->loader = $loader;
     }
 
     /**
@@ -58,29 +68,12 @@ final class CatalogueFetcher
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
                 if (is_dir($path)) {
-                    $this->readTranslations($path, $currentCatalogue);
+                    $this->loader->loadMessages($path, $currentCatalogue);
                 }
             }
             $catalogues[] = $currentCatalogue;
         }
 
         return $catalogues;
-    }
-
-    /**
-     * This method calls TranslationLoader::loadMessages() for  SF < 3.4,
-     * or TranslationReader::read() for SF >= 3.4 to avoid BC breaks.
-     *
-     * @param $path
-     * @param MessageCatalogue $currentCatalogue
-     */
-    private function readTranslations($path, MessageCatalogue $currentCatalogue)
-    {
-        if (method_exists($this->reader, 'read')) {
-            $this->reader->read($path, $currentCatalogue);
-        } else {
-            // This method is deprecated since 3.4, maintained to avoid BC breaks
-            $this->reader->loadMessages($path, $currentCatalogue);
-        }
     }
 }
