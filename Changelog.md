@@ -2,11 +2,18 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## Unreleased
+## 0.5.0
 
-## Added
+### Added
 
+- Symfony 4 support
 - New `--cache` option on the `translation:download` allowing to clear the cache automatically if the downloaded translations have changed.
+- Support for Yandex translator
+
+### Fixed 
+
+- Wrong paths in web profiler when using Twig2.x.
+- Some JavaScript errors. 
 
 ## 0.4.0
 
