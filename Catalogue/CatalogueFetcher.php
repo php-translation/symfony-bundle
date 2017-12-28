@@ -13,9 +13,9 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
-use Symfony\Component\Translation\Reader\TranslationReader;
+use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Translation\Bundle\Model\Configuration;
-use Translation\SymfonyStorage\LegacyTranslationLoader;
+use Translation\SymfonyStorage\LegacyTranslationReader;
 use Translation\SymfonyStorage\TranslationLoader;
 
 /**
@@ -29,24 +29,20 @@ use Translation\SymfonyStorage\TranslationLoader;
 final class CatalogueFetcher
 {
     /**
-     * @var TranslationLoader|SymfonyTranslationLoader
+     * @var TranslationReaderInterface
      */
-    private $loader;
+    private $reader;
 
     /**
-     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReader $loader
+     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReaderInterface $reader
      */
-    public function __construct($loader)
+    public function __construct($reader)
     {
-        // Create a legacy loader which is a wrapper for TranslationReader
-        if ($loader instanceof TranslationReader) {
-            $loader = new LegacyTranslationLoader($loader);
-        }
-        if (!$loader instanceof SymfonyTranslationLoader && !$loader instanceof TranslationLoader) {
-            throw new \LogicException('First parameter of CatalogueFetcher must be a Symfony translation loader or implement Translation\SymfonyStorage\TranslationLoader');
+        if (!$reader instanceof TranslationReaderInterface) {
+            $reader = new LegacyTranslationReader($reader);
         }
 
-        $this->loader = $loader;
+        $this->reader = $reader;
     }
 
     /**
@@ -68,7 +64,7 @@ final class CatalogueFetcher
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
                 if (is_dir($path)) {
-                    $this->loader->loadMessages($path, $currentCatalogue);
+                    $this->reader->read($path, $currentCatalogue);
                 }
             }
             $catalogues[] = $currentCatalogue;

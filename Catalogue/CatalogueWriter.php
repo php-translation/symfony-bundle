@@ -13,7 +13,9 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
+use Symfony\Component\Translation\Writer\TranslationWriterInterface;
 use Translation\Bundle\Model\Configuration;
+use Translation\SymfonyStorage\LegacyTranslationWriter;
 
 /**
  * Write catalogues back to disk.
@@ -25,7 +27,7 @@ use Translation\Bundle\Model\Configuration;
 final class CatalogueWriter
 {
     /**
-     * @var TranslationWriter
+     * @var TranslationWriterInterface
      */
     private $writer;
 
@@ -38,10 +40,12 @@ final class CatalogueWriter
      * @param TranslationWriter $writer
      * @param string            $defaultLocale
      */
-    public function __construct(
-        TranslationWriter $writer,
-        $defaultLocale
-    ) {
+    public function __construct(TranslationWriter $writer, $defaultLocale)
+    {
+        if (!$writer instanceof TranslationWriterInterface) {
+            $writer = new LegacyTranslationWriter($writer);
+        }
+
         $this->writer = $writer;
         $this->defaultLocale = $defaultLocale;
     }
@@ -53,7 +57,7 @@ final class CatalogueWriter
     public function writeCatalogues(Configuration $config, array $catalogues)
     {
         foreach ($catalogues as $catalogue) {
-            $this->writeTranslations(
+            $this->writer->write(
                 $catalogue,
                 $config->getOutputFormat(),
                 [
@@ -62,25 +66,6 @@ final class CatalogueWriter
                     'xliff_version' => $config->getXliffVersion(),
                 ]
             );
-        }
-    }
-
-    /**
-     * This method calls the new TranslationWriter::write() if exist,
-     * otherwise fallback to TranslationWriter::writeTranslations() call
-     * to avoid BC breaks.
-     *
-     * @param MessageCatalogue $catalogue
-     * @param string           $format
-     * @param array            $options
-     */
-    private function writeTranslations(MessageCatalogue $catalogue, $format, array $options)
-    {
-        if (method_exists($this->writer, 'write')) {
-            $this->writer->write($catalogue, $format, $options);
-        } else {
-            // This method is deprecated since 3.4, maintained to avoid BC breaks
-            $this->writer->writeTranslations($catalogue, $format, $options);
         }
     }
 }
