@@ -14,6 +14,11 @@ namespace Translation\Bundle\DependencyInjection\CompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * To provide a BC layer for Symfony 2.7 to 3.3 this compiler pass
+ * registers an alias of whether TranslationReader or TranslationLoader
+ * to be able to inject it in other services.
+ */
 class LoaderOrReaderPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
