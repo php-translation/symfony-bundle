@@ -20,7 +20,7 @@ matrix:
     include:
           # Test with lowest dependencies
         - php: 7.1
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak" SYMFONY_PHPUNIT_VERSION="5.7"
         - php: 5.5
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak" SYMFONY_PHPUNIT_VERSION="5.7"
 
