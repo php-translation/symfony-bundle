@@ -9,43 +9,64 @@ branches:
     - /^analysis-.*$/
     - /^patch-.*$/
 
-php:
-    - 5.5
-    - 5.6
-    - 7.0
-    - 7.1
-    - 7.2
-
 env:
   global:
     - TEST_COMMAND="composer test"
 
 matrix:
-  fast_finish: true
-  include:
-    - php: 5.5
-      env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" COVERAGE=true TEST_COMMAND="composer test-ci"
-    - php: 7.1
-      env: DEPENDENCIES=dev
-      # Test against LTS versions
-    - php: 7.0
-      env: SYMFONY_VERSION=2.7.*
-    - php: 7.0
-      env: SYMFONY_VERSION=2.8.* PACKAGES=twig/twig:^1.34
-    - php: 7.0
-      env: SYMFONY_VERSION=2.8.*
+    fast_finish: true
+    include:
+          # Test with lowest dependencies
+        - php: 7.1
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
+        - php: 5.5
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
+
+          # Test the latest stable release
+        - php: 5.5
+        - php: 5.6
+        - php: 7.0
+        - php: 7.1
+        - php: 7.2
+          env: COVERAGE=true TEST_COMMAND="composer test-ci"
+
+          # Force some major versions of Symfony
+        - php: 7.2
+          env: DEPENDENCIES="dunglas/symfony-lock:^2"
+        - php: 7.2
+          env: DEPENDENCIES="dunglas/symfony-lock:^3"
+        - php: 7.2
+          env: DEPENDENCIES="dunglas/symfony-lock:^4"
+        - php: 7.0
+          env: DEPENDENCIES="dunglas/symfony-lock:^2 twig/twig:^1.34"
+
+          # Latest commit to master
+        - php: 7.2
+          env: STABILITY="dev"
+
+    allow_failures:
+          # Dev-master is allowed to fail.
+        - env: STABILITY="dev"
 
 before_install:
-    - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
-    - if [ "$PACKAGES" != "" ]; then composer require $PACKAGES --no-update; fi;
-    - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
+    - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+    - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
+    - if ! [ -z "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
 
 install:
-    - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    # To be removed when this issue will be resolved: https://github.com/composer/composer/issues/5355
+    - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
+    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - vendor/bin/simple-phpunit install
 
 script:
+    - composer validate --strict --no-check-lock
     - $TEST_COMMAND
 
 after_success:
     - if [[ $COVERAGE = true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
     - if [[ $COVERAGE = true ]]; then php ocular.phar code-coverage:upload --format=php-clover build/coverage.xml; fi
+
+after_script:
+    - wget http://tnyholm.se/reporter.phar
+    - php reporter.phar build:upload
