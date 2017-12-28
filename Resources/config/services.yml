@@ -21,10 +21,6 @@ services:
   php_translation.extractor:
     class: Translation\Extractor\Extractor
 
-  test.php_translation.extractor:
-    public: true
-    alias: 'php_translation.extractor'
-
   php_translation.configuration_manager:
     public: true
     class: Translation\Bundle\Service\ConfigurationManager
@@ -32,10 +28,6 @@ services:
   php_translation.importer:
     class: Translation\Bundle\Service\Importer
     arguments: ["@php_translation.extractor"]
-
-  test.php_translation.importer:
-    public: true
-    alias: 'php_translation.importer'
 
   php_translation.cache_clearer:
     public: true

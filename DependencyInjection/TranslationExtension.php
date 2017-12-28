@@ -76,6 +76,10 @@ class TranslationExtension extends Extension
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
         }
+
+        if ('test' === getenv('ENV')) {
+            $loader->load('services_test.yml');
+        }
     }
 
     /**

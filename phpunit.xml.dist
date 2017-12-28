@@ -13,6 +13,10 @@
          bootstrap="./vendor/autoload.php"
         >
 
+    <php>
+        <env name="ENV" value="test" />
+    </php>
+
     <formatter type="clover" usefile="false"/>
     <testsuites>
         <testsuite name="Test Suite">
