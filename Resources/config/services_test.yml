@@ -14,7 +14,3 @@ services:
   test.php_translation.extractor:
     public: true
     alias: 'php_translation.extractor'
-
-  test.php_translation.importer:
-    public: true
-    alias: 'php_translation.importer'

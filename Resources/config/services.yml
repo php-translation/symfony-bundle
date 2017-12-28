@@ -26,6 +26,7 @@ services:
     class: Translation\Bundle\Service\ConfigurationManager
 
   php_translation.importer:
+    public: true
     class: Translation\Bundle\Service\Importer
     arguments: ["@php_translation.extractor"]
 
