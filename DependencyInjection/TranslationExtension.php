@@ -11,8 +11,10 @@
 
 namespace Translation\Bundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
@@ -74,6 +76,10 @@ class TranslationExtension extends Extension
             $loader->load('auto_translation.yml');
             $this->enableFallbackAutoTranslator($container, $config);
         }
+
+        if ('test' === getenv('ENV')) {
+            $loader->load('services_test.yml');
+        }
     }
 
     /**
@@ -105,8 +111,9 @@ class TranslationExtension extends Extension
             /*
              * Configure storage chain service
              */
-            $storageDefinition = new DefinitionDecorator('php_translation.storage.abstract');
+            $storageDefinition = $this->createChildDefinition('php_translation.storage.abstract');
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
+            $storageDefinition->setPublic(true);
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
 
             // Add storages
@@ -121,7 +128,7 @@ class TranslationExtension extends Extension
                     continue;
                 }
 
-                $def = new DefinitionDecorator($serviceId);
+                $def = $this->createChildDefinition($serviceId);
                 $def->replaceArgument(2, [$c['output_dir']])
                     ->replaceArgument(3, [$c['local_file_storage_options']])
                     ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
@@ -131,7 +138,7 @@ class TranslationExtension extends Extension
 
         if (null !== $first) {
             // Create some aliases for the default storage
-            $container->setAlias('php_translation.storage', 'php_translation.storage.'.$first);
+            $container->setAlias('php_translation.storage', new Alias('php_translation.storage.'.$first, true));
             if ('default' !== $first) {
                 $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
             }
@@ -221,5 +228,21 @@ class TranslationExtension extends Extension
     public function getAlias()
     {
         return 'translation';
+    }
+
+    /**
+     * To avoid BC break for Symfony 3.3+.
+     *
+     * @param $parent
+     *
+     * @return ChildDefinition|DefinitionDecorator
+     */
+    private function createChildDefinition($parent)
+    {
+        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+            return new ChildDefinition($parent);
+        }
+
+        return new DefinitionDecorator($parent);
     }
 }

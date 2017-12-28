@@ -1,0 +1,16 @@
+services:
+  test.php_translation.edit_in_place.activator:
+    public: true
+    alias: 'php_translation.edit_in_place.activator'
+
+  test.php_translation.extractor.php:
+    public: true
+    alias: 'php_translation.extractor.php'
+
+  test.php_translation.extractor.twig:
+    public: true
+    alias: 'php_translation.extractor.twig'
+
+  test.php_translation.extractor:
+    public: true
+    alias: 'php_translation.extractor'

@@ -36,12 +36,12 @@ class BundleInitializationTest extends BaseTestCase
 
         $services = [
             'php_translation.storage' => StorageService::class,
-            'php_translation.extractor.twig' => TwigFileExtractor::class,
-            'php_translation.extractor.php' => PHPFileExtractor::class,
+            'test.php_translation.extractor.twig' => TwigFileExtractor::class,
+            'test.php_translation.extractor.php' => PHPFileExtractor::class,
             'php_translation.catalogue_fetcher' => CatalogueFetcher::class,
             'php_translation.catalogue_writer' => CatalogueWriter::class,
             'php_translation.catalogue_manager' => CatalogueManager::class,
-            'php_translation.extractor' => Extractor::class,
+            'test.php_translation.extractor' => Extractor::class,
         ];
 
         foreach ($services as $id => $class) {

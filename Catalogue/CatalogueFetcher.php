@@ -11,9 +11,12 @@
 
 namespace Translation\Bundle\Catalogue;
 
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
+use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Translation\Bundle\Model\Configuration;
+use Translation\SymfonyStorage\LegacyTranslationReader;
+use Translation\SymfonyStorage\TranslationLoader;
 
 /**
  * Fetches catalogues from source files. This will only work with local file storage
@@ -26,16 +29,20 @@ use Translation\Bundle\Model\Configuration;
 final class CatalogueFetcher
 {
     /**
-     * @var TranslationLoader
+     * @var TranslationReaderInterface
      */
-    private $loader;
+    private $reader;
 
     /**
-     * @param TranslationLoader $loader
+     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReaderInterface $reader
      */
-    public function __construct(TranslationLoader $loader)
+    public function __construct($reader)
     {
-        $this->loader = $loader;
+        if (!$reader instanceof TranslationReaderInterface) {
+            $reader = new LegacyTranslationReader($reader);
+        }
+
+        $this->reader = $reader;
     }
 
     /**
@@ -57,7 +64,7 @@ final class CatalogueFetcher
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
                 if (is_dir($path)) {
-                    $this->loader->loadMessages($path, $currentCatalogue);
+                    $this->reader->read($path, $currentCatalogue);
                 }
             }
             $catalogues[] = $currentCatalogue;

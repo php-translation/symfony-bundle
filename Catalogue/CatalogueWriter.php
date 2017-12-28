@@ -13,7 +13,9 @@ namespace Translation\Bundle\Catalogue;
 
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Writer\TranslationWriter;
+use Symfony\Component\Translation\Writer\TranslationWriterInterface;
 use Translation\Bundle\Model\Configuration;
+use Translation\SymfonyStorage\LegacyTranslationWriter;
 
 /**
  * Write catalogues back to disk.
@@ -25,7 +27,7 @@ use Translation\Bundle\Model\Configuration;
 final class CatalogueWriter
 {
     /**
-     * @var TranslationWriter
+     * @var TranslationWriterInterface
      */
     private $writer;
 
@@ -38,10 +40,12 @@ final class CatalogueWriter
      * @param TranslationWriter $writer
      * @param string            $defaultLocale
      */
-    public function __construct(
-        TranslationWriter $writer,
-        $defaultLocale
-    ) {
+    public function __construct(TranslationWriter $writer, $defaultLocale)
+    {
+        if (!$writer instanceof TranslationWriterInterface) {
+            $writer = new LegacyTranslationWriter($writer);
+        }
+
         $this->writer = $writer;
         $this->defaultLocale = $defaultLocale;
     }
@@ -53,7 +57,7 @@ final class CatalogueWriter
     public function writeCatalogues(Configuration $config, array $catalogues)
     {
         foreach ($catalogues as $catalogue) {
-            $this->writer->writeTranslations(
+            $this->writer->write(
                 $catalogue,
                 $config->getOutputFormat(),
                 [
