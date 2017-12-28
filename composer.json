@@ -22,7 +22,7 @@
         "php-translation/extractor": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.36 || ^5.5 || ^6.2",
+        "symfony/phpunit-bridge": "^3.4 || ^4.0",
         "php-translation/translator": "^0.1",
         "php-http/curl-client": "^1.7",
         "php-http/message": "^1.6",
@@ -34,10 +34,11 @@
         "symfony/templating": "^2.7 || ^3.0 || ^4.0",
         "symfony/dependency-injection": "^2.7 || ^3.0 || ^4.0",
         "symfony/web-profiler-bundle": "^2.7 || ^3.0 || ^4.0",
-        "matthiasnoback/symfony-dependency-injection-test": "^1.0 || ^2.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^1.2 || ^2.3",
+        "matthiasnoback/symfony-config-test": "^2.2 || ^3.1",
         "guzzlehttp/psr7": "^1.4",
         "nyholm/nsa": "^1.1",
-        "nyholm/symfony-bundle-test": "^1.2"
+        "nyholm/symfony-bundle-test": "^1.2.3"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."
@@ -46,11 +47,9 @@
         "psr-4": { "Translation\\Bundle\\": "" }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
+        "test": "vendor/bin/simple-phpunit",
+        "test-ci": "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "0.4-dev"
