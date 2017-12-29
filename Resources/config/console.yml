@@ -1,0 +1,26 @@
+services:
+    php_translator.console.delete_obsolete:
+        class: Translation\Bundle\Command\DeleteObsoleteCommand
+        public: true
+        tags:
+            - { name: console.command, command: translation:delete-obsolete}
+    php_translator.console.download:
+        class: Translation\Bundle\Command\DownloadCommand
+        public: true
+        tags:
+            - { name: console.command, command: translation:download }
+    php_translator.console.extract:
+        class: Translation\Bundle\Command\ExtractCommand
+        public: true
+        tags:
+            - { name: console.command, command: translation:extract }
+    php_translator.console.status:
+        class: Translation\Bundle\Command\StatusCommand
+        public: true
+        tags:
+            - { name: console.command, command: translation:status }
+    php_translator.console.sync:
+        class: Translation\Bundle\Command\SyncCommand
+        public: true
+        tags:
+            - { name: console.command, command: translation:sync }
