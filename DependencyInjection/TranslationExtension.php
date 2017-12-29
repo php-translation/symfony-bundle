@@ -80,6 +80,8 @@ class TranslationExtension extends Extension
         if ('test' === getenv('ENV')) {
             $loader->load('services_test.yml');
         }
+
+        $loader->load('console.yml');
     }
 
     /**
