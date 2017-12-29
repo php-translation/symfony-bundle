@@ -13,7 +13,6 @@ env:
   global:
     - TEST_COMMAND="composer test"
     - SYMFONY_PHPUNIT_VERSION="6.3"
-    - SYMFONY_DEPRECATIONS_HELPER="weak" # Temporary, To be removed
 
 matrix:
     fast_finish: true
