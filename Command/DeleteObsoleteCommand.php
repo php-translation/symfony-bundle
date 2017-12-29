@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
@@ -23,13 +24,17 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DeleteObsoleteCommand extends ContainerAwareCommand
 {
+    use BundleTrait;
+
     protected function configure()
     {
         $this
             ->setName('translation:delete-obsolete')
             ->setDescription('Delete all translations marked as obsolete.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null);
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null)
+            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want remove translations from.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,6 +48,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
 
         $catalogueManager = $container->get('php_translation.catalogue_manager');
         $config = $container->get('php_translation.configuration_manager')->getConfiguration($configName);
+        $this->configureBundleDirs($input, $config);
         $catalogueManager->load($container->get('php_translation.catalogue_fetcher')->getCatalogues($config, $locales));
 
         $storage = $container->get('php_translation.storage.'.$configName);

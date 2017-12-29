@@ -26,6 +26,8 @@ use Translation\Extractor\Model\Error;
  */
 class ExtractCommand extends ContainerAwareCommand
 {
+    use BundleTrait;
+
     protected function configure()
     {
         $this
@@ -33,7 +35,9 @@ class ExtractCommand extends ContainerAwareCommand
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
-            ->addOption('hide-errors', null, InputOption::VALUE_NONE, 'If we should print error or not');
+            ->addOption('hide-errors', null, InputOption::VALUE_NONE, 'If we should print error or not')
+            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want extract translations from.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -51,6 +55,7 @@ class ExtractCommand extends ContainerAwareCommand
         $catalogues = $container->get('php_translation.catalogue_fetcher')
             ->getCatalogues($config, $locales);
 
+        $this->configureBundleDirs($input, $config);
         $finder = $this->getConfiguredFinder($config);
 
         $result = $importer->extractToCatalogues($finder, $catalogues, [

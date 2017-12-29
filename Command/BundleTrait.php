@@ -1,0 +1,38 @@
+<?php
+
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Translation\Bundle\Command;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Translation\Bundle\Model\Configuration;
+
+trait BundleTrait
+{
+    private function configureBundleDirs(InputInterface $input, Configuration $config)
+    {
+        if ($bundleName = $input->getOption('bundle')) {
+            if ('@' === $bundleName[0]) {
+                if (false === $pos = strpos($bundleName, '/')) {
+                    $bundleName = substr($bundleName, 1);
+                } else {
+                    $bundleName = substr($bundleName, 1, $pos - 2);
+                }
+            }
+
+            $bundle = $this->getApplication()
+                ->getKernel()
+                ->getBundle($bundleName)
+            ;
+
+            $config->reconfigureBundleDirs($bundle->getPath(), $bundle->getPath().'/Resources/translations');
+        }
+    }
+}

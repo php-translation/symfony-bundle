@@ -217,4 +217,17 @@ final class Configuration
     {
         return $this->xliffVersion;
     }
+
+    /**
+     * Reconfigures the directories so we can use one configuration for extracting
+     * the messages only from one bundle.
+     *
+     * @param string $bundleDir
+     * @param string $outputDir
+     */
+    public function reconfigureBundleDirs($bundleDir, $outputDir)
+    {
+        $this->dirs = is_array($bundleDir) ? $bundleDir : [$bundleDir];
+        $this->outputDir = $outputDir;
+    }
 }
