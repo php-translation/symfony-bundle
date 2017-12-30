@@ -54,3 +54,8 @@ services:
     public: true
     class: Translation\Bundle\Catalogue\CatalogueCounter
     arguments: []
+
+  php_translation.twig_extension:
+    class: Translation\Extractor\Twig\TranslationExtension
+    tags:
+        - { name: twig.extension }
