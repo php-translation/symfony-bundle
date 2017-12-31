@@ -9,7 +9,10 @@
             <h3>{{ localeMap[cataloge.locale] }}</h3>
             <table class="domain-table">
             {% for domain,messages in cataloge.all %}
-                {% set pg = (100*messages|length/maxDomainSize[domain])|round %}
+                {% set pg = maxDomainSize[domain] %}
+                {% if pg > 0 %}
+                    {% set pg = (pg/messages|length)|round(2)*100 %}
+                {% endif %}
                 <tr>
                     <td>
                         <a href="{{ path("translation_show", {configName: configName, domain:domain, locale:cataloge.locale}) }}">
