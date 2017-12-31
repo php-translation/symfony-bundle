@@ -54,17 +54,41 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $storage = $container->get('php_translation.storage.'.$configName);
         $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue?', count($messages)), false);
-        if (!$helper->ask($input, $output, $question)) {
-            return;
+        $messageCount = count($messages);
+        if ($messageCount > 0) {
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
+            if (!$helper->ask($input, $output, $question)) {
+                return;
+            }
+
+            $progress = null;
+            if ($output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL && $output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
+                $progress = new ProgressBar($output, $messageCount);
+            }
+            foreach ($messages as $message) {
+                $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
+                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                    $output->writeln(sprintf(
+                        'Deleted obsolete message "<info>%s</info>" from domain "<info>%s</info>" and locale "<info>%s</info>"',
+                        $message->getKey(),
+                        $message->getDomain(),
+                        $message->getLocale()
+                    ));
+                }
+
+                if ($progress) {
+                    $progress->advance();
+                }
+            }
+
+            if ($progress) {
+                $progress->finish();
+            }
+            exit(0);
         }
 
-        $progress = new ProgressBar($output, count($messages));
-        foreach ($messages as $message) {
-            $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
-            $progress->advance();
-        }
-        $progress->finish();
+        $output->writeln('No messages are obsolete');
+
     }
 }
