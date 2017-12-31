@@ -247,4 +247,12 @@ class TranslationExtension extends Extension
 
         return new DefinitionDecorator($parent);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        return new Configuration($container);
+    }
 }
