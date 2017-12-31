@@ -58,9 +58,7 @@ class WebUIController extends Controller
             ksort($domains);
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
-                $count = count(array_filter($messages, function ($message) {
-                    return '' !== $message;
-                }));
+                $count = count($messages);
                 $catalogueSize[$locale] += $count;
                 if (!isset($maxDomainSize[$domain]) || $count > $maxDomainSize[$domain]) {
                     $maxDomainSize[$domain] = $count;
