@@ -63,7 +63,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
             }
 
             $progress = null;
-            if ($output->getVerbosity() === OutputInterface::VERBOSITY_NORMAL && $output->getVerbosity() !== OutputInterface::VERBOSITY_QUIET) {
+            if (OutputInterface::VERBOSITY_NORMAL === $output->getVerbosity() && OutputInterface::VERBOSITY_QUIET !== $output->getVerbosity()) {
                 $progress = new ProgressBar($output, $messageCount);
             }
             foreach ($messages as $message) {
