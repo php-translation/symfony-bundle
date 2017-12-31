@@ -74,4 +74,3 @@ _translation_edit_in_place:
 ## Documentation
 
 Read the full documentation at [http://php-translation.readthedocs.io](http://php-translation.readthedocs.io/en/latest/).
-
