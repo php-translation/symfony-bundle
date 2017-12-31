@@ -8,7 +8,7 @@
         <div class="catalouge">
             <h3>{{ localeMap[cataloge.locale] }}</h3>
             <table class="domain-table">
-            {% for domain,messages in cataloge.all %}
+            {% for domain,messages in cataloge.all|sort %}
                 {% set pg = maxDomainSize[domain] %}
                 {% if pg > 0 %}
                     {% set pg = (pg/messages|length)|round(2)*100 %}
