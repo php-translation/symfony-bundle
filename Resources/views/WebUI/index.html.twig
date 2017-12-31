@@ -8,10 +8,18 @@
         <div class="catalouge">
             <h3>{{ localeMap[cataloge.locale] }}</h3>
             <table class="domain-table">
-            {% for domain,messages in cataloge.all %}
-                {% set pg = maxDomainSize[domain] %}
-                {% if pg > 0 %}
-                    {% set pg = (pg/messages|length)|round(2)*100 %}
+            {% set totalMessages = 0 %}
+            {% set translatedMessages = 0 %}
+            {% for domain,messages in cataloge.all|sort %}
+                {% set pg = 0 %}
+                {% set translated = 0 %}
+                {% for message in messages %}
+                    {% if message != '' %}
+                        {% set translated = translated + 1 %}
+                    {% endif %}
+                {% endfor %}
+                {% if translated > 0 %}
+                    {% set pg = (translated/messages|length*100)|round(2) %}
                 {% endif %}
                 <tr>
                     <td>
@@ -23,13 +31,27 @@
                         {{ macro.progress(pg, "") }}
                     </td>
                     <td>
-                        {{ pg }} %
+                        <small>({{ translated }} / {{ messages|length }})</small>
+                        <b>{{ pg }} %</b>
                     </td>
                 </tr>
+                {% set totalMessages = totalMessages + messages|length %}
+                {% set translatedMessages = translatedMessages + translated %}
             {% endfor %}
             </table>
-            {% set pg = (100*catalogueSize[cataloge.locale]/maxCatalogueSize)|round %}
-            <div class="text-xs-center">Total progress for this language: {{ pg }}%</div>
+            {% if totalMessages == 0 %}
+                {% set pg = 100 %}
+            {% elseif translatedMessages > 0 and totalMessages > 0 %}
+                {% set pg = (translatedMessages/totalMessages*100)|round(2) %}
+            {% else %}
+                {% set pg = 0 %}
+            {% endif %}
+
+            <div class="text-xs-center">
+                Total progress for this language:
+                <small>({{ translatedMessages }} / {{ totalMessages }})</small>
+                <b>{{ pg }}%</b>
+            </div>
             {{ macro.progress(pg, "total-progressbar") }}
         </div>
     {% endfor %}
