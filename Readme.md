@@ -75,3 +75,14 @@ _translation_edit_in_place:
 
 Read the full documentation at [http://php-translation.readthedocs.io](http://php-translation.readthedocs.io/en/latest/).
 
+## Symfony 4
+
+Add the following to `config/packages/twig.yaml`
+
+```
+twig:
+    # ...
+    paths:
+        '%kernel.project_dir%/vendor/php-translation/symfony-bundle/Resources/views': TranslationBundle
+    # ...
+```
