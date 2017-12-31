@@ -25,6 +25,8 @@ use Translation\Bundle\Model\Configuration;
  */
 class DownloadCommand extends ContainerAwareCommand
 {
+    use BundleTrait;
+
     protected function configure()
     {
         $this
@@ -32,6 +34,7 @@ class DownloadCommand extends ContainerAwareCommand
             ->setDescription('Replace local messages with messages from remote')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addOption('cache', null, InputOption::VALUE_NONE, 'Clear the cache if the translations have changed')
+            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want update translations from.')
         ;
     }
 
@@ -44,6 +47,7 @@ class DownloadCommand extends ContainerAwareCommand
         $storage = $container->get('php_translation.storage.'.$configName);
         /** @var Configuration $configuration */
         $configuration = $this->getContainer()->get('php_translation.configuration.'.$configName);
+        $this->configureBundleDirs($input, $configuration);
 
         if ($input->getOption('cache')) {
             $translationsDirectory = $configuration->getOutputDir();

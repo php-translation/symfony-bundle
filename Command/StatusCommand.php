@@ -23,6 +23,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class StatusCommand extends ContainerAwareCommand
 {
+    use BundleTrait;
+
     protected function configure()
     {
         $this
@@ -30,7 +32,9 @@ class StatusCommand extends ContainerAwareCommand
             ->setDescription('Show status about your translations.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
-            ->addOption('json', null, InputOption::VALUE_NONE, 'If we should output in Json format');
+            ->addOption('json', null, InputOption::VALUE_NONE, 'If we should output in Json format')
+            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The translations for bundle you want to check.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -39,6 +43,7 @@ class StatusCommand extends ContainerAwareCommand
         $counter = $container->get('php_translation.catalogue_counter');
         $config = $container->get('php_translation.configuration_manager')
             ->getConfiguration($input->getArgument('configuration'));
+        $this->configureBundleDirs($input, $config);
 
         $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
