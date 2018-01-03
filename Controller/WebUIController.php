@@ -255,7 +255,7 @@ class WebUIController extends Controller
         $names = Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];
         foreach ($configuredLocales as $l) {
-            $map[$l] = $names[$l];
+            $map[$l] = isset($names[$l]) ? $names[$l] : $l;
         }
 
         return $map;
