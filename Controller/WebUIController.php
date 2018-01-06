@@ -251,11 +251,11 @@ class WebUIController extends Controller
      */
     private function getLocale2LanguageMap()
     {
-        $configuedLocales = $this->getParameter('php_translation.locales');
+        $configuredLocales = $this->getParameter('php_translation.locales');
         $names = Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];
-        foreach ($configuedLocales as $l) {
-            $map[$l] = $names[$l];
+        foreach ($configuredLocales as $l) {
+            $map[$l] = isset($names[$l]) ? $names[$l] : $l;
         }
 
         return $map;
