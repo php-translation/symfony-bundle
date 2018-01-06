@@ -56,6 +56,6 @@ services:
     arguments: []
 
   php_translation.twig_extension:
-    class: Translation\Extractor\Twig\TranslationExtension
+    class: Translation\Bundle\Twig\TranslationExtension
     tags:
         - { name: twig.extension }

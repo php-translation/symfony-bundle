@@ -11,69 +11,26 @@
 
 namespace Translation\Bundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Translation\Bundle\EditInPlace\ActivatorInterface;
-
-/**
- * Override the `trans` functions `is_safe` option to allow HTML output from the
- * translator. This extension is used by for the EditInPlace feature.
- *
- * @author Damien Alexandre <dalexandre@jolicode.com>
- */
-class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExtension
+class TranslationExtension extends \Twig_Extension
 {
-    /**
-     * @var ActivatorInterface
-     */
-    private $activator;
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
-            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new \Twig_SimpleFilter('desc', [$this, 'runDescFilter']),
         ];
     }
 
-    /**
-     * Escape output if the EditInPlace is disabled.
-     *
-     * @return array
-     */
-    public function isSafe($node)
+    public function runDescFilter($translation, $description)
     {
-        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
+        if (empty($translation)) {
+            return $description;
+        }
+
+        return $translation;
     }
 
-    /**
-     * @param ActivatorInterface $activator
-     */
-    public function setActivator(ActivatorInterface $activator)
-    {
-        $this->activator = $activator;
-    }
-
-    /**
-     * @param RequestStack $requestStack
-     */
-    public function setRequestStack(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
-        return self::class;
+        return 'php-translation';
     }
 }
