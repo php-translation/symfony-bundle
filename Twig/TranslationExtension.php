@@ -11,7 +11,7 @@
 
 namespace Translation\Bundle\Twig;
 
-class TranslationExtension extends \Twig_Extension
+final class TranslationExtension extends \Twig_Extension
 {
     public function getFilters()
     {
