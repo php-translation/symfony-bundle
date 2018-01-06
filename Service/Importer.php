@@ -120,6 +120,9 @@ final class Importer
 
             $meta = $this->getMetadata($catalogue, $key, $domain);
             $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            if (isset($sourceLocation->getContext()['desc'])) {
+                $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
+            }
             $this->setMetadata($catalogue, $key, $domain, $meta);
         }
     }
