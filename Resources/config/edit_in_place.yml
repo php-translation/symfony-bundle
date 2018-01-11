@@ -13,6 +13,7 @@ services:
   php_translation.edit_in_place.activator:
     class: Translation\Bundle\EditInPlace\Activator
     arguments: ['@session']
+    public: true
 
   php_translator.edit_in_place.xtrans_html_translator:
     class: Translation\Bundle\Translator\EditInPlaceTranslator
