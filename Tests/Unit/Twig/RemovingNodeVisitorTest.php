@@ -11,6 +11,9 @@
 
 namespace Translation\Bundle\Tests\Unit\Twig;
 
+/**
+ * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ */
 class RemovingNodeVisitorTest extends BaseTwigTestCase
 {
     public function testRemovalWithSimpleTemplate()

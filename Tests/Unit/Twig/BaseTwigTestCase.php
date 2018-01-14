@@ -17,6 +17,9 @@ use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
 use Translation\Bundle\Twig\TranslationExtension;
 
+/**
+ * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ */
 abstract class BaseTwigTestCase extends TestCase
 {
     final protected function parse($file, $debug = false)
