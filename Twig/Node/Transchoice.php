@@ -30,7 +30,7 @@ class Transchoice extends \Twig_Node_Expression
         $compiler->raw(
             sprintf(
                 '$this->env->getExtension(\'%s\')->%s(',
-                'JMS\TranslationBundle\Twig\TranslationExtension',
+                'Translation\Bundle\Twig\TranslationExtension',
                 'transchoiceWithDefault'
             )
         );

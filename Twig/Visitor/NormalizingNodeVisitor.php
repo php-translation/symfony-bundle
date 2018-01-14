@@ -19,7 +19,7 @@ namespace Translation\Bundle\Twig\Visitor;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class NormalizingNodeVisitor extends \Twig_BaseNodeVisitor
+final class NormalizingNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * @param \Twig_Node $node

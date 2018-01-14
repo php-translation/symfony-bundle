@@ -16,7 +16,7 @@ namespace Translation\Bundle\Twig\Visitor;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class RemovingNodeVisitor extends \Twig_BaseNodeVisitor
+final class RemovingNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * @var bool

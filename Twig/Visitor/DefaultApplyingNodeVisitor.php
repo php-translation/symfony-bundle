@@ -21,7 +21,7 @@ use Translation\Bundle\Twig\Node\Transchoice;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
+final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
      * @var bool

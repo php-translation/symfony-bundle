@@ -86,7 +86,7 @@ final class TranslationExtension extends \Twig_Extension
             $domain = 'messages';
         }
 
-        if (false == $this->translator->getCatalogue($locale)->defines($message, $domain)) {
+        if (false === $this->translator->getCatalogue($locale)->defines($message, $domain)) {
             return $this->translator->transChoice($defaultMessage, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale);
         }
 
