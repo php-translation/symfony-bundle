@@ -37,8 +37,9 @@ final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node
      */
     public function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
@@ -67,7 +68,7 @@ final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
             // so that we can catch a possible exception when the default translation has not yet
             // been extracted
             if ('transchoice' === $transNode->getNode('filter')->getAttribute('value')) {
-                $transchoiceArguments = new \Twig_Node_Expression_Array(array(), $transNode->getTemplateLine());
+                $transchoiceArguments = new \Twig_Node_Expression_Array([], $transNode->getTemplateLine());
                 $transchoiceArguments->addElement($wrappingNode->getNode('node'));
                 $transchoiceArguments->addElement($defaultNode);
                 foreach ($wrappingNode->getNode('arguments') as $arg) {
@@ -83,19 +84,19 @@ final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
             // if the |trans filter has replacements parameters
             // (e.g. |trans({'%foo%': 'bar'}))
             if ($wrappingNode->getNode('arguments')->hasNode(0)) {
-                $lineno =  $wrappingNode->getTemplateLine();
+                $lineno = $wrappingNode->getTemplateLine();
 
                 // remove the replacements from the test node
                 $testNode->setNode('arguments', clone $testNode->getNode('arguments'));
-                $testNode->getNode('arguments')->setNode(0, new \Twig_Node_Expression_Array(array(), $lineno));
+                $testNode->getNode('arguments')->setNode(0, new \Twig_Node_Expression_Array([], $lineno));
 
                 // wrap the default node in a |replace filter
                 $defaultNode = new \Twig_Node_Expression_Filter(
                     clone $node->getNode('arguments')->getNode(0),
                     new \Twig_Node_Expression_Constant('replace', $lineno),
-                    new \Twig_Node(array(
-                        clone $wrappingNode->getNode('arguments')->getNode(0)
-                    )),
+                    new \Twig_Node([
+                        clone $wrappingNode->getNode('arguments')->getNode(0),
+                    ]),
                     $lineno
                 );
             }
@@ -113,8 +114,9 @@ final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node
      */
     public function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)

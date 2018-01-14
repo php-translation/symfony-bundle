@@ -22,8 +22,9 @@ namespace Translation\Bundle\Twig\Visitor;
 final class NormalizingNodeVisitor extends \Twig_BaseNodeVisitor
 {
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node
      */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
@@ -32,8 +33,9 @@ final class NormalizingNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node_Expression_Constant|\Twig_Node
      */
     protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)

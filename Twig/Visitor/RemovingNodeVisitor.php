@@ -32,8 +32,9 @@ final class RemovingNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node
      */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
@@ -50,8 +51,9 @@ final class RemovingNodeVisitor extends \Twig_BaseNodeVisitor
     }
 
     /**
-     * @param \Twig_Node $node
+     * @param \Twig_Node        $node
      * @param \Twig_Environment $env
+     *
      * @return \Twig_Node
      */
     protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)

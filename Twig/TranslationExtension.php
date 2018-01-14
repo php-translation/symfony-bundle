@@ -17,7 +17,6 @@ use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
 
 /**
- *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -35,7 +34,7 @@ final class TranslationExtension extends \Twig_Extension
 
     /**
      * @param TranslatorInterface $translator
-     * @param bool $debug
+     * @param bool                $debug
      */
     public function __construct(TranslatorInterface $translator, $debug = false)
     {
@@ -48,10 +47,10 @@ final class TranslationExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('desc', array($this, 'desc')),
-            new \Twig_SimpleFilter('meaning', array($this, 'meaning')),
-        );
+        return [
+            new \Twig_SimpleFilter('desc', [$this, 'desc']),
+            new \Twig_SimpleFilter('meaning', [$this, 'meaning']),
+        ];
     }
 
     /**
@@ -59,10 +58,10 @@ final class TranslationExtension extends \Twig_Extension
      */
     public function getNodeVisitors()
     {
-        $visitors = array(
+        $visitors = [
             new NormalizingNodeVisitor(),
             new RemovingNodeVisitor(),
-        );
+        ];
 
         if ($this->debug) {
             $visitors[] = new DefaultApplyingNodeVisitor();
@@ -72,29 +71,31 @@ final class TranslationExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $message
-     * @param string $defaultMessage
-     * @param int $count
-     * @param array $arguments
+     * @param string      $message
+     * @param string      $defaultMessage
+     * @param int         $count
+     * @param array       $arguments
      * @param null|string $domain
      * @param null|string $locale
+     *
      * @return string
      */
-    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = array(), $domain = null, $locale = null)
+    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null)
     {
         if (null === $domain) {
             $domain = 'messages';
         }
 
         if (false === $this->translator->getCatalogue($locale)->defines($message, $domain)) {
-            return $this->translator->transChoice($defaultMessage, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale);
+            return $this->translator->transChoice($defaultMessage, $count, array_merge(['%count%' => $count], $arguments), $domain, $locale);
         }
 
-        return $this->translator->transChoice($message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale);
+        return $this->translator->transChoice($message, $count, array_merge(['%count%' => $count], $arguments), $domain, $locale);
     }
 
     /**
      * @param $v
+     *
      * @return mixed
      */
     public function desc($v)
@@ -104,6 +105,7 @@ final class TranslationExtension extends \Twig_Extension
 
     /**
      * @param $v
+     *
      * @return mixed
      */
     public function meaning($v)
