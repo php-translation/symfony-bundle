@@ -11,69 +11,110 @@
 
 namespace Translation\Bundle\Twig;
 
-use Symfony\Component\HttpFoundation\RequestStack;
-use Translation\Bundle\EditInPlace\ActivatorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
+use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
+use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
 
 /**
- * Override the `trans` functions `is_safe` option to allow HTML output from the
- * translator. This extension is used by for the EditInPlace feature.
- *
- * @author Damien Alexandre <dalexandre@jolicode.com>
+ * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class TranslationExtension extends \Symfony\Bridge\Twig\Extension\TranslationExtension
+final class TranslationExtension extends \Twig_Extension
 {
     /**
-     * @var ActivatorInterface
+     * @var TranslatorInterface
      */
-    private $activator;
+    private $translator;
 
     /**
-     * @var RequestStack
+     * @var bool
      */
-    private $requestStack;
+    private $debug;
 
     /**
-     * {@inheritdoc}
+     * @param TranslatorInterface $translator
+     * @param bool                $debug
+     */
+    public function __construct(TranslatorInterface $translator, $debug = false)
+    {
+        $this->translator = $translator;
+        $this->debug = $debug;
+    }
+
+    /**
+     * @return array
      */
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
-            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new \Twig_SimpleFilter('desc', [$this, 'desc']),
+            new \Twig_SimpleFilter('meaning', [$this, 'meaning']),
         ];
     }
 
     /**
-     * Escape output if the EditInPlace is disabled.
-     *
      * @return array
      */
-    public function isSafe($node)
+    public function getNodeVisitors()
     {
-        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
+        $visitors = [
+            new NormalizingNodeVisitor(),
+            new RemovingNodeVisitor(),
+        ];
+
+        if ($this->debug) {
+            $visitors[] = new DefaultApplyingNodeVisitor();
+        }
+
+        return $visitors;
     }
 
     /**
-     * @param ActivatorInterface $activator
+     * @param string      $message
+     * @param string      $defaultMessage
+     * @param int         $count
+     * @param array       $arguments
+     * @param null|string $domain
+     * @param null|string $locale
+     *
+     * @return string
      */
-    public function setActivator(ActivatorInterface $activator)
+    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null)
     {
-        $this->activator = $activator;
+        if (null === $domain) {
+            $domain = 'messages';
+        }
+
+        if (false === $this->translator->getCatalogue($locale)->defines($message, $domain)) {
+            return $this->translator->transChoice($defaultMessage, $count, array_merge(['%count%' => $count], $arguments), $domain, $locale);
+        }
+
+        return $this->translator->transChoice($message, $count, array_merge(['%count%' => $count], $arguments), $domain, $locale);
     }
 
     /**
-     * @param RequestStack $requestStack
+     * @param $v
+     *
+     * @return mixed
      */
-    public function setRequestStack(RequestStack $requestStack)
+    public function desc($v)
     {
-        $this->requestStack = $requestStack;
+        return $v;
     }
 
     /**
-     * {@inheritdoc}
+     * @param $v
+     *
+     * @return mixed
      */
+    public function meaning($v)
+    {
+        return $v;
+    }
+
     public function getName()
     {
-        return self::class;
+        return 'php-translation';
     }
 }

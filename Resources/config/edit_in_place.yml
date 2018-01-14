@@ -24,7 +24,7 @@ services:
 
   php_translation.edit_in_place.extension.trans:
     public: false
-    class: Translation\Bundle\Twig\TranslationExtension
+    class: Translation\Bundle\Twig\EditInPlaceExtension
     arguments:
       - '@php_translator.edit_in_place.xtrans_html_translator'
     calls:

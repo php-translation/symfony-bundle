@@ -6,6 +6,16 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ### Added
 
+- Support for `desc` filter in Twig.
+
+### Changed
+
+- Twig extension `TranslationExtension` was renamed to `EditInPlaceExtension`
+
+## 0.5.0
+
+### Added
+
 - Symfony 4 support
 - New `--cache` option on the `translation:download` allowing to clear the cache automatically if the downloaded translations have changed.
 - Support for Yandex translator
