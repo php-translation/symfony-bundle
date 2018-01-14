@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Translation\Bundle\Twig;
+namespace Translation\Bundle\Twig\Visitor;
 
 /**
  * This dummy extractor is used to be compatible with both Twig1 and Twig2. It is only used in dependency injection

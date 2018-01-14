@@ -73,7 +73,7 @@ services:
     public: false
 
   php_translation.extractor.twig.visitor.twig:
-    class: Translation\Bundle\Twig\DummyTwigVisitor
+    class: Translation\Bundle\Twig\Visitor\DummyTwigVisitor
     factory: ["@php_translation.extractor.twig.factory", create]
     tags:
       - { name: 'php_translation.visitor', type: 'twig' }

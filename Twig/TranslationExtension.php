@@ -11,22 +11,104 @@
 
 namespace Translation\Bundle\Twig;
 
+use Symfony\Component\Translation\TranslatorInterface;
+use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
+use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
+use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
+
+/**
+ *
+ * @author Johannes M. Schmitt <schmittjoh@gmail.com>
+ * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ */
 final class TranslationExtension extends \Twig_Extension
 {
-    public function getFilters()
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var bool
+     */
+    private $debug;
+
+    /**
+     * @param TranslatorInterface $translator
+     * @param bool $debug
+     */
+    public function __construct(TranslatorInterface $translator, $debug = false)
     {
-        return [
-            new \Twig_SimpleFilter('desc', [$this, 'runDescFilter']),
-        ];
+        $this->translator = $translator;
+        $this->debug = $debug;
     }
 
-    public function runDescFilter($translation, $description)
+    /**
+     * @return array
+     */
+    public function getFilters()
     {
-        if (empty($translation)) {
-            return $description;
+        return array(
+            new \Twig_SimpleFilter('desc', array($this, 'desc')),
+            new \Twig_SimpleFilter('meaning', array($this, 'meaning')),
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodeVisitors()
+    {
+        $visitors = array(
+            new NormalizingNodeVisitor(),
+            new RemovingNodeVisitor(),
+        );
+
+        if ($this->debug) {
+            $visitors[] = new DefaultApplyingNodeVisitor();
         }
 
-        return $translation;
+        return $visitors;
+    }
+
+    /**
+     * @param string $message
+     * @param string $defaultMessage
+     * @param int $count
+     * @param array $arguments
+     * @param null|string $domain
+     * @param null|string $locale
+     * @return string
+     */
+    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = array(), $domain = null, $locale = null)
+    {
+        if (null === $domain) {
+            $domain = 'messages';
+        }
+
+        if (false == $this->translator->getCatalogue($locale)->defines($message, $domain)) {
+            return $this->translator->transChoice($defaultMessage, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale);
+        }
+
+        return $this->translator->transChoice($message, $count, array_merge(array('%count%' => $count), $arguments), $domain, $locale);
+    }
+
+    /**
+     * @param $v
+     * @return mixed
+     */
+    public function desc($v)
+    {
+        return $v;
+    }
+
+    /**
+     * @param $v
+     * @return mixed
+     */
+    public function meaning($v)
+    {
+        return $v;
     }
 
     public function getName()
