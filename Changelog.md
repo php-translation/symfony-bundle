@@ -2,6 +2,25 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.6.0
+
+### Added
+
+- Support for Symfony 4
+- Support for `desc` Twig filter
+- Support for extract/update only for one bundle
+
+### Fixed
+
+- Dump configuration reference
+- Improved statistics on WebUI
+
+### Changed
+
+- Commands are registered as services
+- `EditInPlaceResponseListener::__construct` uses `UrlGeneratorInterface` instead of the concreate class `Router`
+- The `php_translation.edit_in_place.activator` service is public
+
 ## 0.5.0
 
 ### Added
