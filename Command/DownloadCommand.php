@@ -45,8 +45,10 @@ class DownloadCommand extends ContainerAwareCommand
 
         /** @var StorageService $storage */
         $storage = $container->get('php_translation.storage.'.$configName);
+
         /** @var Configuration $configuration */
-        $configuration = $this->getContainer()->get('php_translation.configuration.'.$configName);
+        $configuration = $container->get('php_translation.configuration_manager')
+            ->getConfiguration($input->getArgument('configuration'));
         $this->configureBundleDirs($input, $configuration);
 
         if ($input->getOption('cache')) {
