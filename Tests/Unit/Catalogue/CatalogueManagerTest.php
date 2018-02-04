@@ -30,7 +30,6 @@ class CatalogueManagerTest extends TestCase
         $messages = $manager->getMessages('en', 'messages');
 
         $this->assertCount(2, $messages);
-        $this->assertCount(2, $messages);
     }
 
     public function testFindMessagesNoMetadata()
