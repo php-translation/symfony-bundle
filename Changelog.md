@@ -2,7 +2,7 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## 0.6.1
+## 0.6.2
 
 ### Added 
 
@@ -17,6 +17,12 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Fixed
 
 - `Metadata::$notes` will not change when running `Metadata::getAllInCategory()`
+
+## 0.6.1
+
+### Fixed
+
+-- Symfony 4 issues with the DownloadCommand. 
 
 ## 0.6.0
 
