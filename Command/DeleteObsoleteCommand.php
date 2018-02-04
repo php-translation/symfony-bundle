@@ -54,17 +54,41 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $storage = $container->get('php_translation.storage.'.$configName);
         $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
+        $messageCount = count($messages);
+        if (0 === $messageCount) {
+            $output->writeln('No messages are obsolete');
+
+            return;
+        }
+
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue?', count($messages)), false);
+        $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
         if (!$helper->ask($input, $output, $question)) {
             return;
         }
 
-        $progress = new ProgressBar($output, count($messages));
+        $progress = null;
+        if (OutputInterface::VERBOSITY_NORMAL === $output->getVerbosity() && OutputInterface::VERBOSITY_QUIET !== $output->getVerbosity()) {
+            $progress = new ProgressBar($output, $messageCount);
+        }
         foreach ($messages as $message) {
             $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
-            $progress->advance();
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln(sprintf(
+                    'Deleted obsolete message "<info>%s</info>" from domain "<info>%s</info>" and locale "<info>%s</info>"',
+                    $message->getKey(),
+                    $message->getDomain(),
+                    $message->getLocale()
+                ));
+            }
+
+            if ($progress) {
+                $progress->advance();
+            }
         }
-        $progress->finish();
+
+        if ($progress) {
+            $progress->finish();
+        }
     }
 }
