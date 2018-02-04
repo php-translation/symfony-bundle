@@ -92,6 +92,7 @@ class TranslationExtension extends Extension
      */
     private function handleConfigNode(ContainerBuilder $container, array $config)
     {
+        $storageManager = $container->getDefinition('php_translation.storage_manager');
         $configurationManager = $container->getDefinition('php_translation.configuration_manager');
         // $first will be the "default" configuration.
         $first = null;
@@ -117,6 +118,7 @@ class TranslationExtension extends Extension
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
             $storageDefinition->setPublic(true);
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
+            $storageManager->addMethodCall('addStorage', [$name, new Reference('php_translation.storage.'.$name)]);
 
             // Add storages
             foreach ($c['remote_storage'] as $serviceId) {

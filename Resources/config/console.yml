@@ -2,25 +2,50 @@ services:
     php_translator.console.delete_obsolete:
         class: Translation\Bundle\Command\DeleteObsoleteCommand
         public: true
+        arguments:
+          - '@php_translation.storage_manager'
+          - '@php_translation.configuration_manager'
+          - '@php_translation.catalogue_manager'
+          - '@php_translation.catalogue_fetcher'
         tags:
             - { name: console.command, command: translation:delete-obsolete}
+
     php_translator.console.download:
         class: Translation\Bundle\Command\DownloadCommand
         public: true
+        arguments:
+          - '@php_translation.storage_manager'
+          - '@php_translation.configuration_manager'
+          - '@php_translation.cache_clearer'
         tags:
             - { name: console.command, command: translation:download }
+
     php_translator.console.extract:
         class: Translation\Bundle\Command\ExtractCommand
         public: true
+        arguments:
+          - '@php_translation.catalogue_fetcher'
+          - '@php_translation.catalogue_writer'
+          - '@php_translation.catalogue_counter'
+          - '@php_translation.importer'
+          - '@php_translation.configuration_manager'
         tags:
             - { name: console.command, command: translation:extract }
+
     php_translator.console.status:
         class: Translation\Bundle\Command\StatusCommand
         public: true
+        arguments:
+          - '@php_translation.catalogue_counter'
+          - '@php_translation.configuration_manager'
+          - '@php_translation.catalogue_fetcher'
         tags:
             - { name: console.command, command: translation:status }
+
     php_translator.console.sync:
         class: Translation\Bundle\Command\SyncCommand
         public: true
+        arguments:
+          - '@php_translation.storage_manager'
         tags:
             - { name: console.command, command: translation:sync }

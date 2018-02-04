@@ -12,23 +12,62 @@
 namespace Translation\Bundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Translation\Bundle\Catalogue\CatalogueCounter;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Service\ConfigurationManager;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class StatusCommand extends ContainerAwareCommand
+class StatusCommand extends Command
 {
     use BundleTrait;
+
+    protected static $defaultName = 'translation:status';
+
+    /**
+     * @var CatalogueCounter
+     */
+    private $catalogueCounter;
+
+    /**
+     * @var ConfigurationManager
+     */
+    private $configurationManager;
+
+    /**
+     * @var CatalogueFetcher
+     */
+    private $catalogueFetcher;
+
+    /**
+     *
+     * @param CatalogueCounter $catalogueCounter
+     * @param ConfigurationManager $configurationManager
+     * @param CatalogueFetcher $catalogueFetcher
+     */
+    public function __construct(
+        CatalogueCounter $catalogueCounter,
+        ConfigurationManager $configurationManager,
+        CatalogueFetcher $catalogueFetcher
+    ) {
+        $this->catalogueCounter = $catalogueCounter;
+        $this->configurationManager = $configurationManager;
+        $this->catalogueFetcher = $catalogueFetcher;
+
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
         $this
-            ->setName('translation:status')
             ->setDescription('Show status about your translations.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
@@ -39,10 +78,7 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $counter = $container->get('php_translation.catalogue_counter');
-        $config = $container->get('php_translation.configuration_manager')
-            ->getConfiguration($input->getArgument('configuration'));
+        $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
         $this->configureBundleDirs($input, $config);
 
         $locales = [];
@@ -50,12 +86,11 @@ class StatusCommand extends ContainerAwareCommand
             $locales = [$inputLocale];
         }
 
-        $catalogues = $container->get('php_translation.catalogue_fetcher')
-            ->getCatalogues($config, $locales);
+        $catalogues = $this->catalogueFetcher->getCatalogues($config, $locales);
 
         $stats = [];
         foreach ($catalogues as $catalogue) {
-            $stats[$catalogue->getLocale()] = $counter->getCatalogueStatistics($catalogue);
+            $stats[$catalogue->getLocale()] = $this->catalogueCounter->getCatalogueStatistics($catalogue);
         }
 
         if ($input->getOption('json')) {

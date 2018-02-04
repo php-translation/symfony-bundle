@@ -12,25 +12,63 @@
 namespace Translation\Bundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use Translation\Bundle\Service\CacheClearer;
+use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Service\StorageService;
 use Translation\Bundle\Model\Configuration;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class DownloadCommand extends ContainerAwareCommand
+class DownloadCommand extends Command
 {
     use BundleTrait;
+
+    protected static $defaultName = 'translation:download';
+
+    /**
+     * @var StorageManager
+     */
+    private $storageManager;
+
+    /**
+     * @var ConfigurationManager
+     */
+    private $configurationManager;
+
+    /**
+     * @var CacheClearer
+     */
+    private $cacheCleaner;
+
+    /**
+     *
+     * @param StorageManager $storageManager
+     * @param ConfigurationManager $configurationManager
+     * @param CacheClearer $cacheCleaner
+     */
+    public function __construct(
+        StorageManager $storageManager,
+        ConfigurationManager $configurationManager,
+        CacheClearer $cacheCleaner
+    ) {
+        $this->storageManager = $storageManager;
+        $this->configurationManager = $configurationManager;
+        $this->cacheCleaner = $cacheCleaner;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
         $this
-            ->setName('translation:download')
             ->setDescription('Replace local messages with messages from remote')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addOption('cache', null, InputOption::VALUE_NONE, 'Clear the cache if the translations have changed')
@@ -40,15 +78,10 @@ class DownloadCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
+        $storage = $this->storageManager->getStorage($configName);
+        $configuration = $this->configurationManager->getConfiguration($configName);
 
-        /** @var StorageService $storage */
-        $storage = $container->get('php_translation.storage.'.$configName);
-
-        /** @var Configuration $configuration */
-        $configuration = $container->get('php_translation.configuration_manager')
-            ->getConfiguration($input->getArgument('configuration'));
         $this->configureBundleDirs($input, $configuration);
 
         if ($input->getOption('cache')) {
@@ -58,8 +91,7 @@ class DownloadCommand extends ContainerAwareCommand
             $md5AfterDownload = $this->hashDirectory($translationsDirectory);
 
             if ($md5BeforeDownload !== $md5AfterDownload) {
-                $cacheClearer = $this->getContainer()->get('php_translation.cache_clearer');
-                $cacheClearer->clearAndWarmUp();
+                $this->cacheCleaner->clearAndWarmUp();
             }
         } else {
             $storage->download();

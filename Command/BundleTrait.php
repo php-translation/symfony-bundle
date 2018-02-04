@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Translation\Bundle\Model\Configuration;
 
 trait BundleTrait
@@ -27,6 +28,7 @@ trait BundleTrait
                 }
             }
 
+            /** @var Bundle $bundle */
             $bundle = $this->getApplication()
                 ->getKernel()
                 ->getBundle($bundleName)
