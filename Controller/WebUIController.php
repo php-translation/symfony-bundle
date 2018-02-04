@@ -137,7 +137,7 @@ class WebUIController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
 
         try {
             $message = $this->getMessageFromRequest($request);
@@ -188,7 +188,7 @@ class WebUIController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
         $storage->update($message);
 
         return new Response('Translation updated');
@@ -218,7 +218,7 @@ class WebUIController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
         $storage->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
