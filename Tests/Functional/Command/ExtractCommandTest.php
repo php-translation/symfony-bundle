@@ -13,7 +13,6 @@ namespace Translation\Bundle\Tests\Functional\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Translation\Bundle\Command\ExtractCommand;
 use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
