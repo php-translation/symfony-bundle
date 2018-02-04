@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,7 +20,6 @@ use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Service\CacheClearer;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\StorageManager;
-use Translation\Bundle\Service\StorageService;
 use Translation\Bundle\Model\Configuration;
 
 /**
@@ -49,10 +47,9 @@ class DownloadCommand extends Command
     private $cacheCleaner;
 
     /**
-     *
-     * @param StorageManager $storageManager
+     * @param StorageManager       $storageManager
      * @param ConfigurationManager $configurationManager
-     * @param CacheClearer $cacheCleaner
+     * @param CacheClearer         $cacheCleaner
      */
     public function __construct(
         StorageManager $storageManager,
@@ -64,7 +61,6 @@ class DownloadCommand extends Command
         $this->cacheCleaner = $cacheCleaner;
         parent::__construct();
     }
-
 
     protected function configure()
     {

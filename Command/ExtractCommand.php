@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -62,11 +61,10 @@ class ExtractCommand extends Command
     private $configurationManager;
 
     /**
-     *
-     * @param CatalogueFetcher $catalogueFetcher
-     * @param CatalogueWriter $catalogueWriter
-     * @param CatalogueCounter $catalogueCounter
-     * @param Importer $importer
+     * @param CatalogueFetcher     $catalogueFetcher
+     * @param CatalogueWriter      $catalogueWriter
+     * @param CatalogueCounter     $catalogueCounter
+     * @param Importer             $importer
      * @param ConfigurationManager $configurationManager
      */
     public function __construct(
@@ -85,7 +83,6 @@ class ExtractCommand extends Command
         parent::__construct();
     }
 
-
     protected function configure()
     {
         $this
@@ -99,7 +96,6 @@ class ExtractCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
 
         $locales = [];

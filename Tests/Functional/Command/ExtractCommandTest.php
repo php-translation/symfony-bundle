@@ -67,7 +67,8 @@ XML
         $this->bootKernel();
         $application = new Application($this->kernel);
 
-        $application->add(new ExtractCommand());
+        $container = $this->getContainer();
+        $application->add($container->get('php_translator.console.extract'));
 
         $command = $application->find('translation:extract');
         $commandTester = new CommandTester($command);

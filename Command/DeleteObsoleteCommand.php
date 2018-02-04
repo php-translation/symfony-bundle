@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -54,11 +53,10 @@ class DeleteObsoleteCommand extends Command
     private $catalogueFetcher;
 
     /**
-     *
-     * @param StorageManager $storageManager
+     * @param StorageManager       $storageManager
      * @param ConfigurationManager $configurationManager
-     * @param CatalogueManager $catalogueManager
-     * @param CatalogueFetcher $catalogueFetcher
+     * @param CatalogueManager     $catalogueManager
+     * @param CatalogueFetcher     $catalogueFetcher
      */
     public function __construct(
         StorageManager $storageManager,
@@ -72,7 +70,6 @@ class DeleteObsoleteCommand extends Command
         $this->catalogueFetcher = $catalogueFetcher;
         parent::__construct();
     }
-
 
     protected function configure()
     {

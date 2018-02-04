@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,10 +46,9 @@ class StatusCommand extends Command
     private $catalogueFetcher;
 
     /**
-     *
-     * @param CatalogueCounter $catalogueCounter
+     * @param CatalogueCounter     $catalogueCounter
      * @param ConfigurationManager $configurationManager
-     * @param CatalogueFetcher $catalogueFetcher
+     * @param CatalogueFetcher     $catalogueFetcher
      */
     public function __construct(
         CatalogueCounter $catalogueCounter,
@@ -63,7 +61,6 @@ class StatusCommand extends Command
 
         parent::__construct();
     }
-
 
     protected function configure()
     {

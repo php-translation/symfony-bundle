@@ -11,13 +11,11 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Translation\Bundle\Service\StorageManager;
-use Translation\Bundle\Service\StorageService;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -32,7 +30,6 @@ class SyncCommand extends Command
     private $storageManager;
 
     /**
-     *
      * @param StorageManager $storageManager
      */
     public function __construct(StorageManager $storageManager)

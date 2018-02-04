@@ -29,7 +29,8 @@ class StatusCommandTest extends BaseTestCase
         $this->bootKernel();
         $application = new Application($this->kernel);
 
-        $application->add(new StatusCommand());
+        $container = $this->getContainer();
+        $application->add($container->get('php_translator.console.status'));
 
         $command = $application->find('translation:status');
         $commandTester = new CommandTester($command);
