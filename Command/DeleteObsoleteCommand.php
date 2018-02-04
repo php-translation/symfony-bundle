@@ -55,7 +55,7 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $messageCount = count($messages);
-        if ($messageCount === 0) {
+        if (0 === $messageCount) {
             $output->writeln('No messages are obsolete');
 
             return;
