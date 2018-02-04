@@ -22,6 +22,7 @@ use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Bundle\Model\CatalogueMessage;
 use Translation\Common\Model\Message;
+use Translation\Common\Model\MessageInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -141,8 +142,8 @@ class WebUIController extends Controller
 
         try {
             $message = $this->getMessageFromRequest($request);
-            $message->setDomain($domain);
-            $message->setLocale($locale);
+            $message = $message->withDomain($domain);
+            $message = $message->withLocale($locale);
             $this->validateMessage($message, ['Create']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
@@ -180,8 +181,8 @@ class WebUIController extends Controller
 
         try {
             $message = $this->getMessageFromRequest($request);
-            $message->setDomain($domain);
-            $message->setLocale($locale);
+            $message = $message->withDomain($domain);
+            $message = $message->withLocale($locale);
             $this->validateMessage($message, ['Edit']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
@@ -210,8 +211,8 @@ class WebUIController extends Controller
 
         try {
             $message = $this->getMessageFromRequest($request);
-            $message->setLocale($locale);
-            $message->setDomain($domain);
+            $message = $message->withLocale($locale);
+            $message = $message->withDomain($domain);
             $this->validateMessage($message, ['Delete']);
         } catch (MessageValidationException $e) {
             return new Response($e->getMessage(), 400);
@@ -227,7 +228,7 @@ class WebUIController extends Controller
     /**
      * @param Request $request
      *
-     * @return Message
+     * @return MessageInterface
      */
     private function getMessageFromRequest(Request $request)
     {
@@ -235,10 +236,10 @@ class WebUIController extends Controller
         $data = json_decode($json, true);
         $message = new Message();
         if (isset($data['key'])) {
-            $message->setKey($data['key']);
+            $message = $message->withKey($data['key']);
         }
         if (isset($data['message'])) {
-            $message->setTranslation($data['message']);
+            $message = $message->withTranslation($data['message']);
         }
 
         return $message;
@@ -262,12 +263,12 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param Message $message
+     * @param MessageInterface $message
      * @param array   $validationGroups
      *
      * @throws MessageValidationException
      */
-    private function validateMessage(Message $message, array $validationGroups)
+    private function validateMessage(MessageInterface $message, array $validationGroups)
     {
         $errors = $this->get('validator')->validate($message, null, $validationGroups);
         if (count($errors) > 0) {

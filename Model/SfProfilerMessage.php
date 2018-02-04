@@ -13,6 +13,7 @@ namespace Translation\Bundle\Model;
 
 use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Common\Model\Message;
+use Translation\Common\Model\MessageInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -118,9 +119,9 @@ final class SfProfilerMessage
     }
 
     /**
-     * Convert to a Common\Message.
+     * Convert to a Common\Model\MessageInterface.
      *
-     * @return Message
+     * @return MessageInterface
      */
     public function convertToMessage()
     {
