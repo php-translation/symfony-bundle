@@ -25,7 +25,7 @@ class CatalogueManagerTest extends TestCase
     {
         $manager = new CatalogueManager();
         $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans']]);
-        $catB = new MessageCatalogue('fr', ['messages' => ['a' => 'aTransFr', 'c' => 'cTransFr']]);
+        $catB = new MessageCatalogue('fr', ['messages' => ['a' => 'aTransFr', 'c' => 'cTransFr', 'd' => 'dTransFr']]);
         $manager->load([$catA, $catB]);
         $messages = $manager->getMessages('en', 'messages');
 
