@@ -55,40 +55,40 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
         $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $messageCount = count($messages);
-        if ($messageCount > 0) {
-            $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
-            if (!$helper->ask($input, $output, $question)) {
-                return;
-            }
+        if ($messageCount === 0) {
+            $output->writeln('No messages are obsolete');
 
-            $progress = null;
-            if (OutputInterface::VERBOSITY_NORMAL === $output->getVerbosity() && OutputInterface::VERBOSITY_QUIET !== $output->getVerbosity()) {
-                $progress = new ProgressBar($output, $messageCount);
-            }
-            foreach ($messages as $message) {
-                $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
-                if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                    $output->writeln(sprintf(
-                        'Deleted obsolete message "<info>%s</info>" from domain "<info>%s</info>" and locale "<info>%s</info>"',
-                        $message->getKey(),
-                        $message->getDomain(),
-                        $message->getLocale()
-                    ));
-                }
+            return;
+        }
 
-                if ($progress) {
-                    $progress->advance();
-                }
+        $helper = $this->getHelper('question');
+        $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
+        if (!$helper->ask($input, $output, $question)) {
+            return;
+        }
+
+        $progress = null;
+        if (OutputInterface::VERBOSITY_NORMAL === $output->getVerbosity() && OutputInterface::VERBOSITY_QUIET !== $output->getVerbosity()) {
+            $progress = new ProgressBar($output, $messageCount);
+        }
+        foreach ($messages as $message) {
+            $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
+            if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+                $output->writeln(sprintf(
+                    'Deleted obsolete message "<info>%s</info>" from domain "<info>%s</info>" and locale "<info>%s</info>"',
+                    $message->getKey(),
+                    $message->getDomain(),
+                    $message->getLocale()
+                ));
             }
 
             if ($progress) {
-                $progress->finish();
+                $progress->advance();
             }
-            exit(0);
         }
 
-        $output->writeln('No messages are obsolete');
-
+        if ($progress) {
+            $progress->finish();
+        }
     }
 }
