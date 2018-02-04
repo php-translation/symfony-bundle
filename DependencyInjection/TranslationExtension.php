@@ -142,7 +142,7 @@ class TranslationExtension extends Extension
             // Create some aliases for the default storage
             $container->setAlias('php_translation.storage', new Alias('php_translation.storage.'.$first, true));
             if ('default' !== $first) {
-                $container->setAlias('php_translation.storage.default', 'php_translation.storage.'.$first);
+                $container->setAlias('php_translation.storage.default', new Alias('php_translation.storage.'.$first, true));
             }
         }
     }
