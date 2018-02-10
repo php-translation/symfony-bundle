@@ -113,7 +113,7 @@
     <p class="full-width" id="translationResult"></p>
 
     <button type="submit" class="btn">
-        Send selected translations to SaaS
+        Add selected messages
     </button>
 
 </form>
@@ -171,9 +171,9 @@
                 </td>
                 <td width="155px">
                     {% spaceless %}
-                    <a class="edit"  href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
+                    <a class="edit btn btn-sm" href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
                         |
-                    <a class="sync"  href="javascript:void(0);" onclick='syncMessage("{{ key }}")'>Sync</a>
+                    <a class="sync btn btn-sm" href="javascript:void(0);" onclick='syncMessage("{{ key }}")'>Sync</a>
                     {% endspaceless %}
                 </td>
             </tr>
