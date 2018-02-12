@@ -42,6 +42,7 @@ class SyncCommand extends Command
     protected function configure()
     {
         $this
+            ->getName(self::$defaultName)
             ->setDescription('Sync the translations with the remote storage')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default');
     }
