@@ -22,6 +22,7 @@ services:
     class: Translation\Extractor\Extractor
 
   php_translation.storage_manager:
+    public: true
     class: Translation\Bundle\Service\StorageManager
 
   php_translation.configuration_manager:
