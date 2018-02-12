@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Translation\Bundle\Service\StorageManager;
+use Translation\Bundle\Service\StorageService;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -44,12 +45,26 @@ class SyncCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Sync the translations with the remote storage')
-            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default');
+            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
+            ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten', 'down');
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        switch ($input->getArgument('direction')) {
+            case 'down':
+                $direction = StorageService::DIRECTION_DOWN;
+                break;
+            case 'up':
+                $direction = StorageService::DIRECTION_UP;
+                break;
+            default:
+                $output->writeln(sprintf('Direction must be eitehr "up" or "down". Not "%s".', $input->getArgument('direction')));
+                return;
+        }
+
         $configName = $input->getArgument('configuration');
-        $this->storageManager->getStorage($configName)->sync();
+        $this->storageManager->getStorage($configName)->sync($direction);
     }
 }
