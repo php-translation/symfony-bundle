@@ -11,31 +11,45 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Translation\Bundle\Service\StorageService;
+use Translation\Bundle\Service\StorageManager;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class SyncCommand extends ContainerAwareCommand
+class SyncCommand extends Command
 {
+    protected static $defaultName = 'translation:sync';
+
+    /**
+     * @var StorageManager
+     */
+    private $storageManager;
+
+    /**
+     * @param StorageManager $storageManager
+     */
+    public function __construct(StorageManager $storageManager)
+    {
+        $this->storageManager = $storageManager;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
-            ->setName('translation:sync')
+            ->setName(self::$defaultName)
             ->setDescription('Sync the translations with the remote storage')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
-        /** @var StorageService $storage */
-        $storage = $container->get('php_translation.storage.'.$configName);
-        $storage->sync();
+        $this->storageManager->getStorage($configName)->sync();
     }
 }

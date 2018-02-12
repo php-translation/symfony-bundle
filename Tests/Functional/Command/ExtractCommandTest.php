@@ -13,7 +13,6 @@ namespace Translation\Bundle\Tests\Functional\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Translation\Bundle\Command\ExtractCommand;
 use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
@@ -67,7 +66,8 @@ XML
         $this->bootKernel();
         $application = new Application($this->kernel);
 
-        $application->add(new ExtractCommand());
+        $container = $this->getContainer();
+        $application->add($container->get('php_translator.console.extract'));
 
         $command = $application->find('translation:extract');
         $commandTester = new CommandTester($command);

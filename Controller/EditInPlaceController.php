@@ -39,7 +39,7 @@ class EditInPlaceController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage.'.$configName);
+        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
         foreach ($messages as $message) {
             $storage->update($message);
         }

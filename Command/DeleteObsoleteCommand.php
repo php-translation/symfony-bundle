@@ -11,25 +11,70 @@
 
 namespace Translation\Bundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Catalogue\CatalogueManager;
+use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Service\StorageManager;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class DeleteObsoleteCommand extends ContainerAwareCommand
+class DeleteObsoleteCommand extends Command
 {
     use BundleTrait;
+
+    protected static $defaultName = 'translation:delete-obsolete';
+
+    /**
+     * @var StorageManager
+     */
+    private $storageManager;
+
+    /**
+     * @var ConfigurationManager
+     */
+    private $configurationManager;
+
+    /**
+     * @var CatalogueManager
+     */
+    private $catalogueManager;
+
+    /**
+     * @var CatalogueFetcher
+     */
+    private $catalogueFetcher;
+
+    /**
+     * @param StorageManager       $storageManager
+     * @param ConfigurationManager $configurationManager
+     * @param CatalogueManager     $catalogueManager
+     * @param CatalogueFetcher     $catalogueFetcher
+     */
+    public function __construct(
+        StorageManager $storageManager,
+        ConfigurationManager $configurationManager,
+        CatalogueManager $catalogueManager,
+        CatalogueFetcher $catalogueFetcher
+    ) {
+        $this->storageManager = $storageManager;
+        $this->configurationManager = $configurationManager;
+        $this->catalogueManager = $catalogueManager;
+        $this->catalogueFetcher = $catalogueFetcher;
+        parent::__construct();
+    }
 
     protected function configure()
     {
         $this
-            ->setName('translation:delete-obsolete')
+            ->setName(self::$defaultName)
             ->setDescription('Delete all translations marked as obsolete.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null)
@@ -39,20 +84,18 @@ class DeleteObsoleteCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
         $configName = $input->getArgument('configuration');
         $locales = [];
         if (null !== $inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
         }
 
-        $catalogueManager = $container->get('php_translation.catalogue_manager');
-        $config = $container->get('php_translation.configuration_manager')->getConfiguration($configName);
+        $config = $this->configurationManager->getConfiguration($configName);
         $this->configureBundleDirs($input, $config);
-        $catalogueManager->load($container->get('php_translation.catalogue_fetcher')->getCatalogues($config, $locales));
+        $this->catalogueManager->load($this->catalogueFetcher->getCatalogues($config, $locales));
 
-        $storage = $container->get('php_translation.storage.'.$configName);
-        $messages = $catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
+        $storage = $this->storageManager->getStorage($configName);
+        $messages = $this->catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $messageCount = count($messages);
         if (0 === $messageCount) {
