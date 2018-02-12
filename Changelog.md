@@ -2,6 +2,30 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.6.2
+
+### Added 
+
+- User feedback when you use DeleteObsoleteCommand. 
+- Injecet depedencies in commands.
+- Added argument for sync direction.
+
+### Changed
+
+- The service `php_translation.storage.default` is now public. 
+- The XliffDumper does not backup existing files before creating dump. This is the default behavior in 
+ Symfony 4. 
+ 
+### Fixed
+
+- `Metadata::$notes` will not change when running `Metadata::getAllInCategory()`
+
+## 0.6.1
+
+### Fixed
+
+-- Symfony 4 issues with the DownloadCommand. 
+
 ## 0.6.0
 
 ### Added
