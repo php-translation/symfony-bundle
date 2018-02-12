@@ -7,6 +7,8 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Added 
 
 - User feedback when you use DeleteObsoleteCommand. 
+- Injecet depedencies in commands.
+- Added argument for sync direction.
 
 ### Changed
 
