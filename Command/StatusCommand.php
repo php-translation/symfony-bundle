@@ -65,7 +65,7 @@ class StatusCommand extends Command
     protected function configure()
     {
         $this
-            ->getName(self::$defaultName)
+            ->setName(self::$defaultName)
             ->setDescription('Show status about your translations.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)

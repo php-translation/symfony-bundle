@@ -74,7 +74,7 @@ class DeleteObsoleteCommand extends Command
     protected function configure()
     {
         $this
-            ->getName(self::$defaultName)
+            ->setName(self::$defaultName)
             ->setDescription('Delete all translations marked as obsolete.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null)

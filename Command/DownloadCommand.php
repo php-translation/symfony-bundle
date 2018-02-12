@@ -65,7 +65,7 @@ class DownloadCommand extends Command
     protected function configure()
     {
         $this
-            ->getName(self::$defaultName)
+            ->setName(self::$defaultName)
             ->setDescription('Replace local messages with messages from remote')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addOption('cache', null, InputOption::VALUE_NONE, 'Clear the cache if the translations have changed')

@@ -86,7 +86,7 @@ class ExtractCommand extends Command
     protected function configure()
     {
         $this
-            ->getName(self::$defaultName)
+            ->setName(self::$defaultName)
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
