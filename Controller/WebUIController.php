@@ -31,19 +31,21 @@ class WebUIController extends Controller
     /**
      * Show a dashboard for the configuration.
      *
+     * @param Request $request
      * @param string|null $configName
      *
      * @return Response
      */
-    public function indexAction($configName = null)
+    public function indexAction(Request $request, $configName = null)
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
 
+        $displayLocale = $request->getLocale();
         $configManager = $this->get('php_translation.configuration_manager');
         $config = $configManager->getConfiguration($configName);
-        $localeMap = $this->getLocale2LanguageMap();
+        $localeMap = $this->getLocale2LanguageMap($displayLocale);
         $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($config);
 
         $catalogueSize = [];
@@ -247,12 +249,14 @@ class WebUIController extends Controller
     /**
      * This will return a map of our configured locales and their language name.
      *
+     * @param string $displayLocale Locale used for display
+     *
      * @return array locale => language
      */
-    private function getLocale2LanguageMap()
+    private function getLocale2LanguageMap($displayLocale = 'en')
     {
         $configuredLocales = $this->getParameter('php_translation.locales');
-        $names = Intl::getLocaleBundle()->getLocaleNames('en');
+        $names = Intl::getLocaleBundle()->getLocaleNames($displayLocale);
         $map = [];
         foreach ($configuredLocales as $l) {
             $map[$l] = isset($names[$l]) ? $names[$l] : $l;
