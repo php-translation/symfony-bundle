@@ -264,7 +264,7 @@ class WebUIController extends Controller
 
     /**
      * @param MessageInterface $message
-     * @param array   $validationGroups
+     * @param array            $validationGroups
      *
      * @throws MessageValidationException
      */

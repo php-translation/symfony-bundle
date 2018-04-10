@@ -238,8 +238,8 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage[] $storages
-     * @param MessageInterface   $message
+     * @param Storage[]        $storages
+     * @param MessageInterface $message
      */
     private function updateStorages(array $storages, MessageInterface $message)
     {
