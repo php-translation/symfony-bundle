@@ -53,7 +53,7 @@ matrix:
 
 before_install:
     - INI_FILE=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - if [[ $COVERAGE == true ]]; then echo max_execution_time = 600 >> $INI_FILE true; fi
+    - if [[ $COVERAGE == true ]]; then echo max_execution_time = 600 >> $INI_FILE; fi
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - if ! [ -z "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
