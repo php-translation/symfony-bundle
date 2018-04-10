@@ -198,7 +198,7 @@ class TranslationExtension extends Extension
         $def->replaceArgument(1, $activatorRef);
 
         $def = $container->getDefinition('php_translation.edit_in_place.extension.trans');
-        $def->addMethodCall('setActivator',[$activatorRef]);
+        $def->addMethodCall('setActivator', [$activatorRef]);
     }
 
     /**
