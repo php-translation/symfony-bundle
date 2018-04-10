@@ -17,6 +17,7 @@ use Translation\Bundle\Catalogue\CatalogueWriter;
 use Translation\Bundle\Model\Configuration;
 use Translation\Common\Exception\LogicException;
 use Translation\Common\Model\Message;
+use Translation\Common\Model\MessageInterface;
 use Translation\Common\Storage;
 use Translation\Common\TransferableStorage;
 
@@ -208,7 +209,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function create(Message $message)
+    public function create(MessageInterface $message)
     {
         // Validate if message actually has data
         if (empty((array) $message)) {
@@ -229,7 +230,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function update(Message $message)
+    public function update(MessageInterface $message)
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $this->updateStorages($storages, $message);
@@ -237,10 +238,10 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage[] $storages
-     * @param Message   $message
+     * @param Storage[]        $storages
+     * @param MessageInterface $message
      */
-    private function updateStorages(array $storages, Message $message)
+    private function updateStorages(array $storages, MessageInterface $message)
     {
         // Validate if message actually has data
         if (empty((array) $message)) {

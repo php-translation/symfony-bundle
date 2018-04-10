@@ -18,7 +18,7 @@ use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Bundle\Model\SfProfilerMessage;
 use Translation\Bundle\Service\StorageService;
-use Translation\Common\Model\Message;
+use Translation\Common\Model\MessageInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -154,16 +154,16 @@ class SymfonyProfilerController extends Controller
             throw $this->createNotFoundException('No collector with name "translation" was found.');
         }
 
-        $messages = $dataCollector->getMessages();
+        $collectorMessages = $dataCollector->getMessages();
 
-        if ($messages instanceof Data) {
-            $messages = $messages->getValue(true);
+        if ($collectorMessages instanceof Data) {
+            $collectorMessages = $collectorMessages->getValue(true);
         }
 
-        if (!isset($messages[$messageId])) {
+        if (!isset($collectorMessages[$messageId])) {
             throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
         }
-        $message = SfProfilerMessage::create($messages[$messageId]);
+        $message = SfProfilerMessage::create($collectorMessages[$messageId]);
 
         if (DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK === $message->getState()) {
             $message->setLocale($profile->getCollector('request')->getLocale())
@@ -177,7 +177,7 @@ class SymfonyProfilerController extends Controller
      * @param Request $request
      * @param string  $token
      *
-     * @return Message[]
+     * @return MessageInterface[]
      */
     protected function getSelectedMessages(Request $request, $token)
     {

@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\Message;
+use Translation\Common\Model\MessageInterface;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
@@ -57,7 +58,7 @@ class EditInPlaceController extends Controller
      * @param string  $locale
      * @param array   $validationGroups
      *
-     * @return Message[]
+     * @return MessageInterface[]
      *
      * @throws MessageValidationException
      */
@@ -71,11 +72,7 @@ class EditInPlaceController extends Controller
         foreach ($data as $key => $value) {
             list($domain, $translationKey) = explode('|', $key);
 
-            $message = new Message();
-            $message->setKey($translationKey);
-            $message->setTranslation($value);
-            $message->setDomain($domain);
-            $message->setLocale($locale);
+            $message = new Message($translationKey, $domain, $locale, $value);
 
             $errors = $validator->validate($message, null, $validationGroups);
             if (count($errors) > 0) {
