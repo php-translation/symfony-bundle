@@ -196,6 +196,9 @@ class TranslationExtension extends Extension
 
         $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
         $def->replaceArgument(1, $activatorRef);
+
+        $def = $container->getDefinition('php_translation.edit_in_place.extension.trans');
+        $def->addMethodCall('setActivator', [$activatorRef]);
     }
 
     /**

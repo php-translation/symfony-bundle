@@ -28,7 +28,6 @@ services:
     arguments:
       - '@php_translator.edit_in_place.xtrans_html_translator'
     calls:
-      - [setActivator, ['@php_translation.edit_in_place.activator']]
       - [setRequestStack, ['@request_stack']]
     tags:
       - { name: 'twig.extension' }
