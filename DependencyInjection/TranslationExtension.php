@@ -134,7 +134,7 @@ class TranslationExtension extends Extension
 
                 $def = $this->createChildDefinition($serviceId);
                 $def->replaceArgument(2, [$c['output_dir']])
-                    ->replaceArgument(3, [$c['local_file_storage_options']])
+                    ->replaceArgument(3, $c['local_file_storage_options'])
                     ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
                 $container->setDefinition('php_translation.single_storage.file.'.$name, $def);
             }
