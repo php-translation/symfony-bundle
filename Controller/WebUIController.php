@@ -234,10 +234,7 @@ class WebUIController extends Controller
     {
         $json = $request->getContent();
         $data = json_decode($json, true);
-        $message = new Message();
-        if (isset($data['key'])) {
-            $message = $message->withKey($data['key']);
-        }
+        $message = new Message($data['key']);
         if (isset($data['message'])) {
             $message = $message->withTranslation($data['message']);
         }
