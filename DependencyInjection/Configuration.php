@@ -141,7 +141,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('external_translations_dirs')
                             ->prototype('scalar')->end()
                         ->end()
-                        ->enumNode('output_format')->values(['php', 'yml', 'xlf'])->defaultValue('xlf')->end()
+                        ->enumNode('output_format')->values(['php', 'yml', 'xlf', 'po'])->defaultValue('xlf')->end()
                         ->arrayNode('blacklist_domains')
                             ->prototype('scalar')->end()
                         ->end()
