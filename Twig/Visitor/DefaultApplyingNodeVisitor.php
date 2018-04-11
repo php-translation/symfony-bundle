@@ -48,7 +48,7 @@ final class DefaultApplyingNodeVisitor extends \Twig_BaseNodeVisitor
             return $node;
         }
 
-        if ($node instanceof \Twig_Node_Expression_Filter && 'desc' === $node->getNode('filter')->getAttribute('value')) {
+        if (!($node instanceof \Twig_Node_Expression_Filter && 'desc' === $node->getNode('filter')->getAttribute('value'))) {
             return $node;
         }
 
