@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Catalogue;
 
+use Nyholm\NSA;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
@@ -67,9 +68,39 @@ final class CatalogueFetcher
                     $this->reader->read($path, $currentCatalogue);
                 }
             }
+
+            foreach ($currentCatalogue->getDomains() as $domain) {
+                if (!$this->isValidDomain($config, $domain)) {
+                    $messages = $currentCatalogue->all();
+                    unset($messages[$domain]);
+                    NSA::setProperty($currentCatalogue, 'messages', $messages);
+                }
+            }
+
             $catalogues[] = $currentCatalogue;
         }
 
         return $catalogues;
+    }
+
+    /**
+     * @param string $domain
+     *
+     * @return bool
+     */
+    private function isValidDomain(Configuration $config, $domain)
+    {
+        $blacklist = $config->getBlacklistDomains();
+        $whitelist = $config->getWhitelistDomains();
+
+        if (!empty($blacklist) && in_array($domain, $blacklist)) {
+            return false;
+        }
+
+        if (!empty($whitelist) && !in_array($domain, $whitelist)) {
+            return false;
+        }
+
+        return true;
     }
 }
