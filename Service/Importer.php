@@ -15,6 +15,8 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Model\ImportResult;
 use Translation\Bundle\Model\Metadata;
+use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
+use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
@@ -38,11 +40,18 @@ final class Importer
     private $config;
 
     /**
-     * @param Extractor $extractor
+     * @var \Twig_Environment
      */
-    public function __construct(Extractor $extractor)
+    private $twig;
+
+    /**
+     * @param Extractor         $extractor
+     * @param \Twig_Environment $twig
+     */
+    public function __construct(Extractor $extractor, \Twig_Environment $twig)
     {
         $this->extractor = $extractor;
+        $this->twig = $twig;
     }
 
     /**
@@ -60,6 +69,7 @@ final class Importer
     public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [])
     {
         $this->processConfig($config);
+        $this->disableTwigVisitors();
         $sourceCollection = $this->extractor->extract($finder);
         $results = [];
         foreach ($catalogues as $catalogue) {
@@ -86,6 +96,11 @@ final class Importer
                     $meta = $this->getMetadata($result, $key, $domain);
                     $meta->setState('new');
                     $this->setMetadata($result, $key, $domain, $meta);
+
+                    // Add "desc" as translation
+                    if (null === $translation && null !== $desc = $meta->getDesc()) {
+                        $result->set($key, $desc, $domain);
+                    }
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
                     $meta = $this->getMetadata($result, $key, $domain);
@@ -195,5 +210,17 @@ final class Importer
         }
 
         $this->config = $config;
+    }
+
+    private function disableTwigVisitors()
+    {
+        foreach ($this->twig->getNodeVisitors() as $visitor) {
+            if ($visitor instanceof DefaultApplyingNodeVisitor) {
+                $visitor->setEnabled(false);
+            }
+            if ($visitor instanceof RemovingNodeVisitor) {
+                $visitor->setEnabled(false);
+            }
+        }
     }
 }
