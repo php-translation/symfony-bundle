@@ -66,6 +66,21 @@ final class Metadata
     }
 
     /**
+     * @return null|string
+     */
+    public function getDesc()
+    {
+        $notes = $this->getAllInCategory('desc');
+        foreach ($notes as $note) {
+            if (isset($note['content'])) {
+                return $note['content'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return bool
      */
     public function isApproved()

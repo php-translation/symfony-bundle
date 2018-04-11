@@ -97,6 +97,11 @@ final class Importer
                     $meta = $this->getMetadata($result, $key, $domain);
                     $meta->setState('new');
                     $this->setMetadata($result, $key, $domain, $meta);
+
+                    // Add "desc" as translation
+                    if (null === $translation && null !== $desc = $meta->getDesc()) {
+                        $result->set($key, $desc, $domain);
+                    }
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
                     $meta = $this->getMetadata($result, $key, $domain);
