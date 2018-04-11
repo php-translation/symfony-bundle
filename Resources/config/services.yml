@@ -32,7 +32,7 @@ services:
   php_translation.importer:
     public: true
     class: Translation\Bundle\Service\Importer
-    arguments: ["@php_translation.extractor"]
+    arguments: ["@php_translation.extractor", "@twig"]
 
   php_translation.cache_clearer:
     public: true
