@@ -97,9 +97,15 @@ final class Importer
                     $meta->setState('new');
                     $this->setMetadata($result, $key, $domain, $meta);
 
-                    // Add "desc" as translation
-                    if (null === $translation && null !== $desc = $meta->getDesc()) {
-                        $result->set($key, $desc, $domain);
+                    // Add custom translations that we found in the source
+                    if (null === $translation) {
+                        if (null !== $newTranslation = $meta->getTranslation()) {
+                            $result->set($key, $newTranslation, $domain);
+                            // We do not want "translation" key stored anywhere.
+                            $meta->removeAllInCategory('translation');
+                        } elseif (null !== $newTranslation = $meta->getDesc()) {
+                            $result->set($key, $newTranslation, $domain);
+                        }
                     }
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
@@ -137,6 +143,9 @@ final class Importer
             $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
+            }
+            if (isset($sourceLocation->getContext()['translation'])) {
+                $meta->addCategory('translation', $sourceLocation->getContext()['translation']);
             }
             $this->setMetadata($catalogue, $key, $domain, $meta);
         }
