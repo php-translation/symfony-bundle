@@ -14,6 +14,7 @@
         "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0",
         "symfony/validator": "^2.7 || ^3.0 || ^4.0",
         "symfony/translation": "^2.7 || ^3.0 || ^4.0",
+        "symfony/twig-bundle": "^2.7 || ^3.0 || ^4.0",
         "symfony/finder": "^2.7 || ^3.0 || ^4.0",
         "symfony/intl": "^2.7 || ^3.0 || ^4.0",
 
@@ -28,7 +29,6 @@
         "php-http/message": "^1.6",
         "php-http/message-factory": "^1.0.2",
         "symfony/console": "^2.7 || ^3.0 || ^4.0",
-        "symfony/twig-bundle": "^2.7 || ^3.0 || ^4.0",
         "symfony/twig-bridge": "^2.7 || ^3.0 || ^4.0",
         "symfony/asset": "^2.7 || ^3.0 || ^4.0",
         "symfony/templating": "^2.7 || ^3.0 || ^4.0",
