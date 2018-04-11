@@ -45,8 +45,7 @@ final class Importer
     private $twig;
 
     /**
-     *
-     * @param Extractor $extractor
+     * @param Extractor         $extractor
      * @param \Twig_Environment $twig
      */
     public function __construct(Extractor $extractor, \Twig_Environment $twig)
