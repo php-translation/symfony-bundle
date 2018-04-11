@@ -8,6 +8,8 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 - Support for `php-translation/common:0.3` and `php-translation/symfony-storage:0.5`
 - Support for dumping to .po files. 
+- Support for `SourceLocation`'s context key `translation` which adds a default translation to the `Message`.
+- Better respect blacklist and whitelist in `CatalogueFetcher`.
 
 ### Fixed
 
