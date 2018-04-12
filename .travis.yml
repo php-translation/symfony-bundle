@@ -17,6 +17,10 @@ env:
 matrix:
     fast_finish: true
     include:
+          # Run test with code coverage
+        - php: 7.2
+          env: COVERAGE=true TEST_COMMAND="composer test-ci"
+
           # Test with lowest dependencies
         - php: 7.1
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak" SYMFONY_PHPUNIT_VERSION="5.7"
@@ -30,8 +34,6 @@ matrix:
           env: SYMFONY_PHPUNIT_VERSION="5.7"
         - php: 7.0
         - php: 7.1
-        - php: 7.2
-          env: COVERAGE=true TEST_COMMAND="composer test-ci"
 
           # Force some major versions of Symfony
         - php: 7.2
@@ -52,8 +54,7 @@ matrix:
         - env: STABILITY="dev"
 
 before_install:
-    - INI_FILE=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - if [[ $COVERAGE == true ]]; then echo max_execution_time = 600 >> $INI_FILE; fi
+    - if [[ $COVERAGE == true ]]; then echo "max_execution_time = 600" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - if ! [ -z "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
