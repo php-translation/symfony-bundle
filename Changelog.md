@@ -2,6 +2,24 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.7.0
+
+### Added
+
+- Support for `php-translation/common:0.3` and `php-translation/symfony-storage:0.5`
+- Support for dumping to .po files. 
+- Support for `SourceLocation`'s context key `translation` which adds a default translation to the `Message`.
+- Better respect blacklist and whitelist in `CatalogueFetcher`.
+
+### Fixed
+
+- Bug with config option `local_file_storage_options` not being used.
+- Bug with edit-in-place and custom activator.  
+
+### Changed
+
+- The "desc" filter will be used as default translation when extracting. 
+
 ## 0.6.2
 
 ### Added 
