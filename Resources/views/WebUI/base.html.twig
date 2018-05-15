@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>PHP Translation</title>
-    <link rel="stylesheet" href="{{ asset("bundles/translation/css/bootstrap4-alpha5.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("bundles/translation/css/bootstrap.4.1.1.min.css") }}">
     <link rel="stylesheet" href="{{ asset("bundles/translation/css/webui.css") }}">
 </head>
 <body>
 
-<nav class="navbar navbar-light bg-faded configs">
-    <ul class="nav navbar-nav">
-        <li class="nav-item"><span class="nav-text">Configs:</span></li>
-        {% for c in configNames %}
-            <li class="nav-item{% if configName == c %} active{% endif %}">
-                <a class="nav-link" href="{{ path('translation_index', {configName: c}) }}">
-                    {{ c }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><span class="navbar-text">Configs:</span></li>
+            {% for c in configNames %}
+                <li class="nav-item{% if configName == c %} active{% endif %}">
+                    <a class="nav-link" href="{{ path('translation_index', {configName: c}) }}">
+                        {{ c }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </nav>
 
 {% block body %}{% endblock %}

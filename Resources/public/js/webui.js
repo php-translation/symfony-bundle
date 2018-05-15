@@ -125,9 +125,9 @@ function removeResultElement(el) {
 function toggleElement(id) {
     var el = document.getElementById(id);
     if (el.offsetParent === null) {
-        el.classList.add("in");
+        el.classList.add("show");
     } else {
-        el.classList.remove("in");
+        el.classList.remove("show");
     }
 }
 
