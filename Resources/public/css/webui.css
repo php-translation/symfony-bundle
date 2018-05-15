@@ -12,8 +12,8 @@
 }
 
 .locales-item {
-    display: inline-block;
     padding: .25rem;
+    display: inline-block;
 }
 
 .locales-item.active {
@@ -34,18 +34,18 @@ pre a {
 /* Ajax results */
 
 .ajax-result.success {
+    width: 100%;
+    padding: .25rem .5rem;
+    color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
     border-radius: .25rem;
-    color: #155724;
-    padding: .25rem .5rem;
-    width: 100%;
 }
 
 .ajax-result.error {
+    width: 100%;
+    padding: .25rem .5rem;
+    color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
-    color: #721c24;
-    padding: .25rem .5rem;
-    width: 100%;
 }
