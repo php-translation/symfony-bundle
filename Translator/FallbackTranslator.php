@@ -65,7 +65,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
         }
 
         $locale = $catalogue->getLocale();
-        if ($locale === $this->defaultLocale) {
+        if (empty($locale) || $locale === $this->defaultLocale) {
             // we cant do anything...
             return $id;
         }
