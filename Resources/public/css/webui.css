@@ -1,8 +1,8 @@
 /* Navigation */
-#configs {
+.configs {
     padding: 0 2rem;
 }
-#configs .navbar-nav .nav-text{
+.configs .navbar-nav .nav-text{
     font-weight: bold;
     padding-top: 0.2rem;
     padding-bottom: 0;
@@ -10,7 +10,7 @@
     width: 6rem;
 }
 
-#configs .navbar-nav .nav-link {
+.configs .navbar-nav .nav-link {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
 }
