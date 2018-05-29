@@ -54,10 +54,13 @@
             {{ macro.printMessage(idx + idxStart, message, allow_delete, file_base_path) }}
         {% endfor %}
     </div>
+{% endblock %}
 
+{% block javascripts %}
     <script type="text/javascript">
       var editUrl = "{{ path('translation_edit', {configName: configName, locale:currentLocale,domain:currentDomain}) }}";
     </script>
+    {{ parent() }}
 {% endblock %}
 
 {% macro printMessage(idx, message, allow_delete, base_path) %}

@@ -28,6 +28,9 @@
 
 {% block body %}{% endblock %}
 
-<script type="text/javascript" src="{{ asset("bundles/translation/js/webui.js") }}"></script>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset("bundles/translation/js/webui.js") }}"></script>
+{% endblock %}
+
 </body>
 </html>
