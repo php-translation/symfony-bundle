@@ -2,24 +2,24 @@
 translation_index:
     path: /_trans/{configName}
     methods: [GET]
-    defaults:  { _controller: TranslationBundle:WebUI:index, configName: null }
+    defaults:  { _controller: Translation\Bundle\Controller\WebUIController::indexAction, configName: null }
 
 translation_show:
     path: /_trans/{configName}/{locale}/{domain}
     methods: [GET]
-    defaults:  { _controller: TranslationBundle:WebUI:show }
+    defaults:  { _controller: Translation\Bundle\Controller\WebUIController::showAction }
 
 translation_create:
     path: /_trans/{configName}/{locale}/{domain}/new
     methods: [POST]
-    defaults:  { _controller: TranslationBundle:WebUI:create }
+    defaults:  { _controller: Translation\Bundle\Controller\WebUIController::createAction }
 
 translation_edit:
     path: /_trans/{configName}/{locale}/{domain}
     methods: [POST]
-    defaults:  { _controller: TranslationBundle:WebUI:edit }
+    defaults:  { _controller: Translation\Bundle\Controller\WebUIController::editAction }
 
 translation_delete:
     path: /_trans/{configName}/{locale}/{domain}
     methods: [DELETE]
-    defaults:  { _controller: TranslationBundle:WebUI:delete }
+    defaults:  { _controller: Translation\Bundle\Controller\WebUIController::deleteAction }
