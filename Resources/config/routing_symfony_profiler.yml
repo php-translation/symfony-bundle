@@ -2,19 +2,19 @@
 php_translation_profiler_translation_edit:
   path: /{token}/translation/edit
   methods: ["GET", "POST"]
-  defaults:  { _controller: TranslationBundle:SymfonyProfiler:edit }
+  defaults:  { _controller: Translation\Bundle\Controller\SymfonyProfilerController::editAction }
 
 php_translation_profiler_translation_sync:
   path: /{token}/translation/sync
   methods: ["POST"]
-  defaults:  { _controller: TranslationBundle:SymfonyProfiler:sync }
+  defaults:  { _controller: Translation\Bundle\Controller\SymfonyProfilerController::syncAction }
 
 php_translation_profiler_translation_sync_all:
   path: /{token}/translation/sync_all
   methods: ["POST"]
-  defaults:  { _controller: TranslationBundle:SymfonyProfiler:syncAll }
+  defaults:  { _controller: Translation\Bundle\Controller\SymfonyProfilerController::syncAllAction }
 
 php_translation_profiler_translation_create_assets:
   path: /{token}/translation/create_assets
   methods: ["POST"]
-  defaults:  { _controller: TranslationBundle:SymfonyProfiler:createAssets }
+  defaults:  { _controller: Translation\Bundle\Controller\SymfonyProfilerController::createAssetsAction }
