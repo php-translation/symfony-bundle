@@ -1,4 +1,4 @@
 translation_edit_in_place_update:
     path: /_trans_edit_in_place/{configName}/{locale}
     methods: [POST]
-    defaults:  { _controller: TranslationBundle:EditInPlace:edit }
+    defaults:  { _controller: Translation\Bundle\Controller\EditInPlaceController::editAction }
