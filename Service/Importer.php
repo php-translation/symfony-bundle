@@ -83,6 +83,7 @@ final class Importer
                     $meta->removeAllInCategory('file-source');
                     $meta->removeAllInCategory('state');
                     $this->setMetadata($catalogue, $key, $domain, $meta);
+                    $catalogue->set($key, $translation !== ''? $translation : '_'.$key);
                 }
             }
 
