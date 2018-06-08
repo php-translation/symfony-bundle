@@ -83,7 +83,6 @@ final class Importer
                     $meta->removeAllInCategory('file-source');
                     $meta->removeAllInCategory('state');
                     $this->setMetadata($catalogue, $key, $domain, $meta);
-                    $catalogue->set($key, $translation !== ''? $translation : '_'.$key);
                 }
             }
 
@@ -97,6 +96,7 @@ final class Importer
                     $meta = $this->getMetadata($result, $key, $domain);
                     $meta->setState('new');
                     $this->setMetadata($result, $key, $domain, $meta);
+                    $catalogue->set($key, $translation !== ''? $translation : $key);
 
                     // Add custom translations that we found in the source
                     if (null === $translation) {
