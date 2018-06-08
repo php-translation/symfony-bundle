@@ -53,8 +53,6 @@ services:
     class: Translation\SymfonyStorage\Dumper\XliffDumper
     tags:
       - { name: translation.dumper, alias: xlf, legacy-alias: xliff }
-    calls:
-      - [setBackup, [false]]
 
   php_translation.catalogue_counter:
     public: true
