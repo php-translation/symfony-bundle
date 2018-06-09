@@ -14,5 +14,6 @@ framework:
         engines: ['twig']
 
 twig:
+  strict_variables: "%kernel.debug%" #supresses deprecation notices about the default value TwigBundle pre version 5
   paths:
     "%test.root_dir%/Resources/views": App
