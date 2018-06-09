@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHP Translation package.
+ *
+ * (c) PHP Translation team <tobias.nyholm@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Translation\Bundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -15,9 +24,11 @@ class FileDumperBackupPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (Kernel::MAJOR_VERSION <= 3) {
-            $definition = $container->getDefinition('php_translation.storage.xlf_dumper');
-            $definition->addMethodCall('setBackup', [false]);
+        if (Kernel::MAJOR_VERSION >= 4) {
+            return;
         }
+
+        $definition = $container->getDefinition('php_translation.storage.xlf_dumper');
+        $definition->addMethodCall('setBackup', [false]);
     }
 }
