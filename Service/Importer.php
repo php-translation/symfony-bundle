@@ -64,7 +64,9 @@ final class Importer
      *     @var string $project_root The project root will be removed from the source location.
      * }
      * @param string|null $prefixTarget
+     *
      * @return ImportResult
+     *
      */
     public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], string $prefixTarget = null)
     {
@@ -97,7 +99,7 @@ final class Importer
                     $meta->setState('new');
                     $this->setMetadata($result, $key, $domain, $meta);
                     if (null !== $prefixTarget) {
-                      $this->setTarget($catalogue, $key, $prefixTarget, $domain, $translation);
+                        $this->setTarget($catalogue, $key, $prefixTarget, $domain, $translation);
                     }
 
                     // Add custom translations that we found in the source
@@ -175,7 +177,7 @@ final class Importer
    */
   private function setTarget(MessageCatalogue $catalogue, $key, $prefix, $domain, $translation = '')
   {
-    $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
+      $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
   }
 
     /**
