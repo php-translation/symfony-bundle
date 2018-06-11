@@ -63,10 +63,10 @@ final class Importer
      *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
      *     @var string $project_root The project root will be removed from the source location.
      * }
+     * 
      * @param string|null $prefixTarget
      *
      * @return ImportResult
-     *
      */
     public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], string $prefixTarget = null)
     {
