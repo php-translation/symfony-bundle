@@ -113,7 +113,7 @@ class ExtractCommand extends Command
             'blacklist_domains' => $config->getBlacklistDomains(),
             'whitelist_domains' => $config->getWhitelistDomains(),
             'project_root' => $config->getProjectRoot(),
-        ],$prefixTarget);
+        ], $prefixTarget);
         $errors = $result->getErrors();
 
         $this->catalogueWriter->writeCatalogues($config, $result->getMessageCatalogues());
