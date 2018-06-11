@@ -45,7 +45,7 @@ final class Importer
     private $twig;
 
     /**
-     * @param Extractor         $extractor
+     * @param Extractor $extractor
      * @param \Twig_Environment $twig
      */
     public function __construct(Extractor $extractor, \Twig_Environment $twig)
@@ -55,15 +55,15 @@ final class Importer
     }
 
     /**
-     * @param Finder             $finder
+     * @param Finder $finder
      * @param MessageCatalogue[] $catalogues
-     * @param array              $config     {
+     * @param array $config {
      *
-     *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
-     *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
-     *     @var string $project_root The project root will be removed from the source location.
+     * @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
+     * @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
+     * @var string $project_root The project root will be removed from the source location.
      * }
-     * 
+     *
      * @param string|null $prefixTarget
      *
      * @return ImportResult
@@ -168,17 +168,17 @@ final class Importer
         return new Metadata($catalogue->getMetadata($key, $domain));
     }
 
-  /**
-   * @param MessageCatalogue $catalogue
-   * @param $key
-   * @param $prefix
-   * @param $domain
-   * @param string $translation
-   */
-  private function setTarget(MessageCatalogue $catalogue, $key, $prefix, $domain, $translation = '')
-  {
-      $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
-  }
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param $key
+     * @param $prefix
+     * @param $domain
+     * @param string $translation
+     */
+    private function setTarget(MessageCatalogue $catalogue, $key, $prefix, $domain, $translation = '')
+    {
+        $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
+    }
 
     /**
      * @param MessageCatalogue $catalogue
