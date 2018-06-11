@@ -29,170 +29,142 @@ use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
  */
 final class Importer
 {
-  /**
-   * @var Extractor
-   */
-  private $extractor;
+    /**
+     * @var Extractor
+     */
+    private $extractor;
 
-  /**
-   * @var array
-   */
-  private $config;
+    /**
+     * @var array
+     */
+    private $config;
 
-  /**
-   * @var \Twig_Environment
-   */
-  private $twig;
+    /**
+     * @var \Twig_Environment
+     */
+    private $twig;
 
-  /**
-   * @param Extractor $extractor
-   * @param \Twig_Environment $twig
-   */
-  public function __construct(Extractor $extractor, \Twig_Environment $twig)
-  {
-    $this->extractor = $extractor;
-    $this->twig = $twig;
-  }
-
-  /**
-   * @param Finder $finder
-   * @param MessageCatalogue[] $catalogues
-   * @param array $config {
-   *
-   * @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
-   * @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
-   * @var string $project_root The project root will be removed from the source location.
-   * }
-   *
-   * @param string|null $prefixTarget
-   *
-   * @return ImportResult
-   */
-  public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], string $prefixTarget = null)
-  {
-    $this->processConfig($config);
-    $this->disableTwigVisitors();
-    $sourceCollection = $this->extractor->extract($finder);
-    $results = [];
-    foreach ($catalogues as $catalogue)
+    /**
+     * @param Extractor         $extractor
+     * @param \Twig_Environment $twig
+     */
+    public function __construct(Extractor $extractor, \Twig_Environment $twig)
     {
-      $target = new MessageCatalogue($catalogue->getLocale());
-      $this->convertSourceLocationsToMessages($target, $sourceCollection);
-
-      // Remove all SourceLocation and State form catalogue.
-      foreach ($catalogue->getDomains() as $domain)
-      {
-        foreach ($catalogue->all($domain) as $key => $translation)
-        {
-          $meta = $this->getMetadata($catalogue, $key, $domain);
-          $meta->removeAllInCategory('file-source');
-          $meta->removeAllInCategory('state');
-          $this->setMetadata($catalogue, $key, $domain, $meta);
-        }
-      }
-
-      $merge = new ReplaceOperation($target, $catalogue);
-      $result = $merge->getResult();
-      $domains = $merge->getDomains();
-
-      // Mark new messages as new/obsolete
-      foreach ($domains as $domain)
-      {
-        foreach ($merge->getNewMessages($domain) as $key => $translation)
-        {
-          $meta = $this->getMetadata($result, $key, $domain);
-          $meta->setState('new');
-          $this->setMetadata($result, $key, $domain, $meta);
-          if (null !== $prefixTarget)
-          {
-            $this->setTarget($catalogue, $key, $prefixTarget, $domain, $translation);
-          }
-
-          // Add custom translations that we found in the source
-          if (null === $translation)
-          {
-            if (null !== $newTranslation = $meta->getTranslation())
-            {
-              $result->set($key, $newTranslation, $domain);
-              // We do not want "translation" key stored anywhere.
-              $meta->removeAllInCategory('translation');
-            }
-            elseif (null !== $newTranslation = $meta->getDesc())
-            {
-              $result->set($key, $newTranslation, $domain);
-            }
-          }
-        }
-        foreach ($merge->getObsoleteMessages($domain) as $key => $translation)
-        {
-          $meta = $this->getMetadata($result, $key, $domain);
-          $meta->setState('obsolete');
-          $this->setMetadata($result, $key, $domain, $meta);
-        }
-      }
-      $results[] = $result;
+        $this->extractor = $extractor;
+        $this->twig = $twig;
     }
 
-    return new ImportResult($results, $sourceCollection->getErrors());
-  }
-
-  /**
-   * @param MessageCatalogue $catalogue
-   * @param SourceCollection $collection
-   */
-  private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection)
-  {
-    /** @var SourceLocation $sourceLocation */
-    foreach ($collection as $sourceLocation)
+    /**
+     * @param Finder             $finder
+     * @param MessageCatalogue[] $catalogues
+     * @param array              $config     {
+     *
+     *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
+     *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
+     *     @var string $project_root The project root will be removed from the source location.
+     * }
+     * @param string|null $prefixTarget
+     * @return ImportResult
+     */
+    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], string $prefixTarget = null)
     {
-      $context = $sourceLocation->getContext();
-      $domain = isset($context['domain']) ? $context['domain'] : 'messages';
-      // Check with white/black list
-      if (!$this->isValidDomain($domain))
-      {
-        continue;
-      }
+        $this->processConfig($config);
+        $this->disableTwigVisitors();
+        $sourceCollection = $this->extractor->extract($finder);
+        $results = [];
+        foreach ($catalogues as $catalogue) {
+            $target = new MessageCatalogue($catalogue->getLocale());
+            $this->convertSourceLocationsToMessages($target, $sourceCollection);
 
-      $key = $sourceLocation->getMessage();
-      $catalogue->set($key, null, $domain);
-      $trimLength = 1 + strlen($this->config['project_root']);
+            // Remove all SourceLocation and State form catalogue.
+            foreach ($catalogue->getDomains() as $domain) {
+                foreach ($catalogue->all($domain) as $key => $translation) {
+                    $meta = $this->getMetadata($catalogue, $key, $domain);
+                    $meta->removeAllInCategory('file-source');
+                    $meta->removeAllInCategory('state');
+                    $this->setMetadata($catalogue, $key, $domain, $meta);
+                }
+            }
 
-      $meta = $this->getMetadata($catalogue, $key, $domain);
-      $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
-      if (isset($sourceLocation->getContext()['desc']))
-      {
-        $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
-      }
-      if (isset($sourceLocation->getContext()['translation']))
-      {
-        $meta->addCategory('translation', $sourceLocation->getContext()['translation']);
-      }
-      $this->setMetadata($catalogue, $key, $domain, $meta);
+            $merge = new ReplaceOperation($target, $catalogue);
+            $result = $merge->getResult();
+            $domains = $merge->getDomains();
+
+            // Mark new messages as new/obsolete
+            foreach ($domains as $domain) {
+                foreach ($merge->getNewMessages($domain) as $key => $translation) {
+                    $meta = $this->getMetadata($result, $key, $domain);
+                    $meta->setState('new');
+                    $this->setMetadata($result, $key, $domain, $meta);
+                    if (null !== $prefixTarget) {
+                      $this->setTarget($catalogue, $key, $prefixTarget, $domain, $translation);
+                    }
+
+                    // Add custom translations that we found in the source
+                    if (null === $translation) {
+                        if (null !== $newTranslation = $meta->getTranslation()) {
+                            $result->set($key, $newTranslation, $domain);
+                            // We do not want "translation" key stored anywhere.
+                            $meta->removeAllInCategory('translation');
+                        } elseif (null !== $newTranslation = $meta->getDesc()) {
+                            $result->set($key, $newTranslation, $domain);
+                        }
+                    }
+                }
+                foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
+                    $meta = $this->getMetadata($result, $key, $domain);
+                    $meta->setState('obsolete');
+                    $this->setMetadata($result, $key, $domain, $meta);
+                }
+            }
+            $results[] = $result;
+        }
+
+        return new ImportResult($results, $sourceCollection->getErrors());
     }
-  }
 
-  /**
-   * @param MessageCatalogue $catalogue
-   * @param $key
-   * @param $domain
-   *
-   * @return Metadata
-   */
-  private function getMetadata(MessageCatalogue $catalogue, $key, $domain)
-  {
-    return new Metadata($catalogue->getMetadata($key, $domain));
-  }
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param SourceCollection $collection
+     */
+    private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection)
+    {
+        /** @var SourceLocation $sourceLocation */
+        foreach ($collection as $sourceLocation) {
+            $context = $sourceLocation->getContext();
+            $domain = isset($context['domain']) ? $context['domain'] : 'messages';
+            // Check with white/black list
+            if (!$this->isValidDomain($domain)) {
+                continue;
+            }
 
-  /**
-   * @param MessageCatalogue $catalogue
-   * @param $key
-   * @param $domain
-   * @param Metadata $metadata
-   */
-  private function setMetadata(MessageCatalogue $catalogue, $key, $domain, Metadata $metadata)
-  {
-    $catalogue->setMetadata($key, $metadata->toArray(), $domain);
-  }
+            $key = $sourceLocation->getMessage();
+            $catalogue->set($key, null, $domain);
+            $trimLength = 1 + strlen($this->config['project_root']);
+
+            $meta = $this->getMetadata($catalogue, $key, $domain);
+            $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            if (isset($sourceLocation->getContext()['desc'])) {
+                $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
+            }
+            if (isset($sourceLocation->getContext()['translation'])) {
+                $meta->addCategory('translation', $sourceLocation->getContext()['translation']);
+            }
+            $this->setMetadata($catalogue, $key, $domain, $meta);
+        }
+    }
+
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param $key
+     * @param $domain
+     *
+     * @return Metadata
+     */
+    private function getMetadata(MessageCatalogue $catalogue, $key, $domain)
+    {
+        return new Metadata($catalogue->getMetadata($key, $domain));
+    }
 
   /**
    * @param MessageCatalogue $catalogue
@@ -206,70 +178,73 @@ final class Importer
     $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
   }
 
-  /**
-   * @param string $domain
-   *
-   * @return bool
-   */
-  private function isValidDomain($domain)
-  {
-    if (!empty($this->config['blacklist_domains']) && in_array($domain, $this->config['blacklist_domains']))
+    /**
+     * @param MessageCatalogue $catalogue
+     * @param $key
+     * @param $domain
+     * @param Metadata $metadata
+     */
+    private function setMetadata(MessageCatalogue $catalogue, $key, $domain, Metadata $metadata)
     {
-      return false;
-    }
-    if (!empty($this->config['whitelist_domains']) && !in_array($domain, $this->config['whitelist_domains']))
-    {
-      return false;
+        $catalogue->setMetadata($key, $metadata->toArray(), $domain);
     }
 
-    return true;
-  }
-
-  /**
-   * Make sure the configuration is valid.
-   *
-   * @param array $config
-   */
-  private function processConfig($config)
-  {
-    $default = [
-      'project_root' => '',
-      'blacklist_domains' => [],
-      'whitelist_domains' => [],
-    ];
-
-    $config = array_merge($default, $config);
-
-    if (!empty($config['blacklist_domains']) && !empty($config['whitelist_domains']))
+    /**
+     * @param string $domain
+     *
+     * @return bool
+     */
+    private function isValidDomain($domain)
     {
-      throw new \InvalidArgumentException('Cannot use "blacklist_domains" and "whitelist_domains" at the same time');
+        if (!empty($this->config['blacklist_domains']) && in_array($domain, $this->config['blacklist_domains'])) {
+            return false;
+        }
+        if (!empty($this->config['whitelist_domains']) && !in_array($domain, $this->config['whitelist_domains'])) {
+            return false;
+        }
+
+        return true;
     }
 
-    if (!empty($config['blacklist_domains']) && !is_array($config['blacklist_domains']))
+    /**
+     * Make sure the configuration is valid.
+     *
+     * @param array $config
+     */
+    private function processConfig($config)
     {
-      throw new \InvalidArgumentException('Config parameter "blacklist_domains" must be an array');
+        $default = [
+            'project_root' => '',
+            'blacklist_domains' => [],
+            'whitelist_domains' => [],
+        ];
+
+        $config = array_merge($default, $config);
+
+        if (!empty($config['blacklist_domains']) && !empty($config['whitelist_domains'])) {
+            throw new \InvalidArgumentException('Cannot use "blacklist_domains" and "whitelist_domains" at the same time');
+        }
+
+        if (!empty($config['blacklist_domains']) && !is_array($config['blacklist_domains'])) {
+            throw new \InvalidArgumentException('Config parameter "blacklist_domains" must be an array');
+        }
+
+        if (!empty($config['whitelist_domains']) && !is_array($config['whitelist_domains'])) {
+            throw new \InvalidArgumentException('Config parameter "whitelist_domains" must be an array');
+        }
+
+        $this->config = $config;
     }
 
-    if (!empty($config['whitelist_domains']) && !is_array($config['whitelist_domains']))
+    private function disableTwigVisitors()
     {
-      throw new \InvalidArgumentException('Config parameter "whitelist_domains" must be an array');
+        foreach ($this->twig->getNodeVisitors() as $visitor) {
+            if ($visitor instanceof DefaultApplyingNodeVisitor) {
+                $visitor->setEnabled(false);
+            }
+            if ($visitor instanceof RemovingNodeVisitor) {
+                $visitor->setEnabled(false);
+            }
+        }
     }
-
-    $this->config = $config;
-  }
-
-  private function disableTwigVisitors()
-  {
-    foreach ($this->twig->getNodeVisitors() as $visitor)
-    {
-      if ($visitor instanceof DefaultApplyingNodeVisitor)
-      {
-        $visitor->setEnabled(false);
-      }
-      if ($visitor instanceof RemovingNodeVisitor)
-      {
-        $visitor->setEnabled(false);
-      }
-    }
-  }
 }
