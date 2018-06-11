@@ -177,7 +177,7 @@ final class Importer
      */
     private function setTarget(MessageCatalogue $catalogue, $key, $prefix, $domain, $translation = '')
     {
-        $catalogue->set($key, $translation !== '' ? $translation : $prefix . $key, $domain);
+        $catalogue->set($key, '' !== $translation ? $translation : $prefix . $key, $domain);
     }
 
     /**
