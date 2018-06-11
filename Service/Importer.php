@@ -64,9 +64,11 @@ final class Importer
    * @var string $project_root The project root will be removed from the source location.
    * }
    *
+   * @param string|null $prefixTarget
+   *
    * @return ImportResult
    */
-  public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [])
+  public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [], string $prefixTarget = null)
   {
     $this->processConfig($config);
     $this->disableTwigVisitors();
@@ -101,8 +103,10 @@ final class Importer
           $meta = $this->getMetadata($result, $key, $domain);
           $meta->setState('new');
           $this->setMetadata($result, $key, $domain, $meta);
-
-          $this->setTarget($catalogue, $key, '_', $domain, $translation); /* @todo make une const prefix */
+          if (null !== $prefixTarget)
+          {
+            $this->setTarget($catalogue, $key, $prefixTarget, $domain, $translation);
+          }
 
           // Add custom translations that we found in the source
           if (null === $translation)

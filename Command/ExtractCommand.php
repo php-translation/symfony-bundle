@@ -92,13 +92,14 @@ class ExtractCommand extends Command
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
             ->addOption('hide-errors', null, InputOption::VALUE_NONE, 'If we should print error or not')
             ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want extract translations from.')
+            ->addArgument('prefixTarget', InputArgument::OPTIONAL, 'The prefix of Target', null)
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
-
+        $prefixTarget = $input->getArgument('prefixTarget');
         $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
             $locales = [$inputLocale];
@@ -112,7 +113,7 @@ class ExtractCommand extends Command
             'blacklist_domains' => $config->getBlacklistDomains(),
             'whitelist_domains' => $config->getWhitelistDomains(),
             'project_root' => $config->getProjectRoot(),
-        ]);
+        ],$prefixTarget);
         $errors = $result->getErrors();
 
         $this->catalogueWriter->writeCatalogues($config, $result->getMessageCatalogues());
