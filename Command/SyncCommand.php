@@ -23,12 +23,9 @@ use Translation\Bundle\Service\StorageService;
  */
 class SyncCommand extends Command
 {
-    protected static $defaultName = 'translation:sync';
+    use StorageTrait;
 
-    /**
-     * @var StorageManager
-     */
-    private $storageManager;
+    protected static $defaultName = 'translation:sync';
 
     /**
      * @param StorageManager $storageManager
@@ -66,7 +63,6 @@ class SyncCommand extends Command
                 return;
         }
 
-        $configName = $input->getArgument('configuration');
-        $this->storageManager->getStorage($configName)->sync($direction);
+        $this->getStorage($input->getArgument('configuration'))->sync($direction);
     }
 }

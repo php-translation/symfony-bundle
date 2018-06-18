@@ -27,14 +27,9 @@ use Translation\Bundle\Model\Configuration;
  */
 class DownloadCommand extends Command
 {
-    use BundleTrait;
+    use BundleTrait, StorageTrait;
 
     protected static $defaultName = 'translation:download';
-
-    /**
-     * @var StorageManager
-     */
-    private $storageManager;
 
     /**
      * @var ConfigurationManager
@@ -76,7 +71,7 @@ class DownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configName = $input->getArgument('configuration');
-        $storage = $this->storageManager->getStorage($configName);
+        $storage = $this->getStorage($configName);
         $configuration = $this->configurationManager->getConfiguration($configName);
 
         $this->configureBundleDirs($input, $configuration);
