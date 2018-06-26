@@ -48,7 +48,7 @@
     },
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
-        "test-ci": "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml"
+        "test-ci": "vendor/bin/simple-phpunit --coverage-text --coverage-clover=build/coverage.xml Tests/Unit"
     },
     "extra": {
         "branch-alias": {
