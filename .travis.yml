@@ -54,7 +54,6 @@ matrix:
         - env: STABILITY="dev"
 
 before_install:
-    - if [[ $COVERAGE == true ]]; then echo "max_execution_time = 600" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - if ! [ -z "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
