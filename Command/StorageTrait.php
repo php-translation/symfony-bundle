@@ -22,6 +22,7 @@ trait StorageTrait
 
     /**
      * @param string $configName
+     *
      * @return \Translation\Bundle\Service\StorageService
      *
      * @throws \InvalidArgumentException
