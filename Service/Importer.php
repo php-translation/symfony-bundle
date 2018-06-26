@@ -45,13 +45,20 @@ final class Importer
     private $twig;
 
     /**
+     * @var string
+     */
+    private $defaultLocale;
+
+    /**
      * @param Extractor         $extractor
      * @param \Twig_Environment $twig
+     * @param string            $defaultLocale
      */
-    public function __construct(Extractor $extractor, \Twig_Environment $twig)
+    public function __construct(Extractor $extractor, \Twig_Environment $twig, $defaultLocale)
     {
         $this->extractor = $extractor;
         $this->twig = $twig;
+        $this->defaultLocale = $defaultLocale;
     }
 
     /**
@@ -103,7 +110,7 @@ final class Importer
                             $result->set($key, $newTranslation, $domain);
                             // We do not want "translation" key stored anywhere.
                             $meta->removeAllInCategory('translation');
-                        } elseif (null !== $newTranslation = $meta->getDesc()) {
+                        } elseif (null !== $newTranslation = $meta->getDesc() && $catalogue->getLocale() === $this->defaultLocale) {
                             $result->set($key, $newTranslation, $domain);
                         }
                     }
