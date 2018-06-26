@@ -28,14 +28,9 @@ use Translation\Bundle\Service\StorageManager;
  */
 class DeleteObsoleteCommand extends Command
 {
-    use BundleTrait;
+    use BundleTrait, StorageTrait;
 
     protected static $defaultName = 'translation:delete-obsolete';
-
-    /**
-     * @var StorageManager
-     */
-    private $storageManager;
 
     /**
      * @var ConfigurationManager
@@ -94,7 +89,7 @@ class DeleteObsoleteCommand extends Command
         $this->configureBundleDirs($input, $config);
         $this->catalogueManager->load($this->catalogueFetcher->getCatalogues($config, $locales));
 
-        $storage = $this->storageManager->getStorage($configName);
+        $storage = $this->getStorage($configName);
         $messages = $this->catalogueManager->findMessages(['locale' => $inputLocale, 'isObsolete' => true]);
 
         $messageCount = count($messages);
