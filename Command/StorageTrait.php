@@ -20,6 +20,12 @@ trait StorageTrait
      */
     private $storageManager;
 
+    /**
+     * @param string $configName
+     * @return \Translation\Bundle\Service\StorageService
+     *
+     * @throws \InvalidArgumentException
+     */
     private function getStorage($configName)
     {
         if (null === $storage = $this->storageManager->getStorage($configName)) {
@@ -27,5 +33,7 @@ trait StorageTrait
 
             throw new \InvalidArgumentException(sprintf('Unknown storage "%s". Available storages are "%s".', $configName, implode('", "', $availableStorages)));
         }
+
+        return $storage;
     }
 }
