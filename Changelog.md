@@ -2,6 +2,26 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.8.0
+
+### Added
+
+- Bootstrap 4.1 CSS for web UI
+- Support for stable `php-translation` dependencies
+
+### Fixed
+
+- Only add translation form `@desc` annotation to the default locale
+- Ensure storage exists before using it in commands
+- `FileDumper::setBackup()` deprecation notice
+- Twig `strict_variabels` deprecation notice
+- Avoid global bootstrap overrides - apply styles via new .configs CSS class
+
+### Changed
+
+- The `FallbackTranslator` will not try to translate to an empty locale. This could be considered as a BC break
+ since now it will return the translation key instead of whatever the translator service returned (usually the translated string in original language). 
+
 ## 0.7.0
 
 ### Added
