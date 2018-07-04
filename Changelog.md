@@ -15,6 +15,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 - Ensure storage exists before using it in commands
 - `FileDumper::setBackup()` deprecation notice
 - Twig `strict_variabels` deprecation notice
+- Avoid global bootstrap overrides - apply styles via new .configs CSS class
 
 ### Changed
 
