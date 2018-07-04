@@ -13,7 +13,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 - Only add translation form `@desc` annotation to the default locale
 - Ensure storage exists before using it in commands
-- `FileDumper::setBackup` deprecation notice
+- `FileDumper::setBackup()` deprecation notice
 - Twig `strict_variabels` deprecation notice
 
 ### Changed
