@@ -78,7 +78,7 @@
                 {% endif %}
                 <a class="message-key" href="#{{ message.key }}">{{ message.key }}</a>
                 {% if allow_delete %}
-                    <a class="message-delete" href="javascript:void(0)" data-key="{{ message.key }}" title="Delete translation" onclick='confirm("Are you sure?")?deleteTranslation(this):false;'>&#x274C;</a>
+                    <a class="message-delete close" href="javascript:void(0)" data-key="{{ message.key }}" title="Delete translation" onclick='confirm("Are you sure?")?deleteTranslation(this):false;'><span>&times;</span></a>
                 {% endif %}
                 <textarea
                         class="form-control"
