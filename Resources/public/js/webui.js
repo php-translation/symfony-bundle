@@ -131,3 +131,29 @@ function toggleElement(id) {
     }
 }
 
+/**
+ * Show all empty messages
+ */
+function showOnlyEmptyMessages(el) {
+    var elements = document.getElementsByClassName('message');
+    for (var i = 0; i < elements.length; ++i) {
+        var element = elements[i];
+        element.classList.add("d-none");
+    }
+    elements = document.getElementsByClassName('empty');
+    for (var i = 0; i < elements.length; ++i) {
+        var element = elements[i];
+        element.classList.remove("d-none");
+    }
+}
+
+/**
+ * Show all messages
+ */
+function showAllMessages(el) {
+    var elements = document.getElementsByClassName('message');
+    for (var i = 0; i < elements.length; ++i) {
+        var element = elements[i];
+        element.classList.remove("d-none");
+    }
+}

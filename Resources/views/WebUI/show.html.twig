@@ -15,6 +15,13 @@
                 {{ domain }}
             </a>
         {% endfor %}
+        <h5 class="mt-2">Filter: <a class="show-only-empty" href="javascript:void(0);" onclick="showOnlyEmptyMessages(this)">
+                Only empty
+            </a> |
+            <a class="show-all" href="javascript:void(0);" onclick="showAllMessages(this)">
+                All
+            </a>
+        </h5>
     </div>
     <hr>
     <div class="container message-list">
@@ -64,7 +71,7 @@
 {% endblock %}
 
 {% macro printMessage(idx, message, allow_delete, base_path) %}
-    <div class="row" id="{{ message.key }}">
+    <div class="row message {{ message.message ? '' : 'empty' }}" id="{{ message.key }}">
         <div class="col-12">
             <hr>
         </div>
