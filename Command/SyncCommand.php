@@ -43,7 +43,7 @@ class SyncCommand extends Command
             ->setName(self::$defaultName)
             ->setDescription('Sync the translations with the remote storage')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten', 'down');
+            ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten, otherwise "up"', 'down');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
