@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Bundle\Model\SfProfilerMessage;
+use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\MessageInterface;
 
@@ -42,8 +43,9 @@ class SymfonyProfilerController extends Controller
         }
 
         $message = $this->getMessage($request, $token);
+
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
+        $storage = $this->get('php_translation.storage_manager')->getStorageByDomain($message->getDomain());
 
         if ($request->isMethod('GET')) {
             $translation = $storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
@@ -73,9 +75,9 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
         $sfMessage = $this->getMessage($request, $token);
+        /** @var StorageService $storage */
+        $storage = $this->get('php_translation.storage_manager')->getStorageByDomain($sfMessage->getDomain());
         $message = $storage->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
         if (null !== $message) {
@@ -97,9 +99,13 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
-        $storage->sync();
+        /** @var StorageManager $storageManager */
+        $storageManager = $this->get('php_translation.storage_manager');
+
+        foreach($storageManager->getStorages() as $storage) {
+            /** @var StorageService $storage */
+            $storage->sync();
+        }
 
         return new Response('Started synchronization of all translations');
     }
@@ -125,10 +131,13 @@ class SymfonyProfilerController extends Controller
             return new Response('No translations selected.');
         }
 
+        /** @var StorageManager $storageManager */
+        $storageManager = $this->get('php_translation.storage_manager');
+
         $uploaded = [];
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
         foreach ($messages as $message) {
+            /** @var StorageService $storage */
+            $storage = $storageManager->getStorageByDomain($message->getDomain());
             $storage->create($message);
             $uploaded[] = $message;
         }

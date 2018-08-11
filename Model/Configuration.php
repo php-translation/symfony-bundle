@@ -109,6 +109,10 @@ final class Configuration
         $this->blacklistDomains = $data['blacklist_domains'];
         $this->whitelistDomains = $data['whitelist_domains'];
         $this->xliffVersion = $data['xliff_version'];
+
+        if ($this->blacklistDomains && $this->whitelistDomains) {
+            throw new \LogicException('Cannot use blacklist_domains and blacklist_domains at the same time');
+        }
     }
 
     /**
@@ -197,6 +201,26 @@ final class Configuration
     public function getWhitelistDomains()
     {
         return $this->whitelistDomains;
+    }
+
+    /**
+     * If the domain
+     *
+     * @param string $domain
+     *
+     * @return bool
+     */
+    public function hasDomain($domain)
+    {
+        if (in_array($domain, $this->getWhitelistDomains(), true)) {
+            return true;
+        }
+
+        if (in_array($domain, $this->getBlacklistDomains(), true)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -24,6 +24,7 @@ services:
   php_translation.storage_manager:
     public: true
     class: Translation\Bundle\Service\StorageManager
+    arguments: ["@php_translation.configuration_manager"]
 
   php_translation.configuration_manager:
     public: true

@@ -23,7 +23,7 @@ final class ConfigurationManager
     /**
      * @var Configuration[]
      */
-    private $configuration = [];
+    private $configurations = [];
 
     /**
      * @param string        $name
@@ -31,11 +31,11 @@ final class ConfigurationManager
      */
     public function addConfiguration($name, Configuration $configuration)
     {
-        $this->configuration[$name] = $configuration;
+        $this->configurations[$name] = $configuration;
     }
 
     /**
-     * @param string $name
+     * @param null|string $name
      *
      * @return null|Configuration
      */
@@ -45,16 +45,36 @@ final class ConfigurationManager
             return $this->getConfiguration('default');
         }
 
-        if (isset($this->configuration[$name])) {
-            return $this->configuration[$name];
+        if (isset($this->configurations[$name])) {
+            return $this->configurations[$name];
         }
 
         if ('default' === $name) {
             $name = $this->getFirstName();
-            if (isset($this->configuration[$name])) {
-                return $this->configuration[$name];
+            if (isset($this->configurations[$name])) {
+                return $this->configurations[$name];
             }
         }
+    }
+
+    /**
+     * @param null|string $domain
+     *
+     * @return null|Configuration
+     */
+    public function getConfigurationByDomain($domain = null)
+    {
+        if (empty($domain)) {
+            return $this->getConfiguration('default');
+        }
+
+        foreach($this->configurations as $configuration) {
+            if ($configuration->hasDomain($domain)) {
+                return $configuration;
+            }
+        }
+
+        return $this->getConfiguration('default');
     }
 
     /**
@@ -62,7 +82,7 @@ final class ConfigurationManager
      */
     public function getFirstName()
     {
-        foreach ($this->configuration as $name => $config) {
+        foreach ($this->configurations as $name => $config) {
             return $name;
         }
     }
@@ -72,6 +92,6 @@ final class ConfigurationManager
      */
     public function getNames()
     {
-        return array_keys($this->configuration);
+        return array_keys($this->configurations);
     }
 }

@@ -24,6 +24,16 @@ final class StorageManager
     private $storages = [];
 
     /**
+     * @var ConfigurationManager
+     */
+    private $configurationManager;
+
+    public function __construct(ConfigurationManager $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
+
+    /**
      * @param string         $name
      * @param StorageService $storage
      */
@@ -53,6 +63,26 @@ final class StorageManager
                 return $this->storages[$name];
             }
         }
+    }
+
+    /**
+     * @return StorageService[]
+     */
+    public function getStorages()
+    {
+        return $this->storages;
+    }
+
+    /**
+     * @param string $domain
+     *
+     * @return null|StorageService
+     */
+    public function getStorageByDomain($domain)
+    {
+        $configuration = $this->configurationManager->getConfigurationByDomain($domain);
+
+        return $this->getStorage($configuration->getName());
     }
 
     /**
