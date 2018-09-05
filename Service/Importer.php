@@ -110,7 +110,7 @@ final class Importer
                             $result->set($key, $newTranslation, $domain);
                             // We do not want "translation" key stored anywhere.
                             $meta->removeAllInCategory('translation');
-                        } elseif (null !== $newTranslation = $meta->getDesc() && $catalogue->getLocale() === $this->defaultLocale) {
+                        } elseif (null !== ($newTranslation = $meta->getDesc()) && $catalogue->getLocale() === $this->defaultLocale) {
                             $result->set($key, $newTranslation, $domain);
                         }
                     }
