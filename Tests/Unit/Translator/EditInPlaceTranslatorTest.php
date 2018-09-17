@@ -62,8 +62,8 @@ final class EditInPlaceTranslatorTest extends TestCase
     {
         $symfonyTranslator = new \Symfony\Component\Translation\Translator('en', null, null, true);
         $symfonyTranslator->addLoader('array', new ArrayLoader());
-        $symfonyTranslator->addResource('array', array('foo' => 'Normal content.'), 'en');
-        $symfonyTranslator->addResource('array', array('bar' => 'Content with <b>HTML</b> in it.'), 'en');
+        $symfonyTranslator->addResource('array', ['foo' => 'Normal content.'], 'en');
+        $symfonyTranslator->addResource('array', ['bar' => 'Content with <b>HTML</b> in it.'], 'en');
 
         $request = new Request();
         $requestStack = new RequestStack();

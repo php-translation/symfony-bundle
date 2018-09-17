@@ -64,7 +64,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
         }
 
         // If there is HTML in the translation, do not allow EditInPlace (it broke Content Tools)
-        if (strpos($original, '<') !== false) {
+        if (false !== strpos($original, '<')) {
             return $original;
         }
 
