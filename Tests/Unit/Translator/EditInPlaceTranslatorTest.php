@@ -64,6 +64,7 @@ final class EditInPlaceTranslatorTest extends TestCase
         $symfonyTranslator->addLoader('array', new ArrayLoader());
         $symfonyTranslator->addResource('array', ['foo' => 'Normal content.'], 'en');
         $symfonyTranslator->addResource('array', ['bar' => 'Content with <b>HTML</b> in it.'], 'en');
+        $symfonyTranslator->addResource('array', ['bar.attr' => 'Content with <b class="alert">HTML</b> in it.'], 'en');
 
         $request = new Request();
         $requestStack = new RequestStack();
@@ -78,8 +79,13 @@ final class EditInPlaceTranslatorTest extends TestCase
         );
 
         $this->assertSame(
-            'Content with <b>HTML</b> in it.',
+            '<x-trans data-key="messages|bar" data-value="Content with &lt;b&gt;HTML&lt;/b&gt; in it." data-plain="Content with &lt;b&gt;HTML&lt;/b&gt; in it." data-domain="messages" data-locale="en">Content with <b>HTML</b> in it.</x-trans>',
             $service->trans('bar', [])
+        );
+
+        $this->assertSame(
+            '<x-trans data-key="messages|bar.attr" data-value="Content with &lt;b class=&quot;alert&quot;&gt;HTML&lt;/b&gt; in it." data-plain="Content with &lt;b class=&quot;alert&quot;&gt;HTML&lt;/b&gt; in it." data-domain="messages" data-locale="en">Content with <b class="alert">HTML</b> in it.</x-trans>',
+            $service->trans('bar.attr', [])
         );
     }
 }

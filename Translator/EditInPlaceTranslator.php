@@ -63,11 +63,6 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
             return $original;
         }
 
-        // If there is HTML in the translation, do not allow EditInPlace (it broke Content Tools)
-        if (false !== strpos($original, '<')) {
-            return $original;
-        }
-
         $plain = $this->translator->trans($id, [], $domain, $locale);
 
         if (null === $domain) {
@@ -81,8 +76,8 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
         return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
-            $original,
-            $plain,
+            htmlspecialchars($original),
+            htmlspecialchars($plain),
             $domain,
             $locale,
             $original
