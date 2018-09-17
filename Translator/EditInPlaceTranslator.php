@@ -63,6 +63,11 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
             return $original;
         }
 
+        // If there is HTML in the translation, do not allow EditInPlace (it broke Content Tools)
+        if (strpos($original, '<') !== false) {
+            return $original;
+        }
+
         $plain = $this->translator->trans($id, [], $domain, $locale);
 
         if (null === $domain) {
