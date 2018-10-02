@@ -2,6 +2,17 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.8.1
+
+### Added
+
+- Filter on empty messages in WebUI
+- Use bootstrap icons
+
+### Fixed
+
+- Buhfix with logic operator in ImportService. See #258
+
 ## 0.8.0
 
 ### Added
