@@ -1,7 +1,7 @@
 {% extends "@Translation/WebUI/base.html.twig" %}
 {% import _self as macro %}
 
-{% block body %}
+{% block _translation_bundle_body %}
     <div class="container">
         {% for cataloge in catalogues %}
             <h3 class="mt-3">{{ localeMap[cataloge.locale] }}</h3>
