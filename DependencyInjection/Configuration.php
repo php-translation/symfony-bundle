@@ -33,8 +33,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root('translation');
+        $treeBuilder = new TreeBuilder('translation');
+        // Keep compatibility with symfony/config < 4.2
+        if (!method_exists($treeBuilder, 'getRootNode')) {
+            $root = $treeBuilder->root('translation');
+        } else {
+            $root = $treeBuilder->getRootNode();
+        }
 
         $this->configsNode($root);
         $this->addAutoTranslateNode($root);
