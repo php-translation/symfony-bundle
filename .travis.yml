@@ -34,6 +34,7 @@ matrix:
           env: SYMFONY_PHPUNIT_VERSION="5.7"
         - php: 7.0
         - php: 7.1
+        - php: 7.3
 
           # Force some major versions of Symfony
         - php: 7.2
