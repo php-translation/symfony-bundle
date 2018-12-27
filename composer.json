@@ -44,7 +44,10 @@
         "php-http/httplug-bundle": "To easier configure your httplug clients."
     },
     "autoload": {
-        "psr-4": { "Translation\\Bundle\\": "" }
+        "psr-4": { "Translation\\Bundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
