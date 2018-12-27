@@ -12,7 +12,7 @@ branches:
 env:
   global:
     - TEST_COMMAND="composer test"
-    - SYMFONY_PHPUNIT_VERSION="6.3"
+    - SYMFONY_PHPUNIT_VERSION="6.5"
     - COMPOSER_MEMORY_LIMIT=-1
 
 matrix:
