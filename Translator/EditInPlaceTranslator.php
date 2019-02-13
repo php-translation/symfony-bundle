@@ -12,7 +12,7 @@
 namespace Translation\Bundle\Translator;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 
