@@ -72,7 +72,7 @@ class DeleteObsoleteCommand extends Command
             ->setName(self::$defaultName)
             ->setDescription('Delete all translations marked as obsolete.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', null)
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale to use. If omitted, we use all configured locales.', null)
             ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want remove translations from.')
         ;
     }

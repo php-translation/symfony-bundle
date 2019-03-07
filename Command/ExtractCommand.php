@@ -89,7 +89,7 @@ class ExtractCommand extends Command
             ->setName(self::$defaultName)
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale ot use. If omitted, we use all configured locales.', false)
+            ->addArgument('locale', InputArgument::OPTIONAL, 'The locale to use. If omitted, we use all configured locales.', false)
             ->addOption('hide-errors', null, InputOption::VALUE_NONE, 'If we should print error or not')
             ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want extract translations from.')
         ;
