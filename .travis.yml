@@ -13,6 +13,7 @@ env:
   global:
     - TEST_COMMAND="composer test"
     - SYMFONY_PHPUNIT_VERSION="6.3"
+    - COMPOSER_MEMORY_LIMIT=-1
 
 matrix:
     fast_finish: true
