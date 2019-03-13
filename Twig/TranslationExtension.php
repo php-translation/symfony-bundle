@@ -15,12 +15,14 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-final class TranslationExtension extends \Twig_Extension
+final class TranslationExtension extends AbstractExtension
 {
     /**
      * @var TranslatorInterface
@@ -48,8 +50,8 @@ final class TranslationExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('desc', [$this, 'desc']),
-            new \Twig_SimpleFilter('meaning', [$this, 'meaning']),
+            new TwigFilter('desc', [$this, 'desc']),
+            new TwigFilter('meaning', [$this, 'meaning']),
         ];
     }
 

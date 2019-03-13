@@ -21,6 +21,7 @@ use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
 use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
+use Twig\Environment;
 
 /**
  * Use extractors to import translations to message catalogues.
@@ -40,7 +41,7 @@ final class Importer
     private $config;
 
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     private $twig;
 
@@ -50,11 +51,11 @@ final class Importer
     private $defaultLocale;
 
     /**
-     * @param Extractor         $extractor
-     * @param \Twig_Environment $twig
-     * @param string            $defaultLocale
+     * @param Extractor   $extractor
+     * @param Environment $twig
+     * @param string      $defaultLocale
      */
-    public function __construct(Extractor $extractor, \Twig_Environment $twig, $defaultLocale)
+    public function __construct(Extractor $extractor, Environment $twig, $defaultLocale)
     {
         $this->extractor = $extractor;
         $this->twig = $twig;

@@ -13,6 +13,7 @@ namespace Translation\Bundle\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
+use Twig\TwigFilter;
 
 /**
  * Override the `trans` functions `is_safe` option to allow HTML output from the
@@ -38,8 +39,8 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
-            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new TwigFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new TwigFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
         ];
     }
 
