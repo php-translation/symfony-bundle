@@ -36,6 +36,11 @@ services:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
+  php_translation.extractor.php.visitor.FormTypeHelp:
+    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
   php_translation.extractor.php.visitor.FormTypeInvalidMessage:
     class: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
     tags:
