@@ -6,7 +6,7 @@
 
 {% import _self as translation_helper %}
 
-{% block panel %}
+{% block panelContent %}
     <h2>Translation Metrics</h2>
 
     <div>
@@ -118,6 +118,10 @@
 
 </form>
     {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
+{% endblock %}
+
+{% block panel %}
+    {{ block('panelContent') }}
 {% endblock %}
 
 {% macro render_table(messages, checkedByDefault = false) %}
