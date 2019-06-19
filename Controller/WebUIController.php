@@ -15,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Intl\Intl;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Exception\MessageValidationException;
