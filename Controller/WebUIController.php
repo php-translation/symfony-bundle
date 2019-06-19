@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Locales;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Service\StorageService;
@@ -250,7 +251,7 @@ class WebUIController extends Controller
     private function getLocale2LanguageMap()
     {
         $configuredLocales = $this->getParameter('php_translation.locales');
-        $names = Intl::getLocaleBundle()->getLocaleNames('en');
+        $names = Locales::getNames('en');
         $map = [];
         foreach ($configuredLocales as $l) {
             $map[$l] = isset($names[$l]) ? $names[$l] : $l;
