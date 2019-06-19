@@ -16,6 +16,7 @@ use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
 use Translation\Bundle\Twig\TranslationExtension;
+use Twig\Loader\ArrayLoader;
 
 /**
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
@@ -26,7 +27,7 @@ abstract class BaseTwigTestCase extends TestCase
     {
         $content = file_get_contents(__DIR__.'/Fixture/'.$file);
 
-        $env = new \Twig_Environment(new \Twig_Loader_Array([]));
+        $env = new \Twig_Environment(new ArrayLoader());
         $env->addExtension(new SymfonyTranslationExtension($translator = new IdentityTranslator(new MessageSelector())));
         $env->addExtension(new TranslationExtension($translator, $debug));
 
