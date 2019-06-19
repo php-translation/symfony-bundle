@@ -13,7 +13,7 @@
         "php": "^5.5 || ^7.0",
         "symfony/framework-bundle": "^2.7 || ^3.0 || ^4.0",
         "symfony/validator": "^2.7 || ^3.0 || ^4.0",
-        "symfony/translation": "^2.7 || ^3.0 || ^4.0",
+        "symfony/translation": "^2.7 || ^3.0 || ^4.0,<4.2",
         "symfony/twig-bundle": "^2.7 || ^3.0 || ^4.0",
         "symfony/finder": "^2.7 || ^3.0 || ^4.0",
         "symfony/intl": "^2.7 || ^3.0 || ^4.0",
