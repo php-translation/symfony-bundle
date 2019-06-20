@@ -44,7 +44,7 @@ matrix:
         - php: 7.2
           env: DEPENDENCIES="dunglas/symfony-lock:^4"
         - php: 7.0
-          env: DEPENDENCIES="dunglas/symfony-lock:^2 twig/twig:^1.34,<2.8 symfony/property-access:^2.8"
+          env: DEPENDENCIES="dunglas/symfony-lock:^2 twig/twig:^1.34,<1.39 symfony/property-access:^2.8"
 
           # Latest commit to master
         - php: 7.2
