@@ -24,11 +24,11 @@ matrix:
           # Test with lowest dependencies
         - php: 7.1
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak" SYMFONY_PHPUNIT_VERSION="5.7"
-        - php: 5.5
+        - php: 5.6
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak" SYMFONY_PHPUNIT_VERSION="5.7"
 
           # Test the latest stable release
-        - php: 5.5
+        - php: 5.6
           env: SYMFONY_PHPUNIT_VERSION="5.7"
         - php: 5.6
           env: SYMFONY_PHPUNIT_VERSION="5.7"
