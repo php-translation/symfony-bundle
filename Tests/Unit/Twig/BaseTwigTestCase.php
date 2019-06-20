@@ -27,7 +27,10 @@ abstract class BaseTwigTestCase extends TestCase
     {
         $content = file_get_contents(__DIR__.'/Fixture/'.$file);
 
-        $env = new \Twig_Environment(new ArrayLoader());
+        $loader = class_exists(ArrayLoader::class)
+            ? new ArrayLoader()
+            : new \Twig_Loader_Array([]);
+        $env = new \Twig_Environment($loader);
         $env->addExtension(new SymfonyTranslationExtension($translator = new IdentityTranslator(new MessageSelector())));
         $env->addExtension(new TranslationExtension($translator, $debug));
 
