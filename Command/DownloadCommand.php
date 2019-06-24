@@ -20,7 +20,6 @@ use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Service\CacheClearer;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\StorageManager;
-use Translation\Bundle\Model\Configuration;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
