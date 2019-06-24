@@ -27,7 +27,8 @@ use Translation\Bundle\Model\Configuration;
  */
 class DownloadCommand extends Command
 {
-    use BundleTrait, StorageTrait;
+    use BundleTrait;
+    use StorageTrait;
 
     protected static $defaultName = 'translation:download';
 
