@@ -20,14 +20,14 @@ use Symfony\Component\Finder\Finder;
 use Translation\Bundle\Service\CacheClearer;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\StorageManager;
-use Translation\Bundle\Model\Configuration;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class DownloadCommand extends Command
 {
-    use BundleTrait, StorageTrait;
+    use BundleTrait;
+    use StorageTrait;
 
     protected static $defaultName = 'translation:download';
 
