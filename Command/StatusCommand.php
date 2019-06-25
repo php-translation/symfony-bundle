@@ -70,7 +70,7 @@ class StatusCommand extends Command
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale to use. If omitted, we use all configured locales.', false)
             ->addOption('json', null, InputOption::VALUE_NONE, 'If we should output in Json format')
-            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The translations for bundle you want to check.')
+            ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle for which you want to check the translations.')
         ;
     }
 

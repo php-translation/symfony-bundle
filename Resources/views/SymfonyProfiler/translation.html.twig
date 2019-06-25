@@ -120,6 +120,10 @@
     {% include "@Translation/SymfonyProfiler/javascripts.html.twig" %}
 {% endblock %}
 
+{% block panel %}
+    {{ block('panelContent') }}
+{% endblock %}
+
 {% macro render_table(messages, checkedByDefault = false) %}
     <table>
         <thead>

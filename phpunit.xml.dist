@@ -15,6 +15,7 @@
 
     <php>
         <env name="ENV" value="test" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose=1" />
     </php>
 
     <formatter type="clover" usefile="false"/>
