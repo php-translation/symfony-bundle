@@ -28,7 +28,8 @@ use Translation\Bundle\Service\StorageManager;
  */
 class DeleteObsoleteCommand extends Command
 {
-    use BundleTrait, StorageTrait;
+    use BundleTrait;
+    use StorageTrait;
 
     protected static $defaultName = 'translation:delete-obsolete';
 
