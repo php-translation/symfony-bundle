@@ -23,3 +23,7 @@ services:
   php_translation.translator_service.yandex:
      class: Translation\Translator\Service\YandexTranslator
      arguments: ["%php_translation.translator_service.api_key%"]
+
+  php_translation.translator_service.bing:
+     class: Translation\Translator\Service\BingTranslator
+     arguments: ["%php_translation.translator_service.api_key%"]

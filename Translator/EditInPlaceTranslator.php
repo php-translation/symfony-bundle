@@ -76,8 +76,8 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
         return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
-            $original,
-            $plain,
+            htmlspecialchars($original),
+            htmlspecialchars($plain),
             $domain,
             $locale,
             $original

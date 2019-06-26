@@ -13,49 +13,56 @@
 
 ## Install
 
-Via Composer
+Install this bundle via Composer:
 
 ``` bash
 $ composer require php-translation/symfony-bundle
 ```
 
+If you're using [Symfony Flex][symfony_flex] - you're done! Symfony Flex will create default
+configuration for you, change it if needed. If you don't use Symfony Flex, you will need to do
+a few more simple steps.
+
+1. First, register the bundle:
+
 ```php
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-            new Translation\Bundle\TranslationBundle(),
-        }
-    }
-}
+# config/bundles.php
+return [
+    // ...
+    Translation\Bundle\TranslationBundle::class => ['all' => true],
+];
 ```
 
-An example configuration looks like this: 
+2. Then, configure the bundle. An example configuration looks like this:
 
 ```yaml
-# config.yml
+# config/packages/php_translation.yaml
 translation:
-    locales: ["en", "sv"]
-    symfony_profiler: # must be placed in config_dev.yml
-        enabled: true
-    webui:
-        enabled: true
+    locales: ["en"]
     edit_in_place:
-        enabled: true
-        config_name: default # the first one or one of your configs
-        activator: php_translation.edit_in_place.activator
+        enabled: false
+        config_name: app
     configs:
         app:
-            dirs: ["%kernel.root_dir%/Resources/views", "%kernel.root_dir%/../src"]
-            output_dir: "%kernel.root_dir%/Resources/translations"
+            dirs: ["%kernel.project_dir%/templates", "%kernel.project_dir%/src"]
+            output_dir: "%kernel.project_dir%/translations"
             excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
 ```
 
 ```yaml
-# routing_dev.yml
+# config/packages/dev/php_translation.yaml
+translation:
+    symfony_profiler:
+        enabled: true
+    webui:
+        enabled: true
+```
+
+3. And the last step, add new routes:
+
+```yaml
+# config/routes/dev/php_translation.yaml
 _translation_webui:
     resource: "@TranslationBundle/Resources/config/routing_webui.yml"
     prefix:  /admin
@@ -65,7 +72,7 @@ _translation_profiler:
 ```
 
 ```yaml
-# routing.yml
+# config/routes/php_translation.yaml
 _translation_edit_in_place:
     resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
     prefix:  /admin
@@ -73,4 +80,7 @@ _translation_edit_in_place:
 
 ## Documentation
 
-Read the full documentation at [http://php-translation.readthedocs.io](http://php-translation.readthedocs.io/en/latest/).
+Read the full documentation at [http://php-translation.readthedocs.io](https://php-translation.readthedocs.io/en/latest/).
+
+
+[symfony_flex]: https://github.com/symfony/flex
