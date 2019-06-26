@@ -84,6 +84,10 @@ HTML;
 
         $content = $event->getResponse()->getContent();
 
+        if (false === $content) {
+            return;
+        }
+
         // Clean the content for malformed tags in attributes or encoded tags
         $replacement = "\"$1🚫 Can't be translated here. 🚫\"";
         $pattern = "@\\s*[\"']\\s*(.[a-zA-Z]+:|)(<x-trans.+data-value=\"([^&\"]+)\".+?(?=<\\/x-trans)<\\/x-trans>)\\s*[\"']@mi";
