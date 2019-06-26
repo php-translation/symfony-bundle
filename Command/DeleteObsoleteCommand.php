@@ -100,10 +100,12 @@ class DeleteObsoleteCommand extends Command
             return;
         }
 
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
-        if (!$helper->ask($input, $output, $question)) {
-            return;
+        if ($input->isInteractive()) {
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
+            if (!$helper->ask($input, $output, $question)) {
+                return;
+            }
         }
 
         $progress = null;
