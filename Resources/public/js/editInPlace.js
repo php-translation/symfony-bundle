@@ -6,7 +6,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-document.registerElement('x-trans', { prototype: Object.create(HTMLElement.prototype) });
+(function () {
+    if (typeof customElements.define !== "undefined") {
+        customElements.define("x-trans", HTMLElement);
+
+        return;
+    }
+
+    document.registerElement("x-trans", {
+        prototype: Object.create(HTMLElement.prototype)
+    });
+})();
 
 /**
  * TranslationBundleEditInPlace boot the ContentTools editor and handle saves.
