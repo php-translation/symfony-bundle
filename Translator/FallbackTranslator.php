@@ -145,7 +145,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
         // Replace parameters
         $replacements = [];
         foreach ($parameters as $placeholder => $nonTranslatableValue) {
-            $replacements[(string) $nonTranslatableValue] = uniqid();
+            $replacements[(string) $nonTranslatableValue] = sha1($placeholder);
         }
 
         $replacedString = str_replace(array_keys($replacements), array_values($replacements), $orgString);
