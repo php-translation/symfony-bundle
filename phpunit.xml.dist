@@ -8,17 +8,13 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
-         codecoverage="true"
          bootstrap="./vendor/autoload.php"
         >
-
     <php>
         <env name="ENV" value="test" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose=1" />
     </php>
 
-    <formatter type="clover" usefile="false"/>
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./Tests</directory>
