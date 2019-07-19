@@ -2,6 +2,22 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.8.2
+
+### Added
+
+- PHP 7.3 support
+- Bing translator service
+
+### Fixed
+
+- Deprecated notice when using `symfony/config` >= 4.2
+- Compatibility issues with Symfony 4.3
+- Bad HTML generation when there is HTML in the translation
+- Tweaked several Command descriptions
+- Command translationdelete-obsolete did not run in non-interactive shells
+- EditInPlaceResponseListener did not work properly with BinaryFileResponse
+
 ## 0.8.1
 
 ### Added
