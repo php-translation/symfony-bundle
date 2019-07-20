@@ -1,7 +1,7 @@
 {% extends "@Translation/WebUI/base.html.twig" %}
 {% import _self as macro %}
 
-{% block body %}
+{% block _translation_bundle_body %}
     <div class="container locales">
         <h5 class="mt-2">Locales:</h5>
         {% for locale in locales %}
@@ -63,7 +63,7 @@
     </div>
 {% endblock %}
 
-{% block javascripts %}
+{% block _translation_bundle_js %}
     <script type="text/javascript">
       var editUrl = "{{ path('translation_edit', {configName: configName, locale:currentLocale,domain:currentDomain}) }}";
     </script>
