@@ -12,11 +12,13 @@
 namespace Translation\Bundle\Tests\Unit\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Translation\MessageSelector;
-use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExtension;
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\MessageSelector;
 use Translation\Bundle\Twig\TranslationExtension;
 use Twig\Loader\ArrayLoader;
+use Twig\Environment;
+use Twig\Source;
 
 /**
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
@@ -30,10 +32,10 @@ abstract class BaseTwigTestCase extends TestCase
         $loader = class_exists(ArrayLoader::class)
             ? new ArrayLoader()
             : new \Twig_Loader_Array([]);
-        $env = new \Twig_Environment($loader);
+        $env = new Environment($loader);
         $env->addExtension(new SymfonyTranslationExtension($translator = new IdentityTranslator(new MessageSelector())));
         $env->addExtension(new TranslationExtension($translator, $debug));
 
-        return $env->parse($env->tokenize(new \Twig_Source($content, '')))->getNode('body');
+        return $env->parse($env->tokenize(new Source($content, '')))->getNode('body');
     }
 }
