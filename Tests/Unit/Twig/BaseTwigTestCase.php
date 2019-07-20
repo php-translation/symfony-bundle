@@ -18,7 +18,6 @@ use Symfony\Component\Translation\MessageSelector;
 use Translation\Bundle\Twig\TranslationExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 use Twig\Source;
 
 /**
@@ -37,6 +36,6 @@ abstract class BaseTwigTestCase extends TestCase
         $env->addExtension(new SymfonyTranslationExtension($translator = new IdentityTranslator(new MessageSelector())));
         $env->addExtension(new TranslationExtension($translator, $debug));
 
-        return $env->parse($env->tokenize(new Source($content, null)))->getNode('body');
+        return $env->parse($env->tokenize(new Source($content, '')))->getNode('body');
     }
 }
