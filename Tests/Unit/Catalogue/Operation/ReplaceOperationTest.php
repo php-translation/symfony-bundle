@@ -74,6 +74,13 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
+    public function testGetResultFromIntlDomain()
+    {
+        $this->markTestIncomplete(
+          'ICU MessageFormat has not been implemented yet.'
+        );
+    }
+
     public function testGetResultWithArrayMetadata()
     {
         $leftCatalogue = new MessageCatalogue('en', ['messages' => ['a' => 'new_a', 'b' => 'new_b']]);
