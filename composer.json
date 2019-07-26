@@ -21,8 +21,7 @@
         "php-translation/common": "^1.0",
         "php-translation/symfony-storage": "^1.0",
         "php-translation/extractor": "^1.6",
-        "nyholm/nsa": "^1.1",
-        "twig/twig": "^1.42 || ^2.11"
+        "nyholm/nsa": "^1.1"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.2",
