@@ -101,7 +101,7 @@ final class ReplaceOperation extends AbstractOperation
             return [];
         }
 
-        /** @var MetadataAwareInterface $catalogue */
+        /* @var MetadataAwareInterface $catalogue */
         return $catalogue->getMetadata($key, $domain);
     }
 
