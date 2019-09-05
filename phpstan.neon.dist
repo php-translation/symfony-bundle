@@ -1,0 +1,28 @@
+parameters:
+    level: 1
+    paths:
+      - Catalogue
+      - Command
+      - Controller
+      - DependencyInjection
+      - EditInPlace
+      - EventListener
+      - Exception
+      - Model
+      - Resources
+      - Service
+      - Translator
+      - Twig
+
+    ignoreErrors:
+        -
+            message: '#Parameter \$reader of method Translation\\Bundle\\Catalogue\\CatalogueFetcher::__construct\(\) has invalid typehint type Symfony\\Bundle\\FrameworkBundle\\Translation\\TranslationLoader#'
+            path: %currentWorkingDirectory%/Catalogue/CatalogueFetcher.php
+
+        -
+            message: '#Return typehint of method Translation\\Bundle\\DependencyInjection\\TranslationExtension::createChildDefinition\(\) has invalid type Symfony\\Component\\DependencyInjection\\DefinitionDecorator#'
+            path: %currentWorkingDirectory%/DependencyInjection/TranslationExtension.php
+
+        -
+            message: '#Instantiated class Symfony\\Component\\DependencyInjection\\DefinitionDecorator not found#'
+            path: %currentWorkingDirectory%/DependencyInjection/TranslationExtension.php

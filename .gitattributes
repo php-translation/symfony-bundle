@@ -11,5 +11,6 @@
 /phpspec.ci.yml   export-ignore
 /phpspec.yml.dist export-ignore
 /phpunit.xml.dist export-ignore
+phpstan.neon.dist export-ignore
 /spec/            export-ignore
 /Tests/           export-ignore
