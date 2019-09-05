@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.9.1
+
+### Fixed
+
+- Fixed issue with translations falsely marked as obsolete
+
 ## 0.9.0
 
 ### Added
