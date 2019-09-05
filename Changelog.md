@@ -4,6 +4,16 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## 0.9.0
 
+### Added
+
+- Declared `Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp` as a visitor
+- Support for Symfony > 4.3
+
+### Changed
+
+- Using Twig namespaces
+- Twig block names to easier override web profiler js/css
+
 ### Removed
 
 - Support for PHP < 7.1
