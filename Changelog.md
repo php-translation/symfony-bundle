@@ -7,7 +7,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Added
 
 - Declared `Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp` as a visitor
-- Support for Symfony > 4.3
+- Support for Symfony >= 4.2
 
 ### Changed
 
