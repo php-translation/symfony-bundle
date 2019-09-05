@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Catalogue\Operation;
 
 use Symfony\Component\Translation\Catalogue\AbstractOperation;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\MetadataAwareInterface;
 
 /**
@@ -36,40 +37,72 @@ final class ReplaceOperation extends AbstractOperation
             'new' => [],
             'obsolete' => [],
         ];
-        $sourceMessages = $this->source->all($domain);
-
-        foreach ($this->target->all($domain) as $id => $message) {
-            $this->messages[$domain]['all'][$id] = $message;
-
-            // If $id is NOT defined in source.
-            if (!array_key_exists($id, $sourceMessages)) {
-                $this->messages[$domain]['obsolete'][$id] = $message;
-            }
+        if (defined(sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
+            $intlDomain = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+        } else {
+            $intlDomain = $domain;
         }
 
-        foreach ($sourceMessages as $id => $message) {
-            if (!empty($message)) {
-                $this->messages[$domain]['all'][$id] = $message;
-            }
+        foreach ($this->source->all($domain) as $id => $message) {
+            $messageDomain = $this->source->defines($id, $intlDomain) ? $intlDomain : $domain;
+            $this->messages[$domain]['all'][$id] = $message;
+            $this->result->add([$id => $message], $messageDomain);
 
             if (!$this->target->has($id, $domain)) {
+                // No merge required
                 $this->messages[$domain]['new'][$id] = $message;
+                $resultMeta = $this->getMetadata($this->source, $messageDomain, $id);
+            } else {
+                // Merge required
+                $resultMeta = null;
+                $sourceMeta = $this->getMetadata($this->source, $messageDomain, $id);
+                $targetMeta = $this->getMetadata($this->target, $this->target->defines($id, $intlDomain) ? $intlDomain : $domain, $id);
+                if (is_array($sourceMeta) && is_array($targetMeta)) {
+                    // We can only merge meta if both is an array
+                    $resultMeta = $this->mergeMetadata($sourceMeta, $targetMeta);
+                } elseif (!empty($sourceMeta)) {
+                    $resultMeta = $sourceMeta;
+                } else {
+                    // Assert: true === empty($sourceMeta);
+                    $resultMeta = $targetMeta;
+                }
+            }
 
-                // Make sure to add it to the source if even if empty($message)
-                $this->messages[$domain]['all'][$id] = $message;
+            if (!empty($resultMeta)) {
+                $this->result->setMetadata($id, $resultMeta, $messageDomain);
             }
         }
 
-        $this->result->add($this->messages[$domain]['all'], $domain);
+        foreach ($this->target->all($domain) as $id => $message) {
+            if ($this->result->has($id, $domain)) {
+                // We've already merged this
+                // That message was in source
+                continue;
+            }
 
-        $targetMetadata = $this->target instanceof MetadataAwareInterface ? $this->target->getMetadata('', $domain) : [];
-        $sourceMetadata = $this->source instanceof MetadataAwareInterface ? $this->source->getMetadata('', $domain) : [];
-        $resultMetadata = $this->mergeMetaData($sourceMetadata, $targetMetadata);
+            $messageDomain = $this->target->defines($id, $intlDomain) ? $intlDomain : $domain;
+            $this->messages[$domain]['all'][$id] = $message;
+            $this->messages[$domain]['obsolete'][$id] = $message;
+            $this->result->add([$id => $message], $messageDomain);
 
-        // Write back metadata
-        foreach ($resultMetadata as $id => $data) {
-            $this->result->setMetadata($id, $data, $domain);
+            $resultMeta = $this->getMetadata($this->target, $messageDomain, $id);
+            if (!empty($resultMeta)) {
+                $this->result->setMetadata($id, $resultMeta, $messageDomain);
+            }
         }
+    }
+
+    /**
+     * @return array|null|string|mixed Can return anything..
+     */
+    private function getMetadata(MessageCatalogueInterface $catalogue, string $domain, string $key = '')
+    {
+        if (!$this->target instanceof MetadataAwareInterface) {
+            return [];
+        }
+
+        /* @var MetadataAwareInterface $catalogue */
+        return $catalogue->getMetadata($key, $domain);
     }
 
     /**
