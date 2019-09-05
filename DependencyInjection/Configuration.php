@@ -110,7 +110,7 @@ class Configuration implements ConfigurationInterface
                             ->prototype('scalar')
                                 ->validate()
                                     ->always(function ($value) use ($container) {
-                                        $value = str_replace(DIRECTORY_SEPARATOR, '/', $value);
+                                        $value = str_replace(\DIRECTORY_SEPARATOR, '/', $value);
 
                                         if ('@' === $value[0]) {
                                             if (false === $pos = strpos($value, '/')) {

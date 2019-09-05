@@ -30,7 +30,7 @@ final class FallbackTranslatorTest extends TestCase
         $translatorService = $this->getMockBuilder(TranslatorService::class)
             ->setMethods(['translate'])
             ->getMock();
-        $translatorService->method('translate')->will($this->returnArgument(0));
+        $translatorService->method('translate')->willReturnArgument(0);
 
         $translator = new Translator();
         $translator->addTranslatorService($translatorService);

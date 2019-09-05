@@ -11,10 +11,10 @@
 
 namespace Translation\Bundle\EventListener;
 
-use Translation\Common\Model\Message;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Translation\Bundle\Service\StorageService;
+use Translation\Common\Model\Message;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

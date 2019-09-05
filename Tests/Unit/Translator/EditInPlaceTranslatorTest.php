@@ -52,8 +52,7 @@ final class EditInPlaceTranslatorTest extends TestCase
         $activator = new FakeActivator(false);
         $service = new EditInPlaceTranslator($symfonyTranslator, $activator, $requestStack);
 
-        $this->assertSame(
-            null,
+        $this->assertNull(
             $service->trans('key', [])
         );
     }

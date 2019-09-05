@@ -16,8 +16,8 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension as SymfonyTranslationExte
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Translation\MessageSelector;
 use Translation\Bundle\Twig\TranslationExtension;
-use Twig\Loader\ArrayLoader;
 use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 use Twig\Source;
 
 /**

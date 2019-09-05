@@ -12,8 +12,8 @@
 namespace Translation\Bundle\Translator;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
