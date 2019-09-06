@@ -37,7 +37,7 @@ final class ConfigurationManager
     /**
      * @param string $name
      *
-     * @return null|Configuration
+     * @return Configuration|null
      */
     public function getConfiguration($name = null)
     {

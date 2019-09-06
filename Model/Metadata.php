@@ -66,7 +66,7 @@ final class Metadata
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getDesc()
     {
@@ -83,7 +83,7 @@ final class Metadata
     /**
      * Get the extracted translation if any.
      *
-     * @return null|string
+     * @return string|null
      */
     public function getTranslation()
     {

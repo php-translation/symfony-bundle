@@ -96,7 +96,7 @@ final class ReplaceOperation extends AbstractOperation
     }
 
     /**
-     * @return array|null|string|mixed Can return anything..
+     * @return array|string|mixed|null Can return anything..
      */
     private function getMetadata(MessageCatalogueInterface $catalogue, string $domain, string $key = '')
     {

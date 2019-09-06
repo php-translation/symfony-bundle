@@ -67,7 +67,7 @@ final class CatalogueMessage
     }
 
     /**
-     * @param null|Metadata $metadata
+     * @param Metadata|null $metadata
      */
     public function setMetadata(Metadata $metadata)
     {

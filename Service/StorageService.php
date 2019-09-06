@@ -148,7 +148,7 @@ final class StorageService implements Storage
      * @param string $domain
      * @param string $key
      *
-     * @return null|Message
+     * @return Message|null
      */
     public function syncAndFetchMessage($locale, $domain, $key)
     {
@@ -189,7 +189,7 @@ final class StorageService implements Storage
      * @param string    $domain
      * @param string    $key
      *
-     * @return null|Message
+     * @return Message|null
      */
     private function getFromStorages(array $storages, $locale, $domain, $key)
     {

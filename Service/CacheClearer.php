@@ -48,7 +48,7 @@ final class CacheClearer
     /**
      * Remove the Symfony translation cache and warm it up again.
      *
-     * @param string|null $locale Optional filter to clear only one locale.
+     * @param string|null $locale optional filter to clear only one locale
      */
     public function clearAndWarmUp($locale = null)
     {

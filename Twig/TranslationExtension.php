@@ -77,8 +77,8 @@ final class TranslationExtension extends AbstractExtension
      * @param string      $defaultMessage
      * @param int         $count
      * @param array       $arguments
-     * @param null|string $domain
-     * @param null|string $locale
+     * @param string|null $domain
+     * @param string|null $locale
      *
      * @return string
      */

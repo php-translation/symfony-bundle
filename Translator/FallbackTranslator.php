@@ -135,7 +135,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
 
     /**
      * @param string $orgString  This is the string in the default locale. It has the values of $parameters in the string already.
-     * @param string $locale     you wan to translate to.
+     * @param string $locale     you wan to translate to
      * @param array  $parameters
      *
      * @return string

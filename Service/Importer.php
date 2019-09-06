@@ -13,6 +13,7 @@ namespace Translation\Bundle\Service;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
+use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 use Translation\Bundle\Model\ImportResult;
 use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
@@ -20,7 +21,6 @@ use Translation\Bundle\Twig\Visitor\RemovingNodeVisitor;
 use Translation\Extractor\Extractor;
 use Translation\Extractor\Model\SourceCollection;
 use Translation\Extractor\Model\SourceLocation;
-use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 use Twig\Environment;
 
 /**

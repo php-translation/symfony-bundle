@@ -35,7 +35,7 @@ final class StorageManager
     /**
      * @param string $name
      *
-     * @return null|StorageService
+     * @return StorageService|null
      */
     public function getStorage($name = null)
     {
