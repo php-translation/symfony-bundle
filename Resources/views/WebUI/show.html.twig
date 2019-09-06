@@ -52,12 +52,12 @@
         {% endif %}
 
         <div id="new-translations"></div>
-        {% for idx, message in messages if message.new %}
+        {% for idx, message in messages|filter(message => message.new) %}
             {{ macro.printMessage(idx + 1, message, allow_delete, file_base_path) }}
         {% endfor %}
 
         {% set idxStart = messages|length %}
-        {% for idx, message in messages if not message.new %}
+        {% for idx, message in messages|filter(message => not message.new) %}
             {{ macro.printMessage(idx + idxStart, message, allow_delete, file_base_path) }}
         {% endfor %}
     </div>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="col-md-6 col-12">
-            {% for locale,trans in message.otherTranslations if not trans is empty %}
+            {% for locale, trans in message.otherTranslations|filter(trans => not trans is empty) %}
                 <b>{{ locale }}</b>: {{ trans }}<br>
             {% endfor %}
         </div>
