@@ -64,7 +64,7 @@ final class CatalogueFetcher
         foreach ($locales as $locale) {
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
-                if (is_dir($path)) {
+                if (\is_dir($path)) {
                     $this->reader->read($path, $currentCatalogue);
                 }
             }
@@ -93,11 +93,11 @@ final class CatalogueFetcher
         $blacklist = $config->getBlacklistDomains();
         $whitelist = $config->getWhitelistDomains();
 
-        if (!empty($blacklist) && in_array($domain, $blacklist)) {
+        if (!empty($blacklist) && \in_array($domain, $blacklist)) {
             return false;
         }
 
-        if (!empty($whitelist) && !in_array($domain, $whitelist)) {
+        if (!empty($whitelist) && !\in_array($domain, $whitelist)) {
             return false;
         }
 

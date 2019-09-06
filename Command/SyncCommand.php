@@ -58,7 +58,7 @@ class SyncCommand extends Command
 
                 break;
             default:
-                $output->writeln(sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
+                $output->writeln(\sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
 
                 return;
         }

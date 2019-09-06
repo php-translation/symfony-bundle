@@ -45,7 +45,7 @@ final class CatalogueManager
     public function getDomains()
     {
         /** @var MessageCatalogueInterface $c */
-        $c = reset($this->catalogues);
+        $c = \reset($this->catalogues);
 
         return $c->getDomains();
     }
@@ -112,7 +112,7 @@ final class CatalogueManager
             }
         }
 
-        $messages = array_filter($messages, function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
+        $messages = \array_filter($messages, function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
             if (null !== $isNew && $m->isNew() !== $isNew) {
                 return false;
             }

@@ -52,7 +52,7 @@ final class CacheClearer
      */
     public function clearAndWarmUp($locale = null)
     {
-        $translationDir = sprintf('%s/translations', $this->kernelCacheDir);
+        $translationDir = \sprintf('%s/translations', $this->kernelCacheDir);
 
         $finder = new Finder();
 

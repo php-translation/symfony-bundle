@@ -132,7 +132,7 @@ final class Metadata
             if (!isset($note['content'])) {
                 continue;
             }
-            list($path, $line) = explode(':', $note['content'], 2);
+            list($path, $line) = \explode(':', $note['content'], 2);
             $sources[] = ['path' => $path, 'line' => $line];
         }
 
@@ -183,7 +183,7 @@ final class Metadata
             }
         }
 
-        usort($data, function (array $a, array $b) {
+        \usort($data, function (array $a, array $b) {
             return (int) $a['priority'] - (int) $b['priority'];
         });
 

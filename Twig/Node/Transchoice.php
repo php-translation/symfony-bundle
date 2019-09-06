@@ -25,7 +25,7 @@ class Transchoice extends AbstractExpression
     public function compile(Compiler $compiler)
     {
         $compiler->raw(
-            sprintf(
+            \sprintf(
                 '$this->env->getExtension(\'%s\')->%s(',
                 'Translation\Bundle\Twig\TranslationExtension',
                 'transchoiceWithDefault'

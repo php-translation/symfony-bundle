@@ -94,7 +94,7 @@ HTML;
         if (!$this->showUntranslatable) {
             $replacement = '"$3"';
         }
-        $content = preg_replace($pattern, $replacement, $content);
+        $content = \preg_replace($pattern, $replacement, $content);
 
         // Remove escaped content (e.g. Javascript)
         $pattern = '@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+data-value=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi';
@@ -102,9 +102,9 @@ HTML;
         if (!$this->showUntranslatable) {
             $replacement = '$2';
         }
-        $content = preg_replace($pattern, $replacement, $content);
+        $content = \preg_replace($pattern, $replacement, $content);
 
-        $html = sprintf(
+        $html = \sprintf(
             self::HTML,
             $this->packages->getUrl('bundles/translation/css/content-tools.min.css'),
             $this->packages->getUrl('bundles/translation/js/content-tools.min.js'),
@@ -115,7 +115,7 @@ HTML;
                 'locale' => $event->getRequest()->getLocale(),
             ])
         );
-        $content = str_replace('</body>', $html."\n".'</body>', $content);
+        $content = \str_replace('</body>', $html."\n".'</body>', $content);
 
         $response = $event->getResponse();
 

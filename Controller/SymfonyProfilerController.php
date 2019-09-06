@@ -133,7 +133,7 @@ class SymfonyProfilerController extends Controller
             $uploaded[] = $message;
         }
 
-        return new Response(sprintf('%s new assets created!', count($uploaded)));
+        return new Response(\sprintf('%s new assets created!', \count($uploaded)));
     }
 
     /**
@@ -161,13 +161,13 @@ class SymfonyProfilerController extends Controller
         }
 
         if (!isset($collectorMessages[$messageId])) {
-            throw $this->createNotFoundException(sprintf('No message with key "%s" was found.', $messageId));
+            throw $this->createNotFoundException(\sprintf('No message with key "%s" was found.', $messageId));
         }
         $message = SfProfilerMessage::create($collectorMessages[$messageId]);
 
         if (DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK === $message->getState()) {
             $message->setLocale($profile->getCollector('request')->getLocale())
-                ->setTranslation(sprintf('[%s]', $message->getTranslation()));
+                ->setTranslation(\sprintf('[%s]', $message->getTranslation()));
         }
 
         return $message;
@@ -185,7 +185,7 @@ class SymfonyProfilerController extends Controller
         $profiler->disable();
 
         $selected = $request->request->get('selected');
-        if (!$selected || 0 == count($selected)) {
+        if (!$selected || 0 == \count($selected)) {
             return [];
         }
 
@@ -197,7 +197,7 @@ class SymfonyProfilerController extends Controller
             $messages = $messages->getValue(true);
         }
 
-        $toSave = array_intersect_key($messages, array_flip($selected));
+        $toSave = \array_intersect_key($messages, \array_flip($selected));
 
         $messages = [];
         foreach ($toSave as $data) {

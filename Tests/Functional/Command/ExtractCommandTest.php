@@ -23,7 +23,7 @@ class ExtractCommandTest extends BaseTestCase
         parent::setUp();
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
 
-        file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
+        \file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
     <file id="messages.en_US">

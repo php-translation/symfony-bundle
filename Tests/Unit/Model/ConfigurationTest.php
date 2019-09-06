@@ -23,10 +23,10 @@ class ConfigurationTest extends TestCase
 
         foreach ($key2Function as $key => $value) {
             $func = $value;
-            if (is_array($func)) {
-                $func = reset($func);
+            if (\is_array($func)) {
+                $func = \reset($func);
             }
-            $this->assertEquals($value, call_user_func([$conf, $func]));
+            $this->assertEquals($value, \call_user_func([$conf, $func]));
         }
     }
 
