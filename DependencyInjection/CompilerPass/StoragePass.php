@@ -51,7 +51,7 @@ class StoragePass implements CompilerPassInterface
 
                         break;
                     default:
-                        throw new \LogicException(sprintf('The tag "php_translation.storage" must have a "type" of value "local" or "remote". Value "%s" was provided', $tag['type']));
+                        throw new \LogicException(\sprintf('The tag "php_translation.storage" must have a "type" of value "local" or "remote". Value "%s" was provided', $tag['type']));
                 }
             }
         }

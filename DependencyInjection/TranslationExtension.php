@@ -77,7 +77,7 @@ class TranslationExtension extends Extension
             $this->enableFallbackAutoTranslator($container, $config);
         }
 
-        if ('test' === getenv('ENV')) {
+        if ('test' === \getenv('ENV')) {
             $loader->load('services_test.yml');
         }
 
@@ -102,7 +102,7 @@ class TranslationExtension extends Extension
             }
             if (empty($c['project_root'])) {
                 // Add a project root of none is set.
-                $c['project_root'] = dirname($container->getParameter('kernel.root_dir'));
+                $c['project_root'] = \dirname($container->getParameter('kernel.root_dir'));
             }
             $c['name'] = $name;
             $c['locales'] = $config['locales'];
@@ -170,7 +170,7 @@ class TranslationExtension extends Extension
             }
         }
 
-        $container->setParameter('php_translation.webui.file_base_path', rtrim($path, '/').'/');
+        $container->setParameter('php_translation.webui.file_base_path', \rtrim($path, '/').'/');
     }
 
     /**
@@ -184,7 +184,7 @@ class TranslationExtension extends Extension
         $name = $config['edit_in_place']['config_name'];
 
         if ('default' !== $name && !isset($config['configs'][$name])) {
-            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
+            throw new InvalidArgumentException(\sprintf('There is no config named "%s".', $name));
         }
 
         $activatorRef = new Reference($config['edit_in_place']['activator']);
@@ -246,7 +246,7 @@ class TranslationExtension extends Extension
      */
     private function createChildDefinition($parent)
     {
-        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+        if (\class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
             return new ChildDefinition($parent);
         }
 

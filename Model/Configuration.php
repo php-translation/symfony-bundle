@@ -207,7 +207,7 @@ final class Configuration
      */
     public function getPathsToTranslationFiles()
     {
-        return array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
+        return \array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
     }
 
     /**
@@ -227,7 +227,7 @@ final class Configuration
      */
     public function reconfigureBundleDirs($bundleDir, $outputDir)
     {
-        $this->dirs = is_array($bundleDir) ? $bundleDir : [$bundleDir];
+        $this->dirs = \is_array($bundleDir) ? $bundleDir : [$bundleDir];
         $this->outputDir = $outputDir;
     }
 }

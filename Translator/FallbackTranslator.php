@@ -130,7 +130,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this->symfonyTranslator, $method], $args);
+        return \call_user_func_array([$this->symfonyTranslator, $method], $args);
     }
 
     /**
@@ -145,10 +145,10 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
         // Replace parameters
         $replacements = [];
         foreach ($parameters as $placeholder => $nonTranslatableValue) {
-            $replacements[(string) $nonTranslatableValue] = sha1($placeholder);
+            $replacements[(string) $nonTranslatableValue] = \sha1($placeholder);
         }
 
-        $replacedString = str_replace(array_keys($replacements), array_values($replacements), $orgString);
+        $replacedString = \str_replace(\array_keys($replacements), \array_values($replacements), $orgString);
         $translatedString = $this->externalTranslator->translate($replacedString, $this->defaultLocale, $locale);
 
         if (null === $translatedString) {
@@ -156,6 +156,6 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
             return $orgString;
         }
 
-        return str_replace(array_values($replacements), array_keys($replacements), $translatedString);
+        return \str_replace(\array_values($replacements), \array_keys($replacements), $translatedString);
     }
 }

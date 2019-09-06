@@ -57,10 +57,10 @@ class WebUIController extends Controller
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
             $domains = $catalogue->all();
-            ksort($domains);
+            \ksort($domains);
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
-                $count = count($messages);
+                $count = \count($messages);
                 $catalogueSize[$locale] += $count;
                 if (!isset($maxDomainSize[$domain]) || $count > $maxDomainSize[$domain]) {
                     $maxDomainSize[$domain] = $count;
@@ -106,8 +106,8 @@ class WebUIController extends Controller
 
         /** @var CatalogueMessage[] $messages */
         $messages = $catalogueManager->getMessages($locale, $domain);
-        usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
-            return strcmp($a->getKey(), $b->getKey());
+        \usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
+            return \strcmp($a->getKey(), $b->getKey());
         });
 
         return $this->render('@Translation/WebUI/show.html.twig', [
@@ -153,7 +153,7 @@ class WebUIController extends Controller
         try {
             $storage->create($message);
         } catch (StorageException $e) {
-            throw new BadRequestHttpException(sprintf(
+            throw new BadRequestHttpException(\sprintf(
                 'Key "%s" does already exist for "%s" on domain "%s".',
                 $message->getKey(),
                 $locale,
@@ -234,7 +234,7 @@ class WebUIController extends Controller
     private function getMessageFromRequest(Request $request)
     {
         $json = $request->getContent();
-        $data = json_decode($json, true);
+        $data = \json_decode($json, true);
         $message = new Message($data['key']);
         if (isset($data['message'])) {
             $message = $message->withTranslation($data['message']);
@@ -251,7 +251,7 @@ class WebUIController extends Controller
     private function getLocale2LanguageMap()
     {
         $configuredLocales = $this->getParameter('php_translation.locales');
-        $names = class_exists(Locales::class)
+        $names = \class_exists(Locales::class)
             ? Locales::getNames('en')
             : Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];
@@ -271,7 +271,7 @@ class WebUIController extends Controller
     private function validateMessage(MessageInterface $message, array $validationGroups)
     {
         $errors = $this->get('validator')->validate($message, null, $validationGroups);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw  MessageValidationException::create();
         }
     }

@@ -92,18 +92,18 @@ class DownloadCommand extends Command
 
     private function hashDirectory($directory)
     {
-        if (!is_dir($directory)) {
+        if (!\is_dir($directory)) {
             return false;
         }
 
         $finder = new Finder();
         $finder->files()->in($directory)->notName('/~$/')->sortByName();
 
-        $hash = hash_init('md5');
+        $hash = \hash_init('md5');
         foreach ($finder as $file) {
-            hash_update_file($hash, $file->getRealPath());
+            \hash_update_file($hash, $file->getRealPath());
         }
 
-        return hash_final($hash);
+        return \hash_final($hash);
     }
 }

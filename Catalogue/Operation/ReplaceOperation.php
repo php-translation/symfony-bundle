@@ -37,7 +37,7 @@ final class ReplaceOperation extends AbstractOperation
             'new' => [],
             'obsolete' => [],
         ];
-        if (defined(sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
+        if (\defined(\sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
             $intlDomain = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
         } else {
             $intlDomain = $domain;
@@ -57,7 +57,7 @@ final class ReplaceOperation extends AbstractOperation
                 $resultMeta = null;
                 $sourceMeta = $this->getMetadata($this->source, $messageDomain, $id);
                 $targetMeta = $this->getMetadata($this->target, $this->target->defines($id, $intlDomain) ? $intlDomain : $domain, $id);
-                if (is_array($sourceMeta) && is_array($targetMeta)) {
+                if (\is_array($sourceMeta) && \is_array($targetMeta)) {
                     // We can only merge meta if both is an array
                     $resultMeta = $this->mergeMetadata($sourceMeta, $targetMeta);
                 } elseif (!empty($sourceMeta)) {
@@ -128,7 +128,7 @@ final class ReplaceOperation extends AbstractOperation
             return $source;
         }
 
-        if (!is_array($source) || !is_array($target)) {
+        if (!\is_array($source) || !\is_array($target)) {
             return $source;
         }
 
@@ -143,7 +143,7 @@ final class ReplaceOperation extends AbstractOperation
         foreach ($target as $key => $value) {
             if ($isTargetArrayAssociative) {
                 if (isset($source[$key]) && $source[$key] !== $value) {
-                    if (is_array($source[$key]) && is_array($value)) {
+                    if (\is_array($source[$key]) && \is_array($value)) {
                         // If both arrays, do recursive call
                         $source[$key] = $this->doMergeMetadata($source[$key], $value);
                     }
@@ -153,7 +153,7 @@ final class ReplaceOperation extends AbstractOperation
                     $source[$key] = $value;
                 }
                 // if sequential
-            } elseif (!in_array($value, $source)) {
+            } elseif (!\in_array($value, $source)) {
                 $source[] = $value;
             }
         }
@@ -167,6 +167,6 @@ final class ReplaceOperation extends AbstractOperation
             return false;
         }
 
-        return array_keys($arr) !== range(0, count($arr) - 1);
+        return \array_keys($arr) !== \range(0, \count($arr) - 1);
     }
 }

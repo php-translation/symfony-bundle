@@ -31,7 +31,7 @@ class CatalogueCounter
     {
         $total = 0;
         foreach ($catalogue->getDomains() as $domain) {
-            $total += count($catalogue->all($domain));
+            $total += \count($catalogue->all($domain));
         }
 
         return $total;
@@ -47,7 +47,7 @@ class CatalogueCounter
         $result = [];
         $domains = $catalogue->getDomains();
         foreach ($domains as $domain) {
-            $result[$domain]['defined'] = count($catalogue->all($domain));
+            $result[$domain]['defined'] = \count($catalogue->all($domain));
         }
 
         // Sum the number of defined messages.

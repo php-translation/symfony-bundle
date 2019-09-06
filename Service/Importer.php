@@ -145,10 +145,10 @@ final class Importer
 
             $key = $sourceLocation->getMessage();
             $catalogue->set($key, null, $domain);
-            $trimLength = 1 + strlen($this->config['project_root']);
+            $trimLength = 1 + \strlen($this->config['project_root']);
 
             $meta = $this->getMetadata($catalogue, $key, $domain);
-            $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            $meta->addCategory('file-source', \sprintf('%s:%s', \substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
             }
@@ -189,10 +189,10 @@ final class Importer
      */
     private function isValidDomain($domain)
     {
-        if (!empty($this->config['blacklist_domains']) && in_array($domain, $this->config['blacklist_domains'])) {
+        if (!empty($this->config['blacklist_domains']) && \in_array($domain, $this->config['blacklist_domains'])) {
             return false;
         }
-        if (!empty($this->config['whitelist_domains']) && !in_array($domain, $this->config['whitelist_domains'])) {
+        if (!empty($this->config['whitelist_domains']) && !\in_array($domain, $this->config['whitelist_domains'])) {
             return false;
         }
 
@@ -212,17 +212,17 @@ final class Importer
             'whitelist_domains' => [],
         ];
 
-        $config = array_merge($default, $config);
+        $config = \array_merge($default, $config);
 
         if (!empty($config['blacklist_domains']) && !empty($config['whitelist_domains'])) {
             throw new \InvalidArgumentException('Cannot use "blacklist_domains" and "whitelist_domains" at the same time');
         }
 
-        if (!empty($config['blacklist_domains']) && !is_array($config['blacklist_domains'])) {
+        if (!empty($config['blacklist_domains']) && !\is_array($config['blacklist_domains'])) {
             throw new \InvalidArgumentException('Config parameter "blacklist_domains" must be an array');
         }
 
-        if (!empty($config['whitelist_domains']) && !is_array($config['whitelist_domains'])) {
+        if (!empty($config['whitelist_domains']) && !\is_array($config['whitelist_domains'])) {
             throw new \InvalidArgumentException('Config parameter "whitelist_domains" must be an array');
         }
 

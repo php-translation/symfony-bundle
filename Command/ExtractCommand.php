@@ -127,14 +127,14 @@ class ExtractCommand extends Command
         $io->table(['Type', 'Count'], [
             ['Total defined messages', $definedAfter],
             ['New messages', $definedAfter - $definedBefore],
-            ['Errors', count($errors)],
+            ['Errors', \count($errors)],
         ]);
 
         if (!$input->getOption('hide-errors')) {
             /** @var Error $error */
             foreach ($errors as $error) {
                 $io->error(
-                    sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
+                    \sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
                 );
             }
         }

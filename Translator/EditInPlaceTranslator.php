@@ -73,11 +73,11 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
         }
 
         // Render all data in the translation tag required to allow in-line translation
-        return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
+        return \sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
-            htmlspecialchars($original),
-            htmlspecialchars($plain),
+            \htmlspecialchars($original),
+            \htmlspecialchars($plain),
             $domain,
             $locale,
             $original
@@ -93,7 +93,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         }
 
-        $parameters = array_merge([
+        $parameters = \array_merge([
             '%count%' => $number,
         ], $parameters);
 

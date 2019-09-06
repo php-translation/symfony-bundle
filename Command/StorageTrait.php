@@ -32,7 +32,7 @@ trait StorageTrait
         if (null === $storage = $this->storageManager->getStorage($configName)) {
             $availableStorages = $this->storageManager->getNames();
 
-            throw new \InvalidArgumentException(sprintf('Unknown storage "%s". Available storages are "%s".', $configName, implode('", "', $availableStorages)));
+            throw new \InvalidArgumentException(\sprintf('Unknown storage "%s". Available storages are "%s".', $configName, \implode('", "', $availableStorages)));
         }
 
         return $storage;

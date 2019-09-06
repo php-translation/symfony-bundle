@@ -65,17 +65,17 @@ class EditInPlaceController extends Controller
     private function getMessages(Request $request, $locale, array $validationGroups = [])
     {
         $json = $request->getContent();
-        $data = json_decode($json, true);
+        $data = \json_decode($json, true);
         $messages = [];
         $validator = $this->get('validator');
 
         foreach ($data as $key => $value) {
-            list($domain, $translationKey) = explode('|', $key);
+            list($domain, $translationKey) = \explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
 
             $errors = $validator->validate($message, null, $validationGroups);
-            if (count($errors) > 0) {
+            if (\count($errors) > 0) {
                 throw MessageValidationException::create();
             }
 

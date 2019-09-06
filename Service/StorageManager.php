@@ -70,6 +70,6 @@ final class StorageManager
      */
     public function getNames()
     {
-        return array_keys($this->storages);
+        return \array_keys($this->storages);
     }
 }
