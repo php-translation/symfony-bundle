@@ -54,6 +54,19 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
+    public function testGetResultWithNullValues()
+    {
+        $this->assertEquals(
+            new MessageCatalogue('en', [
+                'messages' => ['a' => 'old_a', 'b' => 'old_b', 'c' => null],
+            ]),
+            $this->createOperation(
+                new MessageCatalogue('en', ['messages' => ['a' => null, 'c' => null]]),
+                new MessageCatalogue('en', ['messages' => ['a' => 'old_a', 'b' => 'old_b']])
+            )->getResult()
+        );
+    }
+
     public function testGetResultWithMetadata()
     {
         $leftCatalogue = new MessageCatalogue('en', ['messages' => ['a' => 'new_a', 'b' => 'new_b']]);

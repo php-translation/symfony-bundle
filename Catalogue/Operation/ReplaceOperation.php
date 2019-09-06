@@ -45,15 +45,15 @@ final class ReplaceOperation extends AbstractOperation
 
         foreach ($this->source->all($domain) as $id => $message) {
             $messageDomain = $this->source->defines($id, $intlDomain) ? $intlDomain : $domain;
-            $this->messages[$domain]['all'][$id] = $message;
-            $this->result->add([$id => $message], $messageDomain);
 
             if (!$this->target->has($id, $domain)) {
                 // No merge required
+                $translation = $message;
                 $this->messages[$domain]['new'][$id] = $message;
                 $resultMeta = $this->getMetadata($this->source, $messageDomain, $id);
             } else {
                 // Merge required
+                $translation = $message ?? $this->target->get($id, $domain);
                 $resultMeta = null;
                 $sourceMeta = $this->getMetadata($this->source, $messageDomain, $id);
                 $targetMeta = $this->getMetadata($this->target, $this->target->defines($id, $intlDomain) ? $intlDomain : $domain, $id);
@@ -67,6 +67,9 @@ final class ReplaceOperation extends AbstractOperation
                     $resultMeta = $targetMeta;
                 }
             }
+
+            $this->messages[$domain]['all'][$id] = $translation;
+            $this->result->add([$id => $translation], $messageDomain);
 
             if (!empty($resultMeta)) {
                 $this->result->setMetadata($id, $resultMeta, $messageDomain);
