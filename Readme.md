@@ -83,3 +83,7 @@ Read the full documentation at [http://php-translation.readthedocs.io](https://p
 
 
 [symfony_flex]: https://github.com/symfony/flex
+
+## Dynamically set locales
+
+https://github.com/php-translation/symfony-bundle/issues/340
