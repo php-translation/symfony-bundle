@@ -58,6 +58,7 @@ final class Importer
     }
 
     /**
+     * @param Finder             $finder
      * @param MessageCatalogue[] $catalogues
      * @param array              $config     {
      *

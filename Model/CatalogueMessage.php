@@ -59,7 +59,7 @@ final class CatalogueMessage
         $this->message = $message;
     }
 
-    public function setMetadata(Metadata $metadata): void
+    public function setMetadata(?Metadata $metadata): void
     {
         $this->metadata = $metadata;
     }

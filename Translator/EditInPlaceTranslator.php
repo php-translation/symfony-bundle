@@ -30,12 +30,12 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     private $translator;
 
     /**
-     * @var ActivatorInterface
+     * @var \Translation\Bundle\EditInPlace\ActivatorInterface
      */
     private $activator;
 
     /**
-     * @var RequestStack
+     * @var \Symfony\Component\HttpFoundation\RequestStack
      */
     private $requestStack;
 
