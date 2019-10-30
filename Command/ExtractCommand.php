@@ -83,7 +83,7 @@ class ExtractCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -95,9 +95,11 @@ class ExtractCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
+        if (null === $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'))) {
+            return;
+        }
 
         $locales = [];
         if ($inputLocale = $input->getArgument('locale')) {
@@ -145,7 +147,7 @@ class ExtractCommand extends Command
      *
      * @return Finder
      */
-    private function getConfiguredFinder(Configuration $config)
+    private function getConfiguredFinder(Configuration $config): Finder
     {
         $finder = new Finder();
         $finder->in($config->getDirs());

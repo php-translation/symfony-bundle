@@ -24,7 +24,7 @@ use Translation\Bundle\Translator\EditInPlaceTranslator;
  */
 final class EditInPlaceTranslatorTest extends TestCase
 {
-    public function testEnabled()
+    public function testEnabled(): void
     {
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
 
@@ -41,7 +41,7 @@ final class EditInPlaceTranslatorTest extends TestCase
         );
     }
 
-    public function testDisabled()
+    public function testDisabled(): void
     {
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
 
@@ -57,7 +57,7 @@ final class EditInPlaceTranslatorTest extends TestCase
         );
     }
 
-    public function testHtmlTranslation()
+    public function testHtmlTranslation(): void
     {
         $symfonyTranslator = new \Symfony\Component\Translation\Translator('en', null, null, true);
         $symfonyTranslator->addLoader('array', new ArrayLoader());
@@ -93,12 +93,12 @@ class FakeActivator implements ActivatorInterface
 {
     private $enabled;
 
-    public function __construct($enabled = true)
+    public function __construct(bool $enabled = true)
     {
         $this->enabled = $enabled;
     }
 
-    public function checkRequest(Request $request = null)
+    public function checkRequest(Request $request = null): bool
     {
         return $this->enabled;
     }

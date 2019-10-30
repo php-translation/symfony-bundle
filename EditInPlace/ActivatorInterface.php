@@ -25,5 +25,5 @@ interface ActivatorInterface
      *
      * @return bool
      */
-    public function checkRequest(Request $request = null);
+    public function checkRequest(Request $request = null): bool;
 }

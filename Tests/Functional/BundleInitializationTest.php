@@ -22,7 +22,7 @@ use Translation\Extractor\FileExtractor\TwigFileExtractor;
 
 class BundleInitializationTest extends BaseTestCase
 {
-    public function testRegisterBundle()
+    public function testRegisterBundle(): void
     {
         $this->bootKernel();
         $container = $this->getContainer();

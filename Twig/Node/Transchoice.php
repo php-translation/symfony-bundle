@@ -22,7 +22,7 @@ class Transchoice extends AbstractExpression
         parent::__construct(['arguments' => $arguments], [], $lineno);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler->raw(
             \sprintf(

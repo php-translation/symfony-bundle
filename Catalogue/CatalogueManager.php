@@ -31,7 +31,7 @@ final class CatalogueManager
     /**
      * @param MessageCatalogueInterface[] $catalogues
      */
-    public function load(array $catalogues)
+    public function load(array $catalogues): void
     {
         $this->catalogues = [];
         foreach ($catalogues as $c) {
@@ -42,7 +42,7 @@ final class CatalogueManager
     /**
      * @return array
      */
-    public function getDomains()
+    public function getDomains(): array
     {
         /** @var MessageCatalogueInterface $c */
         $c = \reset($this->catalogues);
@@ -56,7 +56,7 @@ final class CatalogueManager
      *
      * @return CatalogueMessage[]
      */
-    public function getMessages($locale, $domain)
+    public function getMessages(string $locale, string $domain): array
     {
         $messages = [];
         if (!isset($this->catalogues[$locale])) {
@@ -82,12 +82,12 @@ final class CatalogueManager
      *
      * @return CatalogueMessage[]
      */
-    public function findMessages(array $config = [])
+    public function findMessages(array $config = []): array
     {
-        $inputDomain = isset($config['domain']) ? $config['domain'] : null;
-        $isNew = isset($config['isNew']) ? $config['isNew'] : null;
-        $isObsolete = isset($config['isObsolete']) ? $config['isObsolete'] : null;
-        $isApproved = isset($config['isApproved']) ? $config['isApproved'] : null;
+        $inputDomain = $config['domain'] ?? null;
+        $isNew = $config['isNew'] ?? null;
+        $isObsolete = $config['isObsolete'] ?? null;
+        $isApproved = $config['isApproved'] ?? null;
 
         $messages = [];
         $catalogues = [];
@@ -112,7 +112,7 @@ final class CatalogueManager
             }
         }
 
-        $messages = \array_filter($messages, function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
+        $messages = \array_filter($messages, static function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
             if (null !== $isNew && $m->isNew() !== $isNew) {
                 return false;
             }
@@ -156,7 +156,7 @@ final class CatalogueManager
      *
      * @return CatalogueMessage
      */
-    private function createMessage(MessageCatalogueInterface $catalogue, $locale, $domain, $key, $text)
+    private function createMessage(MessageCatalogueInterface $catalogue, $locale, $domain, $key, $text): CatalogueMessage
     {
         $catalogueMessage = new CatalogueMessage($this, $locale, $domain, $key, $text);
 

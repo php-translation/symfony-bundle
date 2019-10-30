@@ -57,7 +57,7 @@ final class CatalogueMessage
      * @param string           $key
      * @param string           $message
      */
-    public function __construct(CatalogueManager $catalogueManager, $locale, $domain, $key, $message)
+    public function __construct(CatalogueManager $catalogueManager, string $locale, string $domain, string $key, string $message)
     {
         $this->catalogueManager = $catalogueManager;
         $this->locale = $locale;
@@ -69,12 +69,12 @@ final class CatalogueMessage
     /**
      * @param Metadata|null $metadata
      */
-    public function setMetadata(Metadata $metadata)
+    public function setMetadata(?Metadata $metadata)
     {
         $this->metadata = $metadata;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getMessage();
     }
@@ -82,7 +82,7 @@ final class CatalogueMessage
     /**
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -90,7 +90,7 @@ final class CatalogueMessage
     /**
      * @return string
      */
-    public function getDomain()
+    public function getDomain(): string
     {
         return $this->domain;
     }
@@ -98,7 +98,7 @@ final class CatalogueMessage
     /**
      * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
@@ -106,12 +106,12 @@ final class CatalogueMessage
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function getOtherTranslations()
+    public function getOtherTranslations(): array
     {
         $translations = $this->catalogueManager->getTranslations($this->domain, $this->getKey());
 
@@ -120,7 +120,7 @@ final class CatalogueMessage
         return $translations;
     }
 
-    public function getSourceLocations()
+    public function getSourceLocations(): array
     {
         if (null === $this->metadata) {
             return [];
@@ -129,7 +129,7 @@ final class CatalogueMessage
         return $this->metadata->getSourceLocations();
     }
 
-    public function isNew()
+    public function isNew(): bool
     {
         if (null === $this->metadata) {
             return false;
@@ -138,7 +138,7 @@ final class CatalogueMessage
         return 'new' === $this->metadata->getState();
     }
 
-    public function isObsolete()
+    public function isObsolete(): bool
     {
         if (null === $this->metadata) {
             return false;
@@ -147,7 +147,7 @@ final class CatalogueMessage
         return 'obsolete' === $this->metadata->getState();
     }
 
-    public function isApproved()
+    public function isApproved(): bool
     {
         if (null === $this->metadata) {
             return false;

@@ -20,7 +20,7 @@ use Translation\Bundle\Translator\FallbackTranslator;
 
 class TranslationExtensionTest extends AbstractExtensionTestCase
 {
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         $this->setParameter('kernel.default_locale', 'ar');
         $this->setParameter('kernel.root_dir', __DIR__);
@@ -31,7 +31,7 @@ class TranslationExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testLocales()
+    public function testLocales(): void
     {
         $locales = ['fr', 'sv'];
         $this->load(['locales' => $locales]);
@@ -40,49 +40,49 @@ class TranslationExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('php_translation.default_locale', 'ar');
     }
 
-    public function testDefaultLocales()
+    public function testDefaultLocales(): void
     {
         $this->load(['default_locale' => 'sv']);
 
         $this->assertContainerBuilderHasParameter('php_translation.default_locale', 'sv');
     }
 
-    public function testWebUiEnabled()
+    public function testWebUiEnabled(): void
     {
         $this->load(['webui' => ['enabled' => true]]);
 
         $this->assertContainerBuilderHasParameter('php_translation.webui.enabled', true);
     }
 
-    public function testWebUiDisabled()
+    public function testWebUiDisabled(): void
     {
         $this->load(['webui' => ['enabled' => false]]);
 
         $this->assertContainerBuilderHasParameter('php_translation.webui.enabled', false);
     }
 
-    public function testSymfonyProfilerEnabled()
+    public function testSymfonyProfilerEnabled(): void
     {
         $this->load(['symfony_profiler' => ['enabled' => true]]);
 
         $this->assertContainerBuilderHasService('php_translation.data_collector', TranslationDataCollector::class);
     }
 
-    public function testEditInPlaceEnabled()
+    public function testEditInPlaceEnabled(): void
     {
         $this->load(['edit_in_place' => ['enabled' => true]]);
 
         $this->assertContainerBuilderHasService('php_translation.edit_in_place.response_listener', EditInPlaceResponseListener::class);
     }
 
-    public function testAutoAddEnabled()
+    public function testAutoAddEnabled(): void
     {
         $this->load(['auto_add_missing_translations' => ['enabled' => true]]);
 
         $this->assertContainerBuilderHasService('php_translator.auto_adder', AutoAddMissingTranslations::class);
     }
 
-    public function testFallbackTranslationEnabled()
+    public function testFallbackTranslationEnabled(): void
     {
         $this->load(['fallback_translation' => ['enabled' => true]]);
 

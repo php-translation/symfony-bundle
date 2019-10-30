@@ -29,17 +29,17 @@ final class ConfigurationManager
      * @param string        $name
      * @param Configuration $configuration
      */
-    public function addConfiguration($name, Configuration $configuration)
+    public function addConfiguration(string $name, Configuration $configuration): void
     {
         $this->configuration[$name] = $configuration;
     }
 
     /**
-     * @param string $name
+     * @param string|string[]|null $name
      *
      * @return Configuration|null
      */
-    public function getConfiguration($name = null)
+    public function getConfiguration($name = null): ?Configuration
     {
         if (empty($name)) {
             return $this->getConfiguration('default');
@@ -55,22 +55,26 @@ final class ConfigurationManager
                 return $this->configuration[$name];
             }
         }
+
+        return null;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFirstName()
+    public function getFirstName(): ?string
     {
         foreach ($this->configuration as $name => $config) {
             return $name;
         }
+
+        return null;
     }
 
     /**
      * @return array
      */
-    public function getNames()
+    public function getNames(): array
     {
         return \array_keys($this->configuration);
     }

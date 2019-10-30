@@ -31,7 +31,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return Response
      */
-    public function editAction(Request $request, $token)
+    public function editAction(Request $request, string $token): Response
     {
         if (!$this->getParameter('php_translation.toolbar.allow_edit')) {
             return new Response('You are not allowed to edit the translations.');
@@ -67,7 +67,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return Response
      */
-    public function syncAction(Request $request, $token)
+    public function syncAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -91,7 +91,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function syncAllAction(Request $request, $token)
+    public function syncAllAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -114,7 +114,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return Response
      */
-    public function createAssetsAction(Request $request, $token)
+    public function createAssetsAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -142,7 +142,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return SfProfilerMessage
      */
-    private function getMessage(Request $request, $token)
+    private function getMessage(Request $request, string $token): SfProfilerMessage
     {
         $profiler = $this->get('profiler');
         $profiler->disable();
@@ -179,7 +179,7 @@ class SymfonyProfilerController extends Controller
      *
      * @return MessageInterface[]
      */
-    protected function getSelectedMessages(Request $request, $token)
+    protected function getSelectedMessages(Request $request, string $token): array
     {
         $profiler = $this->get('profiler');
         $profiler->disable();

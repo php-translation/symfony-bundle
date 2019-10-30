@@ -114,7 +114,7 @@ final class Configuration
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -122,7 +122,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getLocales()
+    public function getLocales(): array
     {
         return $this->locales;
     }
@@ -130,7 +130,7 @@ final class Configuration
     /**
      * @return string
      */
-    public function getProjectRoot()
+    public function getProjectRoot(): string
     {
         return $this->projectRoot;
     }
@@ -138,7 +138,7 @@ final class Configuration
     /**
      * @return string
      */
-    public function getOutputDir()
+    public function getOutputDir(): string
     {
         return $this->outputDir;
     }
@@ -146,7 +146,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getDirs()
+    public function getDirs(): array
     {
         return $this->dirs;
     }
@@ -154,7 +154,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getExcludedDirs()
+    public function getExcludedDirs(): array
     {
         return $this->excludedDirs;
     }
@@ -162,7 +162,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getExcludedNames()
+    public function getExcludedNames(): array
     {
         return $this->excludedNames;
     }
@@ -170,7 +170,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getExternalTranslationsDirs()
+    public function getExternalTranslationsDirs(): array
     {
         return $this->externalTranslationsDirs;
     }
@@ -178,7 +178,7 @@ final class Configuration
     /**
      * @return string
      */
-    public function getOutputFormat()
+    public function getOutputFormat(): string
     {
         return $this->outputFormat;
     }
@@ -186,7 +186,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getBlacklistDomains()
+    public function getBlacklistDomains(): array
     {
         return $this->blacklistDomains;
     }
@@ -194,7 +194,7 @@ final class Configuration
     /**
      * @return array
      */
-    public function getWhitelistDomains()
+    public function getWhitelistDomains(): array
     {
         return $this->whitelistDomains;
     }
@@ -205,7 +205,7 @@ final class Configuration
      *
      * @return array
      */
-    public function getPathsToTranslationFiles()
+    public function getPathsToTranslationFiles(): array
     {
         return \array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
     }
@@ -213,7 +213,7 @@ final class Configuration
     /**
      * @return string
      */
-    public function getXliffVersion()
+    public function getXliffVersion(): string
     {
         return $this->xliffVersion;
     }
@@ -225,9 +225,9 @@ final class Configuration
      * @param string $bundleDir
      * @param string $outputDir
      */
-    public function reconfigureBundleDirs($bundleDir, $outputDir)
+    public function reconfigureBundleDirs(string $bundleDir, string $outputDir): void
     {
-        $this->dirs = \is_array($bundleDir) ? $bundleDir : [$bundleDir];
+        $this->dirs = [$bundleDir];
         $this->outputDir = $outputDir;
     }
 }

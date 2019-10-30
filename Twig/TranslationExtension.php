@@ -47,7 +47,7 @@ final class TranslationExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('desc', [$this, 'desc']),
@@ -58,7 +58,7 @@ final class TranslationExtension extends AbstractExtension
     /**
      * @return array
      */
-    public function getNodeVisitors()
+    public function getNodeVisitors(): array
     {
         $visitors = [
             new NormalizingNodeVisitor(),
@@ -82,7 +82,7 @@ final class TranslationExtension extends AbstractExtension
      *
      * @return string
      */
-    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null)
+    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null): string
     {
         if (null === $domain) {
             $domain = 'messages';
@@ -115,7 +115,7 @@ final class TranslationExtension extends AbstractExtension
         return $v;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'php-translation';
     }

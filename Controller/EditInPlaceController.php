@@ -31,7 +31,7 @@ class EditInPlaceController extends Controller
      *
      * @return Response
      */
-    public function editAction(Request $request, $configName, $locale)
+    public function editAction(Request $request, string $configName, string $locale): Response
     {
         try {
             $messages = $this->getMessages($request, $locale, ['Edit']);
@@ -62,7 +62,7 @@ class EditInPlaceController extends Controller
      *
      * @throws MessageValidationException
      */
-    private function getMessages(Request $request, $locale, array $validationGroups = [])
+    private function getMessages(Request $request, string $locale, array $validationGroups = []): array
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);

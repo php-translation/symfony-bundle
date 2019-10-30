@@ -30,7 +30,7 @@ use Symfony\Component\Translation\MetadataAwareInterface;
  */
 final class ReplaceOperation extends AbstractOperation
 {
-    protected function processDomain($domain)
+    protected function processDomain($domain): void
     {
         $this->messages[$domain] = [
             'all' => [],
@@ -114,7 +114,7 @@ final class ReplaceOperation extends AbstractOperation
      *
      * @return array
      */
-    private function mergeMetadata($source, $target)
+    private function mergeMetadata(?array $source, ?array $target): array
     {
         if (empty($source) && empty($target)) {
             return [];
@@ -132,12 +132,10 @@ final class ReplaceOperation extends AbstractOperation
             return $source;
         }
 
-        $result = $this->doMergeMetadata($source, $target);
-
-        return $result;
+        return $this->doMergeMetadata($source, $target);
     }
 
-    private function doMergeMetadata(array $source, array $target)
+    private function doMergeMetadata(array $source, array $target): array
     {
         $isTargetArrayAssociative = $this->isArrayAssociative($target);
         foreach ($target as $key => $value) {
@@ -153,7 +151,7 @@ final class ReplaceOperation extends AbstractOperation
                     $source[$key] = $value;
                 }
                 // if sequential
-            } elseif (!\in_array($value, $source)) {
+            } elseif (!\in_array($value, $source, true)) {
                 $source[] = $value;
             }
         }
@@ -161,7 +159,7 @@ final class ReplaceOperation extends AbstractOperation
         return $source;
     }
 
-    public function isArrayAssociative(array $arr)
+    public function isArrayAssociative(array $arr): bool
     {
         if ([] === $arr) {
             return false;

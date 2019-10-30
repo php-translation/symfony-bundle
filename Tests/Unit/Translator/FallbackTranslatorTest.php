@@ -23,7 +23,7 @@ use Translation\Translator\TranslatorService;
  */
 final class FallbackTranslatorTest extends TestCase
 {
-    public function testTranslateWithSubstitutedParameters()
+    public function testTranslateWithSubstitutedParameters(): void
     {
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
 

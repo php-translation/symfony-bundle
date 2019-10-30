@@ -37,7 +37,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function indexAction($configName = null)
+    public function indexAction(?string $configName = null): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
@@ -92,7 +92,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function showAction($configName, $locale, $domain)
+    public function showAction(string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
@@ -132,7 +132,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function createAction(Request $request, $configName, $locale, $domain)
+    public function createAction(Request $request, string $configName, string $locale, string $domain)
     {
         if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_create')) {
             return new Response('You are not allowed to create. Check you config. ', 400);
@@ -174,7 +174,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function editAction(Request $request, $configName, $locale, $domain)
+    public function editAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
@@ -204,7 +204,7 @@ class WebUIController extends Controller
      *
      * @return Response
      */
-    public function deleteAction(Request $request, $configName, $locale, $domain)
+    public function deleteAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_delete')) {
             return new Response('You are not allowed to create. Check you config. ', 400);
@@ -231,7 +231,7 @@ class WebUIController extends Controller
      *
      * @return MessageInterface
      */
-    private function getMessageFromRequest(Request $request)
+    private function getMessageFromRequest(Request $request): MessageInterface
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);
@@ -248,7 +248,7 @@ class WebUIController extends Controller
      *
      * @return array locale => language
      */
-    private function getLocale2LanguageMap()
+    private function getLocale2LanguageMap(): array
     {
         $configuredLocales = $this->getParameter('php_translation.locales');
         $names = \class_exists(Locales::class)
@@ -256,7 +256,7 @@ class WebUIController extends Controller
             : Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];
         foreach ($configuredLocales as $l) {
-            $map[$l] = isset($names[$l]) ? $names[$l] : $l;
+            $map[$l] = $names[$l] ?? $l;
         }
 
         return $map;
@@ -268,7 +268,7 @@ class WebUIController extends Controller
      *
      * @throws MessageValidationException
      */
-    private function validateMessage(MessageInterface $message, array $validationGroups)
+    private function validateMessage(MessageInterface $message, array $validationGroups): void
     {
         $errors = $this->get('validator')->validate($message, null, $validationGroups);
         if (\count($errors) > 0) {

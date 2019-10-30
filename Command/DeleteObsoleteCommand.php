@@ -67,7 +67,7 @@ class DeleteObsoleteCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -78,7 +78,7 @@ class DeleteObsoleteCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $configName = $input->getArgument('configuration');
         $locales = [];
@@ -86,7 +86,10 @@ class DeleteObsoleteCommand extends Command
             $locales = [$inputLocale];
         }
 
-        $config = $this->configurationManager->getConfiguration($configName);
+        if (null === $config = $this->configurationManager->getConfiguration($configName)) {
+            return;
+        }
+
         $this->configureBundleDirs($input, $config);
         $this->catalogueManager->load($this->catalogueFetcher->getCatalogues($config, $locales));
 

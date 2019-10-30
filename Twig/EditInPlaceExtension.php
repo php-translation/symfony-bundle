@@ -36,7 +36,7 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
@@ -49,7 +49,7 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
      *
      * @return array
      */
-    public function isSafe($node)
+    public function isSafe($node): array
     {
         return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
     }
@@ -57,7 +57,7 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     /**
      * @param ActivatorInterface $activator
      */
-    public function setActivator(ActivatorInterface $activator)
+    public function setActivator(ActivatorInterface $activator): void
     {
         $this->activator = $activator;
     }
@@ -65,7 +65,7 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     /**
      * @param RequestStack $requestStack
      */
-    public function setRequestStack(RequestStack $requestStack)
+    public function setRequestStack(RequestStack $requestStack): void
     {
         $this->requestStack = $requestStack;
     }
@@ -73,7 +73,7 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return self::class;
     }

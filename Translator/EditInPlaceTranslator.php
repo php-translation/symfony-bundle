@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Translator;
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
@@ -24,17 +25,17 @@ use Translation\Bundle\EditInPlace\ActivatorInterface;
 final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagInterface
 {
     /**
-     * @var TranslatorInterface|\Symfony\Component\Translation\Translator
+     * @var \Symfony\Component\Translation\TranslatorInterface
      */
     private $translator;
 
     /**
-     * @var ActivatorInterface
+     * @var \Translation\Bundle\EditInPlace\ActivatorInterface
      */
     private $activator;
 
     /**
-     * @var RequestStack
+     * @var \Symfony\Component\HttpFoundation\RequestStack
      */
     private $requestStack;
 
@@ -48,7 +49,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     /**
      * @see Translator::getCatalogue
      */
-    public function getCatalogue($locale = null)
+    public function getCatalogue($locale = null): MessageCatalogueInterface
     {
         return $this->translator->getCatalogue($locale);
     }
@@ -56,7 +57,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     /**
      * @see Translator::trans
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null): ?string
     {
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
         if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
@@ -87,7 +88,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     /**
      * @see Translator::trans
      */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
+    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): ?string
     {
         if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
@@ -103,7 +104,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     /**
      * @see Translator::trans
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->translator->setLocale($locale);
     }
@@ -111,7 +112,7 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
     /**
      * @see Translator::trans
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->translator->getLocale();
     }

@@ -31,9 +31,9 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
     /**
      * @param $bool
      */
-    public function setEnabled($bool)
+    public function setEnabled(bool $bool): void
     {
-        $this->enabled = (bool) $bool;
+        $this->enabled = $bool;
     }
 
     /**
@@ -42,7 +42,7 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
      *
      * @return Node
      */
-    protected function doEnterNode(Node $node, Environment $env)
+    protected function doEnterNode(Node $node, Environment $env): Node
     {
         if ($this->enabled && $node instanceof FilterExpression) {
             $name = $node->getNode('filter')->getAttribute('value');
@@ -61,7 +61,7 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
      *
      * @return Node
      */
-    protected function doLeaveNode(Node $node, Environment $env)
+    protected function doLeaveNode(Node $node, Environment $env): Node
     {
         return $node;
     }
@@ -69,7 +69,7 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
     /**
      * @return int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -1;
     }

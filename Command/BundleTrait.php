@@ -17,7 +17,7 @@ use Translation\Bundle\Model\Configuration;
 
 trait BundleTrait
 {
-    private function configureBundleDirs(InputInterface $input, Configuration $config)
+    private function configureBundleDirs(InputInterface $input, Configuration $config): void
     {
         if ($bundleName = $input->getOption('bundle')) {
             if ('@' === $bundleName[0]) {

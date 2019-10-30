@@ -19,7 +19,7 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
  */
 class EditInPlaceTest extends BaseTestCase
 {
-    public function testActivatedTest()
+    public function testActivatedTest(): void
     {
         $this->bootKernel();
         $request = Request::create('/foobar');
@@ -50,7 +50,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertEquals('🚫 Can\'t be translated here. 🚫', $attributeDiv->getAttribute('data-value'));
     }
 
-    public function testIfUntranslatableLabelGetsDisabled()
+    public function testIfUntranslatableLabelGetsDisabled(): void
     {
         $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yml');
         $request = Request::create('/foobar');
@@ -82,7 +82,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertEquals('translated.attribute', $attributeDiv->getAttribute('data-value'));
     }
 
-    public function testDeactivatedTest()
+    public function testDeactivatedTest(): void
     {
         $this->bootKernel();
         $request = Request::create('/foobar');

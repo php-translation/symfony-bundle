@@ -54,7 +54,7 @@ final class CatalogueFetcher
      *
      * @return MessageCatalogue[]
      */
-    public function getCatalogues(Configuration $config, array $locales = [])
+    public function getCatalogues(Configuration $config, array $locales = []): array
     {
         $dirs = $config->getPathsToTranslationFiles();
         if (empty($locales)) {
@@ -88,16 +88,16 @@ final class CatalogueFetcher
      *
      * @return bool
      */
-    private function isValidDomain(Configuration $config, $domain)
+    private function isValidDomain(Configuration $config, string $domain): bool
     {
         $blacklist = $config->getBlacklistDomains();
         $whitelist = $config->getWhitelistDomains();
 
-        if (!empty($blacklist) && \in_array($domain, $blacklist)) {
+        if (!empty($blacklist) && \in_array($domain, $blacklist, true)) {
             return false;
         }
 
-        if (!empty($whitelist) && !\in_array($domain, $whitelist)) {
+        if (!empty($whitelist) && !\in_array($domain, $whitelist, true)) {
             return false;
         }
 

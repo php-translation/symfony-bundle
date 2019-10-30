@@ -87,7 +87,7 @@ final class SfProfilerMessage
      *
      * @return SfProfilerMessage
      */
-    public static function create(array $data)
+    public static function create(array $data): self
     {
         $message = new self();
         if (isset($data['id'])) {
@@ -123,7 +123,7 @@ final class SfProfilerMessage
      *
      * @return MessageInterface
      */
-    public function convertToMessage()
+    public function convertToMessage(): MessageInterface
     {
         $meta = [];
 
@@ -152,7 +152,7 @@ final class SfProfilerMessage
     /**
      * @return int
      */
-    public function getCount()
+    public function getCount(): int
     {
         return $this->count;
     }
@@ -162,7 +162,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setCount($count)
+    public function setCount(int $count): self
     {
         $this->count = $count;
 
@@ -172,7 +172,7 @@ final class SfProfilerMessage
     /**
      * @return string
      */
-    public function getDomain()
+    public function getDomain(): string
     {
         return $this->domain;
     }
@@ -182,7 +182,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setDomain($domain)
+    public function setDomain(string $domain)
     {
         $this->domain = $domain;
 
@@ -192,7 +192,7 @@ final class SfProfilerMessage
     /**
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -202,7 +202,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setKey($key)
+    public function setKey($key): string
     {
         $this->key = $key;
 
@@ -212,7 +212,7 @@ final class SfProfilerMessage
     /**
      * @return string
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->locale;
     }
@@ -222,7 +222,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setLocale($locale)
+    public function setLocale(string $locale): self
     {
         $this->locale = $locale;
 
@@ -232,7 +232,7 @@ final class SfProfilerMessage
     /**
      * @return int
      */
-    public function getState()
+    public function getState(): int
     {
         return $this->state;
     }
@@ -242,7 +242,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setState($state)
+    public function setState(int $state): self
     {
         $this->state = $state;
 
@@ -252,7 +252,7 @@ final class SfProfilerMessage
     /**
      * @return string
      */
-    public function getTranslation()
+    public function getTranslation(): string
     {
         return $this->translation;
     }
@@ -262,7 +262,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setTranslation($translation)
+    public function setTranslation(string $translation): self
     {
         $this->translation = $translation;
 
@@ -272,7 +272,7 @@ final class SfProfilerMessage
     /**
      * @return int
      */
-    public function getTransChoiceNumber()
+    public function getTransChoiceNumber(): int
     {
         return $this->transChoiceNumber;
     }
@@ -282,7 +282,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setTransChoiceNumber($transChoiceNumber)
+    public function setTransChoiceNumber(int $transChoiceNumber): self
     {
         $this->transChoiceNumber = $transChoiceNumber;
 
@@ -292,7 +292,7 @@ final class SfProfilerMessage
     /**
      * @return array
      */
-    public function getParameters()
+    public function getParameters(): array
     {
         $pure = [];
         foreach ($this->parameters as $p) {
@@ -308,7 +308,7 @@ final class SfProfilerMessage
     /**
      * @return bool
      */
-    public function hasParameters()
+    public function hasParameters(): bool
     {
         return !empty($this->parameters);
     }
@@ -318,7 +318,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setParameters($parameters)
+    public function setParameters(array $parameters): self
     {
         $this->parameters = $parameters;
 

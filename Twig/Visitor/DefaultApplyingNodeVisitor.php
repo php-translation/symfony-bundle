@@ -39,9 +39,9 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     /**
      * @param $bool
      */
-    public function setEnabled($bool)
+    public function setEnabled(bool $bool): void
     {
-        $this->enabled = (bool) $bool;
+        $this->enabled = $bool;
     }
 
     /**
@@ -50,7 +50,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
      *
      * @return Node
      */
-    public function doEnterNode(Node $node, Environment $env)
+    public function doEnterNode(Node $node, Environment $env): Node
     {
         if (!$this->enabled) {
             return $node;
@@ -129,7 +129,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
      *
      * @return Node
      */
-    public function doLeaveNode(Node $node, Environment $env)
+    public function doLeaveNode(Node $node, Environment $env): Node
     {
         return $node;
     }
@@ -137,7 +137,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     /**
      * @return int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -2;
     }

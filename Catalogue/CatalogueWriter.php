@@ -54,7 +54,7 @@ final class CatalogueWriter
      * @param Configuration      $config
      * @param MessageCatalogue[] $catalogues
      */
-    public function writeCatalogues(Configuration $config, array $catalogues)
+    public function writeCatalogues(Configuration $config, array $catalogues): void
     {
         foreach ($catalogues as $catalogue) {
             $this->writer->write(

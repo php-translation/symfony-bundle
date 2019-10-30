@@ -41,7 +41,7 @@ final class AutoAddMissingTranslations
         $this->storage = $storage;
     }
 
-    public function onTerminate(Event $event)
+    public function onTerminate(Event $event): void
     {
         if (null === $this->dataCollector) {
             return;

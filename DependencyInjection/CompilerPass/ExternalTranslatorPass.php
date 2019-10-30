@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ExternalTranslatorPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         /* @var Definition $def */
         if (!$container->hasDefinition('php_translation.translator_service.external_translator')) {

@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class EditInPlacePass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         /* @var Definition $def */
         if (!$container->hasDefinition('php_translator.edit_in_place.xtrans_html_translator')) {

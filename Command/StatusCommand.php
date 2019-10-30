@@ -62,7 +62,7 @@ class StatusCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -74,9 +74,12 @@ class StatusCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
+        if (null === $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'))) {
+            return;
+        }
+
         $this->configureBundleDirs($input, $config);
 
         $locales = [];
