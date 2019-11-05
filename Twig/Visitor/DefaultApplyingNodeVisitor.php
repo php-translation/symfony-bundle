@@ -37,7 +37,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     private $enabled = true;
 
     /**
-     * @param $bool
+     * @param bool $bool
      */
     public function setEnabled(bool $bool): void
     {

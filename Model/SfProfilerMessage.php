@@ -182,7 +182,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setDomain(string $domain)
+    public function setDomain(string $domain): self
     {
         $this->domain = $domain;
 

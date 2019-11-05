@@ -58,7 +58,7 @@ class ExtractorPass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder $container
-     * @param $extractors
+     * @param Definition[] $extractors
      */
     private function addVisitors(ContainerBuilder $container, array $extractors): void
     {
@@ -72,6 +72,7 @@ class ExtractorPass implements CompilerPassInterface
                     continue;
                 }
 
+                /** @var Definition $extractor */
                 foreach ($extractors[$tag['type']] as $extractor) {
                     $extractor->addMethodCall('addVisitor', [new Reference($id)]);
                 }

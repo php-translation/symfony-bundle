@@ -241,11 +241,11 @@ class TranslationExtension extends Extension
     /**
      * To avoid BC break for Symfony 3.3+.
      *
-     * @param $parent
+     * @param string $parent
      *
      * @return ChildDefinition|DefinitionDecorator
      */
-    private function createChildDefinition($parent)
+    private function createChildDefinition(string $parent)
     {
         if (\class_exists(ChildDefinition::class)) {
             return new ChildDefinition($parent);

@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Twig;
 
+use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
@@ -25,7 +26,7 @@ use Twig\TwigFilter;
 final class TranslationExtension extends AbstractExtension
 {
     /**
-     * @var TranslatorInterface
+     * @var TranslatorInterface|TranslatorBagInterface
      */
     private $translator;
 
@@ -96,7 +97,7 @@ final class TranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param $v
+     * @param mixed $v
      *
      * @return mixed
      */
@@ -106,7 +107,7 @@ final class TranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param $v
+     * @param mixed $v
      *
      * @return mixed
      */
