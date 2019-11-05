@@ -202,7 +202,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setKey($key): string
+    public function setKey($key): self
     {
         $this->key = $key;
 
