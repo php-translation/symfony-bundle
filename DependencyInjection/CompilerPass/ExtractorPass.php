@@ -54,6 +54,10 @@ class ExtractorPass implements CompilerPassInterface
         return $extractors;
     }
 
+    /**
+     * @param ContainerBuilder $container
+     * @param Definition[] $extractors
+     */
     private function addVisitors(ContainerBuilder $container, array $extractors): void
     {
         $services = $container->findTaggedServiceIds('php_translation.visitor');
