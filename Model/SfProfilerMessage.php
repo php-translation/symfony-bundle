@@ -297,7 +297,7 @@ final class SfProfilerMessage
         $pure = [];
         foreach ($this->parameters as $p) {
             if ($p instanceof Data) {
-                $p = $p->getRawData();
+                $p = $p->getValue(true);
             }
             $pure[] = $p;
         }
