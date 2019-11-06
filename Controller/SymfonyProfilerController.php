@@ -26,8 +26,7 @@ use Translation\Common\Model\MessageInterface;
 class SymfonyProfilerController extends Controller
 {
     /**
-     * @param Request $request
-     * @param string  $token
+     * @param string $token
      *
      * @return Response
      */
@@ -62,8 +61,7 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $token
+     * @param string $token
      *
      * @return Response
      */
@@ -86,8 +84,7 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param         $token
+     * @param $token
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
@@ -109,8 +106,7 @@ class SymfonyProfilerController extends Controller
      *
      * @author Damien Alexandre (damienalexandre)
      *
-     * @param Request $request
-     * @param string  $token
+     * @param string $token
      *
      * @return Response
      */
@@ -137,8 +133,7 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $token
+     * @param string $token
      *
      * @return SfProfilerMessage
      */
@@ -174,8 +169,7 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $token
+     * @param string $token
      *
      * @return MessageInterface[]
      */

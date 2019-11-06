@@ -92,9 +92,6 @@ final class Configuration
      */
     private $xliffVersion;
 
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
         $this->name = $data['name'];

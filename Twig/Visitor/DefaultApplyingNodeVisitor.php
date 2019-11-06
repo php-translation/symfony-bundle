@@ -45,9 +45,6 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     }
 
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return Node
      */
     public function doEnterNode(Node $node, Environment $env)
@@ -124,9 +121,6 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     }
 
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return Node
      */
     public function doLeaveNode(Node $node, Environment $env)

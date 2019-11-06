@@ -83,8 +83,6 @@ final class SfProfilerMessage
     private $parameters;
 
     /**
-     * @param array $data
-     *
      * @return SfProfilerMessage
      */
     public static function create(array $data)

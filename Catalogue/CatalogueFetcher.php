@@ -49,9 +49,6 @@ final class CatalogueFetcher
     /**
      * load any existing messages from the translation files.
      *
-     * @param Configuration $config
-     * @param array         $locales
-     *
      * @return MessageCatalogue[]
      */
     public function getCatalogues(Configuration $config, array $locales = [])

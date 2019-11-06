@@ -27,9 +27,6 @@ class SyncCommand extends Command
 
     protected static $defaultName = 'translation:sync';
 
-    /**
-     * @param StorageManager $storageManager
-     */
     public function __construct(StorageManager $storageManager)
     {
         $this->storageManager = $storageManager;

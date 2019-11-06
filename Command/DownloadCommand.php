@@ -41,11 +41,6 @@ class DownloadCommand extends Command
      */
     private $cacheCleaner;
 
-    /**
-     * @param StorageManager       $storageManager
-     * @param ConfigurationManager $configurationManager
-     * @param CacheClearer         $cacheCleaner
-     */
     public function __construct(
         StorageManager $storageManager,
         ConfigurationManager $configurationManager,

@@ -48,12 +48,6 @@ class DeleteObsoleteCommand extends Command
      */
     private $catalogueFetcher;
 
-    /**
-     * @param StorageManager       $storageManager
-     * @param ConfigurationManager $configurationManager
-     * @param CatalogueManager     $catalogueManager
-     * @param CatalogueFetcher     $catalogueFetcher
-     */
     public function __construct(
         StorageManager $storageManager,
         ConfigurationManager $configurationManager,
