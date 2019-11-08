@@ -182,7 +182,7 @@ final class SfProfilerMessage
      *
      * @return $this
      */
-    public function setDomain(string $domain)
+    public function setDomain(string $domain): self
     {
         $this->domain = $domain;
 
@@ -297,7 +297,7 @@ final class SfProfilerMessage
         $pure = [];
         foreach ($this->parameters as $p) {
             if ($p instanceof Data) {
-                $p = $p->getRawData();
+                $p = $p->getValue(true);
             }
             $pure[] = $p;
         }

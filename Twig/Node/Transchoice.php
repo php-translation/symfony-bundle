@@ -33,7 +33,9 @@ class Transchoice extends AbstractExpression
         );
 
         $first = true;
-        foreach ($this->getNode('arguments')->getKeyValuePairs() as $pair) {
+        /** @var ArrayExpression $node */
+        $node = $this->getNode('arguments');
+        foreach ($node->getKeyValuePairs() as $pair) {
             if (!$first) {
                 $compiler->raw(', ');
             }

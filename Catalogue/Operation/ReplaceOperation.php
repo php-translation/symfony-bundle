@@ -96,15 +96,17 @@ final class ReplaceOperation extends AbstractOperation
     }
 
     /**
+     * @param MessageCatalogueInterface|MetadataAwareInterface $catalogue
+     * @param string $domain
+     * @param string $key
      * @return array|string|mixed|null Can return anything..
      */
-    private function getMetadata(MessageCatalogueInterface $catalogue, string $domain, string $key = '')
+    private function getMetadata($catalogue, string $domain, string $key = '')
     {
         if (!$this->target instanceof MetadataAwareInterface) {
             return [];
         }
 
-        /* @var MetadataAwareInterface $catalogue */
         return $catalogue->getMetadata($key, $domain);
     }
 

@@ -161,23 +161,23 @@ final class Importer
 
     /**
      * @param MessageCatalogue $catalogue
-     * @param $key
-     * @param $domain
+     * @param string $key
+     * @param string $domain
      *
      * @return Metadata
      */
-    private function getMetadata(MessageCatalogue $catalogue, $key, $domain): Metadata
+    private function getMetadata(MessageCatalogue $catalogue, string $key, string $domain): Metadata
     {
         return new Metadata($catalogue->getMetadata($key, $domain));
     }
 
     /**
      * @param MessageCatalogue $catalogue
-     * @param $key
-     * @param $domain
+     * @param string $key
+     * @param string $domain
      * @param Metadata $metadata
      */
-    private function setMetadata(MessageCatalogue $catalogue, $key, $domain, Metadata $metadata): void
+    private function setMetadata(MessageCatalogue $catalogue, string $key, string $domain, Metadata $metadata): void
     {
         $catalogue->setMetadata($key, $metadata->toArray(), $domain);
     }

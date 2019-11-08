@@ -149,14 +149,14 @@ final class CatalogueManager
 
     /**
      * @param MessageCatalogueInterface $catalogue
-     * @param $locale
-     * @param $domain
-     * @param $key
-     * @param $text
+     * @param string $locale
+     * @param string $domain
+     * @param string $key
+     * @param string $text
      *
      * @return CatalogueMessage
      */
-    private function createMessage(MessageCatalogueInterface $catalogue, $locale, $domain, $key, $text): CatalogueMessage
+    private function createMessage(MessageCatalogueInterface $catalogue, string $locale, string $domain, string $key, string $text): CatalogueMessage
     {
         $catalogueMessage = new CatalogueMessage($this, $locale, $domain, $key, $text);
 

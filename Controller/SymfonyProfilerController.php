@@ -87,7 +87,7 @@ class SymfonyProfilerController extends Controller
 
     /**
      * @param Request $request
-     * @param         $token
+     * @param string  $token
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
