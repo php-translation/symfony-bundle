@@ -28,9 +28,6 @@ use Twig\NodeVisitor\AbstractNodeVisitor;
 final class NormalizingNodeVisitor extends AbstractNodeVisitor
 {
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return Node
      */
     protected function doEnterNode(Node $node, Environment $env)
@@ -39,9 +36,6 @@ final class NormalizingNodeVisitor extends AbstractNodeVisitor
     }
 
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return ConstantExpression|Node
      */
     protected function doLeaveNode(Node $node, Environment $env)

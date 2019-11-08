@@ -54,17 +54,11 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
         return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
     }
 
-    /**
-     * @param ActivatorInterface $activator
-     */
     public function setActivator(ActivatorInterface $activator)
     {
         $this->activator = $activator;
     }
 
-    /**
-     * @param RequestStack $requestStack
-     */
     public function setRequestStack(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;

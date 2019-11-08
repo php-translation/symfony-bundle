@@ -37,8 +37,7 @@ final class CatalogueWriter
     private $defaultLocale;
 
     /**
-     * @param TranslationWriter $writer
-     * @param string            $defaultLocale
+     * @param string $defaultLocale
      */
     public function __construct(TranslationWriter $writer, $defaultLocale)
     {
@@ -51,7 +50,6 @@ final class CatalogueWriter
     }
 
     /**
-     * @param Configuration      $config
      * @param MessageCatalogue[] $catalogues
      */
     public function writeCatalogues(Configuration $config, array $catalogues)

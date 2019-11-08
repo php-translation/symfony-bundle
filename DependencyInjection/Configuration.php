@@ -87,9 +87,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param ArrayNodeDefinition $root
-     */
     private function configsNode(ArrayNodeDefinition $root)
     {
         $container = $this->container;

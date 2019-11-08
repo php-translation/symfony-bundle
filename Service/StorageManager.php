@@ -24,8 +24,7 @@ final class StorageManager
     private $storages = [];
 
     /**
-     * @param string         $name
-     * @param StorageService $storage
+     * @param string $name
      */
     public function addStorage($name, StorageService $storage)
     {
