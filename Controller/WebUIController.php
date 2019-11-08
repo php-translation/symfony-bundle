@@ -177,7 +177,12 @@ class WebUIController extends AbstractController
         try {
             $storage->create($message);
         } catch (StorageException $e) {
-            throw new BadRequestHttpException(\sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
+            throw new BadRequestHttpException(\sprintf(
+                'Key "%s" does already exist for "%s" on domain "%s".',
+                $message->getKey(),
+                $locale,
+                $domain
+            ), $e);
         }
 
         return $this->render('@Translation/WebUI/create.html.twig', [
