@@ -80,8 +80,6 @@ final class StorageService implements Storage
 
     /**
      * Synchronize translations with remote.
-     *
-     * @param string $direction
      */
     public function sync(string $direction = self::DIRECTION_DOWN): void
     {
