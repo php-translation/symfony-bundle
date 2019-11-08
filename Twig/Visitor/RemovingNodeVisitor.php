@@ -37,9 +37,6 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
     }
 
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return Node
      */
     protected function doEnterNode(Node $node, Environment $env): Node
@@ -56,9 +53,6 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
     }
 
     /**
-     * @param Node        $node
-     * @param Environment $env
-     *
      * @return Node
      */
     protected function doLeaveNode(Node $node, Environment $env): Node

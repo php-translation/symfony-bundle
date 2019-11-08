@@ -33,7 +33,6 @@ final class AutoAddMissingTranslations
 
     /**
      * @param DataCollectorTranslator $translator
-     * @param StorageService          $storage
      */
     public function __construct(StorageService $storage, DataCollectorTranslator $translator = null)
     {

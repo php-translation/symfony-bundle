@@ -25,9 +25,8 @@ use Translation\Common\Model\MessageInterface;
 class EditInPlaceController extends Controller
 {
     /**
-     * @param Request $request
-     * @param string  $configName
-     * @param string  $locale
+     * @param string $configName
+     * @param string $locale
      *
      * @return Response
      */
@@ -54,9 +53,7 @@ class EditInPlaceController extends Controller
     /**
      * Get and validate messages from the request.
      *
-     * @param Request $request
-     * @param string  $locale
-     * @param array   $validationGroups
+     * @param string $locale
      *
      * @return MessageInterface[]
      *

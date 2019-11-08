@@ -36,8 +36,7 @@ final class TranslationExtension extends AbstractExtension
     private $debug;
 
     /**
-     * @param TranslatorInterface $translator
-     * @param bool                $debug
+     * @param bool $debug
      */
     public function __construct(TranslatorInterface $translator, $debug = false)
     {
@@ -77,7 +76,6 @@ final class TranslationExtension extends AbstractExtension
      * @param string      $message
      * @param string      $defaultMessage
      * @param int         $count
-     * @param array       $arguments
      * @param string|null $domain
      * @param string|null $locale
      *

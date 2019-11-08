@@ -87,9 +87,6 @@ class TranslationExtension extends Extension
 
     /**
      * Handle the config node to prepare the config manager.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
      */
     private function handleConfigNode(ContainerBuilder $container, array $config): void
     {
@@ -152,9 +149,6 @@ class TranslationExtension extends Extension
 
     /**
      * Handle config for WebUI.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
      */
     private function enableWebUi(ContainerBuilder $container, array $config): void
     {
@@ -176,9 +170,6 @@ class TranslationExtension extends Extension
 
     /**
      * Handle config for EditInPlace.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
      */
     private function enableEditInPlace(ContainerBuilder $container, array $config): void
     {
@@ -204,9 +195,6 @@ class TranslationExtension extends Extension
 
     /**
      * Handle config for Symfony Profiler.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
      */
     private function enableSymfonyProfiler(ContainerBuilder $container, array $config): void
     {
@@ -215,9 +203,6 @@ class TranslationExtension extends Extension
 
     /**
      * Handle config for fallback auto translate.
-     *
-     * @param ContainerBuilder $container
-     * @param array            $config
      */
     private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config): void
     {

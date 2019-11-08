@@ -51,9 +51,7 @@ final class Importer
     private $defaultLocale;
 
     /**
-     * @param Extractor   $extractor
-     * @param Environment $twig
-     * @param string      $defaultLocale
+     * @param string $defaultLocale
      */
     public function __construct(Extractor $extractor, Environment $twig, string $defaultLocale)
     {
@@ -63,7 +61,6 @@ final class Importer
     }
 
     /**
-     * @param Finder             $finder
      * @param MessageCatalogue[] $catalogues
      * @param array              $config     {
      *
@@ -128,10 +125,6 @@ final class Importer
         return new ImportResult($results, $sourceCollection->getErrors());
     }
 
-    /**
-     * @param MessageCatalogue $catalogue
-     * @param SourceCollection $collection
-     */
     private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection): void
     {
         /** @var SourceLocation $sourceLocation */
@@ -160,9 +153,8 @@ final class Importer
     }
 
     /**
-     * @param MessageCatalogue $catalogue
-     * @param string $key
-     * @param string $domain
+     * @param $key
+     * @param $domain
      *
      * @return Metadata
      */
@@ -172,10 +164,8 @@ final class Importer
     }
 
     /**
-     * @param MessageCatalogue $catalogue
-     * @param string $key
-     * @param string $domain
-     * @param Metadata $metadata
+     * @param $key
+     * @param $domain
      */
     private function setMetadata(MessageCatalogue $catalogue, string $key, string $domain, Metadata $metadata): void
     {

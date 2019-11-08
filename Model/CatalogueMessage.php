@@ -51,11 +51,10 @@ final class CatalogueMessage
     private $metadata;
 
     /**
-     * @param CatalogueManager $catalogueManager
-     * @param string           $locale
-     * @param string           $domain
-     * @param string           $key
-     * @param string           $message
+     * @param string $locale
+     * @param string $domain
+     * @param string $key
+     * @param string $message
      */
     public function __construct(CatalogueManager $catalogueManager, string $locale, string $domain, string $key, string $message)
     {

@@ -26,8 +26,7 @@ final class ConfigurationManager
     private $configuration = [];
 
     /**
-     * @param string        $name
-     * @param Configuration $configuration
+     * @param string $name
      */
     public function addConfiguration(string $name, Configuration $configuration): void
     {

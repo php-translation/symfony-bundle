@@ -60,13 +60,6 @@ class ExtractCommand extends Command
      */
     private $configurationManager;
 
-    /**
-     * @param CatalogueFetcher     $catalogueFetcher
-     * @param CatalogueWriter      $catalogueWriter
-     * @param CatalogueCounter     $catalogueCounter
-     * @param Importer             $importer
-     * @param ConfigurationManager $configurationManager
-     */
     public function __construct(
         CatalogueFetcher $catalogueFetcher,
         CatalogueWriter $catalogueWriter,
@@ -144,8 +137,6 @@ class ExtractCommand extends Command
     }
 
     /**
-     * @param Configuration $config
-     *
      * @return Finder
      */
     private function getConfiguredFinder(Configuration $config): Finder

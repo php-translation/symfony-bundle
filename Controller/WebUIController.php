@@ -125,10 +125,9 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $configName
-     * @param string  $locale
-     * @param string  $domain
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
@@ -153,12 +152,7 @@ class WebUIController extends Controller
         try {
             $storage->create($message);
         } catch (StorageException $e) {
-            throw new BadRequestHttpException(\sprintf(
-                'Key "%s" does already exist for "%s" on domain "%s".',
-                $message->getKey(),
-                $locale,
-                $domain
-            ), $e);
+            throw new BadRequestHttpException(\sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
         }
 
         return $this->render('@Translation/WebUI/create.html.twig', [
@@ -167,10 +161,9 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $configName
-     * @param string  $locale
-     * @param string  $domain
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
@@ -197,10 +190,9 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param string  $configName
-     * @param string  $locale
-     * @param string  $domain
+     * @param string $configName
+     * @param string $locale
+     * @param string $domain
      *
      * @return Response
      */
@@ -227,9 +219,7 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
-     * @return \Translation\Common\Model\Message
+     * @return MessageInterface
      */
     private function getMessageFromRequest(Request $request): Message
     {
@@ -263,9 +253,6 @@ class WebUIController extends Controller
     }
 
     /**
-     * @param MessageInterface $message
-     * @param array            $validationGroups
-     *
      * @throws MessageValidationException
      */
     private function validateMessage(MessageInterface $message, array $validationGroups): void

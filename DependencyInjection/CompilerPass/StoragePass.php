@@ -58,9 +58,6 @@ class StoragePass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     *
      * @return Definition
      */
     private function getDefinition(ContainerBuilder $container, string $name): Definition

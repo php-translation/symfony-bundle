@@ -57,11 +57,6 @@ final class StorageService implements Storage
      */
     private $config;
 
-    /**
-     * @param CatalogueFetcher $catalogueFetcher
-     * @param CatalogueWriter  $catalogueWriter
-     * @param Configuration    $config
-     */
     public function __construct(
         CatalogueFetcher $catalogueFetcher,
         CatalogueWriter $catalogueWriter,
@@ -240,8 +235,7 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage[]        $storages
-     * @param MessageInterface $message
+     * @param Storage[] $storages
      */
     private function updateStorages(array $storages, MessageInterface $message): void
     {
@@ -271,8 +265,6 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage $localStorage
-     *
      * @return StorageService
      */
     public function addLocalStorage(Storage $localStorage): self
@@ -283,8 +275,6 @@ final class StorageService implements Storage
     }
 
     /**
-     * @param Storage $remoteStorage
-     *
      * @return StorageService
      */
     public function addRemoteStorage(Storage $remoteStorage): self

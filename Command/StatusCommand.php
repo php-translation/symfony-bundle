@@ -45,11 +45,6 @@ class StatusCommand extends Command
      */
     private $catalogueFetcher;
 
-    /**
-     * @param CatalogueCounter     $catalogueCounter
-     * @param ConfigurationManager $configurationManager
-     * @param CatalogueFetcher     $catalogueFetcher
-     */
     public function __construct(
         CatalogueCounter $catalogueCounter,
         ConfigurationManager $configurationManager,

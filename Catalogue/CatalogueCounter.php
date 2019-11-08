@@ -23,8 +23,6 @@ use Translation\Bundle\Model\Metadata;
 class CatalogueCounter
 {
     /**
-     * @param MessageCatalogueInterface $catalogue
-     *
      * @return int
      */
     public function getNumberOfDefinedMessages(MessageCatalogueInterface $catalogue): int
@@ -38,8 +36,6 @@ class CatalogueCounter
     }
 
     /**
-     * @param MessageCatalogueInterface $catalogue
-     *
      * @return array
      */
     public function getCatalogueStatistics(MessageCatalogueInterface $catalogue): array

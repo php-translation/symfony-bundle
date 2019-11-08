@@ -148,11 +148,10 @@ final class CatalogueManager
     }
 
     /**
-     * @param MessageCatalogueInterface $catalogue
-     * @param string $locale
-     * @param string $domain
-     * @param string $key
-     * @param string $text
+     * @param $locale
+     * @param $domain
+     * @param $key
+     * @param $text
      *
      * @return CatalogueMessage
      */
