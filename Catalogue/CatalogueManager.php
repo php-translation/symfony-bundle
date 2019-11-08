@@ -26,7 +26,7 @@ final class CatalogueManager
     /**
      * @var MessageCatalogueInterface[]
      */
-    private $catalogues;
+    private $catalogues = [];
 
     /**
      * @param MessageCatalogueInterface[] $catalogues

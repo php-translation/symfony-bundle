@@ -229,9 +229,9 @@ class WebUIController extends Controller
     /**
      * @param Request $request
      *
-     * @return MessageInterface
+     * @return \Translation\Common\Model\Message
      */
-    private function getMessageFromRequest(Request $request): MessageInterface
+    private function getMessageFromRequest(Request $request): Message
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);

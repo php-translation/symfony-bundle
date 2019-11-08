@@ -74,7 +74,7 @@ class DownloadCommand extends Command
         $storage = $this->getStorage($configName);
 
         if (null === $configuration = $this->configurationManager->getConfiguration($configName)) {
-            return;
+            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
         }
 
         $this->configureBundleDirs($input, $configuration);

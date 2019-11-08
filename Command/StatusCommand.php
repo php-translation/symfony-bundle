@@ -76,8 +76,9 @@ class StatusCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        if (null === $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'))) {
-            return;
+        $configName = $input->getArgument('configuration');
+        if (null === $config = $this->configurationManager->getConfiguration($configName)) {
+            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
         }
 
         $this->configureBundleDirs($input, $config);

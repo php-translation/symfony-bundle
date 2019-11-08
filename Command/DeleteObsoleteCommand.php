@@ -87,7 +87,7 @@ class DeleteObsoleteCommand extends Command
         }
 
         if (null === $config = $this->configurationManager->getConfiguration($configName)) {
-            return;
+            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
         }
 
         $this->configureBundleDirs($input, $config);
