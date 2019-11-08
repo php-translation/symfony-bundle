@@ -41,9 +41,6 @@ class ConfigurationTest extends TestCase
         $this->assertEquals(['foo', 'bar', 'biz'], $conf->getPathsToTranslationFiles());
     }
 
-    /**
-     * @return array
-     */
     public static function getDefaultData(): array
     {
         return [

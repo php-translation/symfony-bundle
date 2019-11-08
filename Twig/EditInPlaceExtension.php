@@ -46,8 +46,6 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
 
     /**
      * Escape output if the EditInPlace is disabled.
-     *
-     * @return array
      */
     public function isSafe($node): array
     {

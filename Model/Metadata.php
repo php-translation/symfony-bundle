@@ -21,7 +21,7 @@ final class Metadata
     /**
      * @var array
      */
-    private $metadata;
+    private $metadata = [];
 
     /**
      * @var array
@@ -29,7 +29,7 @@ final class Metadata
     private $notes = [];
 
     /**
-     * @param array $metadata
+     * @param array|null $metadata
      */
     public function __construct($metadata)
     {
@@ -43,9 +43,6 @@ final class Metadata
         }
     }
 
-    /**
-     * @return string|null
-     */
     public function getState(): ?string
     {
         $notes = $this->getAllInCategory('state');
@@ -58,18 +55,12 @@ final class Metadata
         return null;
     }
 
-    /**
-     * @param string $state
-     */
     public function setState(string $state): void
     {
         $this->removeAllInCategory('state');
         $this->addCategory('state', $state);
     }
 
-    /**
-     * @return string|null
-     */
     public function getDesc(): ?string
     {
         $notes = $this->getAllInCategory('desc');
@@ -84,8 +75,6 @@ final class Metadata
 
     /**
      * Get the extracted translation if any.
-     *
-     * @return string|null
      */
     public function getTranslation(): ?string
     {
@@ -99,9 +88,6 @@ final class Metadata
         return null;
     }
 
-    /**
-     * @return bool
-     */
     public function isApproved(): bool
     {
         $notes = $this->getAllInCategory('approved');
@@ -114,18 +100,12 @@ final class Metadata
         return false;
     }
 
-    /**
-     * @param bool $bool
-     */
-    public function setApproved(bool $bool)
+    public function setApproved(bool $bool): void
     {
         $this->removeAllInCategory('approved');
         $this->addCategory('approved', $bool ? 'true' : 'false');
     }
 
-    /**
-     * @return array
-     */
     public function getSourceLocations(): array
     {
         $sources = [];
@@ -143,19 +123,12 @@ final class Metadata
 
     /**
      * Add metadata.
-     *
-     * @param string $name
-     * @param string $content
-     * @param int    $priority
      */
-    public function addCategory(string $name, string $content, int $priority = 1)
+    public function addCategory(string $name, string $content, int $priority = 1): void
     {
         $this->notes[] = ['category' => $name, 'content' => $content, 'priority' => $priority];
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $metadata = $this->metadata;
@@ -166,12 +139,8 @@ final class Metadata
 
     /**
      * Return all notes for one category. It will also order data according to priority.
-     *
-     * @param string $category
-     *
-     * @return array
      */
-    public function getAllInCategory($category): array
+    public function getAllInCategory(string $category): array
     {
         $data = [];
         foreach ($this->notes as $note) {
@@ -195,8 +164,6 @@ final class Metadata
 
     /**
      * Remove all metadata in category.
-     *
-     * @param string $category
      */
     public function removeAllInCategory(string $category): void
     {

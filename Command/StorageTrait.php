@@ -24,8 +24,6 @@ trait StorageTrait
     /**
      * @param string|string[]|null $configName
      *
-     * @return \Translation\Bundle\Service\StorageService
-     *
      * @throws \InvalidArgumentException
      */
     private function getStorage($configName): StorageService

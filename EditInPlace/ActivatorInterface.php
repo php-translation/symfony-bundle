@@ -20,8 +20,6 @@ interface ActivatorInterface
 {
     /**
      * Tells if the Edit In Place mode is enabled for this request.
-     *
-     * @return bool
      */
     public function checkRequest(Request $request = null): bool;
 }

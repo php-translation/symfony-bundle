@@ -25,9 +25,6 @@ final class ConfigurationManager
      */
     private $configuration = [];
 
-    /**
-     * @param string $name
-     */
     public function addConfiguration(string $name, Configuration $configuration): void
     {
         $this->configuration[$name] = $configuration;
@@ -35,8 +32,6 @@ final class ConfigurationManager
 
     /**
      * @param string|string[]|null $name
-     *
-     * @return Configuration|null
      */
     public function getConfiguration($name = null): ?Configuration
     {
@@ -58,9 +53,6 @@ final class ConfigurationManager
         return null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstName(): ?string
     {
         foreach ($this->configuration as $name => $config) {
@@ -70,9 +62,6 @@ final class ConfigurationManager
         return null;
     }
 
-    /**
-     * @return array
-     */
     public function getNames(): array
     {
         return \array_keys($this->configuration);

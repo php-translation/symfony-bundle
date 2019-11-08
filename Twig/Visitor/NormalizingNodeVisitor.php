@@ -27,9 +27,6 @@ use Twig\NodeVisitor\AbstractNodeVisitor;
  */
 final class NormalizingNodeVisitor extends AbstractNodeVisitor
 {
-    /**
-     * @return Node
-     */
     protected function doEnterNode(Node $node, Environment $env): Node
     {
         return $node;
@@ -49,9 +46,6 @@ final class NormalizingNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    /**
-     * @return int
-     */
     public function getPriority(): int
     {
         return -3;

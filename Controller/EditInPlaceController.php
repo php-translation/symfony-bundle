@@ -24,12 +24,6 @@ use Translation\Common\Model\MessageInterface;
  */
 class EditInPlaceController extends Controller
 {
-    /**
-     * @param string $configName
-     * @param string $locale
-     *
-     * @return Response
-     */
     public function editAction(Request $request, string $configName, string $locale): Response
     {
         try {
@@ -53,8 +47,6 @@ class EditInPlaceController extends Controller
     /**
      * Get and validate messages from the request.
      *
-     * @param string $locale
-     *
      * @return MessageInterface[]
      *
      * @throws MessageValidationException
@@ -67,7 +59,7 @@ class EditInPlaceController extends Controller
         $validator = $this->get('validator');
 
         foreach ($data as $key => $value) {
-            list($domain, $translationKey) = \explode('|', $key);
+            [$domain, $translationKey] = \explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
 

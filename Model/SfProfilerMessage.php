@@ -118,8 +118,6 @@ final class SfProfilerMessage
 
     /**
      * Convert to a Common\Model\MessageInterface.
-     *
-     * @return MessageInterface
      */
     public function convertToMessage(): MessageInterface
     {
@@ -147,19 +145,11 @@ final class SfProfilerMessage
         );
     }
 
-    /**
-     * @return int
-     */
     public function getCount(): int
     {
         return $this->count;
     }
 
-    /**
-     * @param int $count
-     *
-     * @return $this
-     */
     public function setCount(int $count): self
     {
         $this->count = $count;
@@ -167,19 +157,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @param string $domain
-     *
-     * @return $this
-     */
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
@@ -187,19 +169,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return $this
-     */
     public function setKey($key): self
     {
         $this->key = $key;
@@ -207,19 +181,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLocale(): string
     {
         return $this->locale;
     }
 
-    /**
-     * @param string $locale
-     *
-     * @return $this
-     */
     public function setLocale(string $locale): self
     {
         $this->locale = $locale;
@@ -227,19 +193,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getState(): int
     {
         return $this->state;
     }
 
-    /**
-     * @param int $state
-     *
-     * @return $this
-     */
     public function setState(int $state): self
     {
         $this->state = $state;
@@ -247,19 +205,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTranslation(): string
     {
         return $this->translation;
     }
 
-    /**
-     * @param string $translation
-     *
-     * @return $this
-     */
     public function setTranslation(string $translation): self
     {
         $this->translation = $translation;
@@ -267,19 +217,11 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getTransChoiceNumber(): int
     {
         return $this->transChoiceNumber;
     }
 
-    /**
-     * @param int $transChoiceNumber
-     *
-     * @return $this
-     */
     public function setTransChoiceNumber(int $transChoiceNumber): self
     {
         $this->transChoiceNumber = $transChoiceNumber;
@@ -287,9 +229,6 @@ final class SfProfilerMessage
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getParameters(): array
     {
         $pure = [];
@@ -303,19 +242,11 @@ final class SfProfilerMessage
         return $pure;
     }
 
-    /**
-     * @return bool
-     */
     public function hasParameters(): bool
     {
         return !empty($this->parameters);
     }
 
-    /**
-     * @param array $parameters
-     *
-     * @return $this
-     */
     public function setParameters(array $parameters): self
     {
         $this->parameters = $parameters;

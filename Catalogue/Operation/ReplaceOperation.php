@@ -97,8 +97,7 @@ final class ReplaceOperation extends AbstractOperation
 
     /**
      * @param MessageCatalogueInterface|MetadataAwareInterface $catalogue
-     * @param string $domain
-     * @param string $key
+     *
      * @return array|string|mixed|null Can return anything..
      */
     private function getMetadata($catalogue, string $domain, string $key = '')
@@ -110,12 +109,6 @@ final class ReplaceOperation extends AbstractOperation
         return $catalogue->getMetadata($key, $domain);
     }
 
-    /**
-     * @param array|null $source
-     * @param array|null $target
-     *
-     * @return array
-     */
     private function mergeMetadata(?array $source, ?array $target): array
     {
         if (empty($source) && empty($target)) {

@@ -136,9 +136,6 @@ class ExtractCommand extends Command
         }
     }
 
-    /**
-     * @return Finder
-     */
     private function getConfiguredFinder(Configuration $config): Finder
     {
         $finder = new Finder();

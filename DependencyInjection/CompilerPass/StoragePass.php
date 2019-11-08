@@ -57,9 +57,6 @@ class StoragePass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @return Definition
-     */
     private function getDefinition(ContainerBuilder $container, string $name): Definition
     {
         if (!isset($this->definitions[$name])) {

@@ -28,17 +28,11 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
      */
     private $enabled = true;
 
-    /**
-     * @param bool $bool
-     */
     public function setEnabled(bool $bool): void
     {
         $this->enabled = $bool;
     }
 
-    /**
-     * @return Node
-     */
     protected function doEnterNode(Node $node, Environment $env): Node
     {
         if ($this->enabled && $node instanceof FilterExpression) {
@@ -52,17 +46,11 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    /**
-     * @return Node
-     */
     protected function doLeaveNode(Node $node, Environment $env): Node
     {
         return $node;
     }
 
-    /**
-     * @return int
-     */
     public function getPriority(): int
     {
         return -1;

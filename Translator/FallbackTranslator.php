@@ -38,9 +38,6 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
      */
     private $defaultLocale;
 
-    /**
-     * @param string $defaultLocale
-     */
     public function __construct(string $defaultLocale, TranslatorInterface $symfonyTranslator, Translator $externalTranslator)
     {
         $this->symfonyTranslator = $symfonyTranslator;
@@ -135,8 +132,6 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * @param string $orgString This is the string in the default locale. It has the values of $parameters in the string already.
      * @param string $locale    you wan to translate to
-     *
-     * @return string
      */
     private function translateWithSubstitutedParameters(string $orgString, string $locale, array $parameters): string
     {

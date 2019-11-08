@@ -23,9 +23,6 @@ final class StorageManager
      */
     private $storages = [];
 
-    /**
-     * @param string $name
-     */
     public function addStorage(string $name, StorageService $storage): void
     {
         $this->storages[$name] = $storage;
@@ -33,8 +30,6 @@ final class StorageManager
 
     /**
      * @param string|string[]|null $name
-     *
-     * @return StorageService|null
      */
     public function getStorage($name = null): ?StorageService
     {
@@ -56,9 +51,6 @@ final class StorageManager
         return null;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstName(): ?string
     {
         foreach ($this->storages as $name => $config) {
@@ -68,9 +60,6 @@ final class StorageManager
         return null;
     }
 
-    /**
-     * @return array
-     */
     public function getNames(): array
     {
         return \array_keys($this->storages);

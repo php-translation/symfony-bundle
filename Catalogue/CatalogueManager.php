@@ -39,9 +39,6 @@ final class CatalogueManager
         }
     }
 
-    /**
-     * @return array
-     */
     public function getDomains(): array
     {
         /** @var MessageCatalogueInterface $c */
@@ -51,9 +48,6 @@ final class CatalogueManager
     }
 
     /**
-     * @param string $locale
-     * @param string $domain
-     *
      * @return CatalogueMessage[]
      */
     public function getMessages(string $locale, string $domain): array
@@ -132,10 +126,8 @@ final class CatalogueManager
     /**
      * @param string $domain
      * @param string $key
-     *
-     * @return array
      */
-    public function getTranslations($domain, $key)
+    public function getTranslations($domain, $key): array
     {
         $translations = [];
         foreach ($this->catalogues as $locale => $catalogue) {
@@ -147,14 +139,6 @@ final class CatalogueManager
         return $translations;
     }
 
-    /**
-     * @param $locale
-     * @param $domain
-     * @param $key
-     * @param $text
-     *
-     * @return CatalogueMessage
-     */
     private function createMessage(MessageCatalogueInterface $catalogue, string $locale, string $domain, string $key, string $text): CatalogueMessage
     {
         $catalogueMessage = new CatalogueMessage($this, $locale, $domain, $key, $text);

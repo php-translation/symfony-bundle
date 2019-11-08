@@ -48,8 +48,6 @@ final class CatalogueFetcher
 
     /**
      * load any existing messages from the translation files.
-     *
-     * @return MessageCatalogue[]
      */
     public function getCatalogues(Configuration $config, array $locales = []): array
     {
@@ -80,11 +78,6 @@ final class CatalogueFetcher
         return $catalogues;
     }
 
-    /**
-     * @param string $domain
-     *
-     * @return bool
-     */
     private function isValidDomain(Configuration $config, string $domain): bool
     {
         $blacklist = $config->getBlacklistDomains();

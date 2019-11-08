@@ -108,89 +108,56 @@ final class Configuration
         $this->xliffVersion = $data['xliff_version'];
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return array
-     */
     public function getLocales(): array
     {
         return $this->locales;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectRoot(): string
     {
         return $this->projectRoot;
     }
 
-    /**
-     * @return string
-     */
     public function getOutputDir(): string
     {
         return $this->outputDir;
     }
 
-    /**
-     * @return array
-     */
     public function getDirs(): array
     {
         return $this->dirs;
     }
 
-    /**
-     * @return array
-     */
     public function getExcludedDirs(): array
     {
         return $this->excludedDirs;
     }
 
-    /**
-     * @return array
-     */
     public function getExcludedNames(): array
     {
         return $this->excludedNames;
     }
 
-    /**
-     * @return array
-     */
     public function getExternalTranslationsDirs(): array
     {
         return $this->externalTranslationsDirs;
     }
 
-    /**
-     * @return string
-     */
     public function getOutputFormat(): string
     {
         return $this->outputFormat;
     }
 
-    /**
-     * @return array
-     */
     public function getBlacklistDomains(): array
     {
         return $this->blacklistDomains;
     }
 
-    /**
-     * @return array
-     */
     public function getWhitelistDomains(): array
     {
         return $this->whitelistDomains;
@@ -199,17 +166,12 @@ final class Configuration
     /**
      * Get all paths where translation paths are stored. Both external files and
      * files created by us.
-     *
-     * @return array
      */
     public function getPathsToTranslationFiles(): array
     {
         return \array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
     }
 
-    /**
-     * @return string
-     */
     public function getXliffVersion(): string
     {
         return $this->xliffVersion;
@@ -218,9 +180,6 @@ final class Configuration
     /**
      * Reconfigures the directories so we can use one configuration for extracting
      * the messages only from one bundle.
-     *
-     * @param string $bundleDir
-     * @param string $outputDir
      */
     public function reconfigureBundleDirs(string $bundleDir, string $outputDir): void
     {

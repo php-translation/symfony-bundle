@@ -80,8 +80,6 @@ final class StorageService implements Storage
 
     /**
      * Synchronize translations with remote.
-     *
-     * @param string $direction
      */
     public function sync(string $direction = self::DIRECTION_DOWN): void
     {
@@ -140,12 +138,6 @@ final class StorageService implements Storage
     /**
      * Get the very latest version we know of a message. First look at the remote storage
      * fall back on the local ones.
-     *
-     * @param string $locale
-     * @param string $domain
-     * @param string $key
-     *
-     * @return Message|null
      */
     public function syncAndFetchMessage(string $locale, string $domain, string $key): ?Message
     {
@@ -168,7 +160,7 @@ final class StorageService implements Storage
      * local storage and then move on to the remote storages.
      * {@inheritdoc}
      */
-    public function get($locale, $domain, $key)
+    public function get($locale, $domain, $key): ?Message
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $value = $this->getFromStorages($storages, $locale, $domain, $key);
@@ -182,11 +174,6 @@ final class StorageService implements Storage
 
     /**
      * @param Storage[] $storages
-     * @param string    $locale
-     * @param string    $domain
-     * @param string    $key
-     *
-     * @return Message|null
      */
     private function getFromStorages(array $storages, string $locale, string $domain, string $key): ?Message
     {
@@ -264,9 +251,6 @@ final class StorageService implements Storage
         }
     }
 
-    /**
-     * @return StorageService
-     */
     public function addLocalStorage(Storage $localStorage): self
     {
         $this->localStorages[] = $localStorage;
@@ -274,9 +258,6 @@ final class StorageService implements Storage
         return $this;
     }
 
-    /**
-     * @return StorageService
-     */
     public function addRemoteStorage(Storage $remoteStorage): self
     {
         $this->remoteStorages[] = $remoteStorage;

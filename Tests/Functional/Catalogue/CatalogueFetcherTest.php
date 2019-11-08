@@ -67,9 +67,6 @@ XML
         $this->assertEquals('sv', $catalogues[0]->getLocale());
     }
 
-    /**
-     * @return array
-     */
     public static function getDefaultData(): array
     {
         return [

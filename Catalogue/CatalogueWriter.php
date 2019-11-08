@@ -36,10 +36,7 @@ final class CatalogueWriter
      */
     private $defaultLocale;
 
-    /**
-     * @param string $defaultLocale
-     */
-    public function __construct(TranslationWriter $writer, $defaultLocale)
+    public function __construct(TranslationWriter $writer, string $defaultLocale)
     {
         if (!$writer instanceof TranslationWriterInterface) {
             $writer = new LegacyTranslationWriter($writer);

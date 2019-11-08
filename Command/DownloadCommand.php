@@ -89,8 +89,6 @@ class DownloadCommand extends Command
     }
 
     /**
-     * @param string $directory
-     *
      * @return bool|string
      */
     private function hashDirectory(string $directory)

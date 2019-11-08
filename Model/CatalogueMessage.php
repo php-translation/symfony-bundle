@@ -50,12 +50,6 @@ final class CatalogueMessage
      */
     private $metadata;
 
-    /**
-     * @param string $locale
-     * @param string $domain
-     * @param string $key
-     * @param string $message
-     */
     public function __construct(CatalogueManager $catalogueManager, string $locale, string $domain, string $key, string $message)
     {
         $this->catalogueManager = $catalogueManager;
@@ -65,9 +59,6 @@ final class CatalogueMessage
         $this->message = $message;
     }
 
-    /**
-     * @param Metadata $metadata
-     */
     public function setMetadata(Metadata $metadata): void
     {
         $this->metadata = $metadata;
@@ -78,33 +69,21 @@ final class CatalogueMessage
         return $this->getMessage();
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @return string
-     */
     public function getLocale(): string
     {
         return $this->locale;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;

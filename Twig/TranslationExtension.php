@@ -35,18 +35,12 @@ final class TranslationExtension extends AbstractExtension
      */
     private $debug;
 
-    /**
-     * @param bool $debug
-     */
-    public function __construct(TranslatorInterface $translator, $debug = false)
+    public function __construct(TranslatorInterface $translator, bool $debug = false)
     {
         $this->translator = $translator;
         $this->debug = $debug;
     }
 
-    /**
-     * @return array
-     */
     public function getFilters(): array
     {
         return [
@@ -55,9 +49,6 @@ final class TranslationExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getNodeVisitors(): array
     {
         $visitors = [
@@ -72,16 +63,7 @@ final class TranslationExtension extends AbstractExtension
         return $visitors;
     }
 
-    /**
-     * @param string      $message
-     * @param string      $defaultMessage
-     * @param int         $count
-     * @param string|null $domain
-     * @param string|null $locale
-     *
-     * @return string
-     */
-    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null): string
+    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], ?string $domain = null, ?string $locale = null): string
     {
         if (null === $domain) {
             $domain = 'messages';
