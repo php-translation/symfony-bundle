@@ -11,7 +11,7 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Translation\Bundle\Exception\MessageValidationException;
@@ -22,15 +22,16 @@ use Translation\Common\Model\MessageInterface;
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class EditInPlaceController extends Controller
+class EditInPlaceController extends AbstractController
 {
     /**
+     * @param Request $request
      * @param string $configName
      * @param string $locale
      *
      * @return Response
      */
-    public function editAction(Request $request, $configName, $locale)
+    public function editAction(Request $request, string $configName, string $locale): Response
     {
         try {
             $messages = $this->getMessages($request, $locale, ['Edit']);
@@ -53,13 +54,15 @@ class EditInPlaceController extends Controller
     /**
      * Get and validate messages from the request.
      *
+     * @param Request $request
      * @param string $locale
+     * @param array $validationGroups
      *
      * @return MessageInterface[]
      *
      * @throws MessageValidationException
      */
-    private function getMessages(Request $request, $locale, array $validationGroups = [])
+    private function getMessages(Request $request, string $locale, array $validationGroups = [])
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);
