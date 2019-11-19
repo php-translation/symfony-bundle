@@ -11,15 +11,20 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Intl\Intl;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Catalogue\CatalogueManager;
 use Translation\Bundle\Exception\MessageValidationException;
 use Translation\Bundle\Model\CatalogueMessage;
+use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Common\Model\Message;
@@ -28,25 +33,59 @@ use Translation\Common\Model\MessageInterface;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class WebUIController extends Controller
+class WebUIController extends AbstractController
 {
     /**
-     * Show a dashboard for the configuration.
-     *
-     * @param string|null $configName
-     *
-     * @return Response
+     * @var StorageManager
      */
-    public function indexAction($configName = null)
+    private $storageManager;
+
+    /**
+     * @var ConfigurationManager
+     */
+    private $configurationManager;
+
+    /**
+     * @var CatalogueManager
+     */
+    private $catalogueManager;
+
+    /**
+     * @var CatalogueFetcher
+     */
+    private $catalogueFetcher;
+
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    public function __construct(
+        StorageManager $storageManager,
+        ConfigurationManager $configurationManager,
+        CatalogueManager $catalogueManager,
+        CatalogueFetcher $catalogueFetcher,
+        ValidatorInterface $validator
+    ) {
+        $this->storageManager = $storageManager;
+        $this->configurationManager = $configurationManager;
+        $this->catalogueManager = $catalogueManager;
+        $this->catalogueFetcher = $catalogueFetcher;
+        $this->validator = $validator;
+    }
+
+    /**
+     * Show a dashboard for the configuration.
+     */
+    public function indexAction(string $configName = null): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
 
-        $configManager = $this->get('php_translation.configuration_manager');
-        $config = $configManager->getConfiguration($configName);
+        $config = $this->configurationManager->getConfiguration($configName);
         $localeMap = $this->getLocale2LanguageMap();
-        $catalogues = $this->get('php_translation.catalogue_fetcher')->getCatalogues($config);
+        $catalogues = $this->catalogueFetcher->getCatalogues($config);
 
         $catalogueSize = [];
         $maxDomainSize = [];
@@ -79,66 +118,52 @@ class WebUIController extends Controller
             'maxCatalogueSize' => $maxCatalogueSize,
             'localeMap' => $localeMap,
             'configName' => $config->getName(),
-            'configNames' => $configManager->getNames(),
+            'configNames' => $this->configurationManager->getNames(),
         ]);
     }
 
     /**
      * Show a catalogue.
-     *
-     * @param string $configName
-     * @param string $locale
-     * @param string $domain
-     *
-     * @return Response
      */
-    public function showAction($configName, $locale, $domain)
+    public function showAction(string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
         }
-        $configManager = $this->get('php_translation.configuration_manager');
-        $config = $configManager->getConfiguration($configName);
+
+        $config = $this->configurationManager->getConfiguration($configName);
 
         // Get a catalogue manager and load it with all the catalogues
-        $catalogueManager = $this->get('php_translation.catalogue_manager');
-        $catalogueManager->load($this->get('php_translation.catalogue_fetcher')->getCatalogues($config));
+        $this->catalogueManager->load($this->catalogueFetcher->getCatalogues($config));
 
         /** @var CatalogueMessage[] $messages */
-        $messages = $catalogueManager->getMessages($locale, $domain);
+        $messages = $this->catalogueManager->getMessages($locale, $domain);
         \usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
             return \strcmp($a->getKey(), $b->getKey());
         });
 
         return $this->render('@Translation/WebUI/show.html.twig', [
             'messages' => $messages,
-            'domains' => $catalogueManager->getDomains(),
+            'domains' => $this->catalogueManager->getDomains(),
             'currentDomain' => $domain,
             'locales' => $this->getParameter('php_translation.locales'),
             'currentLocale' => $locale,
             'configName' => $config->getName(),
-            'configNames' => $configManager->getNames(),
+            'configNames' => $this->configurationManager->getNames(),
             'allow_create' => $this->getParameter('php_translation.webui.allow_create'),
             'allow_delete' => $this->getParameter('php_translation.webui.allow_delete'),
             'file_base_path' => $this->getParameter('php_translation.webui.file_base_path'),
         ]);
     }
 
-    /**
-     * @param string $configName
-     * @param string $locale
-     * @param string $domain
-     *
-     * @return Response
-     */
-    public function createAction(Request $request, $configName, $locale, $domain)
+    public function createAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_create')) {
             return new Response('You are not allowed to create. Check you config. ', 400);
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
+        $storage = $this->storageManager->getStorage($configName);
 
         try {
             $message = $this->getMessageFromRequest($request);
@@ -160,14 +185,7 @@ class WebUIController extends Controller
         ]);
     }
 
-    /**
-     * @param string $configName
-     * @param string $locale
-     * @param string $domain
-     *
-     * @return Response
-     */
-    public function editAction(Request $request, $configName, $locale, $domain)
+    public function editAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
@@ -183,20 +201,13 @@ class WebUIController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
+        $storage = $this->storageManager->getStorage($configName);
         $storage->update($message);
 
         return new Response('Translation updated');
     }
 
-    /**
-     * @param string $configName
-     * @param string $locale
-     * @param string $domain
-     *
-     * @return Response
-     */
-    public function deleteAction(Request $request, $configName, $locale, $domain)
+    public function deleteAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled') || !$this->getParameter('php_translation.webui.allow_delete')) {
             return new Response('You are not allowed to create. Check you config. ', 400);
@@ -212,16 +223,13 @@ class WebUIController extends Controller
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
+        $storage = $this->storageManager->getStorage($configName);
         $storage->delete($locale, $domain, $message->getKey());
 
         return new Response('Message was deleted');
     }
 
-    /**
-     * @return MessageInterface
-     */
-    private function getMessageFromRequest(Request $request)
+    private function getMessageFromRequest(Request $request): MessageInterface
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);
@@ -238,7 +246,7 @@ class WebUIController extends Controller
      *
      * @return array locale => language
      */
-    private function getLocale2LanguageMap()
+    private function getLocale2LanguageMap(): array
     {
         $configuredLocales = $this->getParameter('php_translation.locales');
         $names = \class_exists(Locales::class)
@@ -257,7 +265,7 @@ class WebUIController extends Controller
      */
     private function validateMessage(MessageInterface $message, array $validationGroups)
     {
-        $errors = $this->get('validator')->validate($message, null, $validationGroups);
+        $errors = $this->validator->validate($message, null, $validationGroups);
         if (\count($errors) > 0) {
             throw  MessageValidationException::create();
         }

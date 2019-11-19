@@ -14,7 +14,10 @@ namespace Translation\Bundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Translation\Bundle\Exception\MessageValidationException;
+use Translation\Bundle\Service\CacheClearer;
+use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\Message;
 use Translation\Common\Model\MessageInterface;
@@ -25,12 +28,27 @@ use Translation\Common\Model\MessageInterface;
 class EditInPlaceController extends AbstractController
 {
     /**
-     * @param Request $request
-     * @param string $configName
-     * @param string $locale
-     *
-     * @return Response
+     * @var StorageManager
      */
+    private $storageManager;
+
+    /**
+     * @var CacheClearer
+     */
+    private $cacheClearer;
+
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    public function __construct(StorageManager $storageManager, CacheClearer $cacheClearer, ValidatorInterface $validator)
+    {
+        $this->storageManager = $storageManager;
+        $this->cacheClearer = $cacheClearer;
+        $this->validator = $validator;
+    }
+
     public function editAction(Request $request, string $configName, string $locale): Response
     {
         try {
@@ -40,23 +58,19 @@ class EditInPlaceController extends AbstractController
         }
 
         /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage_manager')->getStorage($configName);
+        $storage = $this->storageManager->getStorage($configName);
+
         foreach ($messages as $message) {
             $storage->update($message);
         }
 
-        $cacheClearer = $this->get('php_translation.cache_clearer');
-        $cacheClearer->clearAndWarmUp($locale);
+        $this->cacheClearer->clearAndWarmUp($locale);
 
         return new Response();
     }
 
     /**
      * Get and validate messages from the request.
-     *
-     * @param Request $request
-     * @param string $locale
-     * @param array $validationGroups
      *
      * @return MessageInterface[]
      *
@@ -67,14 +81,13 @@ class EditInPlaceController extends AbstractController
         $json = $request->getContent();
         $data = \json_decode($json, true);
         $messages = [];
-        $validator = $this->get('validator');
 
         foreach ($data as $key => $value) {
             list($domain, $translationKey) = \explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
+            $errors = $this->validator->validate($message, null, $validationGroups);
 
-            $errors = $validator->validate($message, null, $validationGroups);
             if (\count($errors) > 0) {
                 throw MessageValidationException::create();
             }
