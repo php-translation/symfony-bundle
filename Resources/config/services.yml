@@ -1,6 +1,3 @@
-imports:
-    - { resource: controller.yml }
-
 services:
   php_translation.catalogue_fetcher:
     public: true

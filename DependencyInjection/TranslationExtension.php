@@ -15,7 +15,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -32,6 +31,7 @@ class TranslationExtension extends Extension
 {
     /**
      * {@inheritdoc}
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -41,6 +41,7 @@ class TranslationExtension extends Extension
 
         $loader->load('services.yml');
         $loader->load('extractors.yml');
+        $loader->load('controllers.yml');
 
         // Add major version to extractor
         $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
@@ -227,15 +228,11 @@ class TranslationExtension extends Extension
      *
      * @param $parent
      *
-     * @return ChildDefinition|DefinitionDecorator
+     * @return ChildDefinition
      */
     private function createChildDefinition($parent)
     {
-        if (\class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
-            return new ChildDefinition($parent);
-        }
-
-        return new DefinitionDecorator($parent);
+        return new ChildDefinition($parent);
     }
 
     /**

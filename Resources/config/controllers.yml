@@ -1,0 +1,18 @@
+services:
+    Translation\Bundle\Controller\EditInPlaceController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            ['@php_translation.storage_manager', '@php_translation.cache_clearer', '@validator']
+
+    Translation\Bundle\Controller\SymfonyProfilerController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            ['@php_translation.storage.abstract', '@profiler']
+
+    Translation\Bundle\Controller\WebUIController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            ['@php_translation.storage_manager', '@php_translation.configuration_manager', '@php_translation.catalogue_manager', '@php_translation.catalogue_fetcher', '@validator']

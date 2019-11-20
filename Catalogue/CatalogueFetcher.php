@@ -12,7 +12,6 @@
 namespace Translation\Bundle\Catalogue;
 
 use Nyholm\NSA;
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Translation\Bundle\Model\Configuration;
@@ -35,7 +34,7 @@ final class CatalogueFetcher
     private $reader;
 
     /**
-     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReaderInterface $reader
+     * @param TranslationLoader|TranslationReaderInterface $reader
      */
     public function __construct($reader)
     {
