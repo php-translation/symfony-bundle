@@ -226,7 +226,6 @@ class TranslationExtension extends Extension
         return 'translation';
     }
 
-
     private function createChildDefinition(string $parent): ChildDefinition
     {
         return new ChildDefinition($parent);
