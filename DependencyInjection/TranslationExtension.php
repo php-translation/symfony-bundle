@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -31,6 +32,7 @@ class TranslationExtension extends Extension
 {
     /**
      * {@inheritdoc}
+     *
      * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -218,19 +220,12 @@ class TranslationExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'translation';
     }
 
-    /**
-     * To avoid BC break for Symfony 3.3+.
-     *
-     * @param $parent
-     *
-     * @return ChildDefinition
-     */
-    private function createChildDefinition($parent)
+    private function createChildDefinition(string $parent): ChildDefinition
     {
         return new ChildDefinition($parent);
     }
@@ -238,7 +233,7 @@ class TranslationExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
     {
         return new Configuration($container);
     }
