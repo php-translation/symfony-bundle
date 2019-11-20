@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Translation\Bundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
