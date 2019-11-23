@@ -14,32 +14,30 @@ env:
     - TEST_COMMAND="composer test"
     - SYMFONY_PHPUNIT_VERSION="6.5"
     - COMPOSER_MEMORY_LIMIT=-1
-    - DEPENDENCIES=""
 
 matrix:
     fast_finish: true
     include:
           # Run test with code coverage
-        - php: 7.2
+        - php: 7.3
           env: COVERAGE=true TEST_COMMAND="composer test-ci"
 
           # Test with lowest dependencies
-        - php: 7.1
+        - php: 7.2
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
 
           # Test the latest stable release
-        - php: 7.1
         - php: 7.3
         - php: 7.4snapshot
 
           # Force some major versions of Symfony
-        - php: 7.2
+        - php: 7.3
           env: SYMFONY_VERSION="3.*"
-        - php: 7.2
+        - php: 7.3
           env: SYMFONY_VERSION="4.*"
 
           # Latest commit to master
-        - php: 7.2
+        - php: 7.3
           env: STABILITY="dev"
 
     allow_failures:
@@ -49,7 +47,7 @@ matrix:
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-    - composer require --no-update symfony/flex ${DEPENDENCIES}
+    - composer require --no-update symfony/flex
     - if ! [ -z "$SYMFONY_VERSION" ]; then composer config extra.symfony.require "${SYMFONY_VERSION}"; fi;
 
 install:
