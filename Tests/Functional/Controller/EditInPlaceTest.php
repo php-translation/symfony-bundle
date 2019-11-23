@@ -30,7 +30,7 @@ class EditInPlaceTest extends BaseTestCase
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertContains('<!-- TranslationBundle -->', $response->getContent());
+        self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
         @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
@@ -62,7 +62,7 @@ class EditInPlaceTest extends BaseTestCase
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertContains('<!-- TranslationBundle -->', $response->getContent());
+        self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
         @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
@@ -89,6 +89,6 @@ class EditInPlaceTest extends BaseTestCase
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertNotContains('x-trans', $response->getContent());
+        self::assertStringNotContainsString('x-trans', $response->getContent());
     }
 }

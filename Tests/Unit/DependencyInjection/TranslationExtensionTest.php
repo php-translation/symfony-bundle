@@ -20,7 +20,7 @@ use Translation\Bundle\Translator\FallbackTranslator;
 
 class TranslationExtensionTest extends AbstractExtensionTestCase
 {
-    protected function getContainerExtensions()
+    protected function getContainerExtensions(): array
     {
         $this->setParameter('kernel.default_locale', 'ar');
         $this->setParameter('kernel.root_dir', __DIR__);
