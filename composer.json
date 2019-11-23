@@ -39,7 +39,7 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "matthiasnoback/symfony-config-test": "^4.0",
         "nyholm/psr7": "^1.1",
-        "nyholm/symfony-bundle-test": "^1.4",
+        "nyholm/symfony-bundle-test": "^1.6",
         "phpunit/phpunit": "^8.4"
     },
     "suggest": {
