@@ -91,14 +91,14 @@ class DeleteObsoleteCommand extends Command
         if (0 === $messageCount) {
             $output->writeln('No messages are obsolete');
 
-            return;
+            return 0;
         }
 
         if ($input->isInteractive()) {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion(\sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
             if (!$helper->ask($input, $output, $question)) {
-                return;
+                return 0;
             }
         }
 
@@ -125,5 +125,7 @@ class DeleteObsoleteCommand extends Command
         if ($progress) {
             $progress->finish();
         }
+
+        return 0;
     }
 }
