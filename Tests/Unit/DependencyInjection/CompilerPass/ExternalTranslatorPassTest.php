@@ -19,7 +19,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ExternalTranslatorPass;
 
 class ExternalTranslatorPassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ExternalTranslatorPass());
     }

@@ -15,6 +15,10 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose=1" />
     </php>
 
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
+
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./Tests</directory>

@@ -19,7 +19,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\EditInPlacePass;
 
 class EditInPlacePassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new EditInPlacePass());
     }

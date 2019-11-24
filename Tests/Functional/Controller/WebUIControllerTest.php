@@ -16,7 +16,7 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class WebUIControllerTest extends BaseTestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -43,7 +43,7 @@ XML
     );
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');

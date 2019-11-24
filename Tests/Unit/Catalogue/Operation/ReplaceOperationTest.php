@@ -11,12 +11,12 @@
 
 namespace Translation\Bundle\Tests\Unit\Catalogue\Operation;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
-use Symfony\Component\Translation\Tests\Catalogue\MergeOperationTest;
 use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 
-class ReplaceOperationTest extends MergeOperationTest
+class ReplaceOperationTest extends TestCase
 {
     public function testGetMessagesFromSingleDomain()
     {

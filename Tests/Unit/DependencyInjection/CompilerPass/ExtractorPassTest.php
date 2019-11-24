@@ -19,7 +19,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 
 class ExtractorPassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ExtractorPass());
     }
