@@ -131,6 +131,8 @@ class ExtractCommand extends Command
                 );
             }
         }
+
+        return 0;
     }
 
     /**

@@ -83,6 +83,8 @@ class DownloadCommand extends Command
         } else {
             $storage->download();
         }
+
+        return 0;
     }
 
     private function hashDirectory($directory)

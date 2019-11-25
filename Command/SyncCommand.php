@@ -57,9 +57,11 @@ class SyncCommand extends Command
             default:
                 $output->writeln(\sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
 
-                return;
+                return 0;
         }
 
         $this->getStorage($input->getArgument('configuration'))->sync($direction);
+
+        return 0;
     }
 }

@@ -89,7 +89,7 @@ class StatusCommand extends Command
         if ($input->getOption('json')) {
             $output->writeln(\json_encode($stats));
 
-            return;
+            return 0;
         }
 
         $io = new SymfonyStyle($input, $output);
@@ -101,5 +101,7 @@ class StatusCommand extends Command
             $io->title('Locale: '.$locale);
             $io->table(['Domain', 'Defined', 'New', 'Obsolete'], $rows);
         }
+
+        return 0;
     }
 }
