@@ -1,5 +1,5 @@
 parameters:
-    level: 1
+    level: 2
     paths:
       - Catalogue
       - Command
@@ -24,5 +24,12 @@ parameters:
             path: %currentWorkingDirectory%/DependencyInjection/TranslationExtension.php
 
         -
-            message: '#Instantiated class Symfony\\Component\\DependencyInjection\\DefinitionDecorator not found#'
-            path: %currentWorkingDirectory%/DependencyInjection/TranslationExtension.php
+            comment: 'Symfony 3.3+ BC'
+            message: '#Symfony\\Component\\DependencyInjection\\DefinitionDecorator#'
+            path: %currentWorkingDirectory%
+
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\Node[a-zA-Z]+()#'
+
+        -
+            path: %currentWorkingDirectory%/Command
+            message: '#Call to an undefined method Symfony\\Component\\Console\\Application::getKernel()#'

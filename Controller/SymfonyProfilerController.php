@@ -25,12 +25,7 @@ use Translation\Common\Model\MessageInterface;
  */
 class SymfonyProfilerController extends Controller
 {
-    /**
-     * @param string $token
-     *
-     * @return Response
-     */
-    public function editAction(Request $request, $token)
+    public function editAction(Request $request, string $token): Response
     {
         if (!$this->getParameter('php_translation.toolbar.allow_edit')) {
             return new Response('You are not allowed to edit the translations.');
@@ -60,12 +55,7 @@ class SymfonyProfilerController extends Controller
         return new Response($message->getTranslation());
     }
 
-    /**
-     * @param string $token
-     *
-     * @return Response
-     */
-    public function syncAction(Request $request, $token)
+    public function syncAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -84,11 +74,9 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param $token
-     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function syncAllAction(Request $request, $token)
+    public function syncAllAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -105,12 +93,8 @@ class SymfonyProfilerController extends Controller
      * Save the selected translation to resources.
      *
      * @author Damien Alexandre (damienalexandre)
-     *
-     * @param string $token
-     *
-     * @return Response
      */
-    public function createAssetsAction(Request $request, $token)
+    public function createAssetsAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->redirectToRoute('_profiler', ['token' => $token]);
@@ -132,12 +116,7 @@ class SymfonyProfilerController extends Controller
         return new Response(\sprintf('%s new assets created!', \count($uploaded)));
     }
 
-    /**
-     * @param string $token
-     *
-     * @return SfProfilerMessage
-     */
-    private function getMessage(Request $request, $token)
+    private function getMessage(Request $request, string $token): SfProfilerMessage
     {
         $profiler = $this->get('profiler');
         $profiler->disable();
@@ -169,11 +148,9 @@ class SymfonyProfilerController extends Controller
     }
 
     /**
-     * @param string $token
-     *
      * @return MessageInterface[]
      */
-    protected function getSelectedMessages(Request $request, $token)
+    protected function getSelectedMessages(Request $request, string $token): array
     {
         $profiler = $this->get('profiler');
         $profiler->disable();

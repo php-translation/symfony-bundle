@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ExtractorPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $extractors = $this->getExtractors($container);
         $this->addVisitors($container, $extractors);
@@ -30,7 +30,7 @@ class ExtractorPass implements CompilerPassInterface
     /**
      * @return array type => Definition[]
      */
-    private function getExtractors(ContainerBuilder $container)
+    private function getExtractors(ContainerBuilder $container): array
     {
         if (!$container->hasDefinition('php_translation.extractor')) {
             return [];
@@ -54,10 +54,7 @@ class ExtractorPass implements CompilerPassInterface
         return $extractors;
     }
 
-    /**
-     * @param $extractors
-     */
-    private function addVisitors(ContainerBuilder $container, $extractors)
+    private function addVisitors(ContainerBuilder $container, array $extractors): void
     {
         $services = $container->findTaggedServiceIds('php_translation.visitor');
         foreach ($services as $id => $tags) {
@@ -69,6 +66,7 @@ class ExtractorPass implements CompilerPassInterface
                     continue;
                 }
 
+                /** @var Definition $extractor */
                 foreach ($extractors[$tag['type']] as $extractor) {
                     $extractor->addMethodCall('addVisitor', [new Reference($id)]);
                 }

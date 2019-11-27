@@ -19,12 +19,12 @@ use Translation\Bundle\DependencyInjection\CompilerPass\EditInPlacePass;
 
 class EditInPlacePassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new EditInPlacePass());
     }
 
-    public function testReplacement()
+    public function testReplacement(): void
     {
         $def = new Definition();
         $this->setDefinition('php_translator.edit_in_place.xtrans_html_translator', $def);

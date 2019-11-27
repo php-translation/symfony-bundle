@@ -28,7 +28,7 @@ class StoragePass implements CompilerPassInterface
      */
     private $definitions;
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $services = $container->findTaggedServiceIds('php_translation.storage');
         foreach ($services as $id => $tags) {
@@ -57,10 +57,7 @@ class StoragePass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @return Definition
-     */
-    private function getDefinition(ContainerBuilder $container, $name)
+    private function getDefinition(ContainerBuilder $container, string $name): Definition
     {
         if (!isset($this->definitions[$name])) {
             $this->definitions[$name] = $container->getDefinition('php_translation.storage.'.$name);

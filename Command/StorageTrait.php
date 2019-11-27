@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Command;
 
 use Translation\Bundle\Service\StorageManager;
+use Translation\Bundle\Service\StorageService;
 
 trait StorageTrait
 {
@@ -21,13 +22,11 @@ trait StorageTrait
     private $storageManager;
 
     /**
-     * @param string $configName
-     *
-     * @return \Translation\Bundle\Service\StorageService
+     * @param string|string[]|null $configName
      *
      * @throws \InvalidArgumentException
      */
-    private function getStorage($configName)
+    private function getStorage($configName): StorageService
     {
         if (null === $storage = $this->storageManager->getStorage($configName)) {
             $availableStorages = $this->storageManager->getNames();

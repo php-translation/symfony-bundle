@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('translation');
         // Keep compatibility with symfony/config < 4.2
@@ -87,7 +87,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function configsNode(ArrayNodeDefinition $root)
+    private function configsNode(ArrayNodeDefinition $root): void
     {
         $container = $this->container;
         $root->children()
@@ -178,7 +178,7 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    private function addAutoTranslateNode(ArrayNodeDefinition $root)
+    private function addAutoTranslateNode(ArrayNodeDefinition $root): void
     {
         $root->children()
             ->arrayNode('fallback_translation')
@@ -191,7 +191,7 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    private function addEditInPlaceNode(ArrayNodeDefinition $root)
+    private function addEditInPlaceNode(ArrayNodeDefinition $root): void
     {
         $root->children()
             ->arrayNode('edit_in_place')
@@ -205,7 +205,7 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    private function addWebUINode(ArrayNodeDefinition $root)
+    private function addWebUINode(ArrayNodeDefinition $root): void
     {
         $root->children()
             ->arrayNode('webui')

@@ -11,14 +11,14 @@
 
 namespace Translation\Bundle\Tests\Unit\Catalogue\Operation;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
-use Symfony\Component\Translation\Tests\Catalogue\MergeOperationTest;
 use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
 
-class ReplaceOperationTest extends MergeOperationTest
+class ReplaceOperationTest extends TestCase
 {
-    public function testGetMessagesFromSingleDomain()
+    public function testGetMessagesFromSingleDomain(): void
     {
         $operation = $this->createOperation(
             new MessageCatalogue('en', ['messages' => ['a' => 'new_a', 'c' => 'new_c']]),
@@ -41,7 +41,7 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
-    public function testGetResultFromSingleDomain()
+    public function testGetResultFromSingleDomain(): void
     {
         $this->assertEquals(
             new MessageCatalogue('en', [
@@ -54,7 +54,7 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
-    public function testGetResultWithNullValues()
+    public function testGetResultWithNullValues(): void
     {
         $this->assertEquals(
             new MessageCatalogue('en', [
@@ -67,7 +67,7 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
-    public function testGetResultWithMetadata()
+    public function testGetResultWithMetadata(): void
     {
         $leftCatalogue = new MessageCatalogue('en', ['messages' => ['a' => 'new_a', 'b' => 'new_b']]);
         $leftCatalogue->setMetadata('a', 'foo', 'messages');
@@ -87,7 +87,7 @@ class ReplaceOperationTest extends MergeOperationTest
         );
     }
 
-    public function testGetResultWithArrayMetadata()
+    public function testGetResultWithArrayMetadata(): void
     {
         $leftCatalogue = new MessageCatalogue('en', ['messages' => ['a' => 'new_a', 'b' => 'new_b']]);
         $notes = [
@@ -131,7 +131,7 @@ class ReplaceOperationTest extends MergeOperationTest
         }
     }
 
-    protected function createOperation(MessageCatalogueInterface $source, MessageCatalogueInterface $target)
+    protected function createOperation(MessageCatalogueInterface $source, MessageCatalogueInterface $target): ReplaceOperation
     {
         return new ReplaceOperation($source, $target);
     }

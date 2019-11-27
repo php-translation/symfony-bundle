@@ -27,10 +27,7 @@ use Twig\NodeVisitor\AbstractNodeVisitor;
  */
 final class NormalizingNodeVisitor extends AbstractNodeVisitor
 {
-    /**
-     * @return Node
-     */
-    protected function doEnterNode(Node $node, Environment $env)
+    protected function doEnterNode(Node $node, Environment $env): Node
     {
         return $node;
     }
@@ -38,7 +35,7 @@ final class NormalizingNodeVisitor extends AbstractNodeVisitor
     /**
      * @return ConstantExpression|Node
      */
-    protected function doLeaveNode(Node $node, Environment $env)
+    protected function doLeaveNode(Node $node, Environment $env): Node
     {
         if ($node instanceof ConcatBinary
             && ($left = $node->getNode('left')) instanceof ConstantExpression
@@ -49,10 +46,7 @@ final class NormalizingNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    /**
-     * @return int
-     */
-    public function getPriority()
+    public function getPriority(): int
     {
         return -3;
     }

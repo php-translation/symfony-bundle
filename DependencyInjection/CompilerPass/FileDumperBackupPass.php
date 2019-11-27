@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class FileDumperBackupPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (Kernel::MAJOR_VERSION >= 4) {
             return;

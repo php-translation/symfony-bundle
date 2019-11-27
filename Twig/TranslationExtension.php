@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Twig;
 
+use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
@@ -25,7 +26,7 @@ use Twig\TwigFilter;
 final class TranslationExtension extends AbstractExtension
 {
     /**
-     * @var TranslatorInterface
+     * @var TranslatorInterface|TranslatorBagInterface
      */
     private $translator;
 
@@ -34,19 +35,13 @@ final class TranslationExtension extends AbstractExtension
      */
     private $debug;
 
-    /**
-     * @param bool $debug
-     */
-    public function __construct(TranslatorInterface $translator, $debug = false)
+    public function __construct(TranslatorInterface $translator, bool $debug = false)
     {
         $this->translator = $translator;
         $this->debug = $debug;
     }
 
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('desc', [$this, 'desc']),
@@ -54,10 +49,7 @@ final class TranslationExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getNodeVisitors()
+    public function getNodeVisitors(): array
     {
         $visitors = [
             new NormalizingNodeVisitor(),
@@ -71,16 +63,7 @@ final class TranslationExtension extends AbstractExtension
         return $visitors;
     }
 
-    /**
-     * @param string      $message
-     * @param string      $defaultMessage
-     * @param int         $count
-     * @param string|null $domain
-     * @param string|null $locale
-     *
-     * @return string
-     */
-    public function transchoiceWithDefault($message, $defaultMessage, $count, array $arguments = [], $domain = null, $locale = null)
+    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], ?string $domain = null, ?string $locale = null): string
     {
         if (null === $domain) {
             $domain = 'messages';
@@ -94,7 +77,7 @@ final class TranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param $v
+     * @param mixed $v
      *
      * @return mixed
      */
@@ -104,7 +87,7 @@ final class TranslationExtension extends AbstractExtension
     }
 
     /**
-     * @param $v
+     * @param mixed $v
      *
      * @return mixed
      */
@@ -113,7 +96,7 @@ final class TranslationExtension extends AbstractExtension
         return $v;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'php-translation';
     }

@@ -18,12 +18,12 @@ use Translation\Bundle\DependencyInjection\CompilerPass\LoaderOrReaderPass;
 
 class LoaderOrReaderPassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new LoaderOrReaderPass());
     }
 
-    public function testLoaderOrReader()
+    public function testLoaderOrReader(): void
     {
         $def = new Definition();
         $this->setDefinition('translation.reader', $def);

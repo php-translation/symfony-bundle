@@ -21,7 +21,7 @@ class CatalogueFetcherTest extends BaseTestCase
      */
     private $catalogueFetcher;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -50,7 +50,7 @@ XML
         );
     }
 
-    public function testFetchCatalogue()
+    public function testFetchCatalogue(): void
     {
         $this->bootKernel();
 
@@ -67,10 +67,7 @@ XML
         $this->assertEquals('sv', $catalogues[0]->getLocale());
     }
 
-    /**
-     * @return array
-     */
-    public static function getDefaultData()
+    public static function getDefaultData(): array
     {
         return [
             'name' => 'getName',
@@ -88,7 +85,7 @@ XML
         ];
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
