@@ -63,7 +63,7 @@ class DownloadCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configName = $input->getArgument('configuration');
         $storage = $this->getStorage($configName);

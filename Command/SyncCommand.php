@@ -43,7 +43,7 @@ class SyncCommand extends Command
             ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten, otherwise "up"', 'down');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         switch ($input->getArgument('direction')) {
             case 'down':
