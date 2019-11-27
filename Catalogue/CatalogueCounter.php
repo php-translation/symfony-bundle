@@ -22,10 +22,7 @@ use Translation\Bundle\Model\Metadata;
  */
 class CatalogueCounter
 {
-    /**
-     * @return int
-     */
-    public function getNumberOfDefinedMessages(MessageCatalogueInterface $catalogue)
+    public function getNumberOfDefinedMessages(MessageCatalogueInterface $catalogue): int
     {
         $total = 0;
         foreach ($catalogue->getDomains() as $domain) {
@@ -35,10 +32,7 @@ class CatalogueCounter
         return $total;
     }
 
-    /**
-     * @return array
-     */
-    public function getCatalogueStatistics(MessageCatalogueInterface $catalogue)
+    public function getCatalogueStatistics(MessageCatalogueInterface $catalogue): array
     {
         $result = [];
         $domains = $catalogue->getDomains();

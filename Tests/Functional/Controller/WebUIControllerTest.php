@@ -49,7 +49,7 @@ XML
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
     }
 
-    public function testIndexAction()
+    public function testIndexAction(): void
     {
         $request = Request::create('/_trans', 'GET');
         $response = $this->kernel->handle($request);
@@ -60,14 +60,14 @@ XML
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testShowAction()
+    public function testShowAction(): void
     {
         $request = Request::create('/_trans/app/en/messages', 'GET');
         $response = $this->kernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testCreateAction()
+    public function testCreateAction(): void
     {
         $request = Request::create('/_trans/app/sv/messages/new', 'POST', [], [], [], [], \json_encode([
             'key' => 'foo',
@@ -83,7 +83,7 @@ XML
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testEditAction()
+    public function testEditAction(): void
     {
         $request = Request::create('/_trans/app/sv/messages', 'POST', [], [], [], [], \json_encode([
             'key' => 'foo',
@@ -99,7 +99,7 @@ XML
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testDeleteAction()
+    public function testDeleteAction(): void
     {
         // Removing something that does not exists is okey.
         $request = Request::create('/_trans/app/sv/messages', 'DELETE', [], [], [], [], \json_encode([

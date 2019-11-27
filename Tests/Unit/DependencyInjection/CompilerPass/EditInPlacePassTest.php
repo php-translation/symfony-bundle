@@ -24,7 +24,7 @@ class EditInPlacePassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new EditInPlacePass());
     }
 
-    public function testReplacement()
+    public function testReplacement(): void
     {
         $def = new Definition();
         $this->setDefinition('php_translator.edit_in_place.xtrans_html_translator', $def);

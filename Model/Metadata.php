@@ -21,7 +21,7 @@ final class Metadata
     /**
      * @var array
      */
-    private $metadata;
+    private $metadata = [];
 
     /**
      * @var array
@@ -29,7 +29,7 @@ final class Metadata
     private $notes = [];
 
     /**
-     * @param array $metadata
+     * @param array|null $metadata
      */
     public function __construct($metadata)
     {
@@ -43,10 +43,7 @@ final class Metadata
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getState()
+    public function getState(): ?string
     {
         $notes = $this->getAllInCategory('state');
         foreach ($notes as $note) {
@@ -54,21 +51,17 @@ final class Metadata
                 return $note['content'];
             }
         }
+
+        return null;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState($state)
+    public function setState(string $state): void
     {
         $this->removeAllInCategory('state');
         $this->addCategory('state', $state);
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDesc()
+    public function getDesc(): ?string
     {
         $notes = $this->getAllInCategory('desc');
         foreach ($notes as $note) {
@@ -82,10 +75,8 @@ final class Metadata
 
     /**
      * Get the extracted translation if any.
-     *
-     * @return string|null
      */
-    public function getTranslation()
+    public function getTranslation(): ?string
     {
         $notes = $this->getAllInCategory('translation');
         foreach ($notes as $note) {
@@ -97,10 +88,7 @@ final class Metadata
         return null;
     }
 
-    /**
-     * @return bool
-     */
-    public function isApproved()
+    public function isApproved(): bool
     {
         $notes = $this->getAllInCategory('approved');
         foreach ($notes as $note) {
@@ -112,19 +100,13 @@ final class Metadata
         return false;
     }
 
-    /**
-     * @param bool $bool
-     */
-    public function setApproved($bool)
+    public function setApproved(bool $bool): void
     {
         $this->removeAllInCategory('approved');
         $this->addCategory('approved', $bool ? 'true' : 'false');
     }
 
-    /**
-     * @return array
-     */
-    public function getSourceLocations()
+    public function getSourceLocations(): array
     {
         $sources = [];
         $notes = $this->getAllInCategory('file-source');
@@ -141,19 +123,13 @@ final class Metadata
 
     /**
      * Add metadata.
-     *
-     * @param string $name
-     * @param string $content
      */
-    public function addCategory($name, $content, $priority = 1)
+    public function addCategory(string $name, string $content, int $priority = 1): void
     {
         $this->notes[] = ['category' => $name, 'content' => $content, 'priority' => $priority];
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         $metadata = $this->metadata;
         $metadata['notes'] = $this->notes;
@@ -163,12 +139,8 @@ final class Metadata
 
     /**
      * Return all notes for one category. It will also order data according to priority.
-     *
-     * @param string $category
-     *
-     * @return array
      */
-    public function getAllInCategory($category)
+    public function getAllInCategory(string $category): array
     {
         $data = [];
         foreach ($this->notes as $note) {
@@ -183,7 +155,7 @@ final class Metadata
             }
         }
 
-        \usort($data, function (array $a, array $b) {
+        \usort($data, static function (array $a, array $b) {
             return (int) $a['priority'] - (int) $b['priority'];
         });
 
@@ -192,10 +164,8 @@ final class Metadata
 
     /**
      * Remove all metadata in category.
-     *
-     * @param string $category
      */
-    public function removeAllInCategory($category)
+    public function removeAllInCategory(string $category): void
     {
         foreach ($this->notes as $i => $note) {
             if (isset($note['category']) && $note['category'] === $category) {

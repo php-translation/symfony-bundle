@@ -36,7 +36,7 @@ final class Activator implements ActivatorInterface
     /**
      * Enable the Edit In Place mode.
      */
-    public function activate()
+    public function activate(): void
     {
         $this->session->set(self::KEY, true);
     }
@@ -44,7 +44,7 @@ final class Activator implements ActivatorInterface
     /**
      * Disable the Edit In Place mode.
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         $this->session->remove(self::KEY);
     }
@@ -52,7 +52,7 @@ final class Activator implements ActivatorInterface
     /**
      * {@inheritdoc}
      */
-    public function checkRequest(Request $request = null)
+    public function checkRequest(Request $request = null): bool
     {
         if (!$this->session->has(self::KEY)) {
             return false;

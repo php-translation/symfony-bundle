@@ -36,10 +36,7 @@ final class CatalogueWriter
      */
     private $defaultLocale;
 
-    /**
-     * @param string $defaultLocale
-     */
-    public function __construct(TranslationWriter $writer, $defaultLocale)
+    public function __construct(TranslationWriter $writer, string $defaultLocale)
     {
         if (!$writer instanceof TranslationWriterInterface) {
             $writer = new LegacyTranslationWriter($writer);
@@ -52,7 +49,7 @@ final class CatalogueWriter
     /**
      * @param MessageCatalogue[] $catalogues
      */
-    public function writeCatalogues(Configuration $config, array $catalogues)
+    public function writeCatalogues(Configuration $config, array $catalogues): void
     {
         foreach ($catalogues as $catalogue) {
             $this->writer->write(

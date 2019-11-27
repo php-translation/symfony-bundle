@@ -23,7 +23,7 @@ class LoaderOrReaderPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new LoaderOrReaderPass());
     }
 
-    public function testLoaderOrReader()
+    public function testLoaderOrReader(): void
     {
         $def = new Definition();
         $this->setDefinition('translation.reader', $def);

@@ -52,7 +52,7 @@ class DownloadCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -63,11 +63,14 @@ class DownloadCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $configName = $input->getArgument('configuration');
         $storage = $this->getStorage($configName);
-        $configuration = $this->configurationManager->getConfiguration($configName);
+
+        if (null === $configuration = $this->configurationManager->getConfiguration($configName)) {
+            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
+        }
 
         $this->configureBundleDirs($input, $configuration);
 
@@ -87,7 +90,10 @@ class DownloadCommand extends Command
         return 0;
     }
 
-    private function hashDirectory($directory)
+    /**
+     * @return bool|string
+     */
+    private function hashDirectory(string $directory)
     {
         if (!\is_dir($directory)) {
             return false;

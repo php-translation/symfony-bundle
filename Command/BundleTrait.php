@@ -17,10 +17,10 @@ use Translation\Bundle\Model\Configuration;
 
 trait BundleTrait
 {
-    private function configureBundleDirs(InputInterface $input, Configuration $config)
+    private function configureBundleDirs(InputInterface $input, Configuration $config): void
     {
         if ($bundleName = $input->getOption('bundle')) {
-            if ('@' === $bundleName[0]) {
+            if (0 === \strpos($bundleName, '@')) {
                 if (false === $pos = \strpos($bundleName, '/')) {
                     $bundleName = \substr($bundleName, 1);
                 } else {

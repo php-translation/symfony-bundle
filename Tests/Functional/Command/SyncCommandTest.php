@@ -60,7 +60,7 @@ XML
         );
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->bootKernel();
         $application = new Application($this->kernel);

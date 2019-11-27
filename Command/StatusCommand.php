@@ -57,7 +57,7 @@ class StatusCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -69,9 +69,13 @@ class StatusCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $config = $this->configurationManager->getConfiguration($input->getArgument('configuration'));
+        $configName = $input->getArgument('configuration');
+        if (null === $config = $this->configurationManager->getConfiguration($configName)) {
+            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
+        }
+
         $this->configureBundleDirs($input, $config);
 
         $locales = [];

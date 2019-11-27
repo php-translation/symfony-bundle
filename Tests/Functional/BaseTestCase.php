@@ -27,7 +27,7 @@ abstract class BaseTestCase extends BaseBundleTestCase
      */
     protected $kernel;
 
-    protected function getBundleClass()
+    protected function getBundleClass(): string
     {
         return FrameworkBundle::class;
     }

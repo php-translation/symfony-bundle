@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Translator;
 
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Translation\Translator\Translator;
@@ -37,10 +38,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
      */
     private $defaultLocale;
 
-    /**
-     * @param string $defaultLocale
-     */
-    public function __construct($defaultLocale, TranslatorInterface $symfonyTranslator, Translator $externalTranslator)
+    public function __construct(string $defaultLocale, TranslatorInterface $symfonyTranslator, Translator $externalTranslator)
     {
         $this->symfonyTranslator = $symfonyTranslator;
         $this->externalTranslator = $externalTranslator;
@@ -50,7 +48,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * {@inheritdoc}
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
         $id = (string) $id;
         if (empty($domain)) {
@@ -76,7 +74,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * {@inheritdoc}
      */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
+    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): string
     {
         $id = (string) $id;
         if (empty($domain)) {
@@ -102,7 +100,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->symfonyTranslator->setLocale($locale);
     }
@@ -110,7 +108,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * {@inheritdoc}
      */
-    public function getLocale()
+    public function getLocale(): string
     {
         return $this->symfonyTranslator->getLocale();
     }
@@ -118,7 +116,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * {@inheritdoc}
      */
-    public function getCatalogue($locale = null)
+    public function getCatalogue($locale = null): MessageCatalogueInterface
     {
         return $this->symfonyTranslator->getCatalogue($locale);
     }
@@ -126,7 +124,7 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * Passes through all unknown calls onto the translator object.
      */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         return \call_user_func_array([$this->symfonyTranslator, $method], $args);
     }
@@ -134,10 +132,8 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
     /**
      * @param string $orgString This is the string in the default locale. It has the values of $parameters in the string already.
      * @param string $locale    you wan to translate to
-     *
-     * @return string
      */
-    private function translateWithSubstitutedParameters($orgString, $locale, array $parameters)
+    private function translateWithSubstitutedParameters(string $orgString, string $locale, array $parameters): string
     {
         // Replace parameters
         $replacements = [];

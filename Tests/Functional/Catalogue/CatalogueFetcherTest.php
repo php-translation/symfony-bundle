@@ -50,7 +50,7 @@ XML
         );
     }
 
-    public function testFetchCatalogue()
+    public function testFetchCatalogue(): void
     {
         $this->bootKernel();
 
@@ -67,10 +67,7 @@ XML
         $this->assertEquals('sv', $catalogues[0]->getLocale());
     }
 
-    /**
-     * @return array
-     */
-    public static function getDefaultData()
+    public static function getDefaultData(): array
     {
         return [
             'name' => 'getName',

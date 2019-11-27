@@ -12,13 +12,14 @@
 namespace Translation\Bundle\Tests\Functional\app\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
 class TestController extends Controller
 {
-    public function translatedAction()
+    public function translatedAction(): Response
     {
         return $this->render('@App/translated.html.twig');
     }

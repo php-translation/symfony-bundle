@@ -52,7 +52,7 @@ XML
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
     }
 
-    public function testEditAction()
+    public function testEditAction(): void
     {
         $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], \json_encode([
             'messages|key0' => 'trans0',
@@ -62,7 +62,7 @@ XML
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testEditActionError()
+    public function testEditActionError(): void
     {
         $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], \json_encode([
             'messages|key0' => 'trans0',

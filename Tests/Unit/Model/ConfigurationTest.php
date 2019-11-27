@@ -16,7 +16,7 @@ use Translation\Bundle\Model\Configuration;
 
 class ConfigurationTest extends TestCase
 {
-    public function testAccessors()
+    public function testAccessors(): void
     {
         $key2Function = self::getDefaultData();
         $conf = new Configuration($key2Function);
@@ -26,11 +26,11 @@ class ConfigurationTest extends TestCase
             if (\is_array($func)) {
                 $func = \reset($func);
             }
-            $this->assertEquals($value, \call_user_func([$conf, $func]));
+            $this->assertEquals($value, $conf->$func());
         }
     }
 
-    public function testGetPathsToTranslationFiles()
+    public function testGetPathsToTranslationFiles(): void
     {
         $data = self::getDefaultData();
         $data['external_translations_dirs'] = ['foo', 'bar'];
@@ -41,10 +41,7 @@ class ConfigurationTest extends TestCase
         $this->assertEquals(['foo', 'bar', 'biz'], $conf->getPathsToTranslationFiles());
     }
 
-    /**
-     * @return array
-     */
-    public static function getDefaultData()
+    public static function getDefaultData(): array
     {
         return [
             'name' => 'getName',
@@ -58,7 +55,7 @@ class ConfigurationTest extends TestCase
             'output_format' => 'getOutputFormat',
             'blacklist_domains' => ['getBlacklistDomains'],
             'whitelist_domains' => ['getWhitelistDomains'],
-            'xliff_version' => ['getXliffVersion'],
+            'xliff_version' => 'getXliffVersion',
         ];
     }
 }

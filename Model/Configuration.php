@@ -108,90 +108,57 @@ final class Configuration
         $this->xliffVersion = $data['xliff_version'];
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return array
-     */
-    public function getLocales()
+    public function getLocales(): array
     {
         return $this->locales;
     }
 
-    /**
-     * @return string
-     */
-    public function getProjectRoot()
+    public function getProjectRoot(): string
     {
         return $this->projectRoot;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputDir()
+    public function getOutputDir(): string
     {
         return $this->outputDir;
     }
 
-    /**
-     * @return array
-     */
-    public function getDirs()
+    public function getDirs(): array
     {
         return $this->dirs;
     }
 
-    /**
-     * @return array
-     */
-    public function getExcludedDirs()
+    public function getExcludedDirs(): array
     {
         return $this->excludedDirs;
     }
 
-    /**
-     * @return array
-     */
-    public function getExcludedNames()
+    public function getExcludedNames(): array
     {
         return $this->excludedNames;
     }
 
-    /**
-     * @return array
-     */
-    public function getExternalTranslationsDirs()
+    public function getExternalTranslationsDirs(): array
     {
         return $this->externalTranslationsDirs;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputFormat()
+    public function getOutputFormat(): string
     {
         return $this->outputFormat;
     }
 
-    /**
-     * @return array
-     */
-    public function getBlacklistDomains()
+    public function getBlacklistDomains(): array
     {
         return $this->blacklistDomains;
     }
 
-    /**
-     * @return array
-     */
-    public function getWhitelistDomains()
+    public function getWhitelistDomains(): array
     {
         return $this->whitelistDomains;
     }
@@ -199,18 +166,13 @@ final class Configuration
     /**
      * Get all paths where translation paths are stored. Both external files and
      * files created by us.
-     *
-     * @return array
      */
-    public function getPathsToTranslationFiles()
+    public function getPathsToTranslationFiles(): array
     {
         return \array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
     }
 
-    /**
-     * @return string
-     */
-    public function getXliffVersion()
+    public function getXliffVersion(): string
     {
         return $this->xliffVersion;
     }
@@ -218,13 +180,10 @@ final class Configuration
     /**
      * Reconfigures the directories so we can use one configuration for extracting
      * the messages only from one bundle.
-     *
-     * @param string $bundleDir
-     * @param string $outputDir
      */
-    public function reconfigureBundleDirs($bundleDir, $outputDir)
+    public function reconfigureBundleDirs(string $bundleDir, string $outputDir): void
     {
-        $this->dirs = \is_array($bundleDir) ? $bundleDir : [$bundleDir];
+        $this->dirs = [$bundleDir];
         $this->outputDir = $outputDir;
     }
 }

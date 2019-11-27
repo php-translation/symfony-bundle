@@ -23,7 +23,7 @@ class StatusCommandTest extends BaseTestCase
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->bootKernel();
         $application = new Application($this->kernel);
