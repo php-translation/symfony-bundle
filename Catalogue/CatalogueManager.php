@@ -17,7 +17,7 @@ use Translation\Bundle\Model\CatalogueMessage;
 use Translation\Bundle\Model\Metadata;
 
 /**
- * A manager that handle loaded catalogues.
+ * A manager that handles loaded catalogues.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
@@ -123,11 +123,7 @@ final class CatalogueManager
         return $messages;
     }
 
-    /**
-     * @param string $domain
-     * @param string $key
-     */
-    public function getTranslations($domain, $key): array
+    public function getTranslations(string $domain, string $key): array
     {
         $translations = [];
         foreach ($this->catalogues as $locale => $catalogue) {
@@ -139,8 +135,13 @@ final class CatalogueManager
         return $translations;
     }
 
-    private function createMessage(MessageCatalogueInterface $catalogue, string $locale, string $domain, string $key, string $text): CatalogueMessage
-    {
+    private function createMessage(
+        MessageCatalogueInterface $catalogue,
+        string $locale,
+        string $domain,
+        string $key,
+        string $text
+    ): CatalogueMessage {
         $catalogueMessage = new CatalogueMessage($this, $locale, $domain, $key, $text);
 
         if ($catalogue instanceof MetadataAwareInterface) {

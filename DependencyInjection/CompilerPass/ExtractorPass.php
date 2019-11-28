@@ -55,7 +55,6 @@ class ExtractorPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
      * @param Definition[] $extractors
      */
     private function addVisitors(ContainerBuilder $container, array $extractors): void
