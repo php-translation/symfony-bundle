@@ -77,7 +77,7 @@ class WebUIController extends AbstractController
     /**
      * Show a dashboard for the configuration.
      */
-    public function indexAction(string $configName = null): Response
+    public function indexAction(?string $configName = null): Response
     {
         if (!$this->getParameter('php_translation.webui.enabled')) {
             return new Response('You are not allowed here. Check you config. ', 400);
@@ -254,7 +254,7 @@ class WebUIController extends AbstractController
             : Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];
         foreach ($configuredLocales as $l) {
-            $map[$l] = isset($names[$l]) ? $names[$l] : $l;
+            $map[$l] = $names[$l] ?? $l;
         }
 
         return $map;
@@ -263,7 +263,7 @@ class WebUIController extends AbstractController
     /**
      * @throws MessageValidationException
      */
-    private function validateMessage(MessageInterface $message, array $validationGroups)
+    private function validateMessage(MessageInterface $message, array $validationGroups): void
     {
         $errors = $this->validator->validate($message, null, $validationGroups);
         if (\count($errors) > 0) {

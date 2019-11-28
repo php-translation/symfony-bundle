@@ -44,7 +44,7 @@ final class ImportResult
     /**
      * @return MessageCatalogueInterface[]
      */
-    public function getMessageCatalogues()
+    public function getMessageCatalogues(): array
     {
         return $this->messageCatalogues;
     }
@@ -52,7 +52,7 @@ final class ImportResult
     /**
      * @return Error[]
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }

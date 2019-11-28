@@ -21,7 +21,7 @@ use Translation\Bundle\Model\CatalogueMessage;
  */
 class CatalogueManagerTest extends TestCase
 {
-    public function testGetMessages()
+    public function testGetMessages(): void
     {
         $manager = new CatalogueManager();
         $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans']]);
@@ -32,7 +32,7 @@ class CatalogueManagerTest extends TestCase
         $this->assertCount(2, $messages);
     }
 
-    public function testFindMessagesNoMetadata()
+    public function testFindMessagesNoMetadata(): void
     {
         $manager = new CatalogueManager();
         $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans']]);
@@ -43,7 +43,7 @@ class CatalogueManagerTest extends TestCase
         $this->assertCount(2, $messages);
     }
 
-    public function testFindMessages()
+    public function testFindMessages(): void
     {
         $manager = new CatalogueManager();
         $catA = new MessageCatalogue('en', ['messages' => ['a' => 'aTrans', 'b' => 'bTrans', 'c' => 'cTrans', 'd' => 'dTrans']]);

@@ -18,7 +18,7 @@ use Translation\Bundle\Tests\Unit\Model\ConfigurationTest;
 
 class ConfigurationManagerTest extends TestCase
 {
-    public function testGetConfigurationFirst()
+    public function testGetConfigurationFirst(): void
     {
         $manager = new ConfigurationManager();
         $correctConfiguration = $this->createConfiguration(['name' => 'correct']);
@@ -30,7 +30,7 @@ class ConfigurationManagerTest extends TestCase
         $this->assertEquals($correctConfiguration, $manager->getConfiguration('default'));
     }
 
-    public function testGetConfigurationDefault()
+    public function testGetConfigurationDefault(): void
     {
         $manager = new ConfigurationManager();
         $correctConfiguration = $this->createConfiguration(['name' => 'correct']);
@@ -44,7 +44,7 @@ class ConfigurationManagerTest extends TestCase
         $this->assertEquals($correctConfiguration, $manager->getConfiguration(null));
     }
 
-    public function testGetConfigurationMissing()
+    public function testGetConfigurationMissing(): void
     {
         $manager = new ConfigurationManager();
         $correctConfiguration = $this->createConfiguration(['name' => 'correct']);
@@ -55,7 +55,7 @@ class ConfigurationManagerTest extends TestCase
         $this->assertNull($manager->getConfiguration('missing'));
     }
 
-    public function testFirstName()
+    public function testFirstName(): void
     {
         $manager = new ConfigurationManager();
         $manager->addConfiguration('foo', $this->createConfiguration());
@@ -64,14 +64,14 @@ class ConfigurationManagerTest extends TestCase
         $this->assertEquals('foo', $manager->getFirstName());
     }
 
-    public function testFirstNameEmpty()
+    public function testFirstNameEmpty(): void
     {
         $manager = new ConfigurationManager();
 
         $this->assertNull($manager->getFirstName());
     }
 
-    public function testGetNames()
+    public function testGetNames(): void
     {
         $manager = new ConfigurationManager();
         $manager->addConfiguration('foo', $this->createConfiguration());
@@ -81,7 +81,7 @@ class ConfigurationManagerTest extends TestCase
         $this->assertEquals(['foo', 'bar'], $names);
     }
 
-    public function testGetNamesEmpty()
+    public function testGetNamesEmpty(): void
     {
         $manager = new ConfigurationManager();
 
@@ -89,7 +89,7 @@ class ConfigurationManagerTest extends TestCase
         $this->assertEquals([], $names);
     }
 
-    private function createConfiguration($data = [])
+    private function createConfiguration(array $data = []): Configuration
     {
         $default = ConfigurationTest::getDefaultData();
 

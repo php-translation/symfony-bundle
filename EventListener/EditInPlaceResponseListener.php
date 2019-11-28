@@ -65,7 +65,7 @@ HTML;
      */
     private $showUntranslatable;
 
-    public function __construct(ActivatorInterface $activator, UrlGeneratorInterface $router, Packages $packages, $configName = 'default', $showUntranslatable = true)
+    public function __construct(ActivatorInterface $activator, UrlGeneratorInterface $router, Packages $packages, string $configName = 'default', bool $showUntranslatable = true)
     {
         $this->activator = $activator;
         $this->router = $router;
@@ -74,7 +74,7 @@ HTML;
         $this->showUntranslatable = $showUntranslatable;
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event): void
     {
         $request = $event->getRequest();
 

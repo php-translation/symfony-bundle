@@ -19,7 +19,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
 
 class ExtractorPassTest extends AbstractCompilerPassTestCase
 {
-    protected function registerCompilerPass(ContainerBuilder $container)
+    protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ExtractorPass());
     }
@@ -27,7 +27,7 @@ class ExtractorPassTest extends AbstractCompilerPassTestCase
     /**
      * @test
      */
-    public function if_compiler_pass_collects_services_by_adding_method_calls_these_will_exist()
+    public function if_compiler_pass_collects_services_by_adding_method_calls_these_will_exist(): void
     {
         $collectingService = new Definition();
         $this->setDefinition('php_translation.extractor', $collectingService);

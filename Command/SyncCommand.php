@@ -34,7 +34,7 @@ class SyncCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -43,7 +43,7 @@ class SyncCommand extends Command
             ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten, otherwise "up"', 'down');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         switch ($input->getArgument('direction')) {
             case 'down':
@@ -57,9 +57,11 @@ class SyncCommand extends Command
             default:
                 $output->writeln(\sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
 
-                return;
+                return 0;
         }
 
         $this->getStorage($input->getArgument('configuration'))->sync($direction);
+
+        return 0;
     }
 }

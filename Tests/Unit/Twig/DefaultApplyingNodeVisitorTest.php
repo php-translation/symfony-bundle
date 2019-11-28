@@ -16,7 +16,7 @@ namespace Translation\Bundle\Tests\Unit\Twig;
  */
 class DefaultApplyingNodeVisitorTest extends BaseTwigTestCase
 {
-    public function testApply()
+    public function testApply(): void
     {
         $this->assertEquals(
             $this->parse('apply_default_value_compiled.html.twig', true),

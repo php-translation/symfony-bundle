@@ -35,7 +35,7 @@ class TranslationExtension extends Extension
      *
      * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration($container);
         $config = $this->processConfiguration($configuration, $configs);
@@ -50,7 +50,8 @@ class TranslationExtension extends Extension
             ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
 
         $container->setParameter('php_translation.locales', $config['locales']);
-        $container->setParameter('php_translation.default_locale', isset($config['default_locale']) ? $config['default_locale'] : $container->getParameter('kernel.default_locale'));
+        $container->setParameter('php_translation.default_locale',
+            $config['default_locale'] ?? $container->getParameter('kernel.default_locale'));
         $this->handleConfigNode($container, $config);
 
         if ($config['webui']['enabled']) {
@@ -90,7 +91,7 @@ class TranslationExtension extends Extension
     /**
      * Handle the config node to prepare the config manager.
      */
-    private function handleConfigNode(ContainerBuilder $container, array $config)
+    private function handleConfigNode(ContainerBuilder $container, array $config): void
     {
         $storageManager = $container->getDefinition('php_translation.storage_manager');
         $configurationManager = $container->getDefinition('php_translation.configuration_manager');
@@ -152,7 +153,7 @@ class TranslationExtension extends Extension
     /**
      * Handle config for WebUI.
      */
-    private function enableWebUi(ContainerBuilder $container, array $config)
+    private function enableWebUi(ContainerBuilder $container, array $config): void
     {
         $container->setParameter('php_translation.webui.enabled', true);
         $container->setParameter('php_translation.webui.allow_create', $config['webui']['allow_create']);
@@ -173,7 +174,7 @@ class TranslationExtension extends Extension
     /**
      * Handle config for EditInPlace.
      */
-    private function enableEditInPlace(ContainerBuilder $container, array $config)
+    private function enableEditInPlace(ContainerBuilder $container, array $config): void
     {
         $name = $config['edit_in_place']['config_name'];
 
@@ -198,7 +199,7 @@ class TranslationExtension extends Extension
     /**
      * Handle config for Symfony Profiler.
      */
-    private function enableSymfonyProfiler(ContainerBuilder $container, array $config)
+    private function enableSymfonyProfiler(ContainerBuilder $container, array $config): void
     {
         $container->setParameter('php_translation.toolbar.allow_edit', $config['symfony_profiler']['allow_edit']);
     }
@@ -206,7 +207,7 @@ class TranslationExtension extends Extension
     /**
      * Handle config for fallback auto translate.
      */
-    private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config)
+    private function enableFallbackAutoTranslator(ContainerBuilder $container, array $config): void
     {
         $externalTranslatorId = 'php_translation.translator_service.'.$config['fallback_translation']['service'];
         $externalTranslatorDef = $container->getDefinition($externalTranslatorId);
@@ -224,6 +225,7 @@ class TranslationExtension extends Extension
     {
         return 'translation';
     }
+
 
     private function createChildDefinition(string $parent): ChildDefinition
     {

@@ -16,7 +16,7 @@ namespace Translation\Bundle\Tests\Unit\Twig;
  */
 class RemovingNodeVisitorTest extends BaseTwigTestCase
 {
-    public function testRemovalWithSimpleTemplate()
+    public function testRemovalWithSimpleTemplate(): void
     {
         $expected = $this->parse('simple_template_compiled.html.twig');
         $actual = $this->parse('simple_template.html.twig');

@@ -38,7 +38,7 @@ final class CacheClearer
      */
     private $filesystem;
 
-    public function __construct($kernelCacheDir, TranslatorInterface $translator, Filesystem $filesystem)
+    public function __construct(string $kernelCacheDir, TranslatorInterface $translator, Filesystem $filesystem)
     {
         $this->kernelCacheDir = $kernelCacheDir;
         $this->translator = $translator;
@@ -50,7 +50,7 @@ final class CacheClearer
      *
      * @param string|null $locale optional filter to clear only one locale
      */
-    public function clearAndWarmUp($locale = null)
+    public function clearAndWarmUp(?string $locale = null): void
     {
         $translationDir = \sprintf('%s/translations', $this->kernelCacheDir);
 

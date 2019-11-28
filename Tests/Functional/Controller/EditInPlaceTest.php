@@ -19,7 +19,7 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
  */
 class EditInPlaceTest extends BaseTestCase
 {
-    public function testActivatedTest()
+    public function testActivatedTest(): void
     {
         $this->bootKernel();
         $request = Request::create('/foobar');
@@ -30,7 +30,7 @@ class EditInPlaceTest extends BaseTestCase
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertContains('<!-- TranslationBundle -->', $response->getContent());
+        self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
         @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
@@ -50,7 +50,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertEquals('🚫 Can\'t be translated here. 🚫', $attributeDiv->getAttribute('data-value'));
     }
 
-    public function testIfUntranslatableLabelGetsDisabled()
+    public function testIfUntranslatableLabelGetsDisabled(): void
     {
         $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yml');
         $request = Request::create('/foobar');
@@ -62,7 +62,7 @@ class EditInPlaceTest extends BaseTestCase
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertContains('<!-- TranslationBundle -->', $response->getContent());
+        self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
         @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
@@ -82,13 +82,13 @@ class EditInPlaceTest extends BaseTestCase
         self::assertEquals('translated.attribute', $attributeDiv->getAttribute('data-value'));
     }
 
-    public function testDeactivatedTest()
+    public function testDeactivatedTest(): void
     {
         $this->bootKernel();
         $request = Request::create('/foobar');
         $response = $this->kernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
-        self::assertNotContains('x-trans', $response->getContent());
+        self::assertStringNotContainsString('x-trans', $response->getContent());
     }
 }

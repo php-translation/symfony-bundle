@@ -71,7 +71,7 @@ final class StorageService implements Storage
      * Download all remote storages into all local storages.
      * This will overwrite your local copy.
      */
-    public function download()
+    public function download(): void
     {
         $catalogues = $this->doDownload();
 
@@ -81,7 +81,7 @@ final class StorageService implements Storage
     /**
      * Synchronize translations with remote.
      */
-    public function sync($direction = self::DIRECTION_DOWN)
+    public function sync(string $direction = self::DIRECTION_DOWN): void
     {
         switch ($direction) {
             case self::DIRECTION_DOWN:
@@ -103,7 +103,7 @@ final class StorageService implements Storage
      * Download and merge all translations from remote storages down to your local storages.
      * Only the local storages will be changed.
      */
-    public function mergeDown()
+    public function mergeDown(): void
     {
         $catalogues = $this->doDownload();
 
@@ -123,7 +123,7 @@ final class StorageService implements Storage
      *
      * This will overwrite your remote copy.
      */
-    public function mergeUp()
+    public function mergeUp(): void
     {
         $catalogues = $this->catalogueFetcher->getCatalogues($this->config);
         foreach ($catalogues as $catalogue) {
@@ -138,14 +138,8 @@ final class StorageService implements Storage
     /**
      * Get the very latest version we know of a message. First look at the remote storage
      * fall back on the local ones.
-     *
-     * @param string $locale
-     * @param string $domain
-     * @param string $key
-     *
-     * @return Message|null
      */
-    public function syncAndFetchMessage($locale, $domain, $key)
+    public function syncAndFetchMessage(string $locale, string $domain, string $key): ?Message
     {
         if (null === $message = $this->getFromStorages($this->remoteStorages, $locale, $domain, $key)) {
             // If message is not in remote storages, try local
@@ -153,7 +147,7 @@ final class StorageService implements Storage
         }
 
         if (!$message) {
-            return;
+            return null;
         }
 
         $this->updateStorages($this->localStorages, $message);
@@ -166,36 +160,31 @@ final class StorageService implements Storage
      * local storage and then move on to the remote storages.
      * {@inheritdoc}
      */
-    public function get($locale, $domain, $key)
+    public function get($locale, $domain, $key): ?Message
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $value = $this->getFromStorages($storages, $locale, $domain, $key);
-            if (!empty($value)) {
+            if (null !== $value) {
                 return $value;
             }
         }
 
-        return;
+        return null;
     }
 
     /**
      * @param Storage[] $storages
-     * @param string    $locale
-     * @param string    $domain
-     * @param string    $key
-     *
-     * @return Message|null
      */
-    private function getFromStorages(array $storages, $locale, $domain, $key)
+    private function getFromStorages(array $storages, string $locale, string $domain, string $key): ?Message
     {
         foreach ($storages as $storage) {
             $value = $storage->get($locale, $domain, $key);
-            if (!empty($value)) {
+            if (null !== $value) {
                 return $value;
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -204,7 +193,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function create(MessageInterface $message)
+    public function create(MessageInterface $message): void
     {
         // Validate if message actually has data
         if (empty((array) $message)) {
@@ -225,7 +214,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function update(MessageInterface $message)
+    public function update(MessageInterface $message): void
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $this->updateStorages($storages, $message);
@@ -235,7 +224,7 @@ final class StorageService implements Storage
     /**
      * @param Storage[] $storages
      */
-    private function updateStorages(array $storages, MessageInterface $message)
+    private function updateStorages(array $storages, MessageInterface $message): void
     {
         // Validate if message actually has data
         if (empty((array) $message)) {
@@ -252,7 +241,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function delete($locale, $domain, $key)
+    public function delete($locale, $domain, $key): void
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             /** @var Storage $storage */
@@ -262,20 +251,14 @@ final class StorageService implements Storage
         }
     }
 
-    /**
-     * @return StorageService
-     */
-    public function addLocalStorage(Storage $localStorage)
+    public function addLocalStorage(Storage $localStorage): self
     {
         $this->localStorages[] = $localStorage;
 
         return $this;
     }
 
-    /**
-     * @return StorageService
-     */
-    public function addRemoteStorage(Storage $remoteStorage)
+    public function addRemoteStorage(Storage $remoteStorage): self
     {
         $this->remoteStorages[] = $remoteStorage;
 
@@ -287,7 +270,7 @@ final class StorageService implements Storage
      *
      * @return MessageCatalogue[]
      */
-    private function doDownload()
+    private function doDownload(): array
     {
         $catalogues = [];
         foreach ($this->config->getLocales() as $locale) {

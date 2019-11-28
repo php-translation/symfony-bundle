@@ -27,12 +27,12 @@ abstract class BaseTestCase extends BaseBundleTestCase
      */
     protected $kernel;
 
-    protected function getBundleClass()
+    protected function getBundleClass(): string
     {
         return FrameworkBundle::class;
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = $this->createKernel();
         $kernel->addConfigFile(__DIR__.'/app/config/default.yml');

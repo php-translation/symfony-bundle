@@ -158,7 +158,7 @@ class SymfonyProfilerController extends AbstractController
     /**
      * @return MessageInterface[]
      */
-    protected function getSelectedMessages(Request $request, string $token)
+    protected function getSelectedMessages(Request $request, string $token): array
     {
         $this->profiler->disable();
 

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class SymfonyProfilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         /* @var Definition $def */
         if (!$container->hasDefinition('php_translation.data_collector')) {

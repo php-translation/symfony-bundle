@@ -76,14 +76,14 @@ class EditInPlaceController extends AbstractController
      *
      * @throws MessageValidationException
      */
-    private function getMessages(Request $request, string $locale, array $validationGroups = [])
+    private function getMessages(Request $request, string $locale, array $validationGroups = []): array
     {
         $json = $request->getContent();
         $data = \json_decode($json, true);
         $messages = [];
 
         foreach ($data as $key => $value) {
-            list($domain, $translationKey) = \explode('|', $key);
+            [$domain, $translationKey] = \explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
             $errors = $this->validator->validate($message, null, $validationGroups);

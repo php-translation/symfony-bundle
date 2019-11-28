@@ -18,7 +18,7 @@ use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class ExtractCommandTest extends BaseTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
@@ -61,7 +61,7 @@ XML
         );
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->bootKernel();
         $application = new Application($this->kernel);

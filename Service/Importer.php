@@ -50,10 +50,7 @@ final class Importer
      */
     private $defaultLocale;
 
-    /**
-     * @param string $defaultLocale
-     */
-    public function __construct(Extractor $extractor, Environment $twig, $defaultLocale)
+    public function __construct(Extractor $extractor, Environment $twig, string $defaultLocale)
     {
         $this->extractor = $extractor;
         $this->twig = $twig;
@@ -68,10 +65,8 @@ final class Importer
      *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
      *     @var string $project_root The project root will be removed from the source location.
      * }
-     *
-     * @return ImportResult
      */
-    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = [])
+    public function extractToCatalogues(Finder $finder, array $catalogues, array $config = []): ImportResult
     {
         $this->processConfig($config);
         $this->disableTwigVisitors();
@@ -125,12 +120,12 @@ final class Importer
         return new ImportResult($results, $sourceCollection->getErrors());
     }
 
-    private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection)
+    private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection): void
     {
         /** @var SourceLocation $sourceLocation */
         foreach ($collection as $sourceLocation) {
             $context = $sourceLocation->getContext();
-            $domain = isset($context['domain']) ? $context['domain'] : 'messages';
+            $domain = $context['domain'] ?? 'messages';
             // Check with white/black list
             if (!$this->isValidDomain($domain)) {
                 continue;
@@ -152,37 +147,22 @@ final class Importer
         }
     }
 
-    /**
-     * @param $key
-     * @param $domain
-     *
-     * @return Metadata
-     */
-    private function getMetadata(MessageCatalogue $catalogue, $key, $domain)
+    private function getMetadata(MessageCatalogue $catalogue, string $key, string $domain): Metadata
     {
         return new Metadata($catalogue->getMetadata($key, $domain));
     }
 
-    /**
-     * @param $key
-     * @param $domain
-     */
-    private function setMetadata(MessageCatalogue $catalogue, $key, $domain, Metadata $metadata)
+    private function setMetadata(MessageCatalogue $catalogue, string $key, string $domain, Metadata $metadata): void
     {
         $catalogue->setMetadata($key, $metadata->toArray(), $domain);
     }
 
-    /**
-     * @param string $domain
-     *
-     * @return bool
-     */
-    private function isValidDomain($domain)
+    private function isValidDomain(string $domain): bool
     {
-        if (!empty($this->config['blacklist_domains']) && \in_array($domain, $this->config['blacklist_domains'])) {
+        if (!empty($this->config['blacklist_domains']) && \in_array($domain, $this->config['blacklist_domains'], true)) {
             return false;
         }
-        if (!empty($this->config['whitelist_domains']) && !\in_array($domain, $this->config['whitelist_domains'])) {
+        if (!empty($this->config['whitelist_domains']) && !\in_array($domain, $this->config['whitelist_domains'], true)) {
             return false;
         }
 
@@ -191,10 +171,8 @@ final class Importer
 
     /**
      * Make sure the configuration is valid.
-     *
-     * @param array $config
      */
-    private function processConfig($config)
+    private function processConfig(array $config): void
     {
         $default = [
             'project_root' => '',
@@ -219,7 +197,7 @@ final class Importer
         $this->config = $config;
     }
 
-    private function disableTwigVisitors()
+    private function disableTwigVisitors(): void
     {
         foreach ($this->twig->getNodeVisitors() as $visitor) {
             if ($visitor instanceof DefaultApplyingNodeVisitor) {
