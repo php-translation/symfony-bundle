@@ -39,3 +39,7 @@ parameters:
         -
             path: %currentWorkingDirectory%/DependencyInjection/Configuration.php
             message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder::root()#'
+
+        -
+            path: %currentWorkingDirectory%/Translator
+            message: '#Call to an undefined method Symfony\\Component\\Translation\\TranslatorInterface|Symfony\\Contracts\\Translation\\TranslatorInterface::getCatalogue().#'

@@ -13,7 +13,9 @@ namespace Translation\Bundle\Translator;
 
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Translator\Translator;
 
 /**
@@ -21,10 +23,10 @@ use Translation\Translator\Translator;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-final class FallbackTranslator implements TranslatorInterface, TranslatorBagInterface
+final class FallbackTranslator implements TranslatorInterface
 {
     /**
-     * @var TranslatorInterface|TranslatorBagInterface
+     * @var LegacyTranslatorInterface|NewTranslatorInterface
      */
     private $symfonyTranslator;
 
@@ -38,8 +40,22 @@ final class FallbackTranslator implements TranslatorInterface, TranslatorBagInte
      */
     private $defaultLocale;
 
-    public function __construct(string $defaultLocale, TranslatorInterface $symfonyTranslator, Translator $externalTranslator)
+    /**
+     * $symfonyTranslator param can't be type hinted as we have to deal with both LegacyTranslatorInterface & NewTranslatorInterface.
+     * Once we won't support sf ^3.4 anymore, we will be able to type hint $symfonyTranslator with NewTranslatorInterface.
+     *
+     * @param LegacyTranslatorInterface|NewTranslatorInterface $symfonyTranslator
+     */
+    public function __construct(string $defaultLocale, $symfonyTranslator, Translator $externalTranslator)
     {
+        if (!$symfonyTranslator instanceof LegacyTranslatorInterface && !$symfonyTranslator instanceof LocaleAwareInterface) {
+            throw new \InvalidArgumentException('The given translator must implements LocaleAwareInterface.');
+        }
+
+        if (!$symfonyTranslator instanceof TranslatorBagInterface) {
+            throw new \InvalidArgumentException('The given translator must implements TranslatorBagInterface.');
+        }
+
         $this->symfonyTranslator = $symfonyTranslator;
         $this->externalTranslator = $externalTranslator;
         $this->defaultLocale = $defaultLocale;
