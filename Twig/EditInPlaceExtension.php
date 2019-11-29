@@ -11,8 +11,10 @@
 
 namespace Translation\Bundle\Twig;
 
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
@@ -21,17 +23,18 @@ use Twig\TwigFilter;
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\TranslationExtension
+final class EditInPlaceExtension extends AbstractExtension
 {
-    /**
-     * @var ActivatorInterface
-     */
+    private $extension;
+    private $requestStack;
     private $activator;
 
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    public function __construct(TranslationExtension $extension, RequestStack $requestStack, ActivatorInterface $activator)
+    {
+        $this->extension = $extension;
+        $this->requestStack = $requestStack;
+        $this->activator = $activator;
+    }
 
     /**
      * {@inheritdoc}
@@ -39,8 +42,8 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     public function getFilters(): array
     {
         return [
-            new TwigFilter('trans', [$this, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
-            new TwigFilter('transchoice', [$this, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new TwigFilter('trans', [$this->extension, 'trans'], ['is_safe_callback' => [$this, 'isSafe']]),
+            new TwigFilter('transchoice', [$this->extension, 'transchoice'], ['is_safe_callback' => [$this, 'isSafe']]),
         ];
     }
 
@@ -50,16 +53,6 @@ final class EditInPlaceExtension extends \Symfony\Bridge\Twig\Extension\Translat
     public function isSafe($node): array
     {
         return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
-    }
-
-    public function setActivator(ActivatorInterface $activator): void
-    {
-        $this->activator = $activator;
-    }
-
-    public function setRequestStack(RequestStack $requestStack): void
-    {
-        $this->requestStack = $requestStack;
     }
 
     /**

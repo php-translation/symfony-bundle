@@ -26,9 +26,9 @@ services:
     public: false
     class: Translation\Bundle\Twig\EditInPlaceExtension
     arguments:
-      - '@php_translator.edit_in_place.xtrans_html_translator'
-    calls:
-      - [setRequestStack, ['@request_stack']]
+      - '@twig.extension.trans'
+      - '@request_stack'
+      - ~
     tags:
       - { name: 'twig.extension' }
 
