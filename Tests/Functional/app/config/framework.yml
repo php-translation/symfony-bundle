@@ -10,8 +10,6 @@ framework:
     router:
         resource: "%test.root_dir%/config/routing.yml"
         type: 'yaml'
-    templating:
-        engines: ['twig']
 
 twig:
   strict_variables: "%kernel.debug%" #supresses deprecation notices about the default value TwigBundle pre version 5
