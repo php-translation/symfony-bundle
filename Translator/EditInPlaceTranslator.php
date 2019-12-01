@@ -14,7 +14,9 @@ namespace Translation\Bundle\Translator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
+use Symfony\Contracts\Translation\LocaleAwareInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 
 /**
@@ -22,10 +24,10 @@ use Translation\Bundle\EditInPlace\ActivatorInterface;
  *
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagInterface
+final class EditInPlaceTranslator implements TranslatorInterface
 {
     /**
-     * @var TranslatorInterface|TranslatorBagInterface
+     * @var LegacyTranslatorInterface|NewTranslatorInterface
      */
     private $translator;
 
@@ -39,8 +41,21 @@ final class EditInPlaceTranslator implements TranslatorInterface, TranslatorBagI
      */
     private $requestStack;
 
-    public function __construct(TranslatorInterface $translator, ActivatorInterface $activator, RequestStack $requestStack)
+    /**
+     * $translator param can't be type hinted as we have to deal with both LegacyTranslatorInterface & NewTranslatorInterface.
+     * Once we won't support sf ^3.4 anymore, we will be able to type hint $translator with NewTranslatorInterface.
+     *
+     * @param LegacyTranslatorInterface|NewTranslatorInterface $translator
+     */
+    public function __construct($translator, ActivatorInterface $activator, RequestStack $requestStack)
     {
+        if (!$translator instanceof LegacyTranslatorInterface && !$translator instanceof LocaleAwareInterface) {
+            throw new \InvalidArgumentException('The given translator must implements LocaleAwareInterface.');
+        }
+        if (!$translator instanceof TranslatorBagInterface) {
+            throw new \InvalidArgumentException('The given translator must implements TranslatorBagInterface.');
+        }
+
         $this->translator = $translator;
         $this->activator = $activator;
         $this->requestStack = $requestStack;

@@ -13,8 +13,9 @@ namespace Translation\Bundle\Tests\Unit\Translator;
 
 use Nyholm\NSA;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Bundle\Translator\FallbackTranslator;
+use Translation\Bundle\Translator\TranslatorInterface;
 use Translation\Translator\Translator;
 use Translation\Translator\TranslatorService;
 
@@ -23,6 +24,21 @@ use Translation\Translator\TranslatorService;
  */
 final class FallbackTranslatorTest extends TestCase
 {
+    public function testWithNotLocaleAwareTranslator()
+    {
+        if (!\interface_exists(NewTranslatorInterface::class)) {
+            $this->markTestSkipped('Relevant only when NewTranslatorInterface is available.');
+        }
+
+        $symfonyTranslator = $this->getMockBuilder(NewTranslatorInterface::class)->getMock();
+        $translator = new Translator();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The given translator must implements LocaleAwareInterface.');
+
+        new FallbackTranslator('en', $symfonyTranslator, $translator);
+    }
+
     public function testTranslateWithSubstitutedParameters(): void
     {
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();

@@ -15,15 +15,32 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\Loader\ArrayLoader;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 use Translation\Bundle\Translator\EditInPlaceTranslator;
+use Translation\Bundle\Translator\TranslatorInterface;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
 final class EditInPlaceTranslatorTest extends TestCase
 {
+    public function testWithNotLocaleAwareTranslator()
+    {
+        if (!\interface_exists(NewTranslatorInterface::class)) {
+            $this->markTestSkipped('Relevant only when NewTranslatorInterface is available.');
+        }
+
+        $symfonyTranslator = $this->getMockBuilder(NewTranslatorInterface::class)->getMock();
+        $activator = new FakeActivator(true);
+        $requestStack = new RequestStack();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The given translator must implements LocaleAwareInterface.');
+
+        new EditInPlaceTranslator($symfonyTranslator, $activator, $requestStack);
+    }
+
     public function testEnabled(): void
     {
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
