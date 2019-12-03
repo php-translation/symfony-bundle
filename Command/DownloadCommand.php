@@ -66,16 +66,13 @@ class DownloadCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configName = $input->getArgument('configuration');
+        $config = $this->configurationManager->getConfiguration($configName);
         $storage = $this->getStorage($configName);
 
-        if (null === $configuration = $this->configurationManager->getConfiguration($configName)) {
-            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
-        }
-
-        $this->configureBundleDirs($input, $configuration);
+        $this->configureBundleDirs($input, $config);
 
         if ($input->getOption('cache')) {
-            $translationsDirectory = $configuration->getOutputDir();
+            $translationsDirectory = $config->getOutputDir();
             $md5BeforeDownload = $this->hashDirectory($translationsDirectory);
             $storage->download();
             $md5AfterDownload = $this->hashDirectory($translationsDirectory);

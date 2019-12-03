@@ -52,7 +52,10 @@ class ConfigurationManagerTest extends TestCase
         $manager->addConfiguration('bar', $this->createConfiguration());
         $manager->addConfiguration('default', $correctConfiguration);
 
-        $this->assertNull($manager->getConfiguration('missing'));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('No configuration found for "missing"');
+
+        $manager->getConfiguration('missing');
     }
 
     public function testFirstName(): void

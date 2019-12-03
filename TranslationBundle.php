@@ -27,7 +27,7 @@ use Translation\Bundle\DependencyInjection\CompilerPass\ValidatorVisitorPass;
  */
 class TranslationBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new SymfonyProfilerPass());
         $container->addCompilerPass(new ValidatorVisitorPass());
