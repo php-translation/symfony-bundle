@@ -33,7 +33,7 @@ final class ConfigurationManager
     /**
      * @param string|string[]|null $name
      */
-    public function getConfiguration($name = null): ?Configuration
+    public function getConfiguration($name = null): Configuration
     {
         if (empty($name)) {
             return $this->getConfiguration('default');
@@ -50,7 +50,7 @@ final class ConfigurationManager
             }
         }
 
-        return null;
+        throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $name));
     }
 
     public function getFirstName(): ?string

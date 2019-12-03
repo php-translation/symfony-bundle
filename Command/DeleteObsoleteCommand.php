@@ -80,9 +80,7 @@ class DeleteObsoleteCommand extends Command
             $locales = [$inputLocale];
         }
 
-        if (null === $config = $this->configurationManager->getConfiguration($configName)) {
-            throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $configName));
-        }
+        $config = $this->configurationManager->getConfiguration($configName);
 
         $this->configureBundleDirs($input, $config);
         $this->catalogueManager->load($this->catalogueFetcher->getCatalogues($config, $locales));
