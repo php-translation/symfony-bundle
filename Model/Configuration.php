@@ -29,7 +29,7 @@ final class Configuration
     private $locales;
 
     /**
-     * Usually dirname('kernel.root_dir').
+     * Usually dirname('kernel.project_dir').
      *
      * @var string
      */

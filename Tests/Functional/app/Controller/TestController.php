@@ -11,13 +11,13 @@
 
 namespace Translation\Bundle\Tests\Functional\app\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class TestController extends Controller
+class TestController extends AbstractController
 {
     public function translatedAction(): Response
     {

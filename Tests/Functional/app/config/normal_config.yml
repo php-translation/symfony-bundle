@@ -6,6 +6,10 @@ translation:
     enabled: true
   configs:
     app:
-      dirs: ["%test.root_dir%/Resources/views"]
-      output_dir: "%test.root_dir%/Resources/translations"
-      project_root: "%test.root_dir%"
+      dirs: ["%test.project_dir%/Resources/views"]
+      output_dir: "%test.project_dir%/Resources/translations"
+      project_root: "%test.project_dir%"
+    app_with_transchoice:
+      dirs: ["%test.project_dir%/Resources/views_with_transchoice"]
+      output_dir: "%test.project_dir%/Resources/translations"
+      project_root: "%test.project_dir%"

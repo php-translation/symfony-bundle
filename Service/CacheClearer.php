@@ -14,7 +14,8 @@ namespace Translation\Bundle\Service;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * A service able to read and clear the Symfony Translation cache.
@@ -38,8 +39,15 @@ final class CacheClearer
      */
     private $filesystem;
 
-    public function __construct(string $kernelCacheDir, TranslatorInterface $translator, Filesystem $filesystem)
+    public function __construct(string $kernelCacheDir, $translator, Filesystem $filesystem)
     {
+        // The TranslatorInterface has been deprecated in favor of Symfony\Contracts\Translation\TranslatorInterface in sf4.2.
+        // Use this class to type hint event & remove the following condition once sf ^4.2 become the minimum supported version.
+        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.2.md#translation
+        if (!$translator instanceof LegacyTranslatorInterface && !$translator instanceof TranslatorInterface) {
+            throw new \InvalidArgumentException('Unable to deal with the given translator.');
+        }
+
         $this->kernelCacheDir = $kernelCacheDir;
         $this->translator = $translator;
         $this->filesystem = $filesystem;

@@ -13,6 +13,7 @@ namespace Translation\Bundle\EventListener;
 
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
 
@@ -74,8 +75,15 @@ HTML;
         $this->showUntranslatable = $showUntranslatable;
     }
 
-    public function onKernelResponse(FilterResponseEvent $event): void
+    public function onKernelResponse($event): void
     {
+        // FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
+        // Use this class to type hint event & remove the following condition once sf ^4.3 become the minimum supported version.
+        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
+        if (!$event instanceof FilterResponseEvent && !$event instanceof ResponseEvent) {
+            throw new \InvalidArgumentException('Unknown given event.');
+        }
+
         $request = $event->getRequest();
 
         if (!$this->activator->checkRequest($request)) {

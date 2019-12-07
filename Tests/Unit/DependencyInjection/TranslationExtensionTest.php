@@ -23,7 +23,7 @@ class TranslationExtensionTest extends AbstractExtensionTestCase
     protected function getContainerExtensions(): array
     {
         $this->setParameter('kernel.default_locale', 'ar');
-        $this->setParameter('kernel.root_dir', __DIR__);
+        $this->setParameter('kernel.project_dir', __DIR__);
         $this->setParameter('kernel.debug', true);
 
         return [

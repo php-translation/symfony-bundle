@@ -46,7 +46,8 @@ class Configuration implements ConfigurationInterface
         $this->addEditInPlaceNode($root);
         $this->addWebUINode($root);
 
-        $debug = $this->container->getParameter('kernel.debug');
+        $isProfilerEnabled = $this->container->getParameter('kernel.debug') && $this->container->has('profiler');
+
         $root
             ->children()
                 ->arrayNode('locales')
@@ -57,12 +58,12 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->treatFalseLike(['enabled' => false])
                     ->treatTrueLike(['enabled' => true])
-                    ->treatNullLike(['enabled' => $debug])
+                    ->treatNullLike(['enabled' => $isProfilerEnabled])
                     ->info('Extend the debug profiler with information about requests.')
                     ->children()
                         ->booleanNode('enabled')
                             ->info('Turn the symfony profiler integration on or off. Defaults to kernel debug mode.')
-                            ->defaultValue($debug)
+                            ->defaultValue($isProfilerEnabled)
                         ->end()
                         ->scalarNode('formatter')->defaultNull()->end()
                         ->integerNode('captured_body_length')
@@ -159,7 +160,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Service ids with to classes that supports local storage of translations.')
                             ->prototype('scalar')->end()
                         ->end()
-                        ->scalarNode('output_dir')->cannotBeEmpty()->defaultValue('%kernel.root_dir%/Resources/translations')->end()
+                        ->scalarNode('output_dir')->cannotBeEmpty()->defaultValue('%kernel.project_dir%/Resources/translations')->end()
                         ->scalarNode('project_root')->info("The root dir of your project. By default this will be kernel_root's parent.")->end()
                         ->scalarNode('xliff_version')->info('The version of XLIFF XML you want to use (if dumping to this format).')->defaultValue('2.0')->end()
                         ->variableNode('local_file_storage_options')

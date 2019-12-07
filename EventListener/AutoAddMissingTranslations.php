@@ -11,7 +11,8 @@
 
 namespace Translation\Bundle\EventListener;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Translation\Bundle\Service\StorageService;
 use Translation\Common\Model\Message;
@@ -40,8 +41,15 @@ final class AutoAddMissingTranslations
         $this->storage = $storage;
     }
 
-    public function onTerminate(Event $event): void
+    public function onTerminate($event): void
     {
+        // FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
+        // Use this class to type hint event & remove the following condition once sf ^4.3 become the minimum supported version.
+        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
+        if (!$event instanceof PostResponseEvent && !$event instanceof TerminateEvent) {
+            throw new \InvalidArgumentException('Unknown given event.');
+        }
+
         if (null === $this->dataCollector) {
             return;
         }

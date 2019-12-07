@@ -22,6 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Model\Configuration as ConfigurationModel;
+use Translation\Bundle\Service\StorageService;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -83,6 +84,7 @@ class TranslationExtension extends Extension
         }
 
         $loader->load('console.yml');
+        $loader->load('controllers.yml');
     }
 
     /**
@@ -100,7 +102,7 @@ class TranslationExtension extends Extension
             }
             if (empty($c['project_root'])) {
                 // Add a project root of none is set.
-                $c['project_root'] = \dirname($container->getParameter('kernel.root_dir'));
+                $c['project_root'] = \dirname($container->getParameter('kernel.project_dir'));
             }
             $c['name'] = $name;
             $c['locales'] = $config['locales'];
@@ -141,6 +143,7 @@ class TranslationExtension extends Extension
         if (null !== $first) {
             // Create some aliases for the default storage
             $container->setAlias('php_translation.storage', new Alias('php_translation.storage.'.$first, true));
+            $container->setAlias(StorageService::class, new Alias('php_translation.storage', true));
             if ('default' !== $first) {
                 $container->setAlias('php_translation.storage.default', new Alias('php_translation.storage.'.$first, true));
             }
@@ -158,11 +161,7 @@ class TranslationExtension extends Extension
 
         $path = $config['webui']['file_base_path'];
         if (null === $path) {
-            if ($container->hasParameter('kernel.project_dir')) {
-                $path = $container->getParameter('kernel.project_dir');
-            } else {
-                $path = $container->getParameter('kernel.root_dir').'/..';
-            }
+            $path = $container->getParameter('kernel.project_dir');
         }
 
         $container->setParameter('php_translation.webui.file_base_path', \rtrim($path, '/').'/');

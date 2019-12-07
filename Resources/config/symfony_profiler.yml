@@ -4,3 +4,11 @@ services:
     arguments: [ '@translator.data_collector' ]
     tags:
       - { name: 'data_collector', template: "@Translation/SymfonyProfiler/translation.html.twig", id: "translation", priority: 200 }
+
+  Translation\Bundle\Controller\SymfonyProfilerController:
+    public: true
+    tags: ['container.service_subscriber']
+    arguments:
+      - '@Translation\Bundle\Service\StorageService'
+      - '@profiler'
+      - '%php_translation.toolbar.allow_edit%'

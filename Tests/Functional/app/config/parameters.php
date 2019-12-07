@@ -9,4 +9,4 @@
  * file that was distributed with this source code.
  */
 
-$container->setParameter('test.root_dir', \dirname(__DIR__));
+$container->setParameter('test.project_dir', \dirname(__DIR__));
