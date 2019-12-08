@@ -2,7 +2,7 @@ services:
   php_translation.catalogue_fetcher:
     public: true
     class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.loader_or_reader"]
+    arguments: ["@translation.reader"]
   Translation\Bundle\Catalogue\CatalogueFetcher:
     alias: php_translation.catalogue_fetcher
 
@@ -54,7 +54,7 @@ services:
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
     abstract: true
-    arguments: ["@translation.writer", "@translation.loader_or_reader", ~, []]
+    arguments: ["@translation.writer", "@translation.reader", ~, []]
 
   php_translation.storage.xlf_loader:
     class: Translation\SymfonyStorage\Loader\XliffLoader
