@@ -15,7 +15,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -114,7 +113,7 @@ class TranslationExtension extends Extension
             /*
              * Configure storage chain service
              */
-            $storageDefinition = $this->createChildDefinition('php_translation.storage.abstract');
+            $storageDefinition = new ChildDefinition('php_translation.storage.abstract');
             $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
             $storageDefinition->setPublic(true);
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
@@ -132,7 +131,7 @@ class TranslationExtension extends Extension
                     continue;
                 }
 
-                $def = $this->createChildDefinition($serviceId);
+                $def = new ChildDefinition($serviceId);
                 $def->replaceArgument(2, [$c['output_dir']])
                     ->replaceArgument(3, $c['local_file_storage_options'])
                     ->addTag('php_translation.storage', ['type' => 'local', 'name' => $name]);
@@ -220,20 +219,6 @@ class TranslationExtension extends Extension
     public function getAlias(): string
     {
         return 'translation';
-    }
-
-    /**
-     * To avoid BC break for Symfony 3.3+.
-     *
-     * @return ChildDefinition|DefinitionDecorator
-     */
-    private function createChildDefinition(string $parent)
-    {
-        if (\class_exists(ChildDefinition::class)) {
-            return new ChildDefinition($parent);
-        }
-
-        return new DefinitionDecorator($parent);
     }
 
     /**

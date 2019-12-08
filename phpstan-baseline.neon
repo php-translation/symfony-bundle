@@ -51,31 +51,6 @@ parameters:
             path: DependencyInjection/Configuration.php
 
         -
-            message: "#^Call to method replaceArgument\\(\\) on an unknown class Symfony\\\\Component\\\\DependencyInjection\\\\DefinitionDecorator\\.$#"
-            count: 2
-            path: DependencyInjection/TranslationExtension.php
-
-        -
-            message: "#^Call to method setPublic\\(\\) on an unknown class Symfony\\\\Component\\\\DependencyInjection\\\\DefinitionDecorator\\.$#"
-            count: 1
-            path: DependencyInjection/TranslationExtension.php
-
-        -
-            message: "#^Call to method addMethodCall\\(\\) on an unknown class Symfony\\\\Component\\\\DependencyInjection\\\\DefinitionDecorator\\.$#"
-            count: 2
-            path: DependencyInjection/TranslationExtension.php
-
-        -
-            message: "#^Return typehint of method Translation\\\\Bundle\\\\DependencyInjection\\\\TranslationExtension\\:\\:createChildDefinition\\(\\) has invalid type Symfony\\\\Component\\\\DependencyInjection\\\\DefinitionDecorator\\.$#"
-            count: 1
-            path: DependencyInjection/TranslationExtension.php
-
-        -
-            message: "#^Instantiated class Symfony\\\\Component\\\\DependencyInjection\\\\DefinitionDecorator not found\\.$#"
-            count: 1
-            path: DependencyInjection/TranslationExtension.php
-
-        -
             message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\PostResponseEvent not found\\.$#"
             count: 2
             path: EventListener/AutoAddMissingTranslations.php
