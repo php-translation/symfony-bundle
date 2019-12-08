@@ -13,7 +13,6 @@ namespace Translation\Bundle\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * Make sure we have all the dependencies for Symfony Profiler.
@@ -24,7 +23,6 @@ class SymfonyProfilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        /* @var Definition $def */
         if (!$container->hasDefinition('php_translation.data_collector')) {
             return;
         }
