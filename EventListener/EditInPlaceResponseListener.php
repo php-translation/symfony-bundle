@@ -75,15 +75,8 @@ HTML;
         $this->showUntranslatable = $showUntranslatable;
     }
 
-    public function onKernelResponse($event): void
+    public function onKernelResponse(ResponseEvent $event): void
     {
-        // FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
-        // Use this class to type hint event & remove the following condition once sf ^4.3 become the minimum supported version.
-        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
-        if (!$event instanceof FilterResponseEvent && !$event instanceof ResponseEvent) {
-            throw new \InvalidArgumentException('Unknown given event.');
-        }
-
         $request = $event->getRequest();
 
         if (!$this->activator->checkRequest($request)) {
@@ -134,4 +127,11 @@ HTML;
 
         $event->getResponse()->setContent($content);
     }
+}
+
+// FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
+// @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
+// To be removed once sf ^4.3 become the minimum supported version.
+if (!\class_exists(ResponseEvent::class) && \class_exists(FilterResponseEvent::class)) {
+    \class_alias(FilterResponseEvent::class, ResponseEvent::class);
 }

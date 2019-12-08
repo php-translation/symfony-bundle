@@ -41,15 +41,8 @@ final class AutoAddMissingTranslations
         $this->storage = $storage;
     }
 
-    public function onTerminate($event): void
+    public function onTerminate(TerminateEvent $event): void
     {
-        // FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
-        // Use this class to type hint event & remove the following condition once sf ^4.3 become the minimum supported version.
-        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
-        if (!$event instanceof PostResponseEvent && !$event instanceof TerminateEvent) {
-            throw new \InvalidArgumentException('Unknown given event.');
-        }
-
         if (null === $this->dataCollector) {
             return;
         }
@@ -62,4 +55,11 @@ final class AutoAddMissingTranslations
             }
         }
     }
+}
+
+// PostResponseEvent have been renamed into ResponseEvent in sf 4.3
+// @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
+// To be removed once sf ^4.3 become the minimum supported version.
+if (!\class_exists(TerminateEvent::class) && \class_exists(PostResponseEvent::class)) {
+    \class_alias(PostResponseEvent::class, TerminateEvent::class);
 }

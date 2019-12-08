@@ -77,22 +77,12 @@ parameters:
 
         -
             message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\PostResponseEvent not found\\.$#"
-            count: 1
+            count: 2
             path: EventListener/AutoAddMissingTranslations.php
 
         -
             message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\FilterResponseEvent not found\\.$#"
-            count: 1
-            path: EventListener/EditInPlaceResponseListener.php
-
-        -
-            message: "#^Call to method getRequest\\(\\) on an unknown class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\FilterResponseEvent\\.$#"
             count: 2
-            path: EventListener/EditInPlaceResponseListener.php
-
-        -
-            message: "#^Call to method getResponse\\(\\) on an unknown class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\FilterResponseEvent\\.$#"
-            count: 3
             path: EventListener/EditInPlaceResponseListener.php
 
         -
