@@ -160,7 +160,7 @@ final class StorageService implements Storage
      * local storage and then move on to the remote storages.
      * {@inheritdoc}
      */
-    public function get($locale, $domain, $key): ?Message
+    public function get(string $locale, string $domain, string $key): MessageInterface
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $value = $this->getFromStorages($storages, $locale, $domain, $key);
@@ -241,7 +241,7 @@ final class StorageService implements Storage
      *
      * {@inheritdoc}
      */
-    public function delete($locale, $domain, $key): void
+    public function delete(string $locale, string $domain, string $key): void
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             /** @var Storage $storage */

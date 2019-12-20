@@ -18,7 +18,7 @@
         "symfony/finder": "^3.4 || ^4.3 || ^5.0",
         "symfony/intl": "^3.4 || ^4.3 || ^5.0",
 
-        "php-translation/symfony-storage": "^1.0",
+        "php-translation/symfony-storage": "^2.0",
         "php-translation/extractor": "^1.6",
         "nyholm/nsa": "^1.1",
         "twig/twig": "^1.42 || ^2.11"

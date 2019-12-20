@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Translation\Bundle\DependencyInjection\CompilerPass\EditInPlacePass;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExternalTranslatorPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
-use Translation\Bundle\DependencyInjection\CompilerPass\FileDumperBackupPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\StoragePass;
 use Translation\Bundle\DependencyInjection\CompilerPass\SymfonyProfilerPass;
 use Translation\Bundle\DependencyInjection\CompilerPass\ValidatorVisitorPass;
@@ -34,6 +33,5 @@ class TranslationBundle extends Bundle
         $container->addCompilerPass(new ExtractorPass());
         $container->addCompilerPass(new StoragePass());
         $container->addCompilerPass(new EditInPlacePass());
-        $container->addCompilerPass(new FileDumperBackupPass());
     }
 }
