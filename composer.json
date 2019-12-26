@@ -19,9 +19,9 @@
         "symfony/intl": "^3.4 || ^4.3 || ^5.0",
 
         "php-translation/symfony-storage": "^2.0",
-        "php-translation/extractor": "^1.6",
+        "php-translation/extractor": "^2.0",
         "nyholm/nsa": "^1.1",
-        "twig/twig": "^1.42 || ^2.11"
+        "twig/twig": "^2.11 || ^3.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^4.4 || ^5.0",
@@ -56,6 +56,7 @@
         "test": "vendor/bin/phpunit",
         "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml Tests/Unit"
     },
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "0.10-dev"

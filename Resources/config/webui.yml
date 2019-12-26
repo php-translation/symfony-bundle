@@ -1,17 +1,8 @@
 services:
-    Translation\Bundle\Controller\EditInPlaceController:
-        autowire: true
-        public: true
-        tags: ['container.service_subscriber']
-        arguments:
-            - '@Translation\Bundle\Service\StorageManager'
-            - '@Translation\Bundle\Service\CacheClearer'
-            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
-
     Translation\Bundle\Controller\WebUIController:
         autowire: true
+        autoconfigure: true
         public: true
-        tags: ['container.service_subscriber']
         arguments:
             - '@Translation\Bundle\Service\ConfigurationManager'
             - '@Translation\Bundle\Catalogue\CatalogueFetcher'
