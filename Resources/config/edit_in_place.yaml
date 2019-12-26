@@ -1,8 +1,8 @@
 services:
   Translation\Bundle\Controller\EditInPlaceController:
     autowire: true
-    autoconfigure: true
     public: true
+    tags: ['controller.service_arguments']
     arguments:
       - '@Translation\Bundle\Service\StorageManager'
       - '@Translation\Bundle\Service\CacheClearer'
