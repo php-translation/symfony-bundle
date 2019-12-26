@@ -49,7 +49,7 @@ XML
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
+        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
     }
 
     public function testEditAction(): void

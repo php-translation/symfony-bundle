@@ -4,8 +4,8 @@ translated_page:
     defaults:  { _controller: \Translation\Bundle\Tests\Functional\app\Controller\TestController::translatedAction }
 
 _translation_edit_in_place:
-  resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
+  resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yaml'
   prefix:  /admin
 
 _translation_web_ui:
-  resource: '@TranslationBundle/Resources/config/routing_webui.yml'
+  resource: '@TranslationBundle/Resources/config/routing_webui.yaml'

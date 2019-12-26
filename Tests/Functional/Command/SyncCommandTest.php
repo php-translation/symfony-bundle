@@ -20,7 +20,7 @@ class SyncCommandTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yml');
+        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
 
         \file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>

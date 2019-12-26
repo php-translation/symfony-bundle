@@ -35,7 +35,7 @@ abstract class BaseTestCase extends BaseBundleTestCase
     protected function setUp(): void
     {
         $kernel = $this->createKernel();
-        $kernel->addConfigFile(__DIR__.'/app/config/default.yml');
+        $kernel->addConfigFile(__DIR__.'/app/config/default.yaml');
 
         $kernel->addBundle(TwigBundle::class);
         $kernel->addBundle(TranslationBundle::class);

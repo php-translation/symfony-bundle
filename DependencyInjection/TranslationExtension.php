@@ -39,8 +39,8 @@ class TranslationExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        $loader->load('services.yml');
-        $loader->load('extractors.yml');
+        $loader->load('services.yaml');
+        $loader->load('extractors.yaml');
 
         // Add major version to extractor
         $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
@@ -52,38 +52,38 @@ class TranslationExtension extends Extension
         $this->handleConfigNode($container, $config);
 
         if ($config['webui']['enabled']) {
-            $loader->load('webui.yml');
+            $loader->load('webui.yaml');
             $this->enableWebUi($container, $config);
         } else {
             $container->setParameter('php_translation.webui.enabled', false);
         }
 
         if ($config['symfony_profiler']['enabled']) {
-            $loader->load('symfony_profiler.yml');
+            $loader->load('symfony_profiler.yaml');
             $this->enableSymfonyProfiler($container, $config);
         }
 
         if ($config['edit_in_place']['enabled']) {
-            $loader->load('edit_in_place.yml');
+            $loader->load('edit_in_place.yaml');
             $this->enableEditInPlace($container, $config);
         }
 
         if ($config['auto_add_missing_translations']['enabled']) {
-            $loader->load('auto_add.yml');
+            $loader->load('auto_add.yaml');
             $container->getDefinition('php_translator.auto_adder')
                 ->replaceArgument(0, new Reference('php_translation.storage.'.$config['auto_add_missing_translations']['config_name']));
         }
 
         if ($config['fallback_translation']['enabled']) {
-            $loader->load('auto_translation.yml');
+            $loader->load('auto_translation.yaml');
             $this->enableFallbackAutoTranslator($container, $config);
         }
 
         if ('test' === \getenv('ENV')) {
-            $loader->load('services_test.yml');
+            $loader->load('services_test.yaml');
         }
 
-        $loader->load('console.yml');
+        $loader->load('console.yaml');
     }
 
     /**
