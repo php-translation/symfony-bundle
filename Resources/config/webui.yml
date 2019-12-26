@@ -1,8 +1,8 @@
 services:
     Translation\Bundle\Controller\WebUIController:
         autowire: true
+        autoconfigure: true
         public: true
-        tags: ['container.service_subscriber']
         arguments:
             - '@Translation\Bundle\Service\ConfigurationManager'
             - '@Translation\Bundle\Catalogue\CatalogueFetcher'
