@@ -24,7 +24,7 @@ matrix:
 
           # Test with lowest dependencies
         - php: 7.2
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
+          env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak"
 
           # Test the latest stable release
         - php: 7.3
@@ -51,7 +51,7 @@ before_install:
     - if ! [ -z "$SYMFONY_VERSION" ]; then composer config extra.symfony.require "${SYMFONY_VERSION}"; fi;
 
 install:
-    - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - composer update ${COMPOSER_FLAGS} --prefer-dist --prefer-stable --no-interaction
 
 script:
     - composer validate --strict --no-check-lock
