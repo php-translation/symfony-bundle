@@ -2,6 +2,23 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.10.0
+
+## Added
+
+- PHP 7 type hints.
+- Allow user to configure a custom dumper.
+
+### Changed
+
+- Renamed all `*.yml` files to `*.yaml`.
+
+### Removed
+
+- Support for PHP < 7.2
+- Support for Symfony < 3.4
+- Support for php-translation/extractor 1.0 (including Twig 1 support)
+
 ## 0.9.1
 
 ### Fixed
@@ -70,40 +87,40 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Changed
 
 - The `FallbackTranslator` will not try to translate to an empty locale. This could be considered as a BC break
- since now it will return the translation key instead of whatever the translator service returned (usually the translated string in original language). 
+ since now it will return the translation key instead of whatever the translator service returned (usually the translated string in original language).
 
 ## 0.7.0
 
 ### Added
 
 - Support for `php-translation/common:0.3` and `php-translation/symfony-storage:0.5`
-- Support for dumping to .po files. 
+- Support for dumping to .po files.
 - Support for `SourceLocation`'s context key `translation` which adds a default translation to the `Message`.
 - Better respect blacklist and whitelist in `CatalogueFetcher`.
 
 ### Fixed
 
 - Bug with config option `local_file_storage_options` not being used.
-- Bug with edit-in-place and custom activator.  
+- Bug with edit-in-place and custom activator.
 
 ### Changed
 
-- The "desc" filter will be used as default translation when extracting. 
+- The "desc" filter will be used as default translation when extracting.
 
 ## 0.6.2
 
-### Added 
+### Added
 
-- User feedback when you use DeleteObsoleteCommand. 
+- User feedback when you use DeleteObsoleteCommand.
 - Injecet depedencies in commands.
 - Added argument for sync direction.
 
 ### Changed
 
-- The service `php_translation.storage.default` is now public. 
-- The XliffDumper does not backup existing files before creating dump. This is the default behavior in 
- Symfony 4. 
- 
+- The service `php_translation.storage.default` is now public.
+- The XliffDumper does not backup existing files before creating dump. This is the default behavior in
+ Symfony 4.
+
 ### Fixed
 
 - `Metadata::$notes` will not change when running `Metadata::getAllInCategory()`
@@ -112,7 +129,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ### Fixed
 
--- Symfony 4 issues with the DownloadCommand. 
+-- Symfony 4 issues with the DownloadCommand.
 
 ## 0.6.0
 
@@ -151,10 +168,10 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 - New `--cache` option on the `translation:download` allowing to clear the cache automatically if the downloaded translations have changed.
 - Support for Yandex translator
 
-### Fixed 
+### Fixed
 
 - Wrong paths in web profiler when using Twig2.x.
-- Some JavaScript errors. 
+- Some JavaScript errors.
 
 ## 0.4.0
 
