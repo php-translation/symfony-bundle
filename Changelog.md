@@ -6,6 +6,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## Added
 
+- Support for Symfony 5.
 - PHP 7 type hints.
 - Allow user to configure a custom dumper.
 
