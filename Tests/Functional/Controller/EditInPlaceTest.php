@@ -52,7 +52,7 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled(): void
     {
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yml');
+        $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yaml');
         $request = Request::create('/foobar');
 
         // Activate the feature

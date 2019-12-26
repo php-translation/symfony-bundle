@@ -1,7 +1,7 @@
 imports:
     - { resource: parameters.php }
-    - { resource: framework.yml }
-    - { resource: services.yml }
+    - { resource: framework.yaml }
+    - { resource: services.yaml }
 
 translation:
   webui:

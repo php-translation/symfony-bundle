@@ -8,7 +8,7 @@ framework:
     validation:
         enabled: true
     router:
-        resource: "%test.project_dir%/config/routing.yml"
+        resource: "%test.project_dir%/config/routing.yaml"
         type: 'yaml'
 
 twig:
