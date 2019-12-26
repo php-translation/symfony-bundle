@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Translation\Bundle\DependencyInjection\CompilerPass\EditInPlacePass;
+use Translation\Bundle\Translator\EditInPlaceTranslator;
 
 class EditInPlacePassTest extends AbstractCompilerPassTestCase
 {
@@ -27,7 +28,7 @@ class EditInPlacePassTest extends AbstractCompilerPassTestCase
     public function testReplacement(): void
     {
         $def = new Definition();
-        $this->setDefinition('php_translator.edit_in_place.xtrans_html_translator', $def);
+        $this->setDefinition(EditInPlaceTranslator::class, $def);
 
         $twigExtension = new Definition();
         $twigExtension->addArgument('should_be_replaced');
@@ -35,6 +36,6 @@ class EditInPlacePassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument('twig.extension.trans', 0, new Reference('php_translator.edit_in_place.xtrans_html_translator'));
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('twig.extension.trans', 0, new Reference(EditInPlaceTranslator::class));
     }
 }

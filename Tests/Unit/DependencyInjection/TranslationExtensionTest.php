@@ -72,20 +72,20 @@ class TranslationExtensionTest extends AbstractExtensionTestCase
     {
         $this->load(['edit_in_place' => ['enabled' => true]]);
 
-        $this->assertContainerBuilderHasService('php_translation.edit_in_place.response_listener', EditInPlaceResponseListener::class);
+        $this->assertContainerBuilderHasService(EditInPlaceResponseListener::class);
     }
 
     public function testAutoAddEnabled(): void
     {
         $this->load(['auto_add_missing_translations' => ['enabled' => true]]);
 
-        $this->assertContainerBuilderHasService('php_translator.auto_adder', AutoAddMissingTranslations::class);
+        $this->assertContainerBuilderHasService(AutoAddMissingTranslations::class);
     }
 
     public function testFallbackTranslationEnabled(): void
     {
         $this->load(['fallback_translation' => ['enabled' => true]]);
 
-        $this->assertContainerBuilderHasService('php_translator.fallback_translator', FallbackTranslator::class);
+        $this->assertContainerBuilderHasService(FallbackTranslator::class);
     }
 }

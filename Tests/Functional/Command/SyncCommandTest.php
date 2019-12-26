@@ -13,6 +13,7 @@ namespace Translation\Bundle\Tests\Functional\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Translation\Bundle\Command\SyncCommand;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class SyncCommandTest extends BaseTestCase
@@ -66,7 +67,7 @@ XML
         $application = new Application($this->kernel);
 
         $container = $this->getContainer();
-        $application->add($container->get('php_translator.console.sync'));
+        $application->add($container->get(SyncCommand::class));
 
         $command = $application->find('translation:sync');
         $commandTester = new CommandTester($command);

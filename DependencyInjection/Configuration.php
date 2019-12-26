@@ -15,6 +15,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Translation\Bundle\EditInPlace\Activator;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -199,7 +200,7 @@ class Configuration implements ConfigurationInterface
                 ->canBeEnabled()
                 ->children()
                     ->scalarNode('config_name')->defaultValue('default')->end()
-                    ->scalarNode('activator')->cannotBeEmpty()->defaultValue('php_translation.edit_in_place.activator')->end()
+                    ->scalarNode('activator')->cannotBeEmpty()->defaultValue(Activator::class)->end()
                     ->scalarNode('show_untranslatable')->defaultTrue()->end()
                 ->end()
             ->end()

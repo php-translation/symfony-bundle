@@ -16,9 +16,6 @@ use Translation\Bundle\Catalogue\CatalogueManager;
 use Translation\Bundle\Catalogue\CatalogueWriter;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\StorageService;
-use Translation\Extractor\Extractor;
-use Translation\Extractor\FileExtractor\PHPFileExtractor;
-use Translation\Extractor\FileExtractor\TwigFileExtractor;
 
 class BundleInitializationTest extends BaseTestCase
 {
@@ -26,8 +23,8 @@ class BundleInitializationTest extends BaseTestCase
     {
         $this->bootKernel();
         $container = $this->getContainer();
-        $this->assertTrue($container->has('php_translation.configuration_manager'));
-        $config = $container->get('php_translation.configuration_manager');
+        $this->assertTrue($container->has(ConfigurationManager::class));
+        $config = $container->get(ConfigurationManager::class);
         $this->assertInstanceOf(ConfigurationManager::class, $config);
 
         $default = $config->getConfiguration();
@@ -35,16 +32,15 @@ class BundleInitializationTest extends BaseTestCase
         $this->assertEquals($root.'/Resources/translations', $default->getOutputDir());
 
         $services = [
+            CatalogueFetcher::class,
+            CatalogueManager::class,
+            CatalogueWriter::class,
             'php_translation.storage' => StorageService::class,
-            'test.php_translation.extractor.twig' => TwigFileExtractor::class,
-            'test.php_translation.extractor.php' => PHPFileExtractor::class,
-            'php_translation.catalogue_fetcher' => CatalogueFetcher::class,
-            'php_translation.catalogue_writer' => CatalogueWriter::class,
-            'php_translation.catalogue_manager' => CatalogueManager::class,
-            'test.php_translation.extractor' => Extractor::class,
         ];
 
         foreach ($services as $id => $class) {
+            $id = \is_int($id) ? $class : $id;
+
             $this->assertTrue($container->has($id));
             $s = $container->get($id);
             $this->assertInstanceOf($class, $s);

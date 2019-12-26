@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Translation\Extractor\Extractor;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -32,12 +33,12 @@ class ExtractorPass implements CompilerPassInterface
      */
     private function getExtractors(ContainerBuilder $container): array
     {
-        if (!$container->hasDefinition('php_translation.extractor')) {
+        if (!$container->hasDefinition(Extractor::class)) {
             return [];
         }
 
         /** @var Definition $def */
-        $def = $container->getDefinition('php_translation.extractor');
+        $def = $container->getDefinition(Extractor::class);
         $services = $container->findTaggedServiceIds('php_translation.extractor');
         $extractors = [];
         foreach ($services as $id => $tags) {
