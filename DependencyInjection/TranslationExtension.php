@@ -52,6 +52,7 @@ class TranslationExtension extends Extension
         $this->handleConfigNode($container, $config);
 
         if ($config['webui']['enabled']) {
+            $loader->load('webui.yml');
             $this->enableWebUi($container, $config);
         } else {
             $container->setParameter('php_translation.webui.enabled', false);
@@ -83,7 +84,6 @@ class TranslationExtension extends Extension
         }
 
         $loader->load('console.yml');
-        $loader->load('controllers.yml');
     }
 
     /**

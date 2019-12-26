@@ -1,5 +1,15 @@
 services:
-  php_translation.edit_in_place.response_listener:
+    Translation\Bundle\Controller\EditInPlaceController:
+        autowire: true
+        public: true
+        tags: ['container.service_subscriber']
+        arguments:
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\CacheClearer'
+            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+
+
+    php_translation.edit_in_place.response_listener:
     class: Translation\Bundle\EventListener\EditInPlaceResponseListener
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
