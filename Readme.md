@@ -63,17 +63,17 @@ translation:
 ```yaml
 # config/routes/dev/php_translation.yaml
 _translation_webui:
-    resource: "@TranslationBundle/Resources/config/routing_webui.yml"
+    resource: "@TranslationBundle/Resources/config/routing_webui.yaml"
     prefix:  /admin
-  
+
 _translation_profiler:
-    resource: '@TranslationBundle/Resources/config/routing_symfony_profiler.yml'
+    resource: '@TranslationBundle/Resources/config/routing_symfony_profiler.yaml'
 ```
 
 ```yaml
 # config/routes/php_translation.yaml
 _translation_edit_in_place:
-    resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yml'
+    resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yaml'
     prefix:  /admin
 ```
 
