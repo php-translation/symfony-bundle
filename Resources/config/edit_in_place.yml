@@ -1,4 +1,13 @@
 services:
+  Translation\Bundle\Controller\EditInPlaceController:
+    autowire: true
+    autoconfigure: true
+    public: true
+    arguments:
+      - '@Translation\Bundle\Service\StorageManager'
+      - '@Translation\Bundle\Service\CacheClearer'
+      - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+
   php_translation.edit_in_place.response_listener:
     class: Translation\Bundle\EventListener\EditInPlaceResponseListener
     tags:
