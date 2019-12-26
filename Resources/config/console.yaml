@@ -15,6 +15,7 @@ services:
           - '@Translation\Bundle\Service\StorageManager'
           - '@Translation\Bundle\Service\ConfigurationManager'
           - '@Translation\Bundle\Service\CacheClearer'
+          - '@Translation\Bundle\Catalogue\CatalogueWriter'
         tags:
             - { name: console.command, command: translation:download }
 

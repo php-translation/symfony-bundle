@@ -10,7 +10,7 @@ services:
   php_translation.storage.abstract:
     class: Translation\Bundle\Service\StorageService
     abstract: true
-    arguments: ['@Translation\Bundle\Catalogue\CatalogueFetcher', '@Translation\Bundle\Catalogue\CatalogueWriter', ~]
+    arguments: ['@Translation\Bundle\Catalogue\CatalogueFetcher', ~]
 
   Translation\Bundle\Catalogue\CatalogueManager:
     public: true
