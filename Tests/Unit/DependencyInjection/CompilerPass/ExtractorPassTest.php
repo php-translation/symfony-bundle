@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Translation\Bundle\DependencyInjection\CompilerPass\ExtractorPass;
+use Translation\Extractor\Extractor;
 
 class ExtractorPassTest extends AbstractCompilerPassTestCase
 {
@@ -30,7 +31,7 @@ class ExtractorPassTest extends AbstractCompilerPassTestCase
     public function if_compiler_pass_collects_services_by_adding_method_calls_these_will_exist(): void
     {
         $collectingService = new Definition();
-        $this->setDefinition('php_translation.extractor', $collectingService);
+        $this->setDefinition(Extractor::class, $collectingService);
 
         $collectedService = new Definition();
         $collectedService->addTag('php_translation.extractor', ['type' => 'html']);
@@ -39,7 +40,7 @@ class ExtractorPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'php_translation.extractor',
+            Extractor::class,
             'addFileExtractor',
             [new Reference('collected_service')]
         );

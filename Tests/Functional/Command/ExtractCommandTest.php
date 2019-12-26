@@ -14,7 +14,10 @@ namespace Translation\Bundle\Tests\Functional\Command;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\Kernel;
+use Translation\Bundle\Catalogue\CatalogueFetcher;
+use Translation\Bundle\Command\ExtractCommand;
 use Translation\Bundle\Model\Metadata;
+use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class ExtractCommandTest extends BaseTestCase
@@ -68,7 +71,7 @@ XML
         $application = new Application($this->kernel);
 
         $container = $this->getContainer();
-        $application->add($container->get('php_translator.console.extract'));
+        $application->add($container->get(ExtractCommand::class));
 
         // transchoice tag have been definively removed in sf ^5.0
         // Remove this condition & views_with_transchoice + associated config once sf ^5.0 is the minimum supported version.
@@ -94,8 +97,8 @@ XML
         $this->assertRegExp('|Total defined messages +8|s', $output);
 
         $container = $this->getContainer();
-        $config = $container->get('php_translation.configuration_manager')->getConfiguration('app');
-        $catalogues = $container->get('php_translation.catalogue_fetcher')->getCatalogues($config, ['sv']);
+        $config = $container->get(ConfigurationManager::class)->getConfiguration('app');
+        $catalogues = $container->get(CatalogueFetcher::class)->getCatalogues($config, ['sv']);
 
         $catalogue = $catalogues[0];
         $this->assertEquals('My translated heading', $catalogue->get('translated.heading'), 'Translated strings MUST NOT disappear.');

@@ -1,6 +1,5 @@
 services:
-  php_translator.auto_adder:
-    class: Translation\Bundle\EventListener\AutoAddMissingTranslations
+  Translation\Bundle\EventListener\AutoAddMissingTranslations:
     arguments: [ ~, '@?translator.data_collector' ]
     tags:
       - { name: kernel.event_listener, event: kernel.terminate, method: onTerminate, priority: 10 }

@@ -20,8 +20,15 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\HttpKernel\Kernel;
+use Translation\Bundle\EventListener\AutoAddMissingTranslations;
+use Translation\Bundle\EventListener\EditInPlaceResponseListener;
 use Translation\Bundle\Model\Configuration as ConfigurationModel;
+use Translation\Bundle\Service\ConfigurationManager;
+use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Service\StorageService;
+use Translation\Bundle\Translator\EditInPlaceTranslator;
+use Translation\Bundle\Twig\EditInPlaceExtension;
+use Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -43,7 +50,7 @@ class TranslationExtension extends Extension
         $loader->load('extractors.yaml');
 
         // Add major version to extractor
-        $container->getDefinition('php_translation.extractor.php.visitor.FormTypeChoices')
+        $container->getDefinition(FormTypeChoices::class)
             ->addMethodCall('setSymfonyMajorVersion', [Kernel::MAJOR_VERSION]);
 
         $container->setParameter('php_translation.locales', $config['locales']);
@@ -70,17 +77,13 @@ class TranslationExtension extends Extension
 
         if ($config['auto_add_missing_translations']['enabled']) {
             $loader->load('auto_add.yaml');
-            $container->getDefinition('php_translator.auto_adder')
+            $container->getDefinition(AutoAddMissingTranslations::class)
                 ->replaceArgument(0, new Reference('php_translation.storage.'.$config['auto_add_missing_translations']['config_name']));
         }
 
         if ($config['fallback_translation']['enabled']) {
             $loader->load('auto_translation.yaml');
             $this->enableFallbackAutoTranslator($container, $config);
-        }
-
-        if ('test' === \getenv('ENV')) {
-            $loader->load('services_test.yaml');
         }
 
         $loader->load('console.yaml');
@@ -91,8 +94,8 @@ class TranslationExtension extends Extension
      */
     private function handleConfigNode(ContainerBuilder $container, array $config): void
     {
-        $storageManager = $container->getDefinition('php_translation.storage_manager');
-        $configurationManager = $container->getDefinition('php_translation.configuration_manager');
+        $storageManager = $container->getDefinition(StorageManager::class);
+        $configurationManager = $container->getDefinition(ConfigurationManager::class);
         // $first will be the "default" configuration.
         $first = null;
         foreach ($config['configs'] as $name => &$c) {
@@ -179,15 +182,15 @@ class TranslationExtension extends Extension
 
         $activatorRef = new Reference($config['edit_in_place']['activator']);
 
-        $def = $container->getDefinition('php_translation.edit_in_place.response_listener');
+        $def = $container->getDefinition(EditInPlaceResponseListener::class);
         $def->replaceArgument(0, $activatorRef);
         $def->replaceArgument(3, $name);
         $def->replaceArgument(4, $config['edit_in_place']['show_untranslatable']);
 
-        $def = $container->getDefinition('php_translator.edit_in_place.xtrans_html_translator');
+        $def = $container->getDefinition(EditInPlaceTranslator::class);
         $def->replaceArgument(1, $activatorRef);
 
-        $def = $container->getDefinition('php_translation.edit_in_place.extension.trans');
+        $def = $container->getDefinition(EditInPlaceExtension::class);
         $def->replaceArgument(2, $activatorRef);
     }
 

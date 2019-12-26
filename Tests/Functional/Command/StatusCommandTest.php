@@ -13,6 +13,7 @@ namespace Translation\Bundle\Tests\Functional\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Translation\Bundle\Command\StatusCommand;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 class StatusCommandTest extends BaseTestCase
@@ -29,7 +30,7 @@ class StatusCommandTest extends BaseTestCase
         $application = new Application($this->kernel);
 
         $container = $this->getContainer();
-        $application->add($container->get('php_translator.console.status'));
+        $application->add($container->get(StatusCommand::class));
 
         $command = $application->find('translation:status');
         $commandTester = new CommandTester($command);

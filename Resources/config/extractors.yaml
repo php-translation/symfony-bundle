@@ -1,79 +1,111 @@
 services:
-  php_translation.extractor.php:
-    class: Translation\Extractor\FileExtractor\PHPFileExtractor
+  Translation\Extractor\FileExtractor\PHPFileExtractor:
     tags:
       - { name: 'php_translation.extractor', type: 'php' }
 
-  php_translation.extractor.twig:
-    class: Translation\Extractor\FileExtractor\TwigFileExtractor
+  Translation\Extractor\FileExtractor\TwigFileExtractor:
     arguments: ["@twig"]
     tags:
       - { name: 'php_translation.extractor', type: 'twig' }
 
   # PHP Visitors:
-  php_translation.extractor.php.visitor.ContainerAwareTrans:
-    class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
+  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.ContainerAwareTransChoice:
-    class: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
+  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FlashMessage:
-    class: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
+  Translation\Extractor\Visitor\Php\Symfony\FlashMessage:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeChoices:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeEmptyValue:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeHelp:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeInvalidMessage:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeLabelExplicit:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypeLabelImplicit:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.FormTypePlaceholder:
-    class: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
+  Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.ValidationAnnotation:
-    class: Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation
+  Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation:
     arguments: ['@validator']
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
-  php_translation.extractor.php.visitor.SourceLocationContainerVisitor:
-    class: Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor
+  Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
   # Twig Visitors:
-  php_translation.extractor.twig.factory.twig:
-    class: Translation\Extractor\Visitor\Twig\TwigVisitor
+  Translation\Extractor\Visitor\Twig\TwigVisitor:
     tags:
         - { name: 'php_translation.visitor', type: 'twig' }
+
+  # To remove in next major release
+  php_translation.extractor.php:
+    parent: Translation\Extractor\FileExtractor\PHPFileExtractor
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.twig:
+    parent: Translation\Extractor\FileExtractor\TwigFileExtractor
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.ContainerAwareTrans:
+    parent: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.ContainerAwareTransChoice:
+    parent: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FlashMessage:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeChoices:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeEmptyValue:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeHelp:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeInvalidMessage:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeLabelExplicit:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypeLabelImplicit:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.FormTypePlaceholder:
+    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.ValidationAnnotation:
+    parent: Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.php.visitor.SourceLocationContainerVisitor:
+    parent: Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.extractor.twig.factory.twig:
+    parent: Translation\Extractor\Visitor\Twig\TwigVisitor
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'

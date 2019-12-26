@@ -12,6 +12,7 @@
 namespace Translation\Bundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Translation\Bundle\EditInPlace\Activator;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
 /**
@@ -25,7 +26,7 @@ class EditInPlaceTest extends BaseTestCase
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->getContainer()->get('test.php_translation.edit_in_place.activator')->activate();
+        $this->getContainer()->get(Activator::class)->activate();
 
         $response = $this->kernel->handle($request);
 
@@ -57,7 +58,7 @@ class EditInPlaceTest extends BaseTestCase
 
         // Activate the feature
         $this->bootKernel();
-        $this->getContainer()->get('test.php_translation.edit_in_place.activator')->activate();
+        $this->getContainer()->get(Activator::class)->activate();
 
         $response = $this->kernel->handle($request);
 

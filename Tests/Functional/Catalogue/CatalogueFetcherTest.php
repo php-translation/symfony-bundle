@@ -54,7 +54,7 @@ XML
     {
         $this->bootKernel();
 
-        $this->catalogueFetcher = $this->getContainer()->get('php_translation.catalogue_fetcher');
+        $this->catalogueFetcher = $this->getContainer()->get(CatalogueFetcher::class);
 
         $data = self::getDefaultData();
         $data['external_translations_dirs'] = [__DIR__.'/../app/Resources/translations/'];

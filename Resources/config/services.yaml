@@ -1,68 +1,85 @@
 services:
-  php_translation.catalogue_fetcher:
-    public: true
-    class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.reader"]
   Translation\Bundle\Catalogue\CatalogueFetcher:
-    alias: php_translation.catalogue_fetcher
-
-  php_translation.catalogue_writer:
     public: true
-    class: Translation\Bundle\Catalogue\CatalogueWriter
-    arguments: ["@translation.writer", "%php_translation.default_locale%"]
+    arguments: ['@translation.reader']
+
+  Translation\Bundle\Catalogue\CatalogueWriter:
+    public: true
+    arguments: ['@translation.writer', '%php_translation.default_locale%']
 
   php_translation.storage.abstract:
     class: Translation\Bundle\Service\StorageService
     abstract: true
-    arguments: ["@php_translation.catalogue_fetcher", "@php_translation.catalogue_writer", ~]
+    arguments: ['@Translation\Bundle\Catalogue\CatalogueFetcher', '@Translation\Bundle\Catalogue\CatalogueWriter', ~]
 
-  php_translation.catalogue_manager:
-    public: true
-    class: Translation\Bundle\Catalogue\CatalogueManager
   Translation\Bundle\Catalogue\CatalogueManager:
-    alias: php_translation.catalogue_manager
-
-  php_translation.extractor:
-    class: Translation\Extractor\Extractor
-
-  php_translation.storage_manager:
     public: true
-    class: Translation\Bundle\Service\StorageManager
+
+  Translation\Extractor\Extractor: ~
+
   Translation\Bundle\Service\StorageManager:
-    alias: php_translation.storage_manager
     public: true
 
-  php_translation.configuration_manager:
-    public: true
-    class: Translation\Bundle\Service\ConfigurationManager
   Translation\Bundle\Service\ConfigurationManager:
-    alias: php_translation.configuration_manager
-
-  php_translation.importer:
     public: true
-    class: Translation\Bundle\Service\Importer
-    arguments: ["@php_translation.extractor", "@twig", "%php_translation.default_locale%"]
 
-  php_translation.cache_clearer:
+  Translation\Bundle\Service\Importer:
     public: true
-    class: Translation\Bundle\Service\CacheClearer
-    arguments: ["%kernel.cache_dir%", "@translator", "@filesystem"]
+    arguments: ['@Translation\Extractor\Extractor', '@twig', '%php_translation.default_locale%']
+
   Translation\Bundle\Service\CacheClearer:
-    alias: php_translation.cache_clearer
     public: true
+    arguments: ['%kernel.cache_dir%', '@translator', '@filesystem']
 
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
     abstract: true
-    arguments: ["@translation.writer", "@translation.reader", ~, []]
+    arguments: ['@translation.writer', '@translation.reader', ~, []]
 
-  php_translation.catalogue_counter:
+  Translation\Bundle\Catalogue\CatalogueCounter:
     public: true
-    class: Translation\Bundle\Catalogue\CatalogueCounter
-    arguments: []
 
-  php_translation.twig_extension:
-    class: Translation\Bundle\Twig\TranslationExtension
-    arguments: ['@translator', "%kernel.debug%"]
+  Translation\Bundle\Twig\TranslationExtension:
+    arguments: ['@translator', '%kernel.debug%']
     tags:
         - { name: twig.extension }
+
+  # To remove in next major release
+  php_translation.catalogue_fetcher:
+    parent: Translation\Bundle\Catalogue\CatalogueFetcher
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+    public: true
+  php_translation.catalogue_writer:
+    parent: Translation\Bundle\Catalogue\CatalogueWriter
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+    public: true
+  php_translation.catalogue_manager:
+    parent: Translation\Bundle\Catalogue\CatalogueManager
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+    public: true
+  php_translation.extractor:
+    parent: Translation\Extractor\Extractor
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.storage_manager:
+    parent: Translation\Bundle\Service\StorageManager
+    public: true
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.configuration_manager:
+    parent: Translation\Bundle\Service\ConfigurationManager
+    public: true
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.importer:
+    parent: Translation\Bundle\Service\Importer
+    public: true
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.cache_clearer:
+    parent: Translation\Bundle\Service\CacheClearer
+    public: true
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.catalogue_counter:
+    parent: Translation\Bundle\Catalogue\CatalogueCounter
+    public: true
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+  php_translation.twig_extension:
+    parent: Translation\Bundle\Twig\TranslationExtension
+    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
