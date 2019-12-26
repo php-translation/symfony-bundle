@@ -70,7 +70,6 @@ final class SfProfilerMessage
      * @var int
      *
      * The number which we are feeding a transChoice with
-     * Used only in Symfony >2.8
      */
     private $transChoiceNumber;
 
@@ -78,7 +77,6 @@ final class SfProfilerMessage
      * @var array
      *
      * The parameters sent to the translations
-     * Used only in Symfony >2.8
      */
     private $parameters;
 
@@ -217,7 +215,7 @@ final class SfProfilerMessage
         return $this;
     }
 
-    public function getTransChoiceNumber(): int
+    public function getTransChoiceNumber(): ?int
     {
         return $this->transChoiceNumber;
     }
