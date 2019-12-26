@@ -5,10 +5,10 @@
     <title>{{ 'translated.title'|trans }}</title>
 </head>
 <body>
-    <h1>{{ 'translated.heading'|trans }}</h1>
+    <h1>{{ 'translated.heading'|transchoice(12) }}</h1>
     <p>{{ 'translated.paragraph0'|trans }}</p><p>{% trans %}translated.paragraph1{% endtrans %}</p><!-- two translation in same html line -->
     <p>
-        {% trans %}translated.paragraph2{% endtrans %}
+        {% transchoice 21 %}translated.paragraph2{% endtranschoice %}
         <a id="email" href="mailto:{{ 'localized.email'|trans }}">{{ 'localized.email'|trans }}</a><!-- translation inside attribute with additional content -->
     </p>
     <div id="attribute-div" data-value="{{ 'translated.attribute'|trans }}"></div> <!-- translation inside html attribute -->

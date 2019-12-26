@@ -2,7 +2,9 @@ services:
   php_translation.catalogue_fetcher:
     public: true
     class: Translation\Bundle\Catalogue\CatalogueFetcher
-    arguments: ["@translation.loader_or_reader"]
+    arguments: ["@translation.reader"]
+  Translation\Bundle\Catalogue\CatalogueFetcher:
+    alias: php_translation.catalogue_fetcher
 
   php_translation.catalogue_writer:
     public: true
@@ -17,6 +19,8 @@ services:
   php_translation.catalogue_manager:
     public: true
     class: Translation\Bundle\Catalogue\CatalogueManager
+  Translation\Bundle\Catalogue\CatalogueManager:
+    alias: php_translation.catalogue_manager
 
   php_translation.extractor:
     class: Translation\Extractor\Extractor
@@ -24,10 +28,15 @@ services:
   php_translation.storage_manager:
     public: true
     class: Translation\Bundle\Service\StorageManager
+  Translation\Bundle\Service\StorageManager:
+    alias: php_translation.storage_manager
+    public: true
 
   php_translation.configuration_manager:
     public: true
     class: Translation\Bundle\Service\ConfigurationManager
+  Translation\Bundle\Service\ConfigurationManager:
+    alias: php_translation.configuration_manager
 
   php_translation.importer:
     public: true
@@ -38,21 +47,14 @@ services:
     public: true
     class: Translation\Bundle\Service\CacheClearer
     arguments: ["%kernel.cache_dir%", "@translator", "@filesystem"]
+  Translation\Bundle\Service\CacheClearer:
+    alias: php_translation.cache_clearer
+    public: true
 
   php_translation.local_file_storage.abstract:
     class: Translation\SymfonyStorage\FileStorage
     abstract: true
-    arguments: ["@translation.writer", "@translation.loader_or_reader", ~, []]
-
-  php_translation.storage.xlf_loader:
-    class: Translation\SymfonyStorage\Loader\XliffLoader
-    tags:
-      - { name: translation.loader, alias: xlf, legacy-alias: xliff }
-
-  php_translation.storage.xlf_dumper:
-    class: Translation\SymfonyStorage\Dumper\XliffDumper
-    tags:
-      - { name: translation.dumper, alias: xlf, legacy-alias: xliff }
+    arguments: ["@translation.writer", "@translation.reader", ~, []]
 
   php_translation.catalogue_counter:
     public: true

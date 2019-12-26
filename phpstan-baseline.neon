@@ -1,0 +1,151 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Application\\:\\:getKernel\\(\\)\\.$#"
+            count: 1
+            path: Command/DeleteObsoleteCommand.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Application\\:\\:getKernel\\(\\)\\.$#"
+            count: 1
+            path: Command/DownloadCommand.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Application\\:\\:getKernel\\(\\)\\.$#"
+            count: 1
+            path: Command/ExtractCommand.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Application\\:\\:getKernel\\(\\)\\.$#"
+            count: 1
+            path: Command/StatusCommand.php
+
+        -
+            message: "#^Call to an undefined static method Symfony\\\\Component\\\\Intl\\\\Intl\\:\\:getLocaleBundle\\(\\)\\.$#"
+            count: 1
+            path: Controller/WebUIController.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\TreeBuilder\\:\\:root\\(\\)\\.$#"
+            count: 1
+            path: DependencyInjection/Configuration.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:fixXmlConfig\\(\\)\\.$#"
+            count: 1
+            path: DependencyInjection/Configuration.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:scalarNode\\(\\)\\.$#"
+            count: 2
+            path: DependencyInjection/Configuration.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:booleanNode\\(\\)\\.$#"
+            count: 1
+            path: DependencyInjection/Configuration.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\PostResponseEvent not found\\.$#"
+            count: 2
+            path: EventListener/AutoAddMissingTranslations.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\FilterResponseEvent not found\\.$#"
+            count: 2
+            path: EventListener/EditInPlaceResponseListener.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface not found\\.$#"
+            count: 1
+            path: Service/CacheClearer.php
+
+        -
+            message: "#^Property Translation\\\\Bundle\\\\Translator\\\\EditInPlaceTranslator\\:\\:\\$translator has unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface as its type\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Parameter \\$translator of method Translation\\\\Bundle\\\\Translator\\\\EditInPlaceTranslator\\:\\:__construct\\(\\) has invalid typehint type Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface not found\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Call to method getCatalogue\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Call to method trans\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 2
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Call to method getLocale\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 2
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Call to method transChoice\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Call to method setLocale\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/EditInPlaceTranslator.php
+
+        -
+            message: "#^Property Translation\\\\Bundle\\\\Translator\\\\FallbackTranslator\\:\\:\\$symfonyTranslator has unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface as its type\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Parameter \\$symfonyTranslator of method Translation\\\\Bundle\\\\Translator\\\\FallbackTranslator\\:\\:__construct\\(\\) has invalid typehint type Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface not found\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Call to method trans\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 2
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Call to method transChoice\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 2
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Call to method setLocale\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Call to method getLocale\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Call to method getCatalogue\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
+            count: 1
+            path: Translator/FallbackTranslator.php
+
+        -
+            message: "#^Class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface not found\\.$#"
+            count: 1
+            path: Twig/TranslationExtension.php
+
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Translation\\\\TranslatorBagInterface\\|Symfony\\\\Contracts\\\\Translation\\\\TranslatorInterface\\:\\:transChoice\\(\\)\\.$#"
+            count: 2
+            path: Twig/TranslationExtension.php

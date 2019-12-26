@@ -11,9 +11,10 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Bundle\Model\SfProfilerMessage;
@@ -23,11 +24,22 @@ use Translation\Common\Model\MessageInterface;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class SymfonyProfilerController extends Controller
+class SymfonyProfilerController extends AbstractController
 {
+    private $storage;
+    private $profiler;
+    private $isToolbarAllowEdit;
+
+    public function __construct(StorageService $storage, Profiler $profiler, bool $isToolbarAllowEdit)
+    {
+        $this->storage = $storage;
+        $this->profiler = $profiler;
+        $this->isToolbarAllowEdit = $isToolbarAllowEdit;
+    }
+
     public function editAction(Request $request, string $token): Response
     {
-        if (!$this->getParameter('php_translation.toolbar.allow_edit')) {
+        if (!$this->isToolbarAllowEdit) {
             return new Response('You are not allowed to edit the translations.');
         }
 
@@ -36,11 +48,9 @@ class SymfonyProfilerController extends Controller
         }
 
         $message = $this->getMessage($request, $token);
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
 
         if ($request->isMethod('GET')) {
-            $translation = $storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
+            $translation = $this->storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
 
             return $this->render('@Translation/SymfonyProfiler/edit.html.twig', [
                 'message' => $translation,
@@ -50,7 +60,7 @@ class SymfonyProfilerController extends Controller
 
         //Assert: This is a POST request
         $message->setTranslation($request->request->get('translation'));
-        $storage->update($message->convertToMessage());
+        $this->storage->update($message->convertToMessage());
 
         return new Response($message->getTranslation());
     }
@@ -61,10 +71,8 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
         $sfMessage = $this->getMessage($request, $token);
-        $message = $storage->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
+        $message = $this->storage->syncAndFetchMessage($sfMessage->getLocale(), $sfMessage->getDomain(), $sfMessage->getKey());
 
         if (null !== $message) {
             return new Response($message->getTranslation());
@@ -82,9 +90,7 @@ class SymfonyProfilerController extends Controller
             return $this->redirectToRoute('_profiler', ['token' => $token]);
         }
 
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
-        $storage->sync();
+        $this->storage->sync();
 
         return new Response('Started synchronization of all translations');
     }
@@ -106,10 +112,8 @@ class SymfonyProfilerController extends Controller
         }
 
         $uploaded = [];
-        /** @var StorageService $storage */
-        $storage = $this->get('php_translation.storage');
         foreach ($messages as $message) {
-            $storage->create($message);
+            $this->storage->create($message);
             $uploaded[] = $message;
         }
 

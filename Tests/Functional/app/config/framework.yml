@@ -8,10 +8,10 @@ framework:
     validation:
         enabled: true
     router:
-        resource: "%test.root_dir%/config/routing.yml"
+        resource: "%test.project_dir%/config/routing.yml"
         type: 'yaml'
 
 twig:
   strict_variables: "%kernel.debug%" #supresses deprecation notices about the default value TwigBundle pre version 5
   paths:
-    "%test.root_dir%/Resources/views": App
+    "%test.project_dir%/Resources/views": App

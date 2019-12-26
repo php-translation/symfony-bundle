@@ -12,12 +12,9 @@
 namespace Translation\Bundle\Catalogue;
 
 use Nyholm\NSA;
-use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader as SymfonyTranslationLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Translation\Bundle\Model\Configuration;
-use Translation\SymfonyStorage\LegacyTranslationReader;
-use Translation\SymfonyStorage\TranslationLoader;
 
 /**
  * Fetches catalogues from source files. This will only work with local file storage
@@ -29,20 +26,10 @@ use Translation\SymfonyStorage\TranslationLoader;
  */
 final class CatalogueFetcher
 {
-    /**
-     * @var TranslationReaderInterface
-     */
     private $reader;
 
-    /**
-     * @param SymfonyTranslationLoader|TranslationLoader|TranslationReaderInterface $reader
-     */
-    public function __construct($reader)
+    public function __construct(TranslationReaderInterface $reader)
     {
-        if (!$reader instanceof TranslationReaderInterface) {
-            $reader = new LegacyTranslationReader($reader);
-        }
-
         $this->reader = $reader;
     }
 

@@ -13,6 +13,7 @@ namespace Translation\Bundle\Tests\Functional\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\Model\Metadata;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
@@ -69,11 +70,19 @@ XML
         $container = $this->getContainer();
         $application->add($container->get('php_translator.console.extract'));
 
+        // transchoice tag have been definively removed in sf ^5.0
+        // Remove this condition & views_with_transchoice + associated config once sf ^5.0 is the minimum supported version.
+        if (\version_compare(Kernel::VERSION, 5.0, '<')) {
+            $configuration = 'app_with_transchoice';
+        } else {
+            $configuration = 'app';
+        }
+
         $command = $application->find('translation:extract');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
-            'configuration' => 'app',
+            'configuration' => $configuration,
             'locale' => 'sv',
         ]);
 

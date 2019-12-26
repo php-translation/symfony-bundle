@@ -1,0 +1,25 @@
+services:
+    Translation\Bundle\Controller\EditInPlaceController:
+        autowire: true
+        public: true
+        tags: ['container.service_subscriber']
+        arguments:
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\CacheClearer'
+            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+
+    Translation\Bundle\Controller\WebUIController:
+        autowire: true
+        public: true
+        tags: ['container.service_subscriber']
+        arguments:
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Catalogue\CatalogueManager'
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+            - '%php_translation.locales%'
+            - '%php_translation.webui.enabled%'
+            - '%php_translation.webui.allow_create%'
+            - '%php_translation.webui.allow_delete%'
+            - '%php_translation.webui.file_base_path%'

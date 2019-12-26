@@ -1,5 +1,9 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     level: 2
+    inferPrivatePropertyTypeFromConstructor: true
     paths:
       - Catalogue
       - Command
@@ -13,33 +17,3 @@ parameters:
       - Service
       - Translator
       - Twig
-
-    ignoreErrors:
-        -
-            message: '#Parameter \$reader of method Translation\\Bundle\\Catalogue\\CatalogueFetcher::__construct\(\) has invalid typehint type Symfony\\Bundle\\FrameworkBundle\\Translation\\TranslationLoader#'
-            path: %currentWorkingDirectory%/Catalogue/CatalogueFetcher.php
-
-        -
-            message: '#Return typehint of method Translation\\Bundle\\DependencyInjection\\TranslationExtension::createChildDefinition\(\) has invalid type Symfony\\Component\\DependencyInjection\\DefinitionDecorator#'
-            path: %currentWorkingDirectory%/DependencyInjection/TranslationExtension.php
-
-        -
-            comment: 'Symfony 3.3+ BC'
-            message: '#Symfony\\Component\\DependencyInjection\\DefinitionDecorator#'
-            path: %currentWorkingDirectory%
-
-        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\Node[a-zA-Z]+()#'
-
-        -
-            path: %currentWorkingDirectory%/Command
-            message: '#Call to an undefined method Symfony\\Component\\Console\\Application::getKernel()#'
-        -
-            path: %currentWorkingDirectory%/Controller/WebUIController.php
-            message: '#Call to an undefined static method Symfony\\Component\\Intl\\Intl::getLocaleBundle()#'
-        -
-            path: %currentWorkingDirectory%/DependencyInjection/Configuration.php
-            message: '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder::root()#'
-
-        -
-            path: %currentWorkingDirectory%/Translator
-            message: '#Call to an undefined method Symfony\\Component\\Translation\\TranslatorInterface|Symfony\\Contracts\\Translation\\TranslatorInterface::getCatalogue().#'
