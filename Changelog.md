@@ -12,6 +12,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ### Changed
 
+- Use class names as service ids. Old service ids will still be available as aliases. 
 - Renamed all `*.yml` files to `*.yaml`.
 
 ### Removed
