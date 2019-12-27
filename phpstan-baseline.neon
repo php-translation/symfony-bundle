@@ -149,3 +149,8 @@ parameters:
             message: "#^Call to an undefined method Symfony\\\\Component\\\\Translation\\\\TranslatorBagInterface\\|Symfony\\\\Contracts\\\\Translation\\\\TranslatorInterface\\:\\:transChoice\\(\\)\\.$#"
             count: 2
             path: Twig/TranslationExtension.php
+
+        -
+            message: "#^Call to method getValue\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\DataCollector\\\\Data\\.$#"
+            count: 1
+            path: Controller/SymfonyProfilerController.php

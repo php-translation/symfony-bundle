@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Translation\Bundle\Model\SfProfilerMessage;
@@ -122,21 +123,11 @@ class SymfonyProfilerController extends AbstractController
 
     private function getMessage(Request $request, string $token): SfProfilerMessage
     {
-        $profiler = $this->get('profiler');
-        $profiler->disable();
+        $this->profiler->disable();
 
         $messageId = $request->request->get('message_id', $request->query->get('message_id'));
 
-        $profile = $profiler->loadProfile($token);
-        if (null === $dataCollector = $profile->getCollector('translation')) {
-            throw $this->createNotFoundException('No collector with name "translation" was found.');
-        }
-
-        $collectorMessages = $dataCollector->getMessages();
-
-        if ($collectorMessages instanceof Data) {
-            $collectorMessages = $collectorMessages->getValue(true);
-        }
+        $collectorMessages = $this->getMessages($token);
 
         if (!isset($collectorMessages[$messageId])) {
             throw $this->createNotFoundException(\sprintf('No message with key "%s" was found.', $messageId));
@@ -144,8 +135,13 @@ class SymfonyProfilerController extends AbstractController
         $message = SfProfilerMessage::create($collectorMessages[$messageId]);
 
         if (DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK === $message->getState()) {
-            $message->setLocale($profile->getCollector('request')->getLocale())
-                ->setTranslation(\sprintf('[%s]', $message->getTranslation()));
+            /** @var \Symfony\Component\HttpKernel\DataCollector\RequestDataCollector */
+            $requestCollector = $this->profiler->loadProfile($token)->getCollector('request');
+
+            $message
+                ->setLocale($requestCollector->getLocale())
+                ->setTranslation(\sprintf('[%s]', $message->getTranslation()))
+            ;
         }
 
         return $message;
@@ -156,27 +152,38 @@ class SymfonyProfilerController extends AbstractController
      */
     protected function getSelectedMessages(Request $request, string $token): array
     {
-        $profiler = $this->get('profiler');
-        $profiler->disable();
+        $this->profiler->disable();
 
         $selected = $request->request->get('selected');
         if (!$selected || 0 == \count($selected)) {
             return [];
         }
 
-        $profile = $profiler->loadProfile($token);
-        $dataCollector = $profile->getCollector('translation');
-        $messages = $dataCollector->getMessages();
-
-        if ($messages instanceof Data) {
-            $messages = $messages->getValue(true);
-        }
-
-        $toSave = \array_intersect_key($messages, \array_flip($selected));
+        $toSave = \array_intersect_key($this->getMessages($token), \array_flip($selected));
 
         $messages = [];
         foreach ($toSave as $data) {
             $messages[] = SfProfilerMessage::create($data)->convertToMessage();
+        }
+
+        return $messages;
+    }
+
+    private function getMessages(string $token, string $profileName = 'translation'): array
+    {
+        $profile = $this->profiler->loadProfile($token);
+
+        if (null === $dataCollector = $profile->getCollector($profileName)) {
+            throw $this->createNotFoundException("No collector with name \"$profileName\" was found.");
+        }
+        if (!$dataCollector instanceof TranslationDataCollector) {
+            throw $this->createNotFoundException("Collector with name \"$profileName\" is not an instance of TranslationDataCollector.");
+        }
+
+        $messages = $dataCollector->getMessages();
+
+        if (\class_exists(Data::class) && $messages instanceof Data) {
+            return $messages->getValue(true);
         }
 
         return $messages;
