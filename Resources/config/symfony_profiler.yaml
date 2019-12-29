@@ -6,6 +6,7 @@ services:
       - { name: 'data_collector', template: "@Translation/SymfonyProfiler/translation.html.twig", id: "translation", priority: 200 }
 
   Translation\Bundle\Controller\SymfonyProfilerController:
+    autowire: true
     public: true
     tags: ['container.service_subscriber']
     arguments:
