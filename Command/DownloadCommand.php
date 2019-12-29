@@ -16,7 +16,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Translation\Bundle\Catalogue\CatalogueWriter;
 use Translation\Bundle\Service\CacheClearer;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\StorageManager;
@@ -31,24 +33,21 @@ class DownloadCommand extends Command
 
     protected static $defaultName = 'translation:download';
 
-    /**
-     * @var ConfigurationManager
-     */
     private $configurationManager;
-
-    /**
-     * @var CacheClearer
-     */
     private $cacheCleaner;
+    private $catalogueWriter;
 
     public function __construct(
         StorageManager $storageManager,
         ConfigurationManager $configurationManager,
-        CacheClearer $cacheCleaner
+        CacheClearer $cacheCleaner,
+        CatalogueWriter $catalogueWriter
     ) {
         $this->storageManager = $storageManager;
         $this->configurationManager = $configurationManager;
         $this->cacheCleaner = $cacheCleaner;
+        $this->catalogueWriter = $catalogueWriter;
+
         parent::__construct();
     }
 
@@ -57,31 +56,55 @@ class DownloadCommand extends Command
         $this
             ->setName(self::$defaultName)
             ->setDescription('Replace local messages with messages from remote')
+            ->setHelp(<<<EOT
+The <info>%command.name%</info> will erase all your local translations and replace them with translations downloaded from the remote.
+EOT
+            )
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-            ->addOption('cache', null, InputOption::VALUE_NONE, 'Clear the cache if the translations have changed')
+            ->addOption('cache', null, InputOption::VALUE_NONE, '[DEPRECATED] Cache is now automatically cleared when translations have changed.')
             ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want update translations from.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
+        if ($input->getOption('cache')) {
+            $message = 'The --cache option is deprecated as it\'s now the default behaviour of this command.';
+
+            $io->note($message);
+            @\trigger_error($message, E_USER_DEPRECATED);
+        }
+
         $configName = $input->getArgument('configuration');
         $config = $this->configurationManager->getConfiguration($configName);
         $storage = $this->getStorage($configName);
 
         $this->configureBundleDirs($input, $config);
 
-        if ($input->getOption('cache')) {
-            $translationsDirectory = $config->getOutputDir();
-            $md5BeforeDownload = $this->hashDirectory($translationsDirectory);
-            $storage->download();
-            $md5AfterDownload = $this->hashDirectory($translationsDirectory);
+        $translationsDirectory = $config->getOutputDir();
+        $md5BeforeDownload = $this->hashDirectory($translationsDirectory);
 
-            if ($md5BeforeDownload !== $md5AfterDownload) {
-                $this->cacheCleaner->clearAndWarmUp();
+        $catalogues = $storage->download();
+        $this->catalogueWriter->writeCatalogues($config, $catalogues);
+
+        $translationsCount = 0;
+        foreach ($catalogues as $locale => $catalogue) {
+            foreach ($catalogue->all() as $domain => $messages) {
+                $translationsCount += \count($messages);
             }
+        }
+
+        $io->text("<info>$translationsCount</info> translations have been downloaded.");
+
+        $md5AfterDownload = $this->hashDirectory($translationsDirectory);
+
+        if ($md5BeforeDownload !== $md5AfterDownload) {
+            $io->success('Translations updated successfully!');
+            $this->cacheCleaner->clearAndWarmUp();
         } else {
-            $storage->download();
+            $io->success('All translations were up to date.');
         }
 
         return 0;

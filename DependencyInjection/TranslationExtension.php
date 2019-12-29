@@ -117,7 +117,7 @@ class TranslationExtension extends Extension
              * Configure storage chain service
              */
             $storageDefinition = new ChildDefinition('php_translation.storage.abstract');
-            $storageDefinition->replaceArgument(2, new Reference($configurationServiceId));
+            $storageDefinition->replaceArgument(1, new Reference($configurationServiceId));
             $storageDefinition->setPublic(true);
             $container->setDefinition('php_translation.storage.'.$name, $storageDefinition);
             $storageManager->addMethodCall('addStorage', [$name, new Reference('php_translation.storage.'.$name)]);

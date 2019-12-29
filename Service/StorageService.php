@@ -13,7 +13,6 @@ namespace Translation\Bundle\Service;
 
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Catalogue\CatalogueFetcher;
-use Translation\Bundle\Catalogue\CatalogueWriter;
 use Translation\Bundle\Model\Configuration;
 use Translation\Common\Exception\LogicException;
 use Translation\Common\Model\Message;
@@ -42,40 +41,33 @@ final class StorageService implements Storage
      */
     private $remoteStorages = [];
 
-    /**
-     * @var CatalogueFetcher
-     */
     private $catalogueFetcher;
-
-    /**
-     * @var CatalogueWriter
-     */
-    private $catalogueWriter;
-
-    /**
-     * @var Configuration
-     */
     private $config;
 
-    public function __construct(
-        CatalogueFetcher $catalogueFetcher,
-        CatalogueWriter $catalogueWriter,
-        Configuration $config
-    ) {
+    public function __construct(CatalogueFetcher $catalogueFetcher, Configuration $config)
+    {
         $this->catalogueFetcher = $catalogueFetcher;
-        $this->catalogueWriter = $catalogueWriter;
         $this->config = $config;
     }
 
     /**
-     * Download all remote storages into all local storages.
-     * This will overwrite your local copy.
+     * Download catalogues from all storages.
+     *
+     * @return MessageCatalogue[]
      */
-    public function download(): void
+    public function download(): array
     {
-        $catalogues = $this->doDownload();
+        $catalogues = [];
+        foreach ($this->config->getLocales() as $locale) {
+            $catalogues[$locale] = new MessageCatalogue($locale);
+            foreach ($this->remoteStorages as $storage) {
+                if ($storage instanceof TransferableStorage) {
+                    $storage->export($catalogues[$locale]);
+                }
+            }
+        }
 
-        $this->catalogueWriter->writeCatalogues($this->config, $catalogues);
+        return $catalogues;
     }
 
     /**
@@ -105,7 +97,7 @@ final class StorageService implements Storage
      */
     public function mergeDown(): void
     {
-        $catalogues = $this->doDownload();
+        $catalogues = $this->download();
 
         foreach ($catalogues as $locale => $catalogue) {
             foreach ($catalogue->all() as $domain => $messages) {
@@ -263,25 +255,5 @@ final class StorageService implements Storage
         $this->remoteStorages[] = $remoteStorage;
 
         return $this;
-    }
-
-    /**
-     * Download catalogues from all storages.
-     *
-     * @return MessageCatalogue[]
-     */
-    private function doDownload(): array
-    {
-        $catalogues = [];
-        foreach ($this->config->getLocales() as $locale) {
-            $catalogues[$locale] = new MessageCatalogue($locale);
-            foreach ($this->remoteStorages as $storage) {
-                if ($storage instanceof TransferableStorage) {
-                    $storage->export($catalogues[$locale]);
-                }
-            }
-        }
-
-        return $catalogues;
     }
 }
