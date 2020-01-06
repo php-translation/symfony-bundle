@@ -152,7 +152,7 @@ final class StorageService implements Storage
      * local storage and then move on to the remote storages.
      * {@inheritdoc}
      */
-    public function get(string $locale, string $domain, string $key): MessageInterface
+    public function get(string $locale, string $domain, string $key): ?MessageInterface
     {
         foreach ([$this->localStorages, $this->remoteStorages] as $storages) {
             $value = $this->getFromStorages($storages, $locale, $domain, $key);
