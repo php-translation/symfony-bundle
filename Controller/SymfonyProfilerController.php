@@ -183,6 +183,7 @@ class SymfonyProfilerController extends AbstractController
         $messages = $dataCollector->getMessages();
 
         if (\class_exists(Data::class) && $messages instanceof Data) {
+            /** @var Data $messages */
             return $messages->getValue(true);
         }
 
