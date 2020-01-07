@@ -2,6 +2,23 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.11.0
+
+## Added
+
+- GUI updates on the Profiler page.
+
+### Fixed
+
+- Fixed "Unable to edit a missing translation from profiler" by updating SymfonyStorage
+
+### Changed
+
+- Modernized SymfonyProfilerController by stop using `$this->get()` and other bad practises.
+- Modernized DownloadCommand
+- `StorageService::download()` will return an array of `MessageCatalogue` after local copy is downloaded.
+- DownloadCommand will automatically clear cache.
+
 ## 0.10.0
 
 ## Added
@@ -12,7 +29,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ### Changed
 
-- Use class names as service ids. Old service ids will still be available as aliases. 
+- Use class names as service ids. Old service ids will still be available as aliases.
 - Renamed all `*.yml` files to `*.yaml`.
 
 ### Removed
