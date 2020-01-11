@@ -94,6 +94,7 @@ class TranslationExtension extends Extension
      */
     private function handleConfigNode(ContainerBuilder $container, array $config): void
     {
+        $container->resolveEnvPlaceholders($config);
         $storageManager = $container->getDefinition(StorageManager::class);
         $configurationManager = $container->getDefinition(ConfigurationManager::class);
         // $first will be the "default" configuration.
