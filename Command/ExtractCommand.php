@@ -98,8 +98,8 @@ class ExtractCommand extends Command
             $locales = [$inputLocale];
         }
 
-        $catalogues = $this->catalogueFetcher->getCatalogues($config, $locales);
         $this->configureBundleDirs($input, $config);
+        $catalogues = $this->catalogueFetcher->getCatalogues($config, $locales);
         $finder = $this->getConfiguredFinder($config);
 
         $result = $this->importer->extractToCatalogues($finder, $catalogues, [
