@@ -2,6 +2,15 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.11.1
+
+### Fixed
+
+- Resolve environment placeholders.
+- Correct incorrect service name `php_translator.fallback_translator.inner`.
+- Extract command: Configure bundle dir before fetching catalogues.
+- Deal with null values when retrieving catalogues.
+
 ## 0.11.0
 
 ## Added
