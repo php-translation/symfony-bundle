@@ -58,7 +58,7 @@ final class CatalogueManager
         }
 
         foreach ($this->catalogues[$locale]->all($domain) as $key => $text) {
-            $messages[] = $this->createMessage($this->catalogues[$locale], $locale, $domain, $key, $text);
+            $messages[] = $this->createMessage($this->catalogues[$locale], $locale, $domain, $key, $text ?? '');
         }
 
         return $messages;
