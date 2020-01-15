@@ -28,6 +28,7 @@ function editTranslation(el) {
 
     xmlhttp.open("POST", editUrl, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xmlhttp.send(JSON.stringify({message: el.value, key: el.getAttribute("data-key")}));
 }
 
@@ -68,6 +69,7 @@ function createTranslation(el, url) {
 
     xmlhttp.open("POST", url, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xmlhttp.send(JSON.stringify({message: messageInput.value, key: keyInput.value}));
 
     return false;
@@ -105,6 +107,7 @@ function deleteTranslation(el) {
 
     xmlhttp.open("DELETE", editUrl, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xmlhttp.send(JSON.stringify({key: messageKey}));
 }
 
