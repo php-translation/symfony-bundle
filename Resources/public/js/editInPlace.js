@@ -108,6 +108,8 @@ var TranslationBundleEditInPlace = function(saveUrl) {
         };
 
         httpRequest.open('POST', saveUrl, true);
+        httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        httpRequest.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         httpRequest.send(JSON.stringify(regions));
     }
 
