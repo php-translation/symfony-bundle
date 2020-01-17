@@ -2,6 +2,16 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.11.2
+
+### Added
+
+- Support Symfony Profiler dark mode
+
+### Fixed
+
+- Add missing AJAX requests headers ('X-Requested-With')
+
 ## 0.11.1
 
 ### Fixed
