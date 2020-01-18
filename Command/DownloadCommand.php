@@ -63,6 +63,7 @@ EOT
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addOption('cache', null, InputOption::VALUE_NONE, '[DEPRECATED] Cache is now automatically cleared when translations have changed.')
             ->addOption('bundle', 'b', InputOption::VALUE_REQUIRED, 'The bundle you want update translations from.')
+            ->addOption('export-config', 'exconf', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Options to send to the StorageInterface::export() function. Ie, when downloading. Example: --export-config foo:bar', [])
         ;
     }
 
@@ -86,7 +87,8 @@ EOT
         $translationsDirectory = $config->getOutputDir();
         $md5BeforeDownload = $this->hashDirectory($translationsDirectory);
 
-        $catalogues = $storage->download();
+        $exportOptions = $this->cleanParameters($input->getOption('export-config'));
+        $catalogues = $storage->download($exportOptions);
         $this->catalogueWriter->writeCatalogues($config, $catalogues);
 
         $translationsCount = 0;
@@ -128,5 +130,18 @@ EOT
         }
 
         return \hash_final($hash);
+    }
+
+    public function cleanParameters(array $raw)
+    {
+        $config = [];
+
+        foreach ($raw as $string) {
+            // Assert $string looks like "foo:bar"
+            list($key, $value) = \explode(':', $string, 2);
+            $config[$key][] = $value;
+        }
+
+        return $config;
     }
 }

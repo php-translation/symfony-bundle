@@ -42,8 +42,8 @@ class SyncCommand extends Command
             ->setDescription('Sync the translations with the remote storage')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten, otherwise "up"', 'down')
-            ->addOption('export-config', 'exconf', InputOption::VALUE_IS_ARRAY, 'Options to send to the StorageInterface::export() function. Ie, when downloading. Example: --export-conf foo:bar', [])
-            ->addOption('import-config', 'imconf', InputOption::VALUE_IS_ARRAY, 'Options to send to the StorageInterface::import() function. Ie, when uploading. Example: --import-conf foo:bar', [])
+            ->addOption('export-config', 'exconf', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Options to send to the StorageInterface::export() function. Ie, when downloading. Example: --export-config foo:bar', [])
+            ->addOption('import-config', 'imconf', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'Options to send to the StorageInterface::import() function. Ie, when uploading. Example: --import-config foo:bar', [])
         ;
     }
 
