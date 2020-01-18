@@ -2,7 +2,7 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## 0.12.0
+## 0.11.3
 
 ### Added
 
@@ -11,7 +11,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 
 ## 0.11.2
 
-### Fixed
+### Added
 
 - Support Symfony Profiler dark mode
 
