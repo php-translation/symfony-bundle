@@ -82,6 +82,7 @@ final class CatalogueManager
         $isNew = $config['isNew'] ?? null;
         $isObsolete = $config['isObsolete'] ?? null;
         $isApproved = $config['isApproved'] ?? null;
+        $isEmpty = $config['isEmpty'] ?? null;
 
         $messages = [];
         $catalogues = [];
@@ -106,7 +107,7 @@ final class CatalogueManager
             }
         }
 
-        $messages = \array_filter($messages, static function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved) {
+        $messages = \array_filter($messages, static function (CatalogueMessage $m) use ($isNew, $isObsolete, $isApproved, $isEmpty) {
             if (null !== $isNew && $m->isNew() !== $isNew) {
                 return false;
             }
@@ -114,6 +115,9 @@ final class CatalogueManager
                 return false;
             }
             if (null !== $isApproved && $m->isApproved() !== $isApproved) {
+                return false;
+            }
+            if (null !== $isEmpty && empty($m->getMessage()) !== $isEmpty) {
                 return false;
             }
 
