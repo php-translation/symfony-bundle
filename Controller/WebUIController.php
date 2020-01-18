@@ -76,7 +76,7 @@ class WebUIController extends AbstractController
     public function indexAction(?string $configName = null): Response
     {
         if (!$this->isWebUIEnabled) {
-            return new Response('You are not allowed here. Check you config. ', 400);
+            return new Response('You are not allowed here. Check your config.', Response::HTTP_BAD_REQUEST);
         }
 
         $config = $this->configurationManager->getConfiguration($configName);
@@ -124,7 +124,7 @@ class WebUIController extends AbstractController
     public function showAction(string $configName, string $locale, string $domain): Response
     {
         if (!$this->isWebUIEnabled) {
-            return new Response('You are not allowed here. Check you config. ', 400);
+            return new Response('You are not allowed here. Check your config.', Response::HTTP_BAD_REQUEST);
         }
         $config = $this->configurationManager->getConfiguration($configName);
 
@@ -154,7 +154,7 @@ class WebUIController extends AbstractController
     public function createAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->isWebUIEnabled || !$this->isWebUIAllowCreate) {
-            return new Response('You are not allowed to create. Check you config. ', 400);
+            return new Response('You are not allowed to create. Check your config.', Response::HTTP_BAD_REQUEST);
         }
 
         /** @var StorageService $storage */
@@ -166,13 +166,15 @@ class WebUIController extends AbstractController
             $message = $message->withLocale($locale);
             $this->validateMessage($message, ['Create']);
         } catch (MessageValidationException $e) {
-            return new Response($e->getMessage(), 400);
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         try {
             $storage->create($message);
         } catch (StorageException $e) {
             throw new BadRequestHttpException(\sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         return $this->render('@Translation/WebUI/create.html.twig', [
@@ -183,7 +185,7 @@ class WebUIController extends AbstractController
     public function editAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->isWebUIEnabled) {
-            return new Response('You are not allowed here. Check you config. ', 400);
+            return new Response('You are not allowed here. Check your config.', Response::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -192,12 +194,16 @@ class WebUIController extends AbstractController
             $message = $message->withLocale($locale);
             $this->validateMessage($message, ['Edit']);
         } catch (MessageValidationException $e) {
-            return new Response($e->getMessage(), 400);
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         /** @var StorageService $storage */
         $storage = $this->storageManager->getStorage($configName);
-        $storage->update($message);
+        try {
+            $storage->update($message);
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
 
         return new Response('Translation updated');
     }
@@ -205,7 +211,7 @@ class WebUIController extends AbstractController
     public function deleteAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->isWebUIEnabled || !$this->isWebUIAllowDelete) {
-            return new Response('You are not allowed to create. Check you config. ', 400);
+            return new Response('You are not allowed to create. Check your config.', Response::HTTP_BAD_REQUEST);
         }
 
         try {
@@ -214,12 +220,16 @@ class WebUIController extends AbstractController
             $message = $message->withDomain($domain);
             $this->validateMessage($message, ['Delete']);
         } catch (MessageValidationException $e) {
-            return new Response($e->getMessage(), 400);
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         /** @var StorageService $storage */
         $storage = $this->storageManager->getStorage($configName);
-        $storage->delete($locale, $domain, $message->getKey());
+        try {
+            $storage->delete($locale, $domain, $message->getKey());
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
 
         return new Response('Message was deleted');
     }
