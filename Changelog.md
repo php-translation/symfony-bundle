@@ -2,6 +2,13 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.11.3
+
+### Added
+
+- Command to delete empty translations
+- Ability to send arbitrary options to a TransferableStorage with the download and sync command.
+
 ## 0.11.2
 
 ### Added
