@@ -49,6 +49,10 @@ services:
     tags:
       - { name: 'php_translation.visitor', type: 'php' }
 
+  Translation\Extractor\Visitor\Php\Symfony\FormTypeTitle:
+    tags:
+      - { name: 'php_translation.visitor', type: 'php' }
+
   Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation:
     arguments: ['@validator']
     tags:
