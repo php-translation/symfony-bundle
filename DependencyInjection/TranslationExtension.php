@@ -239,6 +239,6 @@ class TranslationExtension extends Extension
     {
         $vendorReflection = new \ReflectionClass(FormTypeChoices::class);
 
-        return dirname($vendorReflection->getFileName(), 4);
+        return \dirname($vendorReflection->getFileName(), 4);
     }
 }

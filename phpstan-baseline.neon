@@ -26,11 +26,6 @@ parameters:
 			path: Command/StatusCommand.php
 
 		-
-			message: "#^Call to method getValue\\(\\) on an unknown class Symfony\\\\Component\\\\Translation\\\\DataCollector\\\\Data\\.$#"
-			count: 1
-			path: Controller/SymfonyProfilerController.php
-
-		-
 			message: "#^Call to an undefined static method Symfony\\\\Component\\\\Intl\\\\Intl\\:\\:getLocaleBundle\\(\\)\\.$#"
 			count: 1
 			path: Controller/WebUIController.php
