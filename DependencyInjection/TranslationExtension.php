@@ -42,6 +42,8 @@ class TranslationExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $container->setParameter('extractor_vendor_dir', $this->getExtractorVendorDirectory());
+
         $configuration = new Configuration($container);
         $config = $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -231,5 +233,12 @@ class TranslationExtension extends Extension
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         return new Configuration($container);
+    }
+
+    private function getExtractorVendorDirectory(): string
+    {
+        $vendorReflection = new \ReflectionClass(FormTypeChoices::class);
+
+        return dirname($vendorReflection->getFileName(), 4);
     }
 }

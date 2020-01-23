@@ -1,6 +1,8 @@
 services:
     _defaults:
         autowire: true
+        bind:
+            $metadataFactory: '@validator'
 
     _instanceof:
         PhpParser\NodeVisitor:
@@ -16,27 +18,8 @@ services:
             - { name: 'php_translation.extractor', type: 'twig' }
 
     # PHP Visitors:
-    Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FlashMessage: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder: ~
-
-    Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation: ~
+    Translation\Extractor\Visitor\Php\Symfony\:
+        resource: "%extractor_vendor_dir%/Visitor/Php/Symfony/*"
 
     Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor: ~
 
