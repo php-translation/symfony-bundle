@@ -1,67 +1,49 @@
 services:
-  Translation\Extractor\FileExtractor\PHPFileExtractor:
-    tags:
-      - { name: 'php_translation.extractor', type: 'php' }
+    _defaults:
+        autowire: true
 
-  Translation\Extractor\FileExtractor\TwigFileExtractor:
-    arguments: ["@twig"]
-    tags:
-      - { name: 'php_translation.extractor', type: 'twig' }
+    _instanceof:
+        PhpParser\NodeVisitor:
+            tags:
+                - { name: 'php_translation.visitor', type: 'php' }
 
-  # PHP Visitors:
-  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\FileExtractor\PHPFileExtractor:
+        tags:
+            - { name: 'php_translation.extractor', type: 'php' }
 
-  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\FileExtractor\TwigFileExtractor:
+        tags:
+            - { name: 'php_translation.extractor', type: 'twig' }
 
-  Translation\Extractor\Visitor\Php\Symfony\FlashMessage:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    # PHP Visitors:
+    Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FlashMessage: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit: ~
 
-  Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation:
-    arguments: ['@validator']
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit: ~
 
-  Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+    Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder: ~
 
-  # Twig Visitors:
-  Translation\Extractor\Visitor\Twig\TwigVisitor:
-    tags:
-        - { name: 'php_translation.visitor', type: 'twig' }
+    Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation: ~
+
+    Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor: ~
+
+    # Twig Visitors:
+    Translation\Extractor\Visitor\Twig\TwigVisitor:
+        tags:
+            - { name: 'php_translation.visitor', type: 'twig' }
 
   # To remove in next major release
   php_translation.extractor.php:
