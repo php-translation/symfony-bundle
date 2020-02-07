@@ -85,7 +85,7 @@ XML
         $commandTester->execute(['locale' => 'sv', 'configuration' => 'app']);
 
         $this->assertStringContainsString(
-            '4 messages have empty translations, please provide translations for them',
+            '4 messages have empty translations, please provide translations',
             $commandTester->getDisplay()
         );
         $this->assertGreaterThan(0, $commandTester->getStatusCode());
