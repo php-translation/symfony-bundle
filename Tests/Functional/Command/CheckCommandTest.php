@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Translation\Bundle\Tests\Functional\Command;
@@ -6,7 +7,6 @@ namespace Translation\Bundle\Tests\Functional\Command;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
-use function file_put_contents;
 
 class CheckCommandTest extends BaseTestCase
 {
@@ -19,12 +19,12 @@ class CheckCommandTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->kernel->addConfigFile(__DIR__ . '/../app/config/normal_config.yaml');
+        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
         $this->bootKernel();
         $this->application = new Application($this->kernel);
 
-        file_put_contents(
-            __DIR__ . '/../app/Resources/translations/messages.sv.xlf',
+        \file_put_contents(
+            __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="sv">
@@ -93,8 +93,8 @@ XML
 
     public function testReportsNoNewTranslationMessages(): void
     {
-        file_put_contents(
-            __DIR__ . '/../app/Resources/translations/messages.sv.xlf',
+        \file_put_contents(
+            __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="sv">

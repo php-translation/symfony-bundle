@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Translation\Bundle\Command;
@@ -15,8 +16,6 @@ use Translation\Bundle\Catalogue\CatalogueFetcher;
 use Translation\Bundle\Model\Configuration;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\Importer;
-use function array_filter;
-use function count;
 
 final class CheckCommand extends Command
 {
@@ -92,7 +91,7 @@ final class CheckCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($newMessages > 0) {
-            $io->error(sprintf('%d new message(s) have been found, run bin/console translation:extract', $newMessages));
+            $io->error(\sprintf('%d new message(s) have been found, run bin/console translation:extract', $newMessages));
 
             return 1;
         }
@@ -101,7 +100,7 @@ final class CheckCommand extends Command
 
         if ($emptyTranslations > 0) {
             $io->error(
-                sprintf('%d messages have empty translations, please provide translations for them', $emptyTranslations)
+                \sprintf('%d messages have empty translations, please provide translations for them', $emptyTranslations)
             );
 
             return 1;
@@ -133,14 +132,14 @@ final class CheckCommand extends Command
         $total = 0;
 
         foreach ($catalogue->getDomains() as $domain) {
-            $emptyTranslations = array_filter(
+            $emptyTranslations = \array_filter(
                 $catalogue->all($domain),
                 function (string $message): bool {
-                    return $message === '';
+                    return '' === $message;
                 }
             );
 
-            $total += count($emptyTranslations);
+            $total += \count($emptyTranslations);
         }
 
         return $total;
