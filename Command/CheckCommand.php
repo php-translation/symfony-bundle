@@ -9,11 +9,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Translation\Bundle\Catalogue\CatalogueCounter;
 use Translation\Bundle\Catalogue\CatalogueFetcher;
 use Translation\Bundle\Model\Configuration;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\Importer;
+use function array_filter;
+use function count;
 
 final class CheckCommand extends Command
 {
@@ -59,8 +62,7 @@ final class CheckCommand extends Command
             ->setName(self::$defaultName)
             ->setDescription('Check that all translations for a given locale are extracted.')
             ->addArgument('locale', InputArgument::REQUIRED, 'The locale to check')
-            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
-        ;
+            ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -95,6 +97,16 @@ final class CheckCommand extends Command
             return 1;
         }
 
+        $emptyTranslations = $this->countEmptyTranslations($result->getMessageCatalogues()[0]);
+
+        if ($emptyTranslations > 0) {
+            $io->error(
+                sprintf('%d messages have empty translations, please provide translations for them', $emptyTranslations)
+            );
+
+            return 1;
+        }
+
         $io->success('No new translation messages');
 
         return 0;
@@ -114,5 +126,23 @@ final class CheckCommand extends Command
         }
 
         return $finder;
+    }
+
+    private function countEmptyTranslations(MessageCatalogueInterface $catalogue): int
+    {
+        $total = 0;
+
+        foreach ($catalogue->getDomains() as $domain) {
+            $emptyTranslations = array_filter(
+                $catalogue->all($domain),
+                function (string $message): bool {
+                    return $message === '';
+                }
+            );
+
+            $total += count($emptyTranslations);
+        }
+
+        return $total;
     }
 }
