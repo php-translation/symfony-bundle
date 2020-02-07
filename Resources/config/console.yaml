@@ -1,4 +1,14 @@
 services:
+    Translation\Bundle\Command\CheckCommand:
+        public: true
+        arguments:
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Service\Importer'
+            - '@Translation\Bundle\Catalogue\CatalogueCounter'
+        tags:
+            - { name: console.command, command: translation:check }
+
     Translation\Bundle\Command\DeleteObsoleteCommand:
         public: true
         arguments:
