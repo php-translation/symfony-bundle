@@ -21,6 +21,8 @@ services:
     Translation\Extractor\Visitor\Php\Symfony\:
         resource: "%extractor_vendor_dir%/Visitor/Php/Symfony/*"
 
+    Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor: ~
+
     # Twig Visitors:
     Translation\Extractor\Visitor\Twig\TwigVisitor:
         tags:
