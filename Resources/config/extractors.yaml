@@ -9,58 +9,10 @@ services:
       - { name: 'php_translation.extractor', type: 'twig' }
 
   # PHP Visitors:
-  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FlashMessage:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\FormTypeTitle:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation:
-    arguments: ['@validator']
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
-
-  Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor:
-    tags:
-      - { name: 'php_translation.visitor', type: 'php' }
+  _instanceof:
+    PhpParser\NodeVisitor:
+        tags:
+            - { name: 'php_translation.visitor', type: 'php' }
 
   # Twig Visitors:
   Translation\Extractor\Visitor\Twig\TwigVisitor:
