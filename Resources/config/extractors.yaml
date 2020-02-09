@@ -21,47 +21,47 @@ services:
 
   # To remove in next major release
   php_translation.extractor.php:
-    parent: Translation\Extractor\FileExtractor\PHPFileExtractor
+    alias: Translation\Extractor\FileExtractor\PHPFileExtractor
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.twig:
-    parent: Translation\Extractor\FileExtractor\TwigFileExtractor
+    alias: Translation\Extractor\FileExtractor\TwigFileExtractor
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.ContainerAwareTrans:
-    parent: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
+    alias: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTrans
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.ContainerAwareTransChoice:
-    parent: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
+    alias: Translation\Extractor\Visitor\Php\Symfony\ContainerAwareTransChoice
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FlashMessage:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
+    alias: Translation\Extractor\Visitor\Php\Symfony\FlashMessage
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeChoices:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeEmptyValue:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeEmptyValue
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeHelp:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeHelp
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeInvalidMessage:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeInvalidMessage
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeLabelExplicit:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelExplicit
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypeLabelImplicit:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypeLabelImplicit
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.FormTypePlaceholder:
-    parent: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
+    alias: Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.ValidationAnnotation:
-    parent: Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation
+    alias: Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.php.visitor.SourceLocationContainerVisitor:
-    parent: Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor
+    alias: Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
   php_translation.extractor.twig.factory.twig:
-    parent: Translation\Extractor\Visitor\Twig\TwigVisitor
+    alias: Translation\Extractor\Visitor\Twig\TwigVisitor
     deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
