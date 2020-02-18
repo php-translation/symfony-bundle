@@ -1,5 +1,5 @@
 services:
-    Translation\Bundle\Command\CheckCommand:
+    Translation\Bundle\Command\CheckMissingCommand:
         public: true
         arguments:
             - '@Translation\Bundle\Service\ConfigurationManager'
@@ -7,7 +7,7 @@ services:
             - '@Translation\Bundle\Service\Importer'
             - '@Translation\Bundle\Catalogue\CatalogueCounter'
         tags:
-            - { name: console.command, command: translation:check }
+            - { name: console.command, command: translation:check-missing }
 
     Translation\Bundle\Command\DeleteObsoleteCommand:
         public: true

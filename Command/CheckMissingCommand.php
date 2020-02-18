@@ -17,9 +17,9 @@ use Translation\Bundle\Model\Configuration;
 use Translation\Bundle\Service\ConfigurationManager;
 use Translation\Bundle\Service\Importer;
 
-final class CheckCommand extends Command
+final class CheckMissingCommand extends Command
 {
-    protected static $defaultName = 'translation:check';
+    protected static $defaultName = 'translation:check-missing';
 
     /**
      * @var ConfigurationManager

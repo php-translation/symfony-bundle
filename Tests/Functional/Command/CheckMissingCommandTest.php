@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
-class CheckCommandTest extends BaseTestCase
+class CheckMissingCommandTest extends BaseTestCase
 {
     /**
      * @var Application
@@ -64,7 +64,7 @@ XML
 
     public function testReportsMissingTranslations(): void
     {
-        $commandTester = new CommandTester($this->application->find('translation:check'));
+        $commandTester = new CommandTester($this->application->find('translation:check-missing'));
 
         $commandTester->execute(['locale' => 'sv', 'configuration' => 'app']);
 
@@ -80,7 +80,7 @@ XML
         // run translation:extract first, so all translations are extracted
         (new CommandTester($this->application->find('translation:extract')))->execute(['locale' => 'sv']);
 
-        $commandTester = new CommandTester($this->application->find('translation:check'));
+        $commandTester = new CommandTester($this->application->find('translation:check-missing'));
 
         $commandTester->execute(['locale' => 'sv', 'configuration' => 'app']);
 
@@ -181,7 +181,7 @@ XML
 XML
         );
 
-        $commandTester = new CommandTester($this->application->find('translation:check'));
+        $commandTester = new CommandTester($this->application->find('translation:check-missing'));
 
         $commandTester->execute(['locale' => 'sv', 'configuration' => 'app']);
 
