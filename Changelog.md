@@ -2,6 +2,13 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12
+
+### Added
+
+- Service definition for form field title extractor
+- Command translation:check-missing
+
 ## 0.11.3
 
 ### Added
