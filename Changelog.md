@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.1
+
+### Fixed
+
+- Allow null values in CheckMissingCommand
+
 ## 0.12
 
 ### Added
