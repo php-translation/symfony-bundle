@@ -17,7 +17,17 @@ services:
           - '@Translation\Bundle\Catalogue\CatalogueManager'
           - '@Translation\Bundle\Catalogue\CatalogueFetcher'
         tags:
-            - { name: console.command, command: translation:delete-obsolete}
+            - { name: console.command, command: translation:delete-obsolete }
+
+    Translation\Bundle\Command\DeleteEmptyCommand:
+        public: true
+        arguments:
+          - '@Translation\Bundle\Service\StorageManager'
+          - '@Translation\Bundle\Service\ConfigurationManager'
+          - '@Translation\Bundle\Catalogue\CatalogueManager'
+          - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+        tags:
+            - { name: console.command, command: translation:delete-empty }
 
     Translation\Bundle\Command\DownloadCommand:
         public: true
