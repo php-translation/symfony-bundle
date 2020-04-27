@@ -12,6 +12,6 @@ framework:
         type: 'yaml'
 
 twig:
-  strict_variables: "%kernel.debug%" #supresses deprecation notices about the default value TwigBundle pre version 5
+  strict_variables: "%kernel.debug%" #suppresses deprecation notices about the default value TwigBundle pre version 5
   paths:
     "%test.project_dir%/Resources/views": App
