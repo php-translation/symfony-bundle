@@ -2,11 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
-## Unreleased
+## 0.12.2
 
-### Removed
+### Fixed
 
-- Support for PHP 7.1
+- Add missing command definition #412
+- Fix typo in Tests/Functional/app/config/framework.yaml #413
 
 ## 0.12.1
 
