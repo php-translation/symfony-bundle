@@ -69,16 +69,31 @@ services:
     # To remove in next major release
     php_translator.console.delete_obsolete:
         parent: Translation\Bundle\Command\DeleteObsoleteCommand
-        deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+        deprecated:
+            package: 'php-translation/symfony-bundle'
+            version: '0.11.0'
+            message: ~
     php_translator.console.download:
         parent: Translation\Bundle\Command\DownloadCommand
-        deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+        deprecated:
+            package: 'php-translation/symfony-bundle'
+            version: '0.11.0'
+            message: ~
     php_translator.console.extract:
         parent: Translation\Bundle\Command\ExtractCommand
-        deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+        deprecated:
+            package: 'php-translation/symfony-bundle'
+            version: '0.11.0'
+            message: ~
     php_translator.console.status:
         parent: Translation\Bundle\Command\StatusCommand
-        deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+        deprecated:
+            package: 'php-translation/symfony-bundle'
+            version: '0.11.0'
+            message: ~
     php_translator.console.sync:
         parent: Translation\Bundle\Command\SyncCommand
-        deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
+        deprecated:
+            package: 'php-translation/symfony-bundle'
+            version: '0.11.0'
+            message: ~
