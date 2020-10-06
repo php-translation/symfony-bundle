@@ -42,23 +42,23 @@ services:
     parent: Translation\Bundle\EventListener\EditInPlaceResponseListener
     deprecated:
         package: 'php-translation/symfony-bundle'
-        version: '0.11.0'
+        version: '0.10.0'
         message: ~
   php_translation.edit_in_place.activator:
     parent: Translation\Bundle\EditInPlace\Activator
     deprecated:
         package: 'php-translation/symfony-bundle'
-        version: '0.11.0'
+        version: '0.10.0'
         message: ~
   php_translator.edit_in_place.xtrans_html_translator:
     parent: Translation\Bundle\Translator\EditInPlaceTranslator
     deprecated:
         package: 'php-translation/symfony-bundle'
-        version: '0.11.0'
+        version: '0.10.0'
         message: ~
   php_translation.edit_in_place.extension.trans:
     parent: Translation\Bundle\Twig\EditInPlaceExtension
     deprecated:
         package: 'php-translation/symfony-bundle'
-        version: '0.11.0'
+        version: '0.10.0'
         message: ~

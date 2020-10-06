@@ -71,29 +71,29 @@ services:
         parent: Translation\Bundle\Command\DeleteObsoleteCommand
         deprecated:
             package: 'php-translation/symfony-bundle'
-            version: '0.11.0'
+            version: '0.10.0'
             message: ~
     php_translator.console.download:
         parent: Translation\Bundle\Command\DownloadCommand
         deprecated:
             package: 'php-translation/symfony-bundle'
-            version: '0.11.0'
+            version: '0.10.0'
             message: ~
     php_translator.console.extract:
         parent: Translation\Bundle\Command\ExtractCommand
         deprecated:
             package: 'php-translation/symfony-bundle'
-            version: '0.11.0'
+            version: '0.10.0'
             message: ~
     php_translator.console.status:
         parent: Translation\Bundle\Command\StatusCommand
         deprecated:
             package: 'php-translation/symfony-bundle'
-            version: '0.11.0'
+            version: '0.10.0'
             message: ~
     php_translator.console.sync:
         parent: Translation\Bundle\Command\SyncCommand
         deprecated:
             package: 'php-translation/symfony-bundle'
-            version: '0.11.0'
+            version: '0.10.0'
             message: ~
