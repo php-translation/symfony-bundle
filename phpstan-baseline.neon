@@ -145,7 +145,5 @@ parameters:
 			count: 2
 			path: Twig/TranslationExtension.php
 
-		-
-			message: "#^Interface Translation\\\\Bundle\\\\Translator\\\\TranslatorInterface extends unknown interface Symfony\\\\Component\\\\Translation\\\\TranslatorInterface\\.$#"
-			count: 1
-			path: Translator/TranslatorInterface.php
+	excludes_analyse:
+		- Translator/TranslatorInterface.php
