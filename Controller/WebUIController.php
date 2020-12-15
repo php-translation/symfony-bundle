@@ -211,7 +211,7 @@ class WebUIController extends AbstractController
     public function deleteAction(Request $request, string $configName, string $locale, string $domain): Response
     {
         if (!$this->isWebUIEnabled || !$this->isWebUIAllowDelete) {
-            return new Response('You are not allowed to create. Check your config.', Response::HTTP_BAD_REQUEST);
+            return new Response('You are not allowed to delete. Check your config.', Response::HTTP_BAD_REQUEST);
         }
 
         try {
