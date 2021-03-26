@@ -11,12 +11,12 @@
     ],
     "require": {
         "php": "^7.2 || ^8.0",
-        "symfony/framework-bundle": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/validator": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/translation": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/twig-bundle": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/finder": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/intl": "^3.4.47 || ^4.4.20 || ^5.2.5",
+        "symfony/framework-bundle": "^4.4.20 || ^5.2.5",
+        "symfony/validator": "^4.4.20 || ^5.2.5",
+        "symfony/translation": "^4.4.20 || ^5.2.5",
+        "symfony/twig-bundle": "^4.4.20 || ^5.2.5",
+        "symfony/finder": "^4.4.20 || ^5.2.5",
+        "symfony/intl": "^4.4.20 || ^5.2.5",
 
         "php-translation/symfony-storage": "^2.1",
         "php-translation/extractor": "^2.0",
@@ -30,18 +30,15 @@
         "php-http/curl-client": "^1.7 || ^2.0",
         "php-http/message": "^1.11",
         "php-http/message-factory": "^1.0.2",
-        "symfony/console": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/twig-bridge": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/asset": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/dependency-injection": "^3.4.47 || ^4.4.20 || ^5.2.5",
-        "symfony/web-profiler-bundle": "^3.4.47 || ^4.4.20 || ^5.2.5",
+        "symfony/console": "^4.4.20 || ^5.2.5",
+        "symfony/twig-bridge": "^4.4.20 || ^5.2.5",
+        "symfony/asset": "^4.4.20 || ^5.2.5",
+        "symfony/dependency-injection": "^4.4.20 || ^5.2.5",
+        "symfony/web-profiler-bundle": "^4.4.20 || ^5.2.5",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "matthiasnoback/symfony-config-test": "^4.1",
         "nyholm/psr7": "^1.1",
         "nyholm/symfony-bundle-test": "^1.6.1"
-    },
-    "conflict": {
-        "symfony/config": "<3.4.31"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."
