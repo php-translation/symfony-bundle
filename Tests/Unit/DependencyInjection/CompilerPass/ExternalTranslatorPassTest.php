@@ -24,10 +24,7 @@ class ExternalTranslatorPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new ExternalTranslatorPass());
     }
 
-    /**
-     * @test
-     */
-    public function if_compiler_pass_collects_services_by_adding_method_calls_these_will_exist(): void
+    public function testIfCompilerPassCollectsServicesByAddingMethodCallsTheseWillExist(): void
     {
         $collectingService = new Definition();
         $this->setDefinition('php_translation.translator_service.external_translator', $collectingService);

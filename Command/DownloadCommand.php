@@ -75,7 +75,7 @@ EOT
             $message = 'The --cache option is deprecated as it\'s now the default behaviour of this command.';
 
             $io->note($message);
-            @\trigger_error($message, E_USER_DEPRECATED);
+            @\trigger_error($message, \E_USER_DEPRECATED);
         }
 
         $configName = $input->getArgument('configuration');

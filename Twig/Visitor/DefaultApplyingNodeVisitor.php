@@ -59,7 +59,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
         }
 
         if (!$transNode instanceof FilterExpression) {
-            throw new \RuntimeException(\sprintf('The "desc" filter must be applied after a "trans", or "transchoice" filter.'));
+            throw new \RuntimeException('The "desc" filter must be applied after a "trans", or "transchoice" filter.');
         }
 
         $wrappingNode = $node->getNode('node');
