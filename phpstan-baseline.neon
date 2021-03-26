@@ -145,3 +145,5 @@ parameters:
 			count: 2
 			path: Twig/TranslationExtension.php
 
+	excludes_analyse:
+		- Translator/TranslatorInterface.php
