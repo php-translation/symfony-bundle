@@ -125,7 +125,7 @@ class SymfonyProfilerController extends AbstractController
     {
         $this->profiler->disable();
 
-        $messageId = $request->request->get('message_id', $request->query->get('message_id'));
+        $messageId = (string) $request->request->get('message_id', $request->query->get('message_id'));
 
         $collectorMessages = $this->getMessages($token);
 
@@ -154,8 +154,9 @@ class SymfonyProfilerController extends AbstractController
     {
         $this->profiler->disable();
 
-        $selected = $request->request->get('selected');
-        if (!$selected || 0 == \count($selected)) {
+        /** @var string[] $selected */
+        $selected = (array)$request->request->get('selected');
+        if (0 === \count($selected)) {
             return [];
         }
 
