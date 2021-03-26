@@ -26,11 +26,6 @@ parameters:
 			path: Command/StatusCommand.php
 
 		-
-			message: "#^Call to an undefined static method Symfony\\\\Component\\\\Intl\\\\Intl\\:\\:getLocaleBundle\\(\\)\\.$#"
-			count: 1
-			path: Controller/WebUIController.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\TreeBuilder\\:\\:root\\(\\)\\.$#"
 			count: 1
 			path: DependencyInjection/Configuration.php
