@@ -2,6 +2,13 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.3
+
+### Fixed
+
+- Fix psalm issues #431
+- Fix: do not require unreleased packages #433
+
 ## 0.12.2
 
 ### Added
