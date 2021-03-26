@@ -60,7 +60,7 @@ class SymfonyProfilerController extends AbstractController
         }
 
         //Assert: This is a POST request
-        $message->setTranslation((string)$request->request->get('translation'));
+        $message->setTranslation((string) $request->request->get('translation'));
         $this->storage->update($message->convertToMessage());
 
         return new Response($message->getTranslation());
