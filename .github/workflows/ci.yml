@@ -17,8 +17,6 @@ jobs:
             - php: 7.4
               strategy: 'lowest'
             - php: 7.3
-              sf_version: '3.*'
-            - php: 7.3
               sf_version: '4.*'
 
     steps:
