@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "symfony/framework-bundle": "^3.4 || ^4.3 || ^5.0",
         "symfony/validator": "^3.4 || ^4.3 || ^5.0",
         "symfony/translation": "^3.4 || ^4.3 || ^5.0",
