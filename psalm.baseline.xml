@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
+<files psalm-version="4.x-dev@">
   <file src="Catalogue/Operation/ReplaceOperation.php">
     <TypeDoesNotContainType occurrences="2">
       <code>!\is_array($source)</code>
@@ -22,16 +22,12 @@
     <NullableReturnStatement occurrences="1">
       <code>$messages-&gt;getValue(true)</code>
     </NullableReturnStatement>
-    <UndefinedDocblockClass occurrences="1">
-      <code>$dataCollector-&gt;getMessages()</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="DependencyInjection/Configuration.php">
     <InvalidArgument occurrences="1">
       <code>\array_keys($bundles)</code>
     </InvalidArgument>
     <UndefinedMethod occurrences="2">
-      <code>children</code>
       <code>fixXmlConfig</code>
     </UndefinedMethod>
   </file>
@@ -39,27 +35,6 @@
     <InternalMethod occurrences="1">
       <code>getNodeVisitors</code>
     </InternalMethod>
-  </file>
-  <file src="Service/StorageService.php">
-    <InvalidNullableReturnType occurrences="1">
-      <code>?MessageInterface</code>
-    </InvalidNullableReturnType>
-    <MethodSignatureMismatch occurrences="6">
-      <code>$domain</code>
-      <code>$domain</code>
-      <code>$key</code>
-      <code>$key</code>
-      <code>$locale</code>
-      <code>$locale</code>
-    </MethodSignatureMismatch>
-    <NullableReturnStatement occurrences="1">
-      <code>null</code>
-    </NullableReturnStatement>
-  </file>
-  <file src="Tests/Functional/Command/ExtractCommandTest.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>5.0</code>
-    </InvalidScalarArgument>
   </file>
   <file src="Tests/Functional/app/Service/DummyHttpClient.php">
     <UndefinedClass occurrences="1">
@@ -76,18 +51,6 @@
     <UndefinedGlobalVariable occurrences="1">
       <code>$container</code>
     </UndefinedGlobalVariable>
-  </file>
-  <file src="Tests/Unit/Catalogue/Operation/ReplaceOperationTest.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>getMetadata</code>
-      <code>getMetadata</code>
-      <code>getMetadata</code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="Tests/Unit/Twig/RemovingNodeVisitorTest.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>5.0</code>
-    </InvalidScalarArgument>
   </file>
   <file src="Translator/EditInPlaceTranslator.php">
     <UndefinedInterfaceMethod occurrences="1">

@@ -1,20 +1,33 @@
 .PHONY: ${TARGETS}
 
-DIR := ${CURDIR}
-QA_IMAGE := jakzal/phpqa:php7.3-alpine
+# https://www.gnu.org/software/make/manual/html_node/Force-Targets.html
+always:
 
-cs-fix:
-	@docker run --rm -v $(DIR):/project -w /project $(QA_IMAGE) php-cs-fixer fix --diff-format udiff -vvv
+cs-fix: vendor
+	vendor/bin/php-cs-fixer fix --diff-format udiff -vvv
 
-cs-diff:
-	@docker run --rm -v $(DIR):/project -w /project $(QA_IMAGE) php-cs-fixer fix --diff-format udiff --dry-run -vvv
+cs-diff: vendor
+	vendor/bin/php-cs-fixer fix --diff-format udiff --dry-run -vvv
 
-phpstan:
-	@docker run --rm -v $(DIR):/project -w /project $(QA_IMAGE) phpstan analyze
+phpstan: vendor
+	vendor/bin/phpstan analyze
 
-phpunit:
+psalm: vendor
+	vendor/bin/psalm.phar
+
+phpunit: vendor
 	@vendor/bin/phpunit
+
+.PHONY: baseline
+baseline: vendor ## Generate baseline files
+	vendor/bin/phpstan analyze --generate-baseline
+	vendor/bin/psalm.phar --update-baseline
 
 static: cs-diff phpstan
 
 test: static phpunit
+
+vendor: always
+	composer update --no-interaction
+	composer bin all install --no-interaction
+	vendor/bin/simple-phpunit install
