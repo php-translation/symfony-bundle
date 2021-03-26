@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## Unreleased
+
+### Removed
+
+- Support for PHP 7.1
+
 ## 0.12.1
 
 ### Fixed
