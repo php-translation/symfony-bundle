@@ -155,7 +155,7 @@ class SymfonyProfilerController extends AbstractController
         $this->profiler->disable();
 
         /** @var string[] $selected */
-        $selected = (array)$request->request->get('selected');
+        $selected = (array) $request->request->get('selected');
         if (0 === \count($selected)) {
             return [];
         }
