@@ -17,12 +17,12 @@
         <directory name="Exception" />
         <directory name="Model" />
         <directory name="Service" />
-        <directory name="Tests" />
         <directory name="Translator" />
         <directory name="Twig" />
         <file name="TranslationBundle.php" />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="Tests" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

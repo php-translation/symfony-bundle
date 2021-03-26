@@ -13,7 +13,7 @@ phpstan: vendor
 	vendor/bin/phpstan analyze
 
 psalm: vendor
-	vendor/bin/psalm.phar
+	vendor/bin/psalm
 
 phpunit: vendor
 	@vendor/bin/phpunit
@@ -21,7 +21,7 @@ phpunit: vendor
 .PHONY: baseline
 baseline: vendor ## Generate baseline files
 	vendor/bin/phpstan analyze --generate-baseline
-	vendor/bin/psalm.phar --update-baseline
+	vendor/bin/psalm --set-baseline=psalm.baseline.xml
 
 static: cs-diff phpstan
 
