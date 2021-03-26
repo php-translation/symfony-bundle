@@ -2,23 +2,99 @@ name: Static code analysis
 
 on: [pull_request]
 
+
 jobs:
   phpstan:
     name: PHPStan
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
+
     steps:
-      - uses: actions/checkout@master
-      - name: Run PHPStan
-        uses: docker://jakzal/phpqa:php7.3-alpine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache PHPStan
+        uses: actions/cache@v2
         with:
-          args: phpstan analyze
+          path: .github/.cache/phpstan/
+          key: phpstan-${{ github.sha }}
+          restore-keys: phpstan-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Download PHPStan
+        run: composer bin phpstan update --no-interaction --no-progress
+
+      - name: Execute PHPStan
+        run: vendor/bin/phpstan analyze --no-progress
 
   php-cs-fixer:
     name: PHP-CS-Fixer
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
+
     steps:
-      - uses: actions/checkout@master
-      - name: Run PHP-CS-Fixer
-        uses: docker://jakzal/phpqa:php7.3-alpine
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache PhpCsFixer
+        uses: actions/cache@v2
         with:
-            args: php-cs-fixer fix --dry-run --diff-format udiff -vvv
+          path: .github/.cache/php-cs-fixer/
+          key: php-cs-fixer-${{ github.sha }}
+          restore-keys: php-cs-fixer-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Download PHP CS Fixer
+        run: composer bin php-cs-fixer update --no-interaction --no-progress
+
+      - name: Execute PHP CS Fixer
+        run: vendor/bin/php-cs-fixer fix --diff-format udiff --dry-run
+
+  psalm:
+    name: Psalm
+    runs-on: Ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache Psalm
+        uses: actions/cache@v2
+        with:
+          path: .github/.cache/psalm/
+          key: psalm-${{ github.sha }}
+          restore-keys: psalm-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Download Psalm
+        run: composer bin psalm update --no-interaction --no-progress
+
+      - name: Execute Psalm
+        run: vendor/bin/psalm --no-progress --output-format=github

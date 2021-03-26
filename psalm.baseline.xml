@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.6.4@97fe86c4e158b5a57c5150aa5055c38b5a809aab">
+  <file src="Catalogue/Operation/ReplaceOperation.php">
+    <TypeDoesNotContainType occurrences="2">
+      <code>!\is_array($source)</code>
+      <code>!\is_array($target)</code>
+    </TypeDoesNotContainType>
+  </file>
+  <file src="Command/BundleTrait.php">
+    <UndefinedMethod occurrences="1">
+      <code>getKernel</code>
+    </UndefinedMethod>
+  </file>
+  <file src="Controller/SymfonyProfilerController.php">
+    <InvalidReturnStatement occurrences="2">
+      <code>$messages</code>
+      <code>$messages-&gt;getValue(true)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$messages-&gt;getValue(true)</code>
+    </NullableReturnStatement>
+  </file>
+  <file src="Controller/WebUIController.php">
+    <UndefinedMethod occurrences="1">
+      <code>Intl::getLocaleBundle()</code>
+    </UndefinedMethod>
+  </file>
+  <file src="DependencyInjection/Configuration.php">
+    <InvalidArgument occurrences="1">
+      <code>\array_keys($bundles)</code>
+    </InvalidArgument>
+    <UndefinedMethod occurrences="2">
+      <code>fixXmlConfig</code>
+      <code>root</code>
+    </UndefinedMethod>
+  </file>
+  <file src="DependencyInjection/TranslationExtension.php">
+    <InvalidArgument occurrences="1">
+      <code>$container-&gt;getParameter('kernel.project_dir')</code>
+    </InvalidArgument>
+  </file>
+  <file src="EventListener/AutoAddMissingTranslations.php">
+    <UndefinedClass occurrences="1">
+      <code>PostResponseEvent</code>
+    </UndefinedClass>
+  </file>
+  <file src="EventListener/EditInPlaceResponseListener.php">
+    <UndefinedClass occurrences="1">
+      <code>FilterResponseEvent</code>
+    </UndefinedClass>
+  </file>
+  <file src="Service/CacheClearer.php">
+    <UndefinedClass occurrences="1">
+      <code>LegacyTranslatorInterface</code>
+    </UndefinedClass>
+  </file>
+  <file src="Service/Importer.php">
+    <InternalMethod occurrences="1">
+      <code>getNodeVisitors</code>
+    </InternalMethod>
+  </file>
+  <file src="Translator/EditInPlaceTranslator.php">
+    <UndefinedClass occurrences="2">
+      <code>$this-&gt;translator</code>
+      <code>$this-&gt;translator</code>
+    </UndefinedClass>
+    <UndefinedDocblockClass occurrences="7">
+      <code>$this-&gt;translator</code>
+      <code>$this-&gt;translator</code>
+      <code>$this-&gt;translator</code>
+      <code>$this-&gt;translator</code>
+      <code>$this-&gt;translator</code>
+      <code>LegacyTranslatorInterface|NewTranslatorInterface</code>
+      <code>LegacyTranslatorInterface|NewTranslatorInterface</code>
+    </UndefinedDocblockClass>
+    <UndefinedInterfaceMethod occurrences="5">
+      <code>getCatalogue</code>
+      <code>getLocale</code>
+      <code>getLocale</code>
+      <code>setLocale</code>
+      <code>transChoice</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Translator/FallbackTranslator.php">
+    <RedundantCast occurrences="1">
+      <code>(string) $id</code>
+    </RedundantCast>
+    <UndefinedDocblockClass occurrences="9">
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>$this-&gt;symfonyTranslator</code>
+      <code>LegacyTranslatorInterface|NewTranslatorInterface</code>
+      <code>LegacyTranslatorInterface|NewTranslatorInterface</code>
+    </UndefinedDocblockClass>
+    <UndefinedInterfaceMethod occurrences="5">
+      <code>getCatalogue</code>
+      <code>getLocale</code>
+      <code>setLocale</code>
+      <code>transChoice</code>
+      <code>transChoice</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Translator/TranslatorInterface.php">
+    <UnrecognizedStatement occurrences="1"/>
+  </file>
+  <file src="Twig/EditInPlaceExtension.php">
+    <InvalidArgument occurrences="1">
+      <code>[$this-&gt;extension, 'transchoice']</code>
+    </InvalidArgument>
+  </file>
+  <file src="Twig/TranslationExtension.php">
+    <UndefinedClass occurrences="1">
+      <code>LegacyTranslatorInterface</code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>transChoice</code>
+      <code>transChoice</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="Twig/Visitor/DefaultApplyingNodeVisitor.php">
+    <InvalidScalarArgument occurrences="5">
+      <code>0</code>
+      <code>0</code>
+      <code>0</code>
+      <code>0</code>
+      <code>0</code>
+    </InvalidScalarArgument>
+  </file>
+</files>

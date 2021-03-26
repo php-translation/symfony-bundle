@@ -51,16 +51,6 @@ parameters:
 			path: DependencyInjection/Configuration.php
 
 		-
-			message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\PostResponseEvent not found\\.$#"
-			count: 2
-			path: EventListener/AutoAddMissingTranslations.php
-
-		-
-			message: "#^Class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\FilterResponseEvent not found\\.$#"
-			count: 2
-			path: EventListener/EditInPlaceResponseListener.php
-
-		-
 			message: "#^Class Symfony\\\\Component\\\\Translation\\\\TranslatorInterface not found\\.$#"
 			count: 1
 			path: Service/CacheClearer.php

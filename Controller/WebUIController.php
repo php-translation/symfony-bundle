@@ -271,7 +271,7 @@ class WebUIController extends AbstractController
     {
         $errors = $this->validator->validate($message, null, $validationGroups);
         if (\count($errors) > 0) {
-            throw  MessageValidationException::create();
+            throw MessageValidationException::create();
         }
     }
 }
