@@ -1,8 +1,4 @@
 services:
-    _defaults:
-        bind:
-            $metadataFactory: '@validator'
-
     _instanceof:
         PhpParser\NodeVisitor:
             tags:
@@ -74,3 +70,9 @@ services:
     php_translation.extractor.twig.factory.twig:
         alias: Translation\Extractor\Visitor\Twig\TwigVisitor
         deprecated: 'The "%service_id%" service is deprecated. You should use "%alias_id%" instead, as it will be removed in the future.'
+
+
+
+
+    Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation:
+        arguments: ['@validator']
