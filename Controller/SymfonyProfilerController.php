@@ -12,9 +12,11 @@
 namespace Translation\Bundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Translation\DataCollector\TranslationDataCollector;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -28,13 +30,15 @@ use Translation\Common\Model\MessageInterface;
 class SymfonyProfilerController extends AbstractController
 {
     private $storage;
+    /**
+     * @var Profiler An optional dependency
+     */
     private $profiler;
     private $isToolbarAllowEdit;
 
-    public function __construct(StorageService $storage, Profiler $profiler, bool $isToolbarAllowEdit)
+    public function __construct(StorageService $storage, bool $isToolbarAllowEdit)
     {
         $this->storage = $storage;
-        $this->profiler = $profiler;
         $this->isToolbarAllowEdit = $isToolbarAllowEdit;
     }
 
@@ -45,7 +49,7 @@ class SymfonyProfilerController extends AbstractController
         }
 
         if (!$request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('_profiler', ['token' => $token]);
+            return $this->redirectToProfiler($token);
         }
 
         $message = $this->getMessage($request, $token);
@@ -69,7 +73,7 @@ class SymfonyProfilerController extends AbstractController
     public function syncAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('_profiler', ['token' => $token]);
+            return $this->redirectToProfiler($token);
         }
 
         $sfMessage = $this->getMessage($request, $token);
@@ -88,7 +92,7 @@ class SymfonyProfilerController extends AbstractController
     public function syncAllAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('_profiler', ['token' => $token]);
+            return $this->redirectToProfiler($token);
         }
 
         $this->storage->sync();
@@ -104,7 +108,7 @@ class SymfonyProfilerController extends AbstractController
     public function createAssetsAction(Request $request, string $token): Response
     {
         if (!$request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('_profiler', ['token' => $token]);
+            return $this->redirectToProfiler($token);
         }
 
         $messages = $this->getSelectedMessages($request, $token);
@@ -123,7 +127,7 @@ class SymfonyProfilerController extends AbstractController
 
     private function getMessage(Request $request, string $token): SfProfilerMessage
     {
-        $this->profiler->disable();
+        $this->getProfiler()->disable();
 
         $messageId = (string) $request->request->get('message_id', $request->query->get('message_id'));
 
@@ -136,7 +140,7 @@ class SymfonyProfilerController extends AbstractController
 
         if (DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK === $message->getState()) {
             /** @var \Symfony\Component\HttpKernel\DataCollector\RequestDataCollector */
-            $requestCollector = $this->profiler->loadProfile($token)->getCollector('request');
+            $requestCollector = $this->getProfiler()->loadProfile($token)->getCollector('request');
 
             $message
                 ->setLocale($requestCollector->getLocale())
@@ -152,7 +156,7 @@ class SymfonyProfilerController extends AbstractController
      */
     protected function getSelectedMessages(Request $request, string $token): array
     {
-        $this->profiler->disable();
+        $this->getProfiler()->disable();
 
         /** @var string[] $selected */
         $selected = (array) $request->request->get('selected');
@@ -172,7 +176,7 @@ class SymfonyProfilerController extends AbstractController
 
     private function getMessages(string $token, string $profileName = 'translation'): array
     {
-        $profile = $this->profiler->loadProfile($token);
+        $profile = $this->getProfiler()->loadProfile($token);
 
         if (null === $dataCollector = $profile->getCollector($profileName)) {
             throw $this->createNotFoundException("No collector with name \"$profileName\" was found.");
@@ -188,5 +192,28 @@ class SymfonyProfilerController extends AbstractController
         }
 
         return $messages;
+    }
+
+    public function setProfiler(Profiler $profiler): void
+    {
+        $this->profiler = $profiler;
+    }
+
+    private function getProfiler(): Profiler
+    {
+        if (!$this->profiler) {
+            throw new \Exception('The "profiler" service is missing. Please, run "composer require symfony/web-profiler-bundle" first to use this feature.');
+        }
+
+        return $this->profiler;
+    }
+
+    private function redirectToProfiler(string $token): RedirectResponse
+    {
+        try {
+            return $this->redirectToRoute('_profiler', ['token' => $token]);
+        } catch (RouteNotFoundException $e) {
+            throw new \Exception('Route to profiler page not found. Please, run "composer require symfony/web-profiler-bundle" first to use this feature.');
+        }
     }
 }
