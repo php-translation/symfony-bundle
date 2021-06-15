@@ -139,6 +139,7 @@ class ExtractCommand extends Command
     private function getConfiguredFinder(Configuration $config): Finder
     {
         $finder = new Finder();
+        $finder->sortByName();
         $finder->in($config->getDirs());
 
         foreach ($config->getExcludedDirs() as $exclude) {
