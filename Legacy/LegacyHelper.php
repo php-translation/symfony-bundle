@@ -14,7 +14,7 @@ namespace Translation\Bundle\Legacy;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * A legacy helper to suppress deprecations on RequestStack
+ * A legacy helper to suppress deprecations on RequestStack.
  *
  * @author Victor Bocharsky <bocharsky.bw@gmail.com>
  */
@@ -22,7 +22,7 @@ class LegacyHelper
 {
     public static function getMainRequest(RequestStack $requestStack)
     {
-        if (method_exists($requestStack, 'getMainRequest')) {
+        if (\method_exists($requestStack, 'getMainRequest')) {
             return $requestStack->getMainRequest();
         }
 
