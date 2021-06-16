@@ -17,3 +17,5 @@ parameters:
       - Service
       - Translator
       - Twig
+    ignoreErrors:
+        - '#Call to an undefined static method Symfony\\Component\\Intl\\Intl::getLocaleBundle\(\)\.#'

@@ -21,7 +21,8 @@
         "php-translation/symfony-storage": "^2.1",
         "php-translation/extractor": "^2.0",
         "nyholm/nsa": "^1.1",
-        "twig/twig": "^2.14.4 || ^3.3"
+        "twig/twig": "^2.14.4 || ^3.3",
+        "symfony/asset": "^4.4.20 || ^5.2.4"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2",
@@ -32,7 +33,6 @@
         "php-http/message-factory": "^1.0.2",
         "symfony/console": "^4.4.20 || ^5.2.5",
         "symfony/twig-bridge": "^4.4.20 || ^5.2.5",
-        "symfony/asset": "^4.4.20 || ^5.2.4",
         "symfony/dependency-injection": "^4.4.20 || ^5.2.5",
         "symfony/web-profiler-bundle": "^4.4.20 || ^5.2.4",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
