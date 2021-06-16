@@ -14,6 +14,7 @@ namespace Translation\Bundle\Twig;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
+use Translation\Bundle\Legacy\LegacyHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -52,7 +53,9 @@ final class EditInPlaceExtension extends AbstractExtension
      */
     public function isSafe($node): array
     {
-        return $this->activator->checkRequest($this->requestStack->getMasterRequest()) ? ['html'] : [];
+        $request = LegacyHelper::getMainRequest($this->requestStack);
+
+        return $this->activator->checkRequest($request) ? ['html'] : [];
     }
 
     /**

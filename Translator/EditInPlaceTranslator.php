@@ -18,6 +18,7 @@ use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterfa
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
+use Translation\Bundle\Legacy\LegacyHelper;
 
 /**
  * Custom Translator for HTML rendering only (output `<x-trans>` tags).
@@ -75,7 +76,8 @@ final class EditInPlaceTranslator implements TranslatorInterface
     public function trans($id, array $parameters = [], $domain = null, $locale = null): ?string
     {
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
-        if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
+        $request = LegacyHelper::getMainRequest($this->requestStack);
+        if (!$this->activator->checkRequest($request)) {
             return $original;
         }
 
@@ -105,7 +107,8 @@ final class EditInPlaceTranslator implements TranslatorInterface
      */
     public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): ?string
     {
-        if (!$this->activator->checkRequest($this->requestStack->getMasterRequest())) {
+        $request = LegacyHelper::getMainRequest($this->requestStack);
+        if (!$this->activator->checkRequest($request)) {
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         }
 
