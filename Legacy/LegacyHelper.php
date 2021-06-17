@@ -11,7 +11,9 @@
 
 namespace Translation\Bundle\Legacy;
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * A legacy helper to suppress deprecations on RequestStack.
@@ -27,5 +29,32 @@ class LegacyHelper
         }
 
         return $requestStack->getMasterRequest();
+    }
+
+    /**
+     * @param ServicesConfigurator $servicesConfigurator
+     * @param array[string $id, string $parent, ?bool $isPublic] $legacyServices
+     */
+    public static function deprecateServices(ServicesConfigurator $servicesConfigurator, array $legacyServices)
+    {
+        foreach ($legacyServices as $legacyService) {
+            $id = $legacyService[0];
+            $parent = $legacyService[1];
+            $isPublic = $legacyService[2] ?? false;
+
+            # Declare legacy services to remove in next major release
+            $service = $servicesConfigurator->set($id)
+                ->parent($parent);
+
+            if (Kernel::VERSION_ID < 501000) {
+                $service->deprecate('Since php-translation/symfony-bundle 0.10.0: The "%service_id%" service is deprecated. You should stop using it, as it will soon be removed.');
+            } else {
+                $service->deprecate('php-translation/symfony-bundle', '0.10.0', 'The "%service_id%" service is deprecated. You should stop using it, as it will soon be removed.');
+            }
+
+            if ($isPublic) {
+                $service->public();
+            }
+        }
     }
 }
