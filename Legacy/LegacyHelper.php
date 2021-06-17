@@ -32,7 +32,6 @@ class LegacyHelper
     }
 
     /**
-     * @param ServicesConfigurator $servicesConfigurator
      * @param array[string $id, string $parent, ?bool $isPublic] $legacyServices
      */
     public static function deprecateServices(ServicesConfigurator $servicesConfigurator, array $legacyServices)
@@ -42,7 +41,7 @@ class LegacyHelper
             $parent = $legacyService[1];
             $isPublic = $legacyService[2] ?? false;
 
-            # Declare legacy services to remove in next major release
+            // Declare legacy services to remove in next major release
             $service = $servicesConfigurator->set($id)
                 ->parent($parent);
 

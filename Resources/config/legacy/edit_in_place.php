@@ -8,7 +8,7 @@ use Translation\Bundle\Legacy\LegacyHelper;
 use Translation\Bundle\Translator\EditInPlaceTranslator;
 use Translation\Bundle\Twig\EditInPlaceExtension;
 
-return function(ContainerConfigurator $configurator) {
+return function (ContainerConfigurator $configurator) {
     $services = $configurator->services();
 
     LegacyHelper::deprecateServices($services, [

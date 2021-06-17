@@ -9,7 +9,7 @@ use Translation\Bundle\Command\StatusCommand;
 use Translation\Bundle\Command\SyncCommand;
 use Translation\Bundle\Legacy\LegacyHelper;
 
-return function(ContainerConfigurator $configurator) {
+return function (ContainerConfigurator $configurator) {
     $services = $configurator->services();
 
     LegacyHelper::deprecateServices($services, [

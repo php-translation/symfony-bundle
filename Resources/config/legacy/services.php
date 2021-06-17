@@ -14,7 +14,7 @@ use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Twig\TranslationExtension;
 use Translation\Extractor\Extractor;
 
-return function(ContainerConfigurator $configurator) {
+return function (ContainerConfigurator $configurator) {
     $services = $configurator->services();
 
     LegacyHelper::deprecateServices($services, [
