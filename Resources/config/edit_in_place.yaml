@@ -36,17 +36,3 @@ services:
       - ~
     tags:
       - { name: 'twig.extension' }
-
-  # To remove in next major release
-  php_translation.edit_in_place.response_listener:
-    parent: Translation\Bundle\EventListener\EditInPlaceResponseListener
-    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
-  php_translation.edit_in_place.activator:
-    parent: Translation\Bundle\EditInPlace\Activator
-    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
-  php_translator.edit_in_place.xtrans_html_translator:
-    parent: Translation\Bundle\Translator\EditInPlaceTranslator
-    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
-  php_translation.edit_in_place.extension.trans:
-    parent: Translation\Bundle\Twig\EditInPlaceExtension
-    deprecated: 'The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future.'
