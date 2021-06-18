@@ -34,7 +34,7 @@ class LegacyHelper
     /**
      * @param array[string $id, string $parent, ?bool $isPublic] $legacyServices
      */
-    public static function deprecateServices(ServicesConfigurator $servicesConfigurator, array $legacyServices)
+    public static function registerDeprecatedServices(ServicesConfigurator $servicesConfigurator, array $legacyServices)
     {
         foreach ($legacyServices as $legacyService) {
             $id = $legacyService[0];
