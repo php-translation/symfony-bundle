@@ -10,9 +10,7 @@ use Translation\Bundle\Command\SyncCommand;
 use Translation\Bundle\Legacy\LegacyHelper;
 
 return function (ContainerConfigurator $configurator) {
-    $services = $configurator->services();
-
-    LegacyHelper::deprecateServices($services, [
+    LegacyHelper::deprecateServices($configurator->services(), [
         ['php_translator.console.delete_obsolete', DeleteObsoleteCommand::class],
         ['php_translator.console.download', DownloadCommand::class],
         ['php_translator.console.extract', ExtractCommand::class],

@@ -9,9 +9,7 @@ use Translation\Bundle\Translator\EditInPlaceTranslator;
 use Translation\Bundle\Twig\EditInPlaceExtension;
 
 return function (ContainerConfigurator $configurator) {
-    $services = $configurator->services();
-
-    LegacyHelper::deprecateServices($services, [
+    LegacyHelper::deprecateServices($configurator->services(), [
         ['php_translation.edit_in_place.response_listener', EditInPlaceResponseListener::class],
         ['php_translation.edit_in_place.activator', Activator::class],
         ['php_translator.edit_in_place.xtrans_html_translator', EditInPlaceTranslator::class],
