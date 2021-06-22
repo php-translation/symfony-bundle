@@ -93,8 +93,8 @@ XML
         $output = $commandTester->getDisplay();
 
         // Make sure we have 4 new messages
-        $this->assertRegExp('|New messages +4|s', $output);
-        $this->assertRegExp('|Total defined messages +8|s', $output);
+        $this->assertMatchesRegularExpression('|New messages +4|s', $output);
+        $this->assertMatchesRegularExpression('|Total defined messages +8|s', $output);
 
         $container = $this->getContainer();
         $config = $container->get(ConfigurationManager::class)->getConfiguration('app');

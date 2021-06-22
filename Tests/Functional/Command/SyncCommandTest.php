@@ -80,8 +80,8 @@ XML
 
             $this->fail('The command should fail when called with an unknown configuration key.');
         } catch (\InvalidArgumentException $e) {
-            $this->assertRegExp('|Unknown storage "fail"\.|s', $e->getMessage());
-            $this->assertRegExp('|Available storages are "app"|s', $e->getMessage());
+            $this->assertMatchesRegularExpression('|Unknown storage "fail"\.|s', $e->getMessage());
+            $this->assertMatchesRegularExpression('|Available storages are "app"|s', $e->getMessage());
         }
     }
 }
