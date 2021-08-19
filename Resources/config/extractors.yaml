@@ -14,8 +14,8 @@ services:
             - { name: 'php_translation.extractor', type: 'twig' }
 
     # PHP Visitors:
-    Translation\Extractor\Visitor\Php\Symfony\:
-        resource: "%extractor_vendor_dir%/Visitor/Php/Symfony/*"
+    Translation\Extractor\Visitor\Php\:
+        resource: "%extractor_vendor_dir%/Visitor/Php/*"
 
     Translation\Extractor\Visitor\Php\SourceLocationContainerVisitor: ~
 
