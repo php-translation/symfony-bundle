@@ -78,8 +78,8 @@ final class Importer
             $this->convertSourceLocationsToMessages($target, $sourceCollection, $catalogue);
 
             // Remove all SourceLocation and State form catalogue.
-            foreach ($catalogue->getDomains() as $domain) {
-                foreach ($catalogue->all($domain) as $key => $translation) {
+            foreach (NSA::getProperty($catalogue, 'messages') as $domain => $translations) {
+                foreach ($translations as $key => $translation) {
                     $meta = $this->getMetadata($catalogue, $key, $domain);
                     $meta->removeAllInCategory('file-source');
                     $meta->removeAllInCategory('state');
@@ -91,28 +91,36 @@ final class Importer
             $result = $merge->getResult();
             $domains = $merge->getDomains();
 
+            $resultMessages = NSA::getProperty($result, 'messages');
+
             // Mark new messages as new/obsolete
             foreach ($domains as $domain) {
+                $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+
                 foreach ($merge->getNewMessages($domain) as $key => $translation) {
-                    $meta = $this->getMetadata($result, $key, $domain);
+                    $messageDomain = array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+
+                    $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('new');
-                    $this->setMetadata($result, $key, $domain, $meta);
+                    $this->setMetadata($result, $key, $messageDomain, $meta);
 
                     // Add custom translations that we found in the source
                     if (null === $translation) {
                         if (null !== $newTranslation = $meta->getTranslation()) {
-                            $result->set($key, $newTranslation, $domain);
+                            $result->set($key, $newTranslation, $messageDomain);
                             // We do not want "translation" key stored anywhere.
                             $meta->removeAllInCategory('translation');
                         } elseif (null !== ($newTranslation = $meta->getDesc()) && $catalogue->getLocale() === $this->defaultLocale) {
-                            $result->set($key, $newTranslation, $domain);
+                            $result->set($key, $newTranslation, $messageDomain);
                         }
                     }
                 }
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
-                    $meta = $this->getMetadata($result, $key, $domain);
+                    $messageDomain = array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+
+                    $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('obsolete');
-                    $this->setMetadata($result, $key, $domain, $meta);
+                    $this->setMetadata($result, $key, $messageDomain, $meta);
                 }
             }
             $results[] = $result;
