@@ -196,6 +196,7 @@ final class Importer
             'project_root' => '',
             'blacklist_domains' => [],
             'whitelist_domains' => [],
+            'new_message_format' => 'icu',
         ];
 
         $config = \array_merge($default, $config);
