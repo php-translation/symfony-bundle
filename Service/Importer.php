@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Service;
 
+use Nyholm\NSA;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
@@ -74,7 +75,7 @@ final class Importer
         $results = [];
         foreach ($catalogues as $catalogue) {
             $target = new MessageCatalogue($catalogue->getLocale());
-            $this->convertSourceLocationsToMessages($target, $sourceCollection);
+            $this->convertSourceLocationsToMessages($target, $sourceCollection, $catalogue);
 
             // Remove all SourceLocation and State form catalogue.
             foreach ($catalogue->getDomains() as $domain) {
@@ -120,8 +121,13 @@ final class Importer
         return new ImportResult($results, $sourceCollection->getErrors());
     }
 
-    private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection): void
-    {
+    private function convertSourceLocationsToMessages(
+        MessageCatalogue $catalogue,
+        SourceCollection $collection,
+        MessageCatalogue $currentCatalogue
+    ): void {
+        $currentMessages = NSA::getProperty($currentCatalogue, 'messages');
+
         /** @var SourceLocation $sourceLocation */
         foreach ($collection as $sourceLocation) {
             $context = $sourceLocation->getContext();
@@ -131,11 +137,23 @@ final class Importer
                 continue;
             }
 
+            $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+
             $key = $sourceLocation->getMessage();
-            $catalogue->add([$key => null], $domain);
+
+            if (array_key_exists($key, $currentMessages[$intlDomain] ?? [])) {
+                $messageDomain = $intlDomain;
+            } elseif (array_key_exists($key, $currentMessages[$domain] ?? [])) {
+                $messageDomain = $domain;
+            } else {
+                // New translation
+                $messageDomain = 'icu' === $this->config['new_message_format'] ? $intlDomain : $domain;
+            }
+
+            $catalogue->add([$key => null], $messageDomain);
             $trimLength = 1 + \strlen($this->config['project_root']);
 
-            $meta = $this->getMetadata($catalogue, $key, $domain);
+            $meta = $this->getMetadata($catalogue, $key, $messageDomain);
             $meta->addCategory('file-source', \sprintf('%s:%s', \substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
@@ -143,7 +161,7 @@ final class Importer
             if (isset($sourceLocation->getContext()['translation'])) {
                 $meta->addCategory('translation', $sourceLocation->getContext()['translation']);
             }
-            $this->setMetadata($catalogue, $key, $domain, $meta);
+            $this->setMetadata($catalogue, $key, $messageDomain, $meta);
         }
     }
 
