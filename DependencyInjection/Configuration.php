@@ -164,6 +164,28 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('output_dir')->cannotBeEmpty()->defaultValue('%kernel.project_dir%/Resources/translations')->end()
                         ->scalarNode('project_root')->info("The root dir of your project. By default this will be kernel_root's parent.")->end()
                         ->scalarNode('xliff_version')->info('The version of XLIFF XML you want to use (if dumping to this format).')->defaultValue('2.0')->end()
+                        ->scalarNode('new_message_format')
+                            ->info('Use "icu" to place new translations in "{domain}+intl-icu.{locale}.{ext}" container')
+                            ->defaultValue('icu')
+                            ->beforeNormalization()
+                                ->ifTrue(
+                                    function ($format) {
+                                        return \is_string($format);
+                                    }
+                                )
+                                ->then(
+                                    function (string $format) {
+                                        return \strtolower($format);
+                                    }
+                                )
+                            ->end()
+                            ->validate()
+                                ->ifTrue(function ($value) {
+                                    return !\is_string($value) || !\in_array($value, ['', 'icu']);
+                                })
+                                ->thenInvalid('The "new_message_format" must be either: "" or "icu"; got "%s"')
+                            ->end()
+                        ->end()
                         ->variableNode('local_file_storage_options')
                             ->info('Options passed to the local file storage\'s dumper.')
                             ->defaultValue([])
