@@ -106,6 +106,7 @@ class ExtractCommand extends Command
             'blacklist_domains' => $config->getBlacklistDomains(),
             'whitelist_domains' => $config->getWhitelistDomains(),
             'project_root' => $config->getProjectRoot(),
+            'new_message_format' => $config->getNewMessageFormat(),
         ]);
         $errors = $result->getErrors();
 
