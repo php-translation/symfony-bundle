@@ -115,6 +115,7 @@ final class Importer
                         }
                     }
                 }
+
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
                     $messageDomain = array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
 
@@ -140,6 +141,7 @@ final class Importer
         foreach ($collection as $sourceLocation) {
             $context = $sourceLocation->getContext();
             $domain = $context['domain'] ?? 'messages';
+
             // Check with white/black list
             if (!$this->isValidDomain($domain)) {
                 continue;
