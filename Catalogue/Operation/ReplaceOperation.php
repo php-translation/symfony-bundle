@@ -37,11 +37,8 @@ final class ReplaceOperation extends AbstractOperation
             'new' => [],
             'obsolete' => [],
         ];
-        if (\defined(\sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
-            $intlDomain = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-        } else {
-            $intlDomain = $domain;
-        }
+
+        $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
 
         foreach ($this->source->all($domain) as $id => $message) {
             $messageDomain = $this->source->defines($id, $intlDomain) ? $intlDomain : $domain;
