@@ -53,8 +53,8 @@ final class CatalogueFetcher
 
             foreach ($currentCatalogue->getDomains() as $domain) {
                 if (!$this->isValidDomain($config, $domain)) {
-                    $messages = $currentCatalogue->all();
-                    unset($messages[$domain]);
+                    $messages = NSA::getProperty($currentCatalogue, 'messages');
+                    unset($messages[$domain], $messages[$domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */]);
                     NSA::setProperty($currentCatalogue, 'messages', $messages);
                 }
             }
