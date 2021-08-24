@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Catalogue\Operation;
 
+use Nyholm\NSA;
 use Symfony\Component\Translation\Catalogue\AbstractOperation;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\MetadataAwareInterface;
@@ -40,20 +41,28 @@ final class ReplaceOperation extends AbstractOperation
 
         $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
 
+        $sourceMessages = NSA::getProperty($this->source, 'messages');
+        $targetMessages = NSA::getProperty($this->target, 'messages');
+
         foreach ($this->source->all($domain) as $id => $message) {
-            $messageDomain = $this->source->defines($id, $intlDomain) ? $intlDomain : $domain;
+            $sourceIdInIntl = array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
+            $targetIdInIntl = array_key_exists($id, $targetMessages[$intlDomain] ?? []);
+
+            $sourceMessageDomain = $sourceIdInIntl ? $intlDomain : $domain;
+            $targetMessageDomain = $targetIdInIntl ? $intlDomain : $domain;
+            $resultMessageDomain = $sourceIdInIntl || $targetIdInIntl ? $intlDomain : $domain;
 
             if (!$this->target->has($id, $domain)) {
                 // No merge required
                 $translation = $message;
-                $this->messages[$domain]['new'][$id] = $message;
-                $resultMeta = $this->getMetadata($this->source, $messageDomain, $id);
+                $this->messages[$resultMessageDomain]['new'][$id] = $message;
+                $resultMeta = $this->getMetadata($this->source, $sourceMessageDomain, $id);
             } else {
                 // Merge required
-                $translation = $message ?? $this->target->get($id, $domain);
+                $translation = $message ?? $this->target->get($id, $targetMessageDomain);
                 $resultMeta = null;
-                $sourceMeta = $this->getMetadata($this->source, $messageDomain, $id);
-                $targetMeta = $this->getMetadata($this->target, $this->target->defines($id, $intlDomain) ? $intlDomain : $domain, $id);
+                $sourceMeta = $this->getMetadata($this->source, $sourceMessageDomain, $id);
+                $targetMeta = $this->getMetadata($this->target, $targetMessageDomain, $id);
                 if (\is_array($sourceMeta) && \is_array($targetMeta)) {
                     // We can only merge meta if both is an array
                     $resultMeta = $this->mergeMetadata($sourceMeta, $targetMeta);
@@ -65,11 +74,11 @@ final class ReplaceOperation extends AbstractOperation
                 }
             }
 
-            $this->messages[$domain]['all'][$id] = $translation;
-            $this->result->add([$id => $translation], $messageDomain);
+            $this->messages[$resultMessageDomain]['all'][$id] = $translation;
+            $this->result->add([$id => $translation], $resultMessageDomain);
 
             if (!empty($resultMeta)) {
-                $this->result->setMetadata($id, $resultMeta, $messageDomain);
+                $this->result->setMetadata($id, $resultMeta, $resultMessageDomain);
             }
         }
 
@@ -80,14 +89,18 @@ final class ReplaceOperation extends AbstractOperation
                 continue;
             }
 
-            $messageDomain = $this->target->defines($id, $intlDomain) ? $intlDomain : $domain;
-            $this->messages[$domain]['all'][$id] = $message;
-            $this->messages[$domain]['obsolete'][$id] = $message;
-            $this->result->add([$id => $message], $messageDomain);
+            $sourceIdInIntl = array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
+            $targetIdInIntl = array_key_exists($id, $targetMessages[$intlDomain] ?? []);
 
-            $resultMeta = $this->getMetadata($this->target, $messageDomain, $id);
+            $resultMessageDomain = $sourceIdInIntl || $targetIdInIntl ? $intlDomain : $domain;
+
+            $this->messages[$resultMessageDomain]['all'][$id] = $message;
+            $this->messages[$resultMessageDomain]['obsolete'][$id] = $message;
+            $this->result->add([$id => $message], $resultMessageDomain);
+
+            $resultMeta = $this->getMetadata($this->target, $resultMessageDomain, $id);
             if (!empty($resultMeta)) {
-                $this->result->setMetadata($id, $resultMeta, $messageDomain);
+                $this->result->setMetadata($id, $resultMeta, $resultMessageDomain);
             }
         }
     }
