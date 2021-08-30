@@ -39,14 +39,14 @@ final class ReplaceOperation extends AbstractOperation
             'obsolete' => [],
         ];
 
-        $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+        $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
 
         $sourceMessages = NSA::getProperty($this->source, 'messages');
         $targetMessages = NSA::getProperty($this->target, 'messages');
 
         foreach ($this->source->all($domain) as $id => $message) {
-            $sourceIdInIntl = array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
-            $targetIdInIntl = array_key_exists($id, $targetMessages[$intlDomain] ?? []);
+            $sourceIdInIntl = \array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
+            $targetIdInIntl = \array_key_exists($id, $targetMessages[$intlDomain] ?? []);
 
             $sourceMessageDomain = $sourceIdInIntl ? $intlDomain : $domain;
             $targetMessageDomain = $targetIdInIntl ? $intlDomain : $domain;
@@ -89,8 +89,8 @@ final class ReplaceOperation extends AbstractOperation
                 continue;
             }
 
-            $sourceIdInIntl = array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
-            $targetIdInIntl = array_key_exists($id, $targetMessages[$intlDomain] ?? []);
+            $sourceIdInIntl = \array_key_exists($id, $sourceMessages[$intlDomain] ?? []);
+            $targetIdInIntl = \array_key_exists($id, $targetMessages[$intlDomain] ?? []);
 
             $resultMessageDomain = $sourceIdInIntl || $targetIdInIntl ? $intlDomain : $domain;
 
