@@ -95,10 +95,10 @@ final class Importer
 
             // Mark new messages as new/obsolete
             foreach ($domains as $domain) {
-                $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+                $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
 
                 foreach ($merge->getNewMessages($domain) as $key => $translation) {
-                    $messageDomain = array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+                    $messageDomain = \array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
 
                     $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('new');
@@ -117,7 +117,7 @@ final class Importer
                 }
 
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
-                    $messageDomain = array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+                    $messageDomain = \array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
 
                     $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('obsolete');
@@ -147,13 +147,13 @@ final class Importer
                 continue;
             }
 
-            $intlDomain = $domain . '+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+            $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
 
             $key = $sourceLocation->getMessage();
 
-            if (array_key_exists($key, $currentMessages[$intlDomain] ?? [])) {
+            if (\array_key_exists($key, $currentMessages[$intlDomain] ?? [])) {
                 $messageDomain = $intlDomain;
-            } elseif (array_key_exists($key, $currentMessages[$domain] ?? [])) {
+            } elseif (\array_key_exists($key, $currentMessages[$domain] ?? [])) {
                 $messageDomain = $domain;
             } else {
                 // New translation
