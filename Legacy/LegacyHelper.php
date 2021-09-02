@@ -41,11 +41,11 @@ class LegacyHelper
             $service = $servicesConfigurator->set($id)
                 ->parent($parent);
 
-            if (Kernel::VERSION_ID < 50100) {
-                $service->deprecate('Since php-translation/symfony-bundle 0.10.0: The "%service_id%" service is deprecated. You should stop using it, as it will soon be removed.');
-            } else {
-                $service->deprecate('php-translation/symfony-bundle', '0.10.0', 'The "%service_id%" service is deprecated. You should stop using it, as it will soon be removed.');
-            }
+            $service->deprecate(
+                'php-translation/symfony-bundle',
+                '0.10.0',
+                'The "%service_id%" service is deprecated. You should stop using it, as it will soon be removed.'
+            );
 
             if ($isPublic) {
                 $service->public();
