@@ -28,7 +28,7 @@ class LegacyHelper
             return $requestStack->getMainRequest();
         }
 
-        return $requestStack->getMasterRequest();
+        return $requestStack->getMainRequest();
     }
 
     /**
