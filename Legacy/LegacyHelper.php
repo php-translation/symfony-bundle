@@ -24,10 +24,6 @@ class LegacyHelper
 {
     public static function getMainRequest(RequestStack $requestStack)
     {
-        if (\method_exists($requestStack, 'getMainRequest')) {
-            return $requestStack->getMainRequest();
-        }
-
         return $requestStack->getMainRequest();
     }
 
