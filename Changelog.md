@@ -2,6 +2,22 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.4
+
+### Fixed
+
+- Fix extractor parameters #438
+- Make Profiler service an optional argument for SymfonyProfilerController #440
+- Update ExtractCommand.php #435
+- Fix tests on Symfony 5.3 #443
+- Suppress getMasterRequest() deprecation message #444
+- Suppress deprecations on deprecating legacy services #445
+- Fix PHPUnit deprecations #447
+
+### Removed
+
+- Drop SensioLabs (Symfony) insight badge #441
+
 ## 0.12.3
 
 ### Fixed
