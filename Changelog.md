@@ -14,6 +14,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 - Suppress deprecations on deprecating legacy services #445
 - Fix PHPUnit deprecations #447
 - Fix broken tests #458
+- Register visitor tag also for TranslateAnnotationVisitor and Knp visitors #451
 
 ### Removed
 
