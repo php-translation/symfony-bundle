@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -25,7 +24,7 @@ use Translation\Common\Model\MessageInterface;
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class EditInPlaceController extends AbstractController
+class EditInPlaceController
 {
     private $storageManager;
     private $cacheClearer;
