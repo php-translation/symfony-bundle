@@ -38,7 +38,7 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "matthiasnoback/symfony-config-test": "^4.1",
         "nyholm/psr7": "^1.1",
-        "nyholm/symfony-bundle-test": "^1.6.1"
+        "nyholm/symfony-bundle-test": "^1.6.1, <1.8"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."
