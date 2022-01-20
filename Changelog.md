@@ -13,6 +13,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 - Suppress getMasterRequest() deprecation message #444
 - Suppress deprecations on deprecating legacy services #445
 - Fix PHPUnit deprecations #447
+- Fix broken tests #458
 
 ### Removed
 
