@@ -8,9 +8,10 @@ services:
   Translation\Bundle\Controller\SymfonyProfilerController:
     autowire: true
     public: true
-    tags: ['container.service_subscriber']
     arguments:
       - '@Translation\Bundle\Service\StorageService'
+      - '@twig'
+      - '@router'
       - '%php_translation.toolbar.allow_edit%'
     calls:
       - setProfiler: ['@?profiler']

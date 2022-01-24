@@ -9,6 +9,7 @@ services:
             - '@Translation\Bundle\Catalogue\CatalogueManager'
             - '@Translation\Bundle\Service\StorageManager'
             - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+            - '@twig'
             - '%php_translation.locales%'
             - '%php_translation.webui.enabled%'
             - '%php_translation.webui.allow_create%'

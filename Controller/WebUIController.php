@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -29,17 +28,19 @@ use Translation\Bundle\Service\StorageService;
 use Translation\Common\Exception\StorageException;
 use Translation\Common\Model\Message;
 use Translation\Common\Model\MessageInterface;
+use Twig\Environment;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class WebUIController extends AbstractController
+class WebUIController
 {
     private $configurationManager;
     private $catalogueFetcher;
     private $catalogueManager;
     private $storageManager;
     private $validator;
+    private $twig;
     private $locales;
     private $isWebUIEnabled;
     private $isWebUIAllowCreate;
@@ -52,6 +53,7 @@ class WebUIController extends AbstractController
         CatalogueManager $catalogueManager,
         StorageManager $storageManager,
         ValidatorInterface $validator,
+        Environment $twig,
         array $locales,
         bool $isWebUIEnabled,
         bool $isWebUIAllowCreate,
@@ -63,6 +65,7 @@ class WebUIController extends AbstractController
         $this->catalogueManager = $catalogueManager;
         $this->storageManager = $storageManager;
         $this->validator = $validator;
+        $this->twig = $twig;
         $this->locales = $locales;
         $this->isWebUIEnabled = $isWebUIEnabled;
         $this->isWebUIAllowCreate = $isWebUIAllowCreate;
@@ -107,7 +110,7 @@ class WebUIController extends AbstractController
             }
         }
 
-        return $this->render('@Translation/WebUI/index.html.twig', [
+        $content = $this->twig->render('@Translation/WebUI/index.html.twig', [
             'catalogues' => $catalogues,
             'catalogueSize' => $catalogueSize,
             'maxDomainSize' => $maxDomainSize,
@@ -116,6 +119,8 @@ class WebUIController extends AbstractController
             'configName' => $config->getName(),
             'configNames' => $this->configurationManager->getNames(),
         ]);
+
+        return new Response($content);
     }
 
     /**
@@ -137,7 +142,7 @@ class WebUIController extends AbstractController
             return \strcmp($a->getKey(), $b->getKey());
         });
 
-        return $this->render('@Translation/WebUI/show.html.twig', [
+        $content = $this->twig->render('@Translation/WebUI/show.html.twig', [
             'messages' => $messages,
             'domains' => $this->catalogueManager->getDomains(),
             'currentDomain' => $domain,
@@ -149,6 +154,8 @@ class WebUIController extends AbstractController
             'allow_delete' => $this->isWebUIAllowDelete,
             'file_base_path' => $this->fileBasePath,
         ]);
+
+        return new Response($content);
     }
 
     public function createAction(Request $request, string $configName, string $locale, string $domain): Response
@@ -177,9 +184,11 @@ class WebUIController extends AbstractController
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->render('@Translation/WebUI/create.html.twig', [
+        $content = $this->twig->render('@Translation/WebUI/create.html.twig', [
             'message' => $message,
         ]);
+
+        return new Response($content);
     }
 
     public function editAction(Request $request, string $configName, string $locale, string $domain): Response
