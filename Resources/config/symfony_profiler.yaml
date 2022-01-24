@@ -1,4 +1,8 @@
 services:
+  _defaults:
+    bind:
+      $isToolbarAllowEdit: '%php_translation.toolbar.allow_edit%'
+
   php_translation.data_collector:
     class: Symfony\Component\Translation\DataCollector\TranslationDataCollector
     arguments: [ '@translator.data_collector' ]
@@ -8,10 +12,5 @@ services:
   Translation\Bundle\Controller\SymfonyProfilerController:
     autowire: true
     public: true
-    arguments:
-      - '@Translation\Bundle\Service\StorageService'
-      - '@twig'
-      - '@router'
-      - '%php_translation.toolbar.allow_edit%'
     calls:
       - setProfiler: ['@?profiler']
