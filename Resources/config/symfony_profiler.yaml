@@ -1,16 +1,16 @@
 services:
-  _defaults:
-    autowire: true
-    bind:
-      $isToolbarAllowEdit: '%php_translation.toolbar.allow_edit%'
+    _defaults:
+        autowire: true
+        bind:
+            $isToolbarAllowEdit: '%php_translation.toolbar.allow_edit%'
 
-  php_translation.data_collector:
-    class: Symfony\Component\Translation\DataCollector\TranslationDataCollector
-    arguments: [ '@translator.data_collector' ]
-    tags:
-      - { name: 'data_collector', template: "@Translation/SymfonyProfiler/translation.html.twig", id: "translation", priority: 200 }
+    php_translation.data_collector:
+        class: Symfony\Component\Translation\DataCollector\TranslationDataCollector
+        arguments: [ '@translator.data_collector' ]
+        tags:
+            - { name: 'data_collector', template: "@Translation/SymfonyProfiler/translation.html.twig", id: "translation", priority: 200 }
 
-  Translation\Bundle\Controller\SymfonyProfilerController:
-    public: true
-    calls:
-      - setProfiler: ['@?profiler']
+    Translation\Bundle\Controller\SymfonyProfilerController:
+        public: true
+        calls:
+            - setProfiler: ['@?profiler']

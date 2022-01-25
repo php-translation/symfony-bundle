@@ -12,56 +12,56 @@ services:
     Translation\Bundle\Command\DeleteEmptyCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Service\StorageManager'
-          - '@Translation\Bundle\Service\ConfigurationManager'
-          - '@Translation\Bundle\Catalogue\CatalogueManager'
-          - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
         tags:
             - { name: console.command, command: translation:delete-empty }
 
     Translation\Bundle\Command\DeleteObsoleteCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Service\StorageManager'
-          - '@Translation\Bundle\Service\ConfigurationManager'
-          - '@Translation\Bundle\Catalogue\CatalogueManager'
-          - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
         tags:
             - { name: console.command, command: translation:delete-obsolete }
 
     Translation\Bundle\Command\DownloadCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Service\StorageManager'
-          - '@Translation\Bundle\Service\ConfigurationManager'
-          - '@Translation\Bundle\Service\CacheClearer'
-          - '@Translation\Bundle\Catalogue\CatalogueWriter'
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Service\CacheClearer'
+            - '@Translation\Bundle\Catalogue\CatalogueWriter'
         tags:
             - { name: console.command, command: translation:download }
 
     Translation\Bundle\Command\ExtractCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Catalogue\CatalogueFetcher'
-          - '@Translation\Bundle\Catalogue\CatalogueWriter'
-          - '@Translation\Bundle\Catalogue\CatalogueCounter'
-          - '@Translation\Bundle\Service\Importer'
-          - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Catalogue\CatalogueWriter'
+            - '@Translation\Bundle\Catalogue\CatalogueCounter'
+            - '@Translation\Bundle\Service\Importer'
+            - '@Translation\Bundle\Service\ConfigurationManager'
         tags:
             - { name: console.command, command: translation:extract }
 
     Translation\Bundle\Command\StatusCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Catalogue\CatalogueCounter'
-          - '@Translation\Bundle\Service\ConfigurationManager'
-          - '@Translation\Bundle\Catalogue\CatalogueFetcher'
+            - '@Translation\Bundle\Catalogue\CatalogueCounter'
+            - '@Translation\Bundle\Service\ConfigurationManager'
+            - '@Translation\Bundle\Catalogue\CatalogueFetcher'
         tags:
             - { name: console.command, command: translation:status }
 
     Translation\Bundle\Command\SyncCommand:
         public: true
         arguments:
-          - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\StorageManager'
         tags:
             - { name: console.command, command: translation:sync }

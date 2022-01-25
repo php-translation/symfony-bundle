@@ -1,5 +1,5 @@
 services:
-  Translation\Bundle\EventListener\AutoAddMissingTranslations:
-    arguments: [ ~, '@?translator.data_collector' ]
-    tags:
-      - { name: kernel.event_listener, event: kernel.terminate, method: onTerminate, priority: 10 }
+    Translation\Bundle\EventListener\AutoAddMissingTranslations:
+        arguments: [ ~, '@?translator.data_collector' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onTerminate, priority: 10 }
