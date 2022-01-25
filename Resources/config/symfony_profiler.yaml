@@ -6,6 +6,7 @@ services:
 
     php_translation.data_collector:
         class: Symfony\Component\Translation\DataCollector\TranslationDataCollector
+        arguments: [ '@translator.data_collector' ]
         tags:
             - { name: 'data_collector', template: "@Translation/SymfonyProfiler/translation.html.twig", id: "translation", priority: 200 }
 
