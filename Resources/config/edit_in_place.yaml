@@ -19,7 +19,7 @@ services:
             - ~
 
     Translation\Bundle\EditInPlace\Activator:
-        arguments: ['@session']
+        arguments: ['@request_stack']
         public: true
 
     Translation\Bundle\Translator\EditInPlaceTranslator:

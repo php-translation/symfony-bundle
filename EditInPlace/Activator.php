@@ -12,7 +12,7 @@
 namespace Translation\Bundle\EditInPlace;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Default Activator implementation.
@@ -24,13 +24,13 @@ final class Activator implements ActivatorInterface
     const KEY = 'translation_bundle.edit_in_place.enabled';
 
     /**
-     * @var Session
+     * @var RequestStack
      */
-    private $session;
+    private $requestStack;
 
-    public function __construct(Session $session)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -38,7 +38,7 @@ final class Activator implements ActivatorInterface
      */
     public function activate(): void
     {
-        $this->session->set(self::KEY, true);
+        $this->requestStack->getSession()->set(self::KEY, true);
     }
 
     /**
@@ -46,7 +46,7 @@ final class Activator implements ActivatorInterface
      */
     public function deactivate(): void
     {
-        $this->session->remove(self::KEY);
+        $this->requestStack->getSession()->remove(self::KEY);
     }
 
     /**
@@ -54,10 +54,10 @@ final class Activator implements ActivatorInterface
      */
     public function checkRequest(Request $request = null): bool
     {
-        if (!$this->session->has(self::KEY)) {
+        if (!$this->requestStack->getSession()->has(self::KEY)) {
             return false;
         }
 
-        return $this->session->get(self::KEY, false);
+        return $this->requestStack->getSession()->get(self::KEY, false);
     }
 }
