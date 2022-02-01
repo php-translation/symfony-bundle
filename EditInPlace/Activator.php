@@ -13,6 +13,7 @@ namespace Translation\Bundle\EditInPlace;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Default Activator implementation.
@@ -28,9 +29,33 @@ final class Activator implements ActivatorInterface
      */
     private $requestStack;
 
+    /**
+     * @var Session|null
+     */
+    private $session = null;
+
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
+    }
+
+    /**
+     * Set session if available
+     */
+    public function setSession(Session $session): void
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * Get session based on availability
+     */
+    private function getSession(): Session {
+        $session = $this->session;
+        if (is_null($session)) {
+            $session = $this->requestStack->getSession();
+        }
+        return $session;
     }
 
     /**
@@ -38,7 +63,7 @@ final class Activator implements ActivatorInterface
      */
     public function activate(): void
     {
-        $this->requestStack->getSession()->set(self::KEY, true);
+        $this->getSession()->set(self::KEY, true);
     }
 
     /**
@@ -46,7 +71,7 @@ final class Activator implements ActivatorInterface
      */
     public function deactivate(): void
     {
-        $this->requestStack->getSession()->remove(self::KEY);
+        $this->getSession()->remove(self::KEY);
     }
 
     /**
@@ -54,10 +79,10 @@ final class Activator implements ActivatorInterface
      */
     public function checkRequest(Request $request = null): bool
     {
-        if (!$this->requestStack->getSession()->has(self::KEY)) {
+        if (!$this->getSession()->has(self::KEY)) {
             return false;
         }
 
-        return $this->requestStack->getSession()->get(self::KEY, false);
+        return $this->getSession()->get(self::KEY, false);
     }
 }

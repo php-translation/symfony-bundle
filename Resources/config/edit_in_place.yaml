@@ -20,6 +20,8 @@ services:
 
     Translation\Bundle\EditInPlace\Activator:
         arguments: ['@request_stack']
+        calls:
+            - setSession: ['@?session']
         public: true
 
     Translation\Bundle\Translator\EditInPlaceTranslator:
