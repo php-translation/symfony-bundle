@@ -40,7 +40,7 @@ final class Activator implements ActivatorInterface
     }
 
     /**
-     * Set session if available
+     * Set session if available.
      */
     public function setSession(Session $session): void
     {
@@ -48,13 +48,15 @@ final class Activator implements ActivatorInterface
     }
 
     /**
-     * Get session based on availability
+     * Get session based on availability.
      */
-    private function getSession(): Session {
+    private function getSession(): Session
+    {
         $session = $this->session;
-        if (is_null($session)) {
+        if (null === $session) {
             $session = $this->requestStack->getSession();
         }
+
         return $session;
     }
 
