@@ -23,7 +23,7 @@ class EditInPlaceControllerTest extends BaseTestCase
     {
         parent::setUpBeforeClass();
 
-        \file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
+        file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
     <file id="messages.en_US">
@@ -54,7 +54,7 @@ XML
 
     public function testEditAction(): void
     {
-        $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], \json_encode([
+        $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], json_encode([
             'messages|key0' => 'trans0',
             'messages|key1' => 'trans1',
         ]));
@@ -64,7 +64,7 @@ XML
 
     public function testEditActionError(): void
     {
-        $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], \json_encode([
+        $request = Request::create('/admin/_trans_edit_in_place/app/sv', 'POST', [], [], [], [], json_encode([
             'messages|key0' => 'trans0',
             'messages|' => 'trans1',
         ]));

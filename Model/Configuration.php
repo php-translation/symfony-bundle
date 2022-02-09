@@ -169,7 +169,7 @@ final class Configuration
      */
     public function getPathsToTranslationFiles(): array
     {
-        return \array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
+        return array_merge($this->externalTranslationsDirs, [$this->getOutputDir()]);
     }
 
     public function getXliffVersion(): string

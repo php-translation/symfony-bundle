@@ -24,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
  * When sf 3.4 won't be supported anymore, this interface will become useless.
  */
 
-if (\interface_exists(NewTranslatorInterface::class)) {
+if (interface_exists(NewTranslatorInterface::class)) {
     interface TranslatorInterface extends NewTranslatorInterface, LocaleAwareInterface, TranslatorBagInterface
     {
     }

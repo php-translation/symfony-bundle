@@ -43,7 +43,7 @@ class StatusCommandTest extends BaseTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $data = \json_decode($output, true);
+        $data = json_decode($output, true);
 
         $this->assertArrayHasKey('en', $data);
         $this->assertArrayHasKey('messages', $data['en']);

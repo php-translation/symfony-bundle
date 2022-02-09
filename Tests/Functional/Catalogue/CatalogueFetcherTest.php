@@ -25,7 +25,7 @@ class CatalogueFetcherTest extends BaseTestCase
     {
         parent::setUpBeforeClass();
 
-        \file_put_contents(
+        file_put_contents(
             __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
