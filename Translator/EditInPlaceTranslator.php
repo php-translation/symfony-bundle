@@ -86,7 +86,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
         $request = LegacyHelper::getMainRequest($this->requestStack);
         if (!$this->activator->checkRequest($request)) {
-            return (string)$original;
+            return (string) $original;
         }
 
         $plain = $this->translator->trans($id, [], $domain, $locale);
