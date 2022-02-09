@@ -137,6 +137,11 @@ final class FallbackTranslator implements TranslatorInterface
         return $this->symfonyTranslator->getCatalogue($locale);
     }
 
+    public function getCatalogues(): array
+    {
+        return $this->symfonyTranslator->getCatalogues();
+    }
+
     /**
      * Passes through all unknown calls onto the translator object.
      */
