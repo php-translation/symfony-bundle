@@ -75,7 +75,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
      */
     public function getCatalogues(): array
     {
-        if (!\method_exists($this->symfonyTranslator, 'getCatalogues')) {
+        if (!\method_exists($this->translator, 'getCatalogues')) {
             throw new \Exception(\sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
         }
 
