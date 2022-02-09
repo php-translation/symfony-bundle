@@ -36,7 +36,7 @@ final class TranslationExtension extends AbstractExtension
      */
     private $debug;
 
-    public function __construct($translator,  bool $debug = false)
+    public function __construct($translator, bool $debug = false)
     {
         // The TranslatorInterface has been deprecated in favor of Symfony\Contracts\Translation\TranslatorInterface in sf4.2.
         // Use this class to type hint event & remove the following condition once sf ^4.2 become the minimum supported version.
