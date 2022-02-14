@@ -26,9 +26,9 @@ abstract class BaseTwigTestCase extends TestCase
 {
     final protected function parse(string $file, bool $debug = false): string
     {
-        $content = \file_get_contents(__DIR__.'/Fixture/'.$file);
+        $content = file_get_contents(__DIR__.'/Fixture/'.$file);
 
-        $loader = \class_exists(ArrayLoader::class)
+        $loader = class_exists(ArrayLoader::class)
             ? new ArrayLoader()
             : new \Twig_Loader_Array([]);
         $env = new Environment($loader);

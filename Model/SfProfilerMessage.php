@@ -123,7 +123,7 @@ final class SfProfilerMessage
 
         if ($this->hasParameters()) {
             // Reduce to only get one value of each parameter, not all the usages.
-            $meta['parameters'] = \array_reduce($this->getParameters(), 'array_merge', []);
+            $meta['parameters'] = array_reduce($this->getParameters(), 'array_merge', []);
         }
 
         if (!empty($this->getCount())) {

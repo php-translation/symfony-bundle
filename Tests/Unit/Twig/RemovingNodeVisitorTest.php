@@ -22,7 +22,7 @@ class RemovingNodeVisitorTest extends BaseTwigTestCase
     {
         // transchoice tag have been definively removed in sf ^5.0
         // Remove this condition & *with_transchoice templates once sf ^5.0 is the minimum supported version.
-        if (\version_compare(Kernel::VERSION, 5.0, '<')) {
+        if (version_compare(Kernel::VERSION, 5.0, '<')) {
             $expected = $this->parse('simple_template_compiled_with_transchoice.html.twig');
             $actual = $this->parse('simple_template_with_transchoice.html.twig');
         } else {

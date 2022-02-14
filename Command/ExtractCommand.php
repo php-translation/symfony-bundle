@@ -128,7 +128,7 @@ class ExtractCommand extends Command
             /** @var Error $error */
             foreach ($errors as $error) {
                 $io->error(
-                    \sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
+                    sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
                 );
             }
         }

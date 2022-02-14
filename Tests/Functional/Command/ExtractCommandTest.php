@@ -27,7 +27,7 @@ class ExtractCommandTest extends BaseTestCase
         parent::setUp();
         $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
 
-        \file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
+        file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
     <file id="messages.en_US">
@@ -75,7 +75,7 @@ XML
 
         // transchoice tag have been definively removed in sf ^5.0
         // Remove this condition & views_with_transchoice + associated config once sf ^5.0 is the minimum supported version.
-        if (\version_compare(Kernel::VERSION, 5.0, '<')) {
+        if (version_compare(Kernel::VERSION, 5.0, '<')) {
             $configuration = 'app_with_transchoice';
         } else {
             $configuration = 'app';

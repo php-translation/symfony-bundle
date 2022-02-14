@@ -66,11 +66,11 @@ class EditInPlaceController
     private function getMessages(Request $request, string $locale, array $validationGroups = []): array
     {
         $json = $request->getContent();
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         $messages = [];
 
         foreach ($data as $key => $value) {
-            [$domain, $translationKey] = \explode('|', $key);
+            [$domain, $translationKey] = explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
 

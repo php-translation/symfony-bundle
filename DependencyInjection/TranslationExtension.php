@@ -174,7 +174,7 @@ class TranslationExtension extends Extension
             $path = $container->getParameter('kernel.project_dir');
         }
 
-        $container->setParameter('php_translation.webui.file_base_path', \rtrim($path, '/').'/');
+        $container->setParameter('php_translation.webui.file_base_path', rtrim($path, '/').'/');
     }
 
     /**
@@ -185,7 +185,7 @@ class TranslationExtension extends Extension
         $name = $config['edit_in_place']['config_name'];
 
         if ('default' !== $name && !isset($config['configs'][$name])) {
-            throw new InvalidArgumentException(\sprintf('There is no config named "%s".', $name));
+            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
         }
 
         $activatorRef = new Reference($config['edit_in_place']['activator']);

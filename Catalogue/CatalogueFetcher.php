@@ -46,7 +46,7 @@ final class CatalogueFetcher
         foreach ($locales as $locale) {
             $currentCatalogue = new MessageCatalogue($locale);
             foreach ($dirs as $path) {
-                if (\is_dir($path)) {
+                if (is_dir($path)) {
                     $this->reader->read($path, $currentCatalogue);
                 }
             }

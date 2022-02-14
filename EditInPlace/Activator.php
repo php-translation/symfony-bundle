@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 final class Activator implements ActivatorInterface
 {
-    const KEY = 'translation_bundle.edit_in_place.enabled';
+    public const KEY = 'translation_bundle.edit_in_place.enabled';
 
     /**
      * @var RequestStack
