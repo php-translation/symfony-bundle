@@ -59,7 +59,7 @@ class SyncCommand extends Command
 
                 break;
             default:
-                $output->writeln(\sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
+                $output->writeln(sprintf('Direction must be either "up" or "down". Not "%s".', $input->getArgument('direction')));
 
                 return 0;
         }
@@ -78,7 +78,7 @@ class SyncCommand extends Command
 
         foreach ($raw as $string) {
             // Assert $string looks like "foo:bar"
-            list($key, $value) = \explode(':', $string, 2);
+            list($key, $value) = explode(':', $string, 2);
             $config[$key][] = $value;
         }
 

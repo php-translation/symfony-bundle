@@ -23,7 +23,7 @@ class CheckMissingCommandTest extends BaseTestCase
         $this->bootKernel();
         $this->application = new Application($this->kernel);
 
-        \file_put_contents(
+        file_put_contents(
             __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
@@ -93,7 +93,7 @@ XML
 
     public function testReportsNoNewTranslationMessages(): void
     {
-        \file_put_contents(
+        file_put_contents(
             __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>

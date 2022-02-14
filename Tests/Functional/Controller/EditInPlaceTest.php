@@ -34,8 +34,8 @@ class EditInPlaceTest extends BaseTestCase
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
-        @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
-        $xpath = new \DomXpath($dom);
+        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
+        $xpath = new \DOMXPath($dom);
 
         // Check number of x-trans tags
         $xtrans = $xpath->query('//x-trans');
@@ -66,8 +66,8 @@ class EditInPlaceTest extends BaseTestCase
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
-        @$dom->loadHTML(\mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
-        $xpath = new \DomXpath($dom);
+        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
+        $xpath = new \DOMXPath($dom);
 
         // Check number of x-trans tags
         $xtrans = $xpath->query('//x-trans');

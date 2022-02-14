@@ -95,7 +95,7 @@ class WebUIController
         foreach ($catalogues as $catalogue) {
             $locale = $catalogue->getLocale();
             $domains = $catalogue->all();
-            \ksort($domains);
+            ksort($domains);
             $catalogueSize[$locale] = 0;
             foreach ($domains as $domain => $messages) {
                 $count = \count($messages);
@@ -138,8 +138,8 @@ class WebUIController
 
         /** @var CatalogueMessage[] $messages */
         $messages = $this->catalogueManager->getMessages($locale, $domain);
-        \usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
-            return \strcmp($a->getKey(), $b->getKey());
+        usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
+            return strcmp($a->getKey(), $b->getKey());
         });
 
         $content = $this->twig->render('@Translation/WebUI/show.html.twig', [
@@ -179,7 +179,7 @@ class WebUIController
         try {
             $storage->create($message);
         } catch (StorageException $e) {
-            throw new BadRequestHttpException(\sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
+            throw new BadRequestHttpException(sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
         } catch (\Exception $e) {
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
@@ -246,7 +246,7 @@ class WebUIController
     private function getMessageFromRequest(Request $request): Message
     {
         $json = $request->getContent();
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         $message = new Message($data['key']);
         if (isset($data['message'])) {
             $message = $message->withTranslation($data['message']);
@@ -262,7 +262,7 @@ class WebUIController
      */
     private function getLocale2LanguageMap(): array
     {
-        $names = \class_exists(Locales::class)
+        $names = class_exists(Locales::class)
             ? Locales::getNames('en')
             : Intl::getLocaleBundle()->getLocaleNames('en');
         $map = [];

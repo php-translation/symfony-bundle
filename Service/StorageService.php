@@ -27,9 +27,9 @@ use Translation\Common\TransferableStorage;
  */
 final class StorageService implements Storage
 {
-    const DIRECTION_UP = 'up';
+    public const DIRECTION_UP = 'up';
 
-    const DIRECTION_DOWN = 'down';
+    public const DIRECTION_DOWN = 'down';
 
     /**
      * @var Storage[]
@@ -87,7 +87,7 @@ final class StorageService implements Storage
 
                 break;
             default:
-                throw new LogicException(\sprintf('Direction must be either "up" or "down". Value "%s" was provided', $direction));
+                throw new LogicException(sprintf('Direction must be either "up" or "down". Value "%s" was provided', $direction));
         }
     }
 

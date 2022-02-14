@@ -27,7 +27,7 @@ final class EditInPlaceTranslatorTest extends TestCase
 {
     public function testWithNotLocaleAwareTranslator()
     {
-        if (!\interface_exists(NewTranslatorInterface::class)) {
+        if (!interface_exists(NewTranslatorInterface::class)) {
             $this->markTestSkipped('Relevant only when NewTranslatorInterface is available.');
         }
 

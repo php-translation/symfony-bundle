@@ -89,7 +89,7 @@ class StatusCommand extends Command
         }
 
         if ($input->getOption('json')) {
-            $output->writeln(\json_encode($stats));
+            $output->writeln(json_encode($stats));
 
             return 0;
         }

@@ -136,7 +136,7 @@ final class Importer
             $trimLength = 1 + \strlen($this->config['project_root']);
 
             $meta = $this->getMetadata($catalogue, $key, $domain);
-            $meta->addCategory('file-source', \sprintf('%s:%s', \substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
             }
@@ -180,7 +180,7 @@ final class Importer
             'whitelist_domains' => [],
         ];
 
-        $config = \array_merge($default, $config);
+        $config = array_merge($default, $config);
 
         if (!empty($config['blacklist_domains']) && !empty($config['whitelist_domains'])) {
             throw new \InvalidArgumentException('Cannot use "blacklist_domains" and "whitelist_domains" at the same time');

@@ -20,11 +20,11 @@ trait BundleTrait
     private function configureBundleDirs(InputInterface $input, Configuration $config): void
     {
         if ($bundleName = $input->getOption('bundle')) {
-            if (0 === \strpos($bundleName, '@')) {
-                if (false === $pos = \strpos($bundleName, '/')) {
-                    $bundleName = \substr($bundleName, 1);
+            if (0 === strpos($bundleName, '@')) {
+                if (false === $pos = strpos($bundleName, '/')) {
+                    $bundleName = substr($bundleName, 1);
                 } else {
-                    $bundleName = \substr($bundleName, 1, $pos - 2);
+                    $bundleName = substr($bundleName, 1, $pos - 2);
                 }
             }
 

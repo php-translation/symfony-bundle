@@ -97,7 +97,7 @@ class DeleteObsoleteCommand extends Command
 
         if ($input->isInteractive()) {
             $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion(\sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
+            $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
             if (!$helper->ask($input, $output, $question)) {
                 return 0;
             }
@@ -110,7 +110,7 @@ class DeleteObsoleteCommand extends Command
         foreach ($messages as $message) {
             $storage->delete($message->getLocale(), $message->getDomain(), $message->getKey());
             if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
-                $output->writeln(\sprintf(
+                $output->writeln(sprintf(
                     'Deleted obsolete message "<info>%s</info>" from domain "<info>%s</info>" and locale "<info>%s</info>"',
                     $message->getKey(),
                     $message->getDomain(),

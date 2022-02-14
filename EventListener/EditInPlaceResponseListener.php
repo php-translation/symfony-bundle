@@ -24,7 +24,7 @@ use Translation\Bundle\EditInPlace\ActivatorInterface;
  */
 final class EditInPlaceResponseListener
 {
-    const HTML = <<<'HTML'
+    public const HTML = <<<'HTML'
 <!-- TranslationBundle -->
 <link rel="stylesheet" type="text/css" href="%s">
 
@@ -95,7 +95,7 @@ HTML;
         if (!$this->showUntranslatable) {
             $replacement = '"$3"';
         }
-        $content = \preg_replace($pattern, $replacement, $content);
+        $content = preg_replace($pattern, $replacement, $content);
 
         // Remove escaped content (e.g. Javascript)
         $pattern = '@&lt;x-trans.+data-key=&quot;([^&]+)&quot;.+data-value=&quot;([^&]+)&quot;.+&lt;\\/x-trans&gt;@mi';
@@ -103,9 +103,9 @@ HTML;
         if (!$this->showUntranslatable) {
             $replacement = '$2';
         }
-        $content = \preg_replace($pattern, $replacement, $content);
+        $content = preg_replace($pattern, $replacement, $content);
 
-        $html = \sprintf(
+        $html = sprintf(
             self::HTML,
             $this->packages->getUrl('bundles/translation/css/content-tools.min.css'),
             $this->packages->getUrl('bundles/translation/js/content-tools.min.js'),
@@ -116,7 +116,7 @@ HTML;
                 'locale' => $event->getRequest()->getLocale(),
             ])
         );
-        $content = \str_replace('</body>', $html."\n".'</body>', $content);
+        $content = str_replace('</body>', $html."\n".'</body>', $content);
 
         $response = $event->getResponse();
 
@@ -132,6 +132,6 @@ HTML;
 // FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
 // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
 // To be removed once sf ^4.3 become the minimum supported version.
-if (!\class_exists(ResponseEvent::class) && \class_exists(FilterResponseEvent::class)) {
-    \class_alias(FilterResponseEvent::class, ResponseEvent::class);
+if (!class_exists(ResponseEvent::class) && class_exists(FilterResponseEvent::class)) {
+    class_alias(FilterResponseEvent::class, ResponseEvent::class);
 }
