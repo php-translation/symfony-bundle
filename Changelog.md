@@ -23,6 +23,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 * Fix Cannot autowire service "php_translation.data_collector" error in… by @axi in https://github.com/php-translation/symfony-bundle/pull/463
 * Fix yaml indentation to 4 spaces by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/462
 * Fix for deprecated session service in Symfony 6 by @robbedg in https://github.com/php-translation/symfony-bundle/pull/468
+* Fix return type and implement getCatalogues() https://github.com/php-translation/symfony-bundle/pull/470
 
 ## 0.12.4
 
