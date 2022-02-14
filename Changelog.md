@@ -17,6 +17,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Changed
 
 * Use autowiring for SymfonyProfilerController by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/461
+* Use a different image for PHP CS Fixer to get latest and upgrade config #471
 
 ### Fixed
 
