@@ -137,6 +137,15 @@ final class FallbackTranslator implements TranslatorInterface
         return $this->symfonyTranslator->getCatalogue($locale);
     }
 
+    public function getCatalogues(): array
+    {
+        if (!\method_exists($this->symfonyTranslator, 'getCatalogues')) {
+            throw new \Exception(\sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
+        }
+
+        return $this->symfonyTranslator->getCatalogues();
+    }
+
     /**
      * Passes through all unknown calls onto the translator object.
      */
