@@ -9,7 +9,7 @@
 
 Install this bundle via Composer:
 
-``` bash
+```bash
 $ composer require php-translation/symfony-bundle
 ```
 
@@ -58,8 +58,8 @@ translation:
 ```yaml
 # config/routes/dev/php_translation.yaml
 _translation_webui:
-    resource: "@TranslationBundle/Resources/config/routing_webui.yaml"
-    prefix:  /admin
+    resource: '@TranslationBundle/Resources/config/routing_webui.yaml'
+    prefix: /admin
 
 _translation_profiler:
     resource: '@TranslationBundle/Resources/config/routing_symfony_profiler.yaml'
@@ -69,12 +69,12 @@ _translation_profiler:
 # config/routes/php_translation.yaml
 _translation_edit_in_place:
     resource: '@TranslationBundle/Resources/config/routing_edit_in_place.yaml'
-    prefix:  /admin
+    prefix: /admin
 ```
 
 ## Documentation
 
-Read the full documentation at [http://php-translation.readthedocs.io](https://php-translation.readthedocs.io/en/latest/).
+Read the full documentation at [https://php-translation.readthedocs.io](https://php-translation.readthedocs.io/en/latest/).
 
 
 [symfony_flex]: https://github.com/symfony/flex
