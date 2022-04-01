@@ -71,7 +71,7 @@ class SymfonyProfilerController
             return new Response($content);
         }
 
-        //Assert: This is a POST request
+        // Assert: This is a POST request
         $message->setTranslation((string) $request->request->get('translation'));
         $this->storage->update($message->convertToMessage());
 
