@@ -143,7 +143,7 @@ class ExtractCommand extends Command
         $finder->in($config->getDirs());
 
         foreach ($config->getExcludedDirs() as $exclude) {
-            $finder->notPath($exclude);
+            $finder->exclude($exclude);
         }
 
         foreach ($config->getExcludedNames() as $exclude) {
