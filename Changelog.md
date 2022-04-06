@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.6
+
+### Fixed
+
+* fix: used finder->exclude instead of notPath for excludedDirs by @seizan8 in https://github.com/php-translation/symfony-bundle/pull/474
+
 ## 0.12.5
 
 ### Added
