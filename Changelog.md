@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.7
+
+### Fixed
+
+* fix: check if session is available by @robbedg in https://github.com/php-translation/symfony-bundle/pull/478
+
 ## 0.12.6
 
 ### Fixed
