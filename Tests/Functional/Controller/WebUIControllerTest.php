@@ -46,24 +46,25 @@ XML
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
+
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
     }
 
     public function testIndexAction(): void
     {
         $request = Request::create('/_trans', 'GET');
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
 
         $request = Request::create('/_trans/app', 'GET');
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testShowAction(): void
     {
         $request = Request::create('/_trans/app/en/messages', 'GET');
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
@@ -72,14 +73,14 @@ XML
         $request = Request::create('/_trans/app/sv/messages/new', 'POST', [], [], [], [], json_encode([
             'key' => 'foo',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(400, $response->getStatusCode());
 
         $request = Request::create('/_trans/app/sv/messages/new', 'POST', [], [], [], [], json_encode([
             'key' => 'foo',
             'message' => 'bar',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
@@ -88,14 +89,14 @@ XML
         $request = Request::create('/_trans/app/sv/messages', 'POST', [], [], [], [], json_encode([
             'key' => 'foo',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(400, $response->getStatusCode());
 
         $request = Request::create('/_trans/app/sv/messages', 'POST', [], [], [], [], json_encode([
             'key' => 'key1',
             'message' => 'bar',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
@@ -105,13 +106,13 @@ XML
         $request = Request::create('/_trans/app/sv/messages', 'DELETE', [], [], [], [], json_encode([
             'key' => 'empty',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
 
         $request = Request::create('/_trans/app/sv/messages', 'DELETE', [], [], [], [], json_encode([
             'key' => 'foo',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 }

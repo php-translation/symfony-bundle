@@ -53,7 +53,8 @@ final class Activator implements ActivatorInterface
     private function getSession(): ?Session
     {
         $session = $this->session;
-        if (null === $session && $this->requestStack->getCurrentRequest()->hasSession()) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $session && $request && $request->hasSession()) {
             $session = $this->requestStack->getSession();
         }
 

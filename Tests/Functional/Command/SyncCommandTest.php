@@ -21,7 +21,8 @@ class SyncCommandTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
+
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
 
         file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
@@ -63,10 +64,10 @@ XML
 
     public function testExecute(): void
     {
-        $this->bootKernel();
-        $application = new Application($this->kernel);
+        $this->testKernel->boot();
+        $application = new Application($this->testKernel);
 
-        $container = $this->getContainer();
+        $container = $this->testKernel->getContainer();
         $application->add($container->get(SyncCommand::class));
 
         $command = $application->find('translation:sync');

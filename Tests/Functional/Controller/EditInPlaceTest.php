@@ -22,13 +22,13 @@ class EditInPlaceTest extends BaseTestCase
 {
     public function testActivatedTest(): void
     {
-        $this->bootKernel();
+        $this->testKernel->boot();
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->getContainer()->get(Activator::class)->activate();
+        $this->testKernel->getContainer()->get(Activator::class)->activate();
 
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
@@ -53,14 +53,14 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled(): void
     {
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yaml');
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label.yaml');
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->bootKernel();
-        $this->getContainer()->get(Activator::class)->activate();
+        $this->testKernel->boot();
+        $this->testKernel->getContainer()->get(Activator::class)->activate();
 
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
@@ -85,9 +85,10 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testDeactivatedTest(): void
     {
-        $this->bootKernel();
+        $this->testKernel->boot();
+
         $request = Request::create('/foobar');
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringNotContainsString('x-trans', $response->getContent());

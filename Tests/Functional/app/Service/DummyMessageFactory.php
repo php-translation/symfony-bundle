@@ -11,9 +11,9 @@
 
 namespace Translation\Bundle\Tests\Functional\app\Service;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Http\Message\MessageFactory;
+use Nyholm\Psr7\Request;
+use Nyholm\Psr7\Response;
 
 class DummyMessageFactory implements MessageFactory
 {

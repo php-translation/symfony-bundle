@@ -49,7 +49,8 @@ XML
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
+
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
     }
 
     public function testEditAction(): void
@@ -58,7 +59,7 @@ XML
             'messages|key0' => 'trans0',
             'messages|key1' => 'trans1',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(200, $response->getStatusCode());
     }
 
@@ -68,7 +69,7 @@ XML
             'messages|key0' => 'trans0',
             'messages|' => 'trans1',
         ]));
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
         $this->assertEquals(400, $response->getStatusCode());
     }
 }
