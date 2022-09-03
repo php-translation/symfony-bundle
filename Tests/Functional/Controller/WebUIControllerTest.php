@@ -40,7 +40,7 @@ class WebUIControllerTest extends BaseTestCase
 </xliff>
 
 XML
-    );
+        );
     }
 
     protected function setUp(): void
