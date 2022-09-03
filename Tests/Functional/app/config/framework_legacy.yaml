@@ -1,0 +1,17 @@
+framework:
+    secret: test
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    form: false
+    csrf_protection: false
+    validation:
+        enabled: true
+    router:
+        resource: "%test.project_dir%/config/routing.yaml"
+        type: 'yaml'
+
+twig:
+  strict_variables: "%kernel.debug%" #suppresses deprecation notices about the default value TwigBundle pre version 5
+  paths:
+    "%test.project_dir%/Resources/views": App

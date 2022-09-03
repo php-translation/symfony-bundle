@@ -1,0 +1,10 @@
+imports:
+    - { resource: parameters.php }
+    - { resource: framework_legacy.yaml }
+    - { resource: services.yaml }
+
+translation:
+  webui:
+    enabled: true
+  edit_in_place:
+    enabled: true
