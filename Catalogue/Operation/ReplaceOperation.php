@@ -140,12 +140,12 @@ final class ReplaceOperation extends AbstractOperation
                         // If both arrays, do recursive call
                         $source[$key] = $this->doMergeMetadata($source[$key], $value);
                     }
-                    // Else, use value form $source
+                // Else, use value form $source
                 } else {
                     // Add new value
                     $source[$key] = $value;
                 }
-                // if sequential
+            // if sequential
             } elseif (!\in_array($value, $source, true)) {
                 $source[] = $value;
             }
