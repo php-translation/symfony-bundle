@@ -12,8 +12,8 @@
 namespace Translation\Bundle\Tests\Functional;
 
 use Nyholm\BundleTest\TestKernel;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Translation\Bundle\TranslationBundle;
 

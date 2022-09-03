@@ -20,7 +20,6 @@ class DummyHttpClient implements HttpClient
 {
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-
         return new Response(200);
     }
 }
