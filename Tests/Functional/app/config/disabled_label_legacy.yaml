@@ -1,0 +1,6 @@
+imports:
+    - { resource: default_legacy.yaml }
+
+translation:
+  edit_in_place:
+    show_untranslatable: false
