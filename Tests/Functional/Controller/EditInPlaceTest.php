@@ -12,6 +12,8 @@
 namespace Translation\Bundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Translation\Bundle\EditInPlace\Activator;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
@@ -26,7 +28,10 @@ class EditInPlaceTest extends BaseTestCase
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->testKernel->getContainer()->get(Activator::class)->activate();
+        $activator = $this->testKernel->getContainer()->get(Activator::class);
+        $session = new Session(new MockArraySessionStorage());
+        $activator->setSession($session);
+        $activator->activate();
 
         $response = $this->testKernel->handle($request);
 
@@ -54,11 +59,14 @@ class EditInPlaceTest extends BaseTestCase
     public function testIfUntranslatableLabelGetsDisabled(): void
     {
         $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label.yaml');
+        $this->testKernel->boot();
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->testKernel->boot();
-        $this->testKernel->getContainer()->get(Activator::class)->activate();
+        $activator = $this->testKernel->getContainer()->get(Activator::class);
+        $session = new Session(new MockArraySessionStorage());
+        $activator->setSession($session);
+        $activator->activate();
 
         $response = $this->testKernel->handle($request);
 
