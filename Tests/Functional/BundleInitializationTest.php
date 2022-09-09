@@ -21,8 +21,10 @@ class BundleInitializationTest extends BaseTestCase
 {
     public function testRegisterBundle(): void
     {
-        $this->bootKernel();
-        $container = $this->getContainer();
+        $kernel = $this->testKernel;
+        $kernel->boot();
+        $container = $kernel->getContainer();
+
         $this->assertTrue($container->has(ConfigurationManager::class));
         $config = $container->get(ConfigurationManager::class);
         $this->assertInstanceOf(ConfigurationManager::class, $config);

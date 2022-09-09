@@ -12,6 +12,9 @@
 namespace Translation\Bundle\Tests\Functional\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\EditInPlace\Activator;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
@@ -22,13 +25,16 @@ class EditInPlaceTest extends BaseTestCase
 {
     public function testActivatedTest(): void
     {
-        $this->bootKernel();
+        $this->testKernel->boot();
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->getContainer()->get(Activator::class)->activate();
+        $activator = $this->testKernel->getContainer()->get(Activator::class);
+        $session = new Session(new MockArraySessionStorage());
+        $activator->setSession($session);
+        $activator->activate();
 
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
@@ -53,14 +59,21 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled(): void
     {
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/disabled_label.yaml');
+        if (Kernel::VERSION_ID < 50300) {
+            $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label_legacy.yaml');
+        } else {
+            $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label.yaml');
+        }
+        $this->testKernel->boot();
         $request = Request::create('/foobar');
 
         // Activate the feature
-        $this->bootKernel();
-        $this->getContainer()->get(Activator::class)->activate();
+        $activator = $this->testKernel->getContainer()->get(Activator::class);
+        $session = new Session(new MockArraySessionStorage());
+        $activator->setSession($session);
+        $activator->activate();
 
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
@@ -85,9 +98,10 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testDeactivatedTest(): void
     {
-        $this->bootKernel();
+        $this->testKernel->boot();
+
         $request = Request::create('/foobar');
-        $response = $this->kernel->handle($request);
+        $response = $this->testKernel->handle($request);
 
         self::assertSame(200, $response->getStatusCode());
         self::assertStringNotContainsString('x-trans', $response->getContent());

@@ -52,9 +52,8 @@ XML
 
     public function testFetchCatalogue(): void
     {
-        $this->bootKernel();
-
-        $this->catalogueFetcher = $this->getContainer()->get(CatalogueFetcher::class);
+        $this->testKernel->boot();
+        $this->catalogueFetcher = $this->testKernel->getContainer()->get(CatalogueFetcher::class);
 
         $data = self::getDefaultData();
         $data['external_translations_dirs'] = [__DIR__.'/../app/Resources/translations/'];
@@ -89,6 +88,6 @@ XML
     {
         parent::setUp();
 
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
     }
 }

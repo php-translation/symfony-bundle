@@ -11,21 +11,22 @@
 
 namespace Translation\Bundle\Tests\Functional;
 
-use Nyholm\BundleTest\AppKernel;
-use Nyholm\BundleTest\BaseBundleTestCase;
+use Nyholm\BundleTest\TestKernel;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\TranslationBundle;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-abstract class BaseTestCase extends BaseBundleTestCase
+abstract class BaseTestCase extends KernelTestCase
 {
     /**
-     * @var AppKernel
+     * @var TestKernel
      */
-    protected $kernel;
+    protected $testKernel;
 
     protected function getBundleClass(): string
     {
@@ -34,13 +35,18 @@ abstract class BaseTestCase extends BaseBundleTestCase
 
     protected function setUp(): void
     {
-        $kernel = $this->createKernel();
-        $kernel->addConfigFile(__DIR__.'/app/config/default.yaml');
+        $kernel = self::createKernel();
 
-        $kernel->addBundle(TwigBundle::class);
-        $kernel->addBundle(TranslationBundle::class);
+        if (Kernel::VERSION_ID < 50300) {
+            $kernel->addTestConfig(__DIR__.'/app/config/default_legacy.yaml');
+        } else {
+            $kernel->addTestConfig(__DIR__.'/app/config/default.yaml');
+        }
 
-        $this->kernel = $kernel;
+        $kernel->addTestBundle(TwigBundle::class);
+        $kernel->addTestBundle(TranslationBundle::class);
+
+        $this->testKernel = $kernel;
 
         parent::setUp();
     }
