@@ -55,9 +55,9 @@ class StatusCommandTest extends BaseTestCase
         $this->assertArrayHasKey('new', $total);
         $this->assertArrayHasKey('obsolete', $total);
         $this->assertArrayHasKey('approved', $total);
-        $this->assertEquals(2, $total['defined']);
-        $this->assertEquals(1, $total['new']);
+        $this->assertEquals(4, $total['defined']);
+        $this->assertEquals(2, $total['new']);
         $this->assertEquals(0, $total['obsolete']);
-        $this->assertEquals(1, $total['approved']);
+        $this->assertEquals(2, $total['approved']);
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
+    <file id="messages.en_US">
+        <unit id="IcuLCa0a2j">
+            <notes>
+                <note category="state">new</note>
+                <note category="approved">true</note>
+                <note category="section" priority="1">user login</note>
+            </notes>
+            <segment>
+                <source>key2</source>
+                <target>trans2</target>
+            </segment>
+        </unit>
+        <unit id="IcuLCa0a2b">
+            <notes>
+                <note category="file-source" priority="1">Resources/views/translated.html.twig:12</note>
+                <note>file-source</note>
+                <note>status:new</note>
+            </notes>
+            <segment>
+                <source>key3</source>
+                <target>trans3</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
