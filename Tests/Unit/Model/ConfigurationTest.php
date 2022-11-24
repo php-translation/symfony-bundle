@@ -56,6 +56,7 @@ class ConfigurationTest extends TestCase
             'blacklist_domains' => ['getBlacklistDomains'],
             'whitelist_domains' => ['getWhitelistDomains'],
             'xliff_version' => 'getXliffVersion',
+            'new_message_format' => 'getNewMessageFormat',
         ];
     }
 }
