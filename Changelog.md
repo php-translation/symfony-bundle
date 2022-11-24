@@ -2,6 +2,60 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.7
+
+### Fixed
+
+* fix: check if session is available by @robbedg in https://github.com/php-translation/symfony-bundle/pull/478
+
+## 0.12.6
+
+### Fixed
+
+* fix: used finder->exclude instead of notPath for excludedDirs by @seizan8 in https://github.com/php-translation/symfony-bundle/pull/474
+
+## 0.12.5
+
+### Added
+
+* Add testing on the newest PHP 8.1 to the CI config by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/465
+* Allow Symfony 6 by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/464
+
+### Removed
+
+* refac: remove AbstractController from EditInPlaceController by @gimler in https://github.com/php-translation/symfony-bundle/pull/459
+* Stop extending AbstractController to fix some deprecations by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/460
+
+### Changed
+
+* Use autowiring for SymfonyProfilerController by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/461
+* Use a different image for PHP CS Fixer to get latest and upgrade config #471
+
+### Fixed
+
+* Fix Cannot autowire service "php_translation.data_collector" error in… by @axi in https://github.com/php-translation/symfony-bundle/pull/463
+* Fix yaml indentation to 4 spaces by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/462
+* Fix for deprecated session service in Symfony 6 by @robbedg in https://github.com/php-translation/symfony-bundle/pull/468
+* Fix return type and implement getCatalogues() https://github.com/php-translation/symfony-bundle/pull/470
+
+## 0.12.4
+
+### Fixed
+
+- Fix extractor parameters #438
+- Make Profiler service an optional argument for SymfonyProfilerController #440
+- Update ExtractCommand.php #435
+- Fix tests on Symfony 5.3 #443
+- Suppress getMasterRequest() deprecation message #444
+- Suppress deprecations on deprecating legacy services #445
+- Fix PHPUnit deprecations #447
+- Fix broken tests #458
+- Register visitor tag also for TranslateAnnotationVisitor and Knp visitors #451
+
+### Removed
+
+- Drop SensioLabs (Symfony) insight badge #441
+
 ## 0.12.3
 
 ### Fixed

@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('translation');
         // Keep compatibility with symfony/config < 4.2
-        if (!\method_exists($treeBuilder, 'getRootNode')) {
+        if (!method_exists($treeBuilder, 'getRootNode')) {
             $root = $treeBuilder->root('translation');
         } else {
             $root = $treeBuilder->getRootNode();
@@ -109,26 +109,26 @@ class Configuration implements ConfigurationInterface
                             ->prototype('scalar')
                                 ->validate()
                                     ->always(function ($value) use ($container) {
-                                        $value = \str_replace(\DIRECTORY_SEPARATOR, '/', $value);
+                                        $value = str_replace(\DIRECTORY_SEPARATOR, '/', $value);
 
                                         if ('@' === $value[0]) {
-                                            if (false === $pos = \strpos($value, '/')) {
-                                                $bundleName = \substr($value, 1);
+                                            if (false === $pos = strpos($value, '/')) {
+                                                $bundleName = substr($value, 1);
                                             } else {
-                                                $bundleName = \substr($value, 1, $pos - 2);
+                                                $bundleName = substr($value, 1, $pos - 2);
                                             }
 
                                             $bundles = $container->getParameter('kernel.bundles');
                                             if (!isset($bundles[$bundleName])) {
-                                                throw new \Exception(\sprintf('The bundle "%s" does not exist. Available bundles: %s', $bundleName, \array_keys($bundles)));
+                                                throw new \Exception(sprintf('The bundle "%s" does not exist. Available bundles: %s', $bundleName, array_keys($bundles)));
                                             }
 
                                             $ref = new \ReflectionClass($bundles[$bundleName]);
-                                            $value = false === $pos ? \dirname($ref->getFileName()) : \dirname($ref->getFileName()).\substr($value, $pos);
+                                            $value = false === $pos ? \dirname($ref->getFileName()) : \dirname($ref->getFileName()).substr($value, $pos);
                                         }
 
-                                        if (!\is_dir($value)) {
-                                            throw new \Exception(\sprintf('The directory "%s" does not exist.', $value));
+                                        if (!is_dir($value)) {
+                                            throw new \Exception(sprintf('The directory "%s" does not exist.', $value));
                                         }
 
                                         return $value;

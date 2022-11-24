@@ -25,9 +25,10 @@ class ExtractCommandTest extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
 
-        \file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
+
+        file_put_contents(__DIR__.'/../app/Resources/translations/messages.sv.xlf', <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="fr-FR" trgLang="en-US">
     <file id="messages.en_US">
@@ -67,15 +68,15 @@ XML
 
     public function testExecute(): void
     {
-        $this->bootKernel();
-        $application = new Application($this->kernel);
+        $this->testKernel->boot();
+        $application = new Application($this->testKernel);
 
-        $container = $this->getContainer();
+        $container = $this->testKernel->getContainer();
         $application->add($container->get(ExtractCommand::class));
 
         // transchoice tag have been definively removed in sf ^5.0
         // Remove this condition & views_with_transchoice + associated config once sf ^5.0 is the minimum supported version.
-        if (\version_compare(Kernel::VERSION, 5.0, '<')) {
+        if (version_compare(Kernel::VERSION, 5.0, '<')) {
             $configuration = 'app_with_transchoice';
         } else {
             $configuration = 'app';
@@ -96,7 +97,6 @@ XML
         $this->assertMatchesRegularExpression('|New messages +4|s', $output);
         $this->assertMatchesRegularExpression('|Total defined messages +8|s', $output);
 
-        $container = $this->getContainer();
         $config = $container->get(ConfigurationManager::class)->getConfiguration('app');
         $catalogues = $container->get(CatalogueFetcher::class)->getCatalogues($config, ['sv']);
 

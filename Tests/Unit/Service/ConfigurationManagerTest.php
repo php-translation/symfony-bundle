@@ -96,6 +96,6 @@ class ConfigurationManagerTest extends TestCase
     {
         $default = ConfigurationTest::getDefaultData();
 
-        return new Configuration(\array_merge($default, $data));
+        return new Configuration(array_merge($default, $data));
     }
 }

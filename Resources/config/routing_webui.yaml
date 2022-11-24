@@ -1,4 +1,3 @@
-
 translation_index:
     path: /_trans/{configName}
     methods: [GET]

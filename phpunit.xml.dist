@@ -12,7 +12,8 @@
         >
     <php>
         <env name="ENV" value="test" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="verbose=1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=29&amp;verbose=1" />
+        <env name="KERNEL_CLASS" value="Nyholm\BundleTest\TestKernel" />
     </php>
 
     <listeners>

@@ -60,12 +60,12 @@ class CatalogueManagerTest extends TestCase
         // Only one approved en message
         $messages = $manager->findMessages(['locale' => 'en', 'isApproved' => true]);
         $this->assertCount(1, $messages);
-        $messages = \array_values($messages);
+        $messages = array_values($messages);
         $this->assertEquals('d', $messages[0]->getKey());
 
         $messages = $manager->findMessages(['isApproved' => true]);
         $this->assertCount(3, $messages);
-        $keys = \array_map(function (CatalogueMessage $message) {
+        $keys = array_map(function (CatalogueMessage $message) {
             return $message->getKey();
         }, $messages);
         $this->assertContains('c', $keys);
@@ -74,12 +74,12 @@ class CatalogueManagerTest extends TestCase
 
         $messages = $manager->findMessages(['isNew' => true]);
         $this->assertCount(1, $messages);
-        $messages = \array_values($messages);
+        $messages = array_values($messages);
         $this->assertEquals('a', $messages[0]->getKey());
 
         $messages = $manager->findMessages(['isObsolete' => true]);
         $this->assertCount(1, $messages);
-        $messages = \array_values($messages);
+        $messages = array_values($messages);
         $this->assertEquals('b', $messages[0]->getKey());
     }
 }

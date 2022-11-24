@@ -50,7 +50,7 @@ final class ConfigurationManager
             }
         }
 
-        throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $name));
+        throw new \InvalidArgumentException(sprintf('No configuration found for "%s"', $name));
     }
 
     public function getFirstName(): ?string
@@ -64,6 +64,6 @@ final class ConfigurationManager
 
     public function getNames(): array
     {
-        return \array_keys($this->configuration);
+        return array_keys($this->configuration);
     }
 }

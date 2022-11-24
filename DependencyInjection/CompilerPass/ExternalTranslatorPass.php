@@ -38,7 +38,7 @@ class ExternalTranslatorPass implements CompilerPassInterface
         }
 
         // Sort by priority
-        \asort($translators);
+        asort($translators);
 
         $def = $container->getDefinition('php_translation.translator_service.external_translator');
         foreach ($translators as $id => $prio) {

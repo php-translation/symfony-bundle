@@ -19,11 +19,11 @@ class CheckMissingCommandTest extends BaseTestCase
     {
         parent::setUp();
 
-        $this->kernel->addConfigFile(__DIR__.'/../app/config/normal_config.yaml');
-        $this->bootKernel();
-        $this->application = new Application($this->kernel);
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/normal_config.yaml');
+        $this->testKernel->boot();
+        $this->application = new Application($this->testKernel);
 
-        \file_put_contents(
+        file_put_contents(
             __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
@@ -93,7 +93,7 @@ XML
 
     public function testReportsNoNewTranslationMessages(): void
     {
-        \file_put_contents(
+        file_put_contents(
             __DIR__.'/../app/Resources/translations/messages.sv.xlf',
             <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>

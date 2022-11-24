@@ -63,7 +63,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
     }
 
     /**
-     * @see Translator::getCatalogue
+     * @see Translator::getCatalogue()
      */
     public function getCatalogue($locale = null): MessageCatalogueInterface
     {
@@ -71,14 +71,26 @@ final class EditInPlaceTranslator implements TranslatorInterface
     }
 
     /**
+     * @see Translator::getCatalogues()
+     */
+    public function getCatalogues(): array
+    {
+        if (!method_exists($this->translator, 'getCatalogues')) {
+            throw new \Exception(sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
+        }
+
+        return $this->translator->getCatalogues();
+    }
+
+    /**
      * @see Translator::trans
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null): ?string
+    public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
         $request = LegacyHelper::getMainRequest($this->requestStack);
         if (!$this->activator->checkRequest($request)) {
-            return $original;
+            return (string) $original;
         }
 
         $plain = $this->translator->trans($id, [], $domain, $locale);
@@ -91,11 +103,11 @@ final class EditInPlaceTranslator implements TranslatorInterface
         }
 
         // Render all data in the translation tag required to allow in-line translation
-        return \sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
+        return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
-            \htmlspecialchars($original),
-            \htmlspecialchars($plain),
+            htmlspecialchars($original),
+            htmlspecialchars($plain),
             $domain,
             $locale,
             $original
@@ -112,7 +124,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         }
 
-        $parameters = \array_merge([
+        $parameters = array_merge([
             '%count%' => $number,
         ], $parameters);
 

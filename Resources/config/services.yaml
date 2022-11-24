@@ -1,45 +1,45 @@
 services:
-  Translation\Bundle\Catalogue\CatalogueFetcher:
-    public: true
-    arguments: ['@translation.reader']
+    Translation\Bundle\Catalogue\CatalogueFetcher:
+        public: true
+        arguments: ['@translation.reader']
 
-  Translation\Bundle\Catalogue\CatalogueWriter:
-    public: true
-    arguments: ['@translation.writer', '%php_translation.default_locale%']
+    Translation\Bundle\Catalogue\CatalogueWriter:
+        public: true
+        arguments: ['@translation.writer', '%php_translation.default_locale%']
 
-  php_translation.storage.abstract:
-    class: Translation\Bundle\Service\StorageService
-    abstract: true
-    arguments: ['@Translation\Bundle\Catalogue\CatalogueFetcher', ~]
+    php_translation.storage.abstract:
+        class: Translation\Bundle\Service\StorageService
+        abstract: true
+        arguments: ['@Translation\Bundle\Catalogue\CatalogueFetcher', ~]
 
-  Translation\Bundle\Catalogue\CatalogueManager:
-    public: true
+    Translation\Bundle\Catalogue\CatalogueManager:
+        public: true
 
-  Translation\Extractor\Extractor: ~
+    Translation\Extractor\Extractor: ~
 
-  Translation\Bundle\Service\StorageManager:
-    public: true
+    Translation\Bundle\Service\StorageManager:
+        public: true
 
-  Translation\Bundle\Service\ConfigurationManager:
-    public: true
+    Translation\Bundle\Service\ConfigurationManager:
+        public: true
 
-  Translation\Bundle\Service\Importer:
-    public: true
-    arguments: ['@Translation\Extractor\Extractor', '@twig', '%php_translation.default_locale%']
+    Translation\Bundle\Service\Importer:
+        public: true
+        arguments: ['@Translation\Extractor\Extractor', '@twig', '%php_translation.default_locale%']
 
-  Translation\Bundle\Service\CacheClearer:
-    public: true
-    arguments: ['%kernel.cache_dir%', '@translator', '@filesystem']
+    Translation\Bundle\Service\CacheClearer:
+        public: true
+        arguments: ['%kernel.cache_dir%', '@translator', '@filesystem']
 
-  php_translation.local_file_storage.abstract:
-    class: Translation\SymfonyStorage\FileStorage
-    abstract: true
-    arguments: ['@translation.writer', '@translation.reader', ~, []]
+    php_translation.local_file_storage.abstract:
+        class: Translation\SymfonyStorage\FileStorage
+        abstract: true
+        arguments: ['@translation.writer', '@translation.reader', ~, []]
 
-  Translation\Bundle\Catalogue\CatalogueCounter:
-    public: true
+    Translation\Bundle\Catalogue\CatalogueCounter:
+        public: true
 
-  Translation\Bundle\Twig\TranslationExtension:
-    arguments: ['@translator', '%kernel.debug%']
-    tags:
-        - { name: twig.extension }
+    Translation\Bundle\Twig\TranslationExtension:
+        arguments: ['@translator', '%kernel.debug%']
+        tags:
+            - { name: twig.extension }

@@ -128,7 +128,7 @@ class ExtractCommand extends Command
             /** @var Error $error */
             foreach ($errors as $error) {
                 $io->error(
-                    \sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
+                    sprintf("%s\nLine: %s\nMessage: %s", $error->getPath(), $error->getLine(), $error->getMessage())
                 );
             }
         }
@@ -143,7 +143,7 @@ class ExtractCommand extends Command
         $finder->in($config->getDirs());
 
         foreach ($config->getExcludedDirs() as $exclude) {
-            $finder->notPath($exclude);
+            $finder->exclude($exclude);
         }
 
         foreach ($config->getExcludedNames() as $exclude) {

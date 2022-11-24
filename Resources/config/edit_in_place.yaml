@@ -1,38 +1,40 @@
 services:
-  Translation\Bundle\Controller\EditInPlaceController:
-    autowire: true
-    public: true
-    tags: ['controller.service_arguments']
-    arguments:
-      - '@Translation\Bundle\Service\StorageManager'
-      - '@Translation\Bundle\Service\CacheClearer'
-      - '@Symfony\Component\Validator\Validator\ValidatorInterface'
+    Translation\Bundle\Controller\EditInPlaceController:
+        autowire: true
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Translation\Bundle\Service\StorageManager'
+            - '@Translation\Bundle\Service\CacheClearer'
+            - '@Symfony\Component\Validator\Validator\ValidatorInterface'
 
-  Translation\Bundle\EventListener\EditInPlaceResponseListener:
-    tags:
-      - { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
-    arguments:
-      - ~
-      - '@router'
-      - '@assets.packages'
-      - ~
-      - ~
+    Translation\Bundle\EventListener\EditInPlaceResponseListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
+        arguments:
+            - ~
+            - '@router'
+            - '@assets.packages'
+            - ~
+            - ~
 
-  Translation\Bundle\EditInPlace\Activator:
-    arguments: ['@session']
-    public: true
+    Translation\Bundle\EditInPlace\Activator:
+        arguments: ['@request_stack']
+        calls:
+            - setSession: ['@?session']
+        public: true
 
-  Translation\Bundle\Translator\EditInPlaceTranslator:
-    arguments:
-      - '@translator'
-      - ~
-      - '@request_stack'
+    Translation\Bundle\Translator\EditInPlaceTranslator:
+        arguments:
+            - '@translator'
+            - ~
+            - '@request_stack'
 
-  Translation\Bundle\Twig\EditInPlaceExtension:
-    public: false
-    arguments:
-      - '@twig.extension.trans'
-      - '@request_stack'
-      - ~
-    tags:
-      - { name: 'twig.extension' }
+    Translation\Bundle\Twig\EditInPlaceExtension:
+        public: false
+        arguments:
+            - '@twig.extension.trans'
+            - '@request_stack'
+            - ~
+        tags:
+            - { name: 'twig.extension' }

@@ -37,7 +37,7 @@ final class ReplaceOperation extends AbstractOperation
             'new' => [],
             'obsolete' => [],
         ];
-        if (\defined(\sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
+        if (\defined(sprintf('%s::INTL_DOMAIN_SUFFIX', MessageCatalogueInterface::class))) {
             $intlDomain = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
         } else {
             $intlDomain = $domain;
@@ -140,12 +140,12 @@ final class ReplaceOperation extends AbstractOperation
                         // If both arrays, do recursive call
                         $source[$key] = $this->doMergeMetadata($source[$key], $value);
                     }
-                    // Else, use value form $source
+                // Else, use value form $source
                 } else {
                     // Add new value
                     $source[$key] = $value;
                 }
-                // if sequential
+            // if sequential
             } elseif (!\in_array($value, $source, true)) {
                 $source[] = $value;
             }
@@ -160,6 +160,6 @@ final class ReplaceOperation extends AbstractOperation
             return false;
         }
 
-        return \array_keys($arr) !== \range(0, \count($arr) - 1);
+        return array_keys($arr) !== range(0, \count($arr) - 1);
     }
 }

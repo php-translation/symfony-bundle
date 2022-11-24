@@ -11,13 +11,14 @@
 
 namespace Translation\Bundle\Tests\Functional\app\Service;
 
-use GuzzleHttp\Psr7\Response;
 use Http\Client\HttpClient;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class DummyHttpClient implements HttpClient
 {
-    public function sendRequest(RequestInterface $request)
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
         return new Response(200);
     }

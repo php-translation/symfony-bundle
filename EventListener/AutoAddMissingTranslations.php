@@ -60,6 +60,6 @@ final class AutoAddMissingTranslations
 // PostResponseEvent have been renamed into ResponseEvent in sf 4.3
 // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
 // To be removed once sf ^4.3 become the minimum supported version.
-if (!\class_exists(TerminateEvent::class) && \class_exists(PostResponseEvent::class)) {
-    \class_alias(PostResponseEvent::class, TerminateEvent::class);
+if (!class_exists(TerminateEvent::class) && class_exists(PostResponseEvent::class)) {
+    class_alias(PostResponseEvent::class, TerminateEvent::class);
 }

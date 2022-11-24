@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -25,7 +24,7 @@ use Translation\Common\Model\MessageInterface;
 /**
  * @author Damien Alexandre <dalexandre@jolicode.com>
  */
-class EditInPlaceController extends AbstractController
+class EditInPlaceController
 {
     private $storageManager;
     private $cacheClearer;
@@ -67,11 +66,11 @@ class EditInPlaceController extends AbstractController
     private function getMessages(Request $request, string $locale, array $validationGroups = []): array
     {
         $json = $request->getContent();
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         $messages = [];
 
         foreach ($data as $key => $value) {
-            [$domain, $translationKey] = \explode('|', $key);
+            [$domain, $translationKey] = explode('|', $key);
 
             $message = new Message($translationKey, $domain, $locale, $value);
 
