@@ -175,7 +175,7 @@ class Configuration implements ConfigurationInterface
                                 )
                                 ->then(
                                     function (string $format) {
-                                        return \strtolower($format);
+                                        return strtolower($format);
                                     }
                                 )
                             ->end()
