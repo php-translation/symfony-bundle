@@ -7,6 +7,7 @@ The change log describes what is "Added", "Removed", "Changed" or "Fixed" betwee
 ### Fixed
 
 * Fix code styles by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/479
+* Apply changes suggested by PHP CS Fixer by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/486
 
 ### Changed
 
