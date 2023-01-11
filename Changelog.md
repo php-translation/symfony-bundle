@@ -2,6 +2,17 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.12.8
+
+### Fixed
+
+* Fix code styles by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/479
+* Apply changes suggested by PHP CS Fixer by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/486
+
+### Changed
+
+* Upgrade the SymfonyBundleTest by @bocharsky-bw in https://github.com/php-translation/symfony-bundle/pull/481
+
 ## 0.12.7
 
 ### Fixed
