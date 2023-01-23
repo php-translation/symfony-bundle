@@ -57,7 +57,9 @@ class CatalogueCounter
             $result[$domain]['approved'] = 0;
 
             foreach ($catalogue->all($domain) as $key => $text) {
-                $metadata = new Metadata($catalogue->getMetadata($key, $domain));
+                $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+                $rawMetadata = $catalogue->getMetadata($key, $domain) ?: $catalogue->getMetadata($key, $intlDomain);
+                $metadata = new Metadata($rawMetadata);
                 $state = $metadata->getState();
                 if ('new' === $state) {
                     ++$result[$domain]['new'];

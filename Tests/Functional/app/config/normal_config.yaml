@@ -9,7 +9,9 @@ translation:
       dirs: ["%test.project_dir%/Resources/views"]
       output_dir: "%test.project_dir%/Resources/translations"
       project_root: "%test.project_dir%"
+      new_message_format: ''
     app_with_transchoice:
       dirs: ["%test.project_dir%/Resources/views_with_transchoice"]
       output_dir: "%test.project_dir%/Resources/translations"
       project_root: "%test.project_dir%"
+      new_message_format: ''

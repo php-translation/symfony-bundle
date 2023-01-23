@@ -111,9 +111,9 @@ XML
         }
 
         $meta = new Metadata($catalogue->getMetadata('not.in.source'));
-        $this->assertTrue('obsolete' === $meta->getState());
+        self::assertSame('obsolete', $meta->getState(), 'Expect meta state to be correct');
 
         $meta = new Metadata($catalogue->getMetadata('translated.title'));
-        $this->assertTrue('new' === $meta->getState());
+        self::assertSame('new', $meta->getState(), 'Expect meta state to be correct');
     }
 }

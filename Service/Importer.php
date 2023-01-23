@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Service;
 
+use Nyholm\NSA;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 use Translation\Bundle\Catalogue\Operation\ReplaceOperation;
@@ -74,11 +75,11 @@ final class Importer
         $results = [];
         foreach ($catalogues as $catalogue) {
             $target = new MessageCatalogue($catalogue->getLocale());
-            $this->convertSourceLocationsToMessages($target, $sourceCollection);
+            $this->convertSourceLocationsToMessages($target, $sourceCollection, $catalogue);
 
             // Remove all SourceLocation and State form catalogue.
-            foreach ($catalogue->getDomains() as $domain) {
-                foreach ($catalogue->all($domain) as $key => $translation) {
+            foreach (NSA::getProperty($catalogue, 'messages') as $domain => $translations) {
+                foreach ($translations as $key => $translation) {
                     $meta = $this->getMetadata($catalogue, $key, $domain);
                     $meta->removeAllInCategory('file-source');
                     $meta->removeAllInCategory('state');
@@ -90,28 +91,37 @@ final class Importer
             $result = $merge->getResult();
             $domains = $merge->getDomains();
 
+            $resultMessages = NSA::getProperty($result, 'messages');
+
             // Mark new messages as new/obsolete
             foreach ($domains as $domain) {
+                $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+
                 foreach ($merge->getNewMessages($domain) as $key => $translation) {
-                    $meta = $this->getMetadata($result, $key, $domain);
+                    $messageDomain = \array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+
+                    $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('new');
-                    $this->setMetadata($result, $key, $domain, $meta);
+                    $this->setMetadata($result, $key, $messageDomain, $meta);
 
                     // Add custom translations that we found in the source
                     if (null === $translation) {
                         if (null !== $newTranslation = $meta->getTranslation()) {
-                            $result->set($key, $newTranslation, $domain);
+                            $result->set($key, $newTranslation, $messageDomain);
                             // We do not want "translation" key stored anywhere.
                             $meta->removeAllInCategory('translation');
                         } elseif (null !== ($newTranslation = $meta->getDesc()) && $catalogue->getLocale() === $this->defaultLocale) {
-                            $result->set($key, $newTranslation, $domain);
+                            $result->set($key, $newTranslation, $messageDomain);
                         }
                     }
                 }
+
                 foreach ($merge->getObsoleteMessages($domain) as $key => $translation) {
-                    $meta = $this->getMetadata($result, $key, $domain);
+                    $messageDomain = \array_key_exists($key, $resultMessages[$intlDomain] ?? []) ? $intlDomain : $domain;
+
+                    $meta = $this->getMetadata($result, $key, $messageDomain);
                     $meta->setState('obsolete');
-                    $this->setMetadata($result, $key, $domain, $meta);
+                    $this->setMetadata($result, $key, $messageDomain, $meta);
                 }
             }
             $results[] = $result;
@@ -120,22 +130,40 @@ final class Importer
         return new ImportResult($results, $sourceCollection->getErrors());
     }
 
-    private function convertSourceLocationsToMessages(MessageCatalogue $catalogue, SourceCollection $collection): void
-    {
+    private function convertSourceLocationsToMessages(
+        MessageCatalogue $catalogue,
+        SourceCollection $collection,
+        MessageCatalogue $currentCatalogue
+    ): void {
+        $currentMessages = NSA::getProperty($currentCatalogue, 'messages');
+
         /** @var SourceLocation $sourceLocation */
         foreach ($collection as $sourceLocation) {
             $context = $sourceLocation->getContext();
             $domain = $context['domain'] ?? 'messages';
+
             // Check with white/black list
             if (!$this->isValidDomain($domain)) {
                 continue;
             }
 
+            $intlDomain = $domain.'+intl-icu' /* MessageCatalogueInterface::INTL_DOMAIN_SUFFIX */;
+
             $key = $sourceLocation->getMessage();
-            $catalogue->add([$key => null], $domain);
+
+            if (\array_key_exists($key, $currentMessages[$intlDomain] ?? [])) {
+                $messageDomain = $intlDomain;
+            } elseif (\array_key_exists($key, $currentMessages[$domain] ?? [])) {
+                $messageDomain = $domain;
+            } else {
+                // New translation
+                $messageDomain = 'icu' === $this->config['new_message_format'] ? $intlDomain : $domain;
+            }
+
+            $catalogue->add([$key => null], $messageDomain);
             $trimLength = 1 + \strlen($this->config['project_root']);
 
-            $meta = $this->getMetadata($catalogue, $key, $domain);
+            $meta = $this->getMetadata($catalogue, $key, $messageDomain);
             $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
@@ -143,7 +171,7 @@ final class Importer
             if (isset($sourceLocation->getContext()['translation'])) {
                 $meta->addCategory('translation', $sourceLocation->getContext()['translation']);
             }
-            $this->setMetadata($catalogue, $key, $domain, $meta);
+            $this->setMetadata($catalogue, $key, $messageDomain, $meta);
         }
     }
 
@@ -178,6 +206,7 @@ final class Importer
             'project_root' => '',
             'blacklist_domains' => [],
             'whitelist_domains' => [],
+            'new_message_format' => 'icu',
         ];
 
         $config = array_merge($default, $config);

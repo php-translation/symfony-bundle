@@ -92,6 +92,11 @@ final class Configuration
      */
     private $xliffVersion;
 
+    /**
+     * @var string
+     */
+    private $newMessageFormat;
+
     public function __construct(array $data)
     {
         $this->name = $data['name'];
@@ -106,6 +111,7 @@ final class Configuration
         $this->blacklistDomains = $data['blacklist_domains'];
         $this->whitelistDomains = $data['whitelist_domains'];
         $this->xliffVersion = $data['xliff_version'];
+        $this->newMessageFormat = $data['new_message_format'];
     }
 
     public function getName(): string
@@ -175,6 +181,15 @@ final class Configuration
     public function getXliffVersion(): string
     {
         return $this->xliffVersion;
+    }
+
+    /**
+     * If set to "icu" it'll place all new translations in "{domain}+intl-icu.{locale}.{ext}" file.
+     * Otherwise normal "{domain}.{locale}.{ext}" file will be used.
+     */
+    public function getNewMessageFormat(): string
+    {
+        return $this->newMessageFormat;
     }
 
     /**
