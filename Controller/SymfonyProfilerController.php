@@ -166,8 +166,12 @@ class SymfonyProfilerController
     {
         $this->getProfiler()->disable();
 
+        $parameters = $request->request->all();
+        if (!isset($parameters['selected'])) {
+            return [];
+        }
         /** @var string[] $selected */
-        $selected = (array) $request->request->get('selected');
+        $selected = (array) $parameters['selected'];
         if (0 === \count($selected)) {
             return [];
         }
