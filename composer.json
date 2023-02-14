@@ -62,7 +62,8 @@
     },
     "config": {
         "allow-plugins": {
-            "bamarni/composer-bin-plugin": true
+            "bamarni/composer-bin-plugin": true,
+            "php-http/discovery": true
         }
     }
 }
