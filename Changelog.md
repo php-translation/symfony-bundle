@@ -2,6 +2,16 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.13.0
+
+### Added
+
+* Bundle does not work properly with new Intl ICU translations by @snpy in https://github.com/php-translation/symfony-bundle/pull/452
+
+### Fixed
+
+* Symfony Profiler Fix Symfony 6.x compatibility by @krzyc in https://github.com/php-translation/symfony-bundle/pull/488
+
 ## 0.12.8
 
 ### Fixed
