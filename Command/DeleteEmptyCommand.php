@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,12 +27,13 @@ use Translation\Bundle\Service\StorageManager;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
+#[AsCommand(
+    name: 'translation:delete-empty'
+)]
 class DeleteEmptyCommand extends Command
 {
     use BundleTrait;
     use StorageTrait;
-
-    protected static $defaultName = 'translation:delete-empty';
 
     /**
      * @var ConfigurationManager
@@ -64,7 +66,6 @@ class DeleteEmptyCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::$defaultName)
             ->setDescription('Delete all translations currently empty.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale to use. If omitted, we use all configured locales.', null)
