@@ -61,9 +61,6 @@ final class FallbackTranslator implements TranslatorInterface
         $this->defaultLocale = $defaultLocale;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
         $id = (string) $id;
@@ -87,9 +84,6 @@ final class FallbackTranslator implements TranslatorInterface
         return $this->translateWithSubstitutedParameters($orgString, $locale, $parameters);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): string
     {
         $id = (string) $id;
@@ -113,25 +107,16 @@ final class FallbackTranslator implements TranslatorInterface
         return $this->translateWithSubstitutedParameters($orgString, $locale, $parameters);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setLocale($locale): void
     {
         $this->symfonyTranslator->setLocale($locale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLocale(): string
     {
         return $this->symfonyTranslator->getLocale();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCatalogue($locale = null): MessageCatalogueInterface
     {
         return $this->symfonyTranslator->getCatalogue($locale);

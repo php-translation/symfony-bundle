@@ -32,7 +32,7 @@ final class Activator implements ActivatorInterface
     /**
      * @var Session|null
      */
-    private $session = null;
+    private $session;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -81,9 +81,6 @@ final class Activator implements ActivatorInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkRequest(Request $request = null): bool
     {
         if (null === $this->getSession() || !$this->getSession()->has(self::KEY)) {

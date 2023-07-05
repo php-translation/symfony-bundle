@@ -67,12 +67,12 @@ final class CatalogueManager
     /**
      * @param array $config {
      *
-     *      @var string $domain
-     *      @var string $locale
-     *      @var bool $isNew
-     *      @var bool $isObsolete
-     *      @var bool $isApproved
-     * }
+     * @var string $domain
+     * @var string $locale
+     * @var bool   $isNew
+     * @var bool   $isObsolete
+     * @var bool   $isApproved
+     *             }
      *
      * @return CatalogueMessage[]
      */

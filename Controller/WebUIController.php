@@ -76,7 +76,7 @@ class WebUIController
     /**
      * Show a dashboard for the configuration.
      */
-    public function indexAction(?string $configName = null): Response
+    public function indexAction(string $configName = null): Response
     {
         if (!$this->isWebUIEnabled) {
             return new Response('You are not allowed here. Check your config.', Response::HTTP_BAD_REQUEST);

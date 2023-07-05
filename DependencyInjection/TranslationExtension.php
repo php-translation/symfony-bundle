@@ -37,9 +37,6 @@ use Translation\Extractor\Visitor\Php\Symfony\FormTypeChoices;
  */
 class TranslationExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $container->setParameter('extractor_vendor_dir', $this->getExtractorVendorDirectory());
@@ -224,17 +221,11 @@ class TranslationExtension extends Extension
         $container->setParameter('php_translation.translator_service.api_key', $config['fallback_translation']['api_key']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias(): string
     {
         return 'translation';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         return new Configuration($container);

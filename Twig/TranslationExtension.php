@@ -71,7 +71,7 @@ final class TranslationExtension extends AbstractExtension
         return $visitors;
     }
 
-    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], ?string $domain = null, ?string $locale = null): string
+    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], string $domain = null, string $locale = null): string
     {
         if (null === $domain) {
             $domain = 'messages';
@@ -84,21 +84,11 @@ final class TranslationExtension extends AbstractExtension
         return $this->translator->transChoice($message, $count, array_merge(['%count%' => $count], $arguments), $domain, $locale);
     }
 
-    /**
-     * @param mixed $v
-     *
-     * @return mixed
-     */
     public function desc($v)
     {
         return $v;
     }
 
-    /**
-     * @param mixed $v
-     *
-     * @return mixed
-     */
     public function meaning($v)
     {
         return $v;

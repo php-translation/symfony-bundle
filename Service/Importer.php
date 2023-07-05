@@ -62,10 +62,10 @@ final class Importer
      * @param MessageCatalogue[] $catalogues
      * @param array              $config     {
      *
-     *     @var array $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
-     *     @var array $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
-     *     @var string $project_root The project root will be removed from the source location.
-     * }
+     * @var array  $blacklist_domains Blacklist the domains we should exclude. Cannot be used with whitelist.
+     * @var array  $whitelist_domains Whitelist the domains we should include. Cannot be used with blacklist.
+     * @var string $project_root The project root will be removed from the source location.
+     *             }
      */
     public function extractToCatalogues(Finder $finder, array $catalogues, array $config = []): ImportResult
     {
