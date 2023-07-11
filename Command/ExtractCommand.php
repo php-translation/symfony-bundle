@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,11 +30,12 @@ use Translation\Extractor\Model\Error;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
+#[AsCommand(
+    name: 'translation:extract'
+)]
 class ExtractCommand extends Command
 {
     use BundleTrait;
-
-    protected static $defaultName = 'translation:extract';
 
     /**
      * @var CatalogueFetcher
@@ -79,7 +81,6 @@ class ExtractCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::$defaultName)
             ->setDescription('Extract translations from source code.')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('locale', InputArgument::OPTIONAL, 'The locale to use. If omitted, we use all configured locales.', false)

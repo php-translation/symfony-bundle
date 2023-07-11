@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,12 +27,13 @@ use Translation\Bundle\Service\StorageManager;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
+#[AsCommand(
+    name: 'translation:download'
+)]
 class DownloadCommand extends Command
 {
     use BundleTrait;
     use StorageTrait;
-
-    protected static $defaultName = 'translation:download';
 
     private $configurationManager;
     private $cacheCleaner;
@@ -54,7 +56,6 @@ class DownloadCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::$defaultName)
             ->setDescription('Replace local messages with messages from remote')
             ->setHelp(<<<EOT
 The <info>%command.name%</info> will erase all your local translations and replace them with translations downloaded from the remote.
@@ -138,7 +139,7 @@ EOT
 
         foreach ($raw as $string) {
             // Assert $string looks like "foo:bar"
-            list($key, $value) = explode(':', $string, 2);
+            [$key, $value] = explode(':', $string, 2);
             $config[$key][] = $value;
         }
 

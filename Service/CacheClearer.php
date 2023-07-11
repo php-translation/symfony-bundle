@@ -58,7 +58,7 @@ final class CacheClearer
      *
      * @param string|null $locale optional filter to clear only one locale
      */
-    public function clearAndWarmUp(?string $locale = null): void
+    public function clearAndWarmUp(string $locale = null): void
     {
         $translationDir = sprintf('%s/translations', $this->kernelCacheDir);
 

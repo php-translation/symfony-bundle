@@ -37,9 +37,6 @@ final class EditInPlaceExtension extends AbstractExtension
         $this->activator = $activator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters(): array
     {
         return [
@@ -58,9 +55,6 @@ final class EditInPlaceExtension extends AbstractExtension
         return $this->activator->checkRequest($request) ? ['html'] : [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return self::class;

@@ -29,9 +29,6 @@ class Configuration implements ConfigurationInterface
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('translation');

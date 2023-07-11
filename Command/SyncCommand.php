@@ -11,6 +11,7 @@
 
 namespace Translation\Bundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,11 +23,12 @@ use Translation\Bundle\Service\StorageService;
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
+#[AsCommand(
+    name: 'translation:sync'
+)]
 class SyncCommand extends Command
 {
     use StorageTrait;
-
-    protected static $defaultName = 'translation:sync';
 
     public function __construct(StorageManager $storageManager)
     {
@@ -38,7 +40,6 @@ class SyncCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::$defaultName)
             ->setDescription('Sync the translations with the remote storage')
             ->addArgument('configuration', InputArgument::OPTIONAL, 'The configuration to use', 'default')
             ->addArgument('direction', InputArgument::OPTIONAL, 'Use "down" if local changes should be overwritten, otherwise "up"', 'down')
@@ -78,7 +79,7 @@ class SyncCommand extends Command
 
         foreach ($raw as $string) {
             // Assert $string looks like "foo:bar"
-            list($key, $value) = explode(':', $string, 2);
+            [$key, $value] = explode(':', $string, 2);
             $config[$key][] = $value;
         }
 
