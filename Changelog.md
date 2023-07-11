@@ -2,6 +2,16 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.14.0
+
+### Fixed
+
+* Remove symfony console $defaultName deprecation by @axi in https://github.com/php-translation/symfony-bundle/pull/491
+
+### Removed
+
+* Dropped PHP 7.2, 7.3, 7.4, and 8.0 support by @axi in https://github.com/php-translation/symfony-bundle/pull/491
+
 ## 0.13.0
 
 ### Added
