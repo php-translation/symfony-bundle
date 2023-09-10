@@ -8,7 +8,10 @@
  */
 (function () {
     if (typeof customElements.define !== "undefined") {
-        customElements.define("x-trans", HTMLElement);
+        // it is not possible to use HTMLElement directly
+        class XTrans extends HTMLElement {}
+
+        customElements.define("x-trans", XTrans);
 
         return;
     }
