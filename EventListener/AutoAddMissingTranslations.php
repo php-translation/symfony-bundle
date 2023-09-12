@@ -11,7 +11,6 @@
 
 namespace Translation\Bundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Translation\DataCollectorTranslator;
 use Translation\Bundle\Service\StorageService;
@@ -32,9 +31,6 @@ final class AutoAddMissingTranslations
      */
     private $storage;
 
-    /**
-     * @param DataCollectorTranslator $translator
-     */
     public function __construct(StorageService $storage, DataCollectorTranslator $translator = null)
     {
         $this->dataCollector = $translator;
@@ -55,11 +51,4 @@ final class AutoAddMissingTranslations
             }
         }
     }
-}
-
-// PostResponseEvent have been renamed into ResponseEvent in sf 4.3
-// @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
-// To be removed once sf ^4.3 become the minimum supported version.
-if (!class_exists(TerminateEvent::class) && class_exists(PostResponseEvent::class)) {
-    class_alias(PostResponseEvent::class, TerminateEvent::class);
 }

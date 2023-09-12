@@ -12,7 +12,6 @@
 namespace Translation\Bundle\EventListener;
 
 use Symfony\Component\Asset\Packages;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
@@ -127,11 +126,4 @@ HTML;
 
         $event->getResponse()->setContent($content);
     }
-}
-
-// FilterResponseEvent have been renamed into ResponseEvent in sf 4.3
-// @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.3.md#httpkernel
-// To be removed once sf ^4.3 become the minimum supported version.
-if (!class_exists(ResponseEvent::class) && class_exists(FilterResponseEvent::class)) {
-    class_alias(FilterResponseEvent::class, ResponseEvent::class);
 }
