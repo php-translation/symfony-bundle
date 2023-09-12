@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.14.1
+
+### Fixed
+
+* bug: js error use own object extends HTMLElement by @gimler in https://github.com/php-translation/symfony-bundle/pull/493
+
 ## 0.14.0
 
 ### Fixed
