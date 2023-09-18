@@ -10,7 +10,7 @@
 Install this bundle via Composer:
 
 ```bash
-$ composer require php-translation/symfony-bundle
+composer require php-translation/symfony-bundle
 ```
 
 If you're using [Symfony Flex][symfony_flex] - you're done! Symfony Flex will create default
