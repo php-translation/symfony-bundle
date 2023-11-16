@@ -81,11 +81,11 @@
         <tbody>
         {% for key, message in messages %}
             <tr id="{{ key }}">
-                <td>
-                    {% if withCheckbox %}
+                {% if withCheckbox %}
+                    <td>
                         <input type="checkbox" name="translationKey" value="{{ key }}" checked="checked" class="translation-key-checkbox">
-                    {% endif %}
-                </td>
+                    </td>
+                {% endif %}
                 <td class="font-normal text-small">{{ message.locale }}</td>
                 <td class="font-normal text-small text-bold nowrap">{{ message.domain }}</td>
                 <td class="font-normal text-small">{{ message.count }}</td>
