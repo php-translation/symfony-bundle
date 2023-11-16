@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 0.14.2
+
+### Fixed
+
+* Fixed render error in profiler/translation.html.twig (fixes #496) by @althaus in https://github.com/php-translation/symfony-bundle/pull/497
+
 ## 0.14.1
 
 ### Fixed
