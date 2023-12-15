@@ -19,83 +19,76 @@ function syncMessage(key) {
     var el = document.getElementById(key).getElementsByClassName("translation");
     el[0].innerHTML = getLoaderHTML();
 
-    Sfjs.request(
-        translationSyncUrl,
-        function(xhr) {
-            // Success
-            el[0].innerHTML = xhr.responseText;
+    fetch(translationSyncUrl, {
+        method: 'POST',
+        body: serializeQueryString({message_id: key}),
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    }).then(res => res.text()).then((text) => {
+        el[0].innerHTML = text;
 
-            if (xhr.responseText !== "") {
-                clearState(key);
-            }
-        },
-        function(xhr) {
-            // Error
-            el[0].innerHTML = "<span style='color:red;'>Error - Syncing message " + key + "</span>";
-        },
-        serializeQueryString({message_id: key}),
-        { method: 'POST' }
-    );
+        if (text !== "") {
+            clearState(key);
+        }
+    }).catch(() => {
+        el[0].innerHTML = "<span style='color:red;'>Error - Syncing message " + key + "</span>";
+    });
 }
 
 function syncAll() {
     var el = document.getElementById("top-result-area");
     el.innerHTML = getLoaderHTML();
 
-    Sfjs.request(
-        translationSyncAllUrl,
-        function(xhr) {
-            // Success
-            el.innerHTML = xhr.responseText;
+    fetch(translationSyncAllUrl, {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
-        function(xhr) {
-            // Error
-            el[0].innerHTML = "<span style='color:red;'>Error - Syncing all messages</span>";
-        },
-        {},
-        { method: 'POST' }
-    );
+    }).then(res => res.text()).then(text => {
+        el.innerHTML = text;
+    }).catch(() => {
+        el[0].innerHTML = "<span style='color:red;'>Error - Syncing all messages</span>";
+    });
 }
 
 function getEditForm(key) {
     var el = document.getElementById(key).getElementsByClassName("translation");
     el[0].innerHTML = getLoaderHTML();
 
-    Sfjs.request(
-        translationEditUrl + "?" + serializeQueryString({message_id: key}),
-        function(xhr) {
-            // Success
-            el[0].innerHTML = xhr.responseText;
+    fetch(translationEditUrl + "?" + serializeQueryString({message_id: key}), {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
         },
-        function(xhr) {
-            // Error
-            el[0].innerHTML = "<span style='color:red;'>Error - Getting edit form " + key + "</span>";
-        },
-        { method: 'GET' }
-    );
+    }).then(res => res.text()).then(text => {
+        el[0].innerHTML = text;
+    }).catch(() => {
+        el[0].innerHTML = "<span style='color:red;'>Error - Getting edit form " + key + "</span>";
+    });
 }
 
 function saveEditForm(key, translation) {
     var el = document.getElementById(key).getElementsByClassName("translation");
     el[0].innerHTML = getLoaderHTML();
 
-    Sfjs.request(
-        translationEditUrl,
-        function(xhr) {
-            // Success
-            el[0].innerHTML = xhr.responseText;
+    fetch(translationEditUrl, {
+        method: 'POST',
+        body: serializeQueryString({message_id: key, translation:translation}),
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    }).then(res => res.text()).then(text => {
+        el[0].innerHTML = text;
 
-            if (xhr.responseText !== "") {
-                clearState(key);
-            }
-        },
-        function(xhr) {
-            // Error
-            el[0].innerHTML = "<span style='color:red;'>Error - Saving edit form " + key + "</span>";
-        },
-        serializeQueryString({message_id: key, translation:translation}),
-        { method: 'POST' }
-    );
+        if (text !== "") {
+            clearState(key);
+        }
+    }).catch(() => {
+        el[0].innerHTML = "<span style='color:red;'>Error - Saving edit form " + key + "</span>";
+    })
 
     return false;
 }
@@ -130,17 +123,6 @@ var serializeQueryString = function(obj, prefix) {
     return str.join("&");
 };
 
-// We need to hack a bit Sfjs.request because it does not support POST requests
-// May not work for ActiveXObject('Microsoft.XMLHTTP'); :(
-(function(open) {
-    XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
-        open.call(this, method, url, async, user, pass);
-        if (method.toLowerCase() === 'post') {
-            this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        }
-    };
-})(XMLHttpRequest.prototype.open);
-
 var saveTranslations = function(form) {
     "use strict";
 
@@ -169,22 +151,22 @@ var saveTranslations = function(form) {
     el.classList.remove('status-error');
     el.classList.remove('status-success');
 
-    Sfjs.request(
-        form.action,
-        function(xhr) {
-            // Success
-            el.classList.add('label');
-            el.classList.add('status-success');
-            el.innerHTML = xhr.responseText;
+    fetch(form.action, {
+        method: 'POST',
+        body: serializeQueryString({selected: selected}),
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
-        function(xhr) {
-            // Error
-            el.classList.add('label');
-            el.classList.add('status-error');
-            el.innerHTML = xhr.responseText;
-        },
-        serializeQueryString({selected: selected}),
-        { method: 'POST' }
-    );
+    }).then(res => res.text()).then(text => {
+        el.classList.add('label');
+        el.classList.add('status-success');
+        el.innerHTML = text;
+    }).catch(error => {
+        el.classList.add('label');
+        el.classList.add('status-error');
+        el.innerHTML = error;
+    })
+
     return false;
 };

@@ -1,3 +1,3 @@
-<textarea style="width: 100%; background-color: var(--metric-value-background)" id="edit_{{ key }}">{{ message.translation }}</textarea>
+<textarea style="width: 100%; border: 1px solid var(--metric-border-color); padding: 4px; margin-bottom: 5px; border-radius: 6px; background-color: var(--metric-value-background); color: var(--color-text)" id="edit_{{ key }}">{{ message.translation }}</textarea>
 <input type="button" class="btn btn-sm" value="Save" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value)'>
 <input type="button" class="btn btn-sm" value="Cancel" onclick='cancelEditForm("{{ key }}", "{{ message.translation }}")'>
