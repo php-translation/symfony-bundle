@@ -26,7 +26,7 @@ jobs:
           coverage: none
 
       - name: Download dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
         with:
           composer-options: --no-interaction --prefer-dist --optimize-autoloader
 
