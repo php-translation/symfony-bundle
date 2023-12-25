@@ -11,19 +11,19 @@
     ],
     "require": {
         "php": "^8.0",
-        "symfony/framework-bundle": "^5.3 || ^6.0",
-        "symfony/validator": "^5.3 || ^6.0",
-        "symfony/translation": "^5.3 || ^6.0",
-        "symfony/twig-bundle": "^5.3 || ^6.0",
-        "symfony/finder": "^5.3 || ^6.0",
-        "symfony/intl": "^5.3 || ^6.0",
-        "symfony/console": "^5.3 || ^6.0",
+        "symfony/framework-bundle": "^5.3|^6.0|^7.0",
+        "symfony/validator": "^5.3|^6.0|^7.0",
+        "symfony/translation": "^5.3|^6.0|^7.0",
+        "symfony/twig-bundle": "^5.3|^6.0|^7.0",
+        "symfony/finder": "^5.3|^6.0|^7.0",
+        "symfony/intl": "^5.3|^6.0|^7.0",
+        "symfony/console": "^5.3|^6.0|^7.0",
 
         "php-translation/symfony-storage": "^2.1",
         "php-translation/extractor": "^2.0",
         "nyholm/nsa": "^1.1",
         "twig/twig": "^2.14.4 || ^3.3",
-        "symfony/asset": "^5.3 || ^6.0"
+        "symfony/asset": "^5.3|^6.0|^7.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2 || ^6.0",
