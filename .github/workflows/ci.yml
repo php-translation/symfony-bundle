@@ -29,7 +29,7 @@ jobs:
           tools: flex
 
       - name: Download dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
         env:
             SYMFONY_REQUIRE: ${{ matrix.sf_version }}
         with:
