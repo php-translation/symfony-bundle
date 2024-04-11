@@ -71,7 +71,7 @@ final class TranslationExtension extends AbstractExtension
         return $visitors;
     }
 
-    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], string $domain = null, string $locale = null): string
+    public function transchoiceWithDefault(string $message, string $defaultMessage, int $count, array $arguments = [], ?string $domain = null, ?string $locale = null): string
     {
         if (null === $domain) {
             $domain = 'messages';

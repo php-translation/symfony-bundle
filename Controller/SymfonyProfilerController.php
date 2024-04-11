@@ -95,7 +95,7 @@ class SymfonyProfilerController
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function syncAllAction(Request $request, string $token): Response
     {
