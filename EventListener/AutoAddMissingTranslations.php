@@ -31,7 +31,7 @@ final class AutoAddMissingTranslations
      */
     private $storage;
 
-    public function __construct(StorageService $storage, DataCollectorTranslator $translator = null)
+    public function __construct(StorageService $storage, ?DataCollectorTranslator $translator = null)
     {
         $this->dataCollector = $translator;
         $this->storage = $storage;

@@ -113,7 +113,7 @@ class FakeActivator implements ActivatorInterface
         $this->enabled = $enabled;
     }
 
-    public function checkRequest(Request $request = null): bool
+    public function checkRequest(?Request $request = null): bool
     {
         return $this->enabled;
     }
