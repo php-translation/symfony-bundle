@@ -81,7 +81,7 @@ final class Activator implements ActivatorInterface
         }
     }
 
-    public function checkRequest(Request $request = null): bool
+    public function checkRequest(?Request $request = null): bool
     {
         if (null === $this->getSession() || !$this->getSession()->has(self::KEY)) {
             return false;
