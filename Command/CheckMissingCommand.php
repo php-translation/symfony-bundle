@@ -136,7 +136,7 @@ final class CheckMissingCommand extends Command
         foreach ($catalogue->getDomains() as $domain) {
             $emptyTranslations = array_filter(
                 $catalogue->all($domain),
-                function (string $message = null): bool {
+                function (?string $message = null): bool {
                     return null === $message || '' === $message;
                 }
             );
