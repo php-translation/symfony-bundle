@@ -66,12 +66,13 @@ final class CatalogueManager
 
     /**
      * @param array $config {
+     *
      * @return CatalogueMessage[] Contains:
-     *   - string $domain
-     *   - string $locale
-     *   - bool $isNew
-     *   - bool $isObsolete
-     *   - bool $isApproved
+     *                            - string $domain
+     *                            - string $locale
+     *                            - bool $isNew
+     *                            - bool $isObsolete
+     *                            - bool $isApproved
      */
     public function findMessages(array $config = []): array
     {
