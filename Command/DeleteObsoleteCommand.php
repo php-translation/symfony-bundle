@@ -14,6 +14,7 @@ namespace Translation\Bundle\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -97,6 +98,7 @@ class DeleteObsoleteCommand extends Command
         }
 
         if ($input->isInteractive()) {
+            /** @var QuestionHelper $helper */
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion(sprintf('You are about to remove %d translations. Do you wish to continue? (y/N) ', $messageCount), false);
             if (!$helper->ask($input, $output, $question)) {
