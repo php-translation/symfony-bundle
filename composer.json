@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "symfony/framework-bundle": "^5.3 || ^6.0 || ^7.0",
         "symfony/validator": "^5.3 || ^6.0 || ^7.0",
         "symfony/translation": "^5.3 || ^6.0 || ^7.0",
@@ -37,7 +37,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "matthiasnoback/symfony-config-test": "^4.1",
         "nyholm/psr7": "^1.1",
-        "nyholm/symfony-bundle-test": "^2.0"
+        "nyholm/symfony-bundle-test": "^2.0",
+        "phpstan/phpstan": "^1.11"
     },
     "suggest": {
         "php-http/httplug-bundle": "To easier configure your httplug clients."

@@ -67,26 +67,29 @@ final class CatalogueManager
     /**
      * @param array $config {
      *
-     * @var string $domain
-     * @var string $locale
-     * @var bool   $isNew
-     * @var bool   $isObsolete
-     * @var bool   $isApproved
-     *             }
-     *
-     * @return CatalogueMessage[]
+     * @return CatalogueMessage[] Contains:
+     *                            - string $domain
+     *                            - string $locale
+     *                            - bool $isNew
+     *                            - bool $isObsolete
+     *                            - bool $isApproved
      */
     public function findMessages(array $config = []): array
     {
+        /** @var string $inputDomain */
         $inputDomain = $config['domain'] ?? null;
+        /** @var bool $isNew */
         $isNew = $config['isNew'] ?? null;
+        /** @var bool $isObsolete */
         $isObsolete = $config['isObsolete'] ?? null;
+        /** @var bool $isApproved */
         $isApproved = $config['isApproved'] ?? null;
         $isEmpty = $config['isEmpty'] ?? null;
 
         $messages = [];
         $catalogues = [];
         if (isset($config['locale'])) {
+            /** @var string $locale */
             $locale = $config['locale'];
             if (isset($this->catalogues[$locale])) {
                 $catalogues = [$locale => $this->catalogues[$locale]];
