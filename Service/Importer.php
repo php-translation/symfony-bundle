@@ -162,7 +162,7 @@ final class Importer
             $trimLength = 1 + \strlen($this->config['project_root']);
 
             $meta = $this->getMetadata($catalogue, $key, $messageDomain);
-            $meta->addCategory('file-source', sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
+            $meta->addCategory('file-source', \sprintf('%s:%s', substr($sourceLocation->getPath(), $trimLength), $sourceLocation->getLine()));
             if (isset($sourceLocation->getContext()['desc'])) {
                 $meta->addCategory('desc', $sourceLocation->getContext()['desc']);
             }

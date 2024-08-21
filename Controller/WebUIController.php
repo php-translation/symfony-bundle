@@ -179,7 +179,7 @@ class WebUIController
         try {
             $storage->create($message);
         } catch (StorageException $e) {
-            throw new BadRequestHttpException(sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
+            throw new BadRequestHttpException(\sprintf('Key "%s" does already exist for "%s" on domain "%s".', $message->getKey(), $locale, $domain), $e);
         } catch (\Exception $e) {
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
