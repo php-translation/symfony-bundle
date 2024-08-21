@@ -117,7 +117,7 @@ class Configuration implements ConfigurationInterface
 
                                             $bundles = $container->getParameter('kernel.bundles');
                                             if (!isset($bundles[$bundleName])) {
-                                                throw new \Exception(sprintf('The bundle "%s" does not exist. Available bundles: %s', $bundleName, array_keys($bundles)));
+                                                throw new \Exception(\sprintf('The bundle "%s" does not exist. Available bundles: %s', $bundleName, array_keys($bundles)));
                                             }
 
                                             $ref = new \ReflectionClass($bundles[$bundleName]);
@@ -125,7 +125,7 @@ class Configuration implements ConfigurationInterface
                                         }
 
                                         if (!is_dir($value)) {
-                                            throw new \Exception(sprintf('The directory "%s" does not exist.', $value));
+                                            throw new \Exception(\sprintf('The directory "%s" does not exist.', $value));
                                         }
 
                                         return $value;

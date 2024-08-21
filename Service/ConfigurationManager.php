@@ -50,7 +50,7 @@ final class ConfigurationManager
             }
         }
 
-        throw new \InvalidArgumentException(sprintf('No configuration found for "%s"', $name));
+        throw new \InvalidArgumentException(\sprintf('No configuration found for "%s"', $name));
     }
 
     public function getFirstName(): ?string

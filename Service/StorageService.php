@@ -87,7 +87,7 @@ final class StorageService implements Storage
 
                 break;
             default:
-                throw new LogicException(sprintf('Direction must be either "up" or "down". Value "%s" was provided', $direction));
+                throw new LogicException(\sprintf('Direction must be either "up" or "down". Value "%s" was provided', $direction));
         }
     }
 

@@ -130,7 +130,7 @@ class SymfonyProfilerController
             $uploaded[] = $message;
         }
 
-        return new Response(sprintf('%s new assets created!', \count($uploaded)));
+        return new Response(\sprintf('%s new assets created!', \count($uploaded)));
     }
 
     private function getMessage(Request $request, string $token): SfProfilerMessage
@@ -142,7 +142,7 @@ class SymfonyProfilerController
         $collectorMessages = $this->getMessages($token);
 
         if (!isset($collectorMessages[$messageId])) {
-            throw new NotFoundHttpException(sprintf('No message with key "%s" was found.', $messageId));
+            throw new NotFoundHttpException(\sprintf('No message with key "%s" was found.', $messageId));
         }
         $message = SfProfilerMessage::create($collectorMessages[$messageId]);
 
@@ -152,7 +152,7 @@ class SymfonyProfilerController
 
             $message
                 ->setLocale($requestCollector->getLocale())
-                ->setTranslation(sprintf('[%s]', $message->getTranslation()))
+                ->setTranslation(\sprintf('[%s]', $message->getTranslation()))
             ;
         }
 

@@ -93,7 +93,7 @@ final class CheckMissingCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         if ($newMessages > 0) {
-            $io->error(sprintf('%d new message(s) have been found, run bin/console translation:extract', $newMessages));
+            $io->error(\sprintf('%d new message(s) have been found, run bin/console translation:extract', $newMessages));
 
             return 1;
         }
@@ -102,7 +102,7 @@ final class CheckMissingCommand extends Command
 
         if ($emptyTranslations > 0) {
             $io->error(
-                sprintf('%d messages have empty translations, please provide translations for them', $emptyTranslations)
+                \sprintf('%d messages have empty translations, please provide translations for them', $emptyTranslations)
             );
 
             return 1;
