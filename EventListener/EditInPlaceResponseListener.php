@@ -104,7 +104,7 @@ HTML;
         }
         $content = preg_replace($pattern, $replacement, $content);
 
-        $html = sprintf(
+        $html = \sprintf(
             self::HTML,
             $this->packages->getUrl('bundles/translation/css/content-tools.min.css'),
             $this->packages->getUrl('bundles/translation/js/content-tools.min.js'),

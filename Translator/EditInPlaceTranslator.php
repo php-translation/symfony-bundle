@@ -76,7 +76,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
     public function getCatalogues(): array
     {
         if (!method_exists($this->translator, 'getCatalogues')) {
-            throw new \Exception(sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
+            throw new \Exception(\sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
         }
 
         return $this->translator->getCatalogues();
@@ -103,7 +103,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
         }
 
         // Render all data in the translation tag required to allow in-line translation
-        return sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
+        return \sprintf('<x-trans data-key="%s|%s" data-value="%s" data-plain="%s" data-domain="%s" data-locale="%s">%s</x-trans>',
             $domain,
             $id,
             htmlspecialchars($original),

@@ -182,7 +182,7 @@ class TranslationExtension extends Extension
         $name = $config['edit_in_place']['config_name'];
 
         if ('default' !== $name && !isset($config['configs'][$name])) {
-            throw new InvalidArgumentException(sprintf('There is no config named "%s".', $name));
+            throw new InvalidArgumentException(\sprintf('There is no config named "%s".', $name));
         }
 
         $activatorRef = new Reference($config['edit_in_place']['activator']);
