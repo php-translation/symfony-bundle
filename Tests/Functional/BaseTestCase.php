@@ -15,6 +15,7 @@ use Nyholm\BundleTest\TestKernel;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\TranslationBundle;
 
@@ -45,6 +46,7 @@ abstract class BaseTestCase extends KernelTestCase
 
         $kernel->addTestBundle(TwigBundle::class);
         $kernel->addTestBundle(TranslationBundle::class);
+        $kernel->addTestBundle(WebProfilerBundle::class);
 
         $this->testKernel = $kernel;
 
