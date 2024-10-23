@@ -47,14 +47,14 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
             return $node;
         }
 
-        if (!($node instanceof FilterExpression && 'desc' === $node->getNode('filter')->getAttribute('value'))) {
+        if (!($node instanceof FilterExpression && 'desc' === $node->getAttribute('twig_callable')->getName())) {
             return $node;
         }
 
         $transNode = $node->getNode('node');
         while ($transNode instanceof FilterExpression
-                   && 'trans' !== $transNode->getNode('filter')->getAttribute('value')
-                   && 'transchoice' !== $transNode->getNode('filter')->getAttribute('value')) {
+                   && 'trans' !== $transNode->getAttribute('twig_callable')->getName()
+                   && 'transchoice' !== $transNode->getAttribute('twig_callable')->getName()) {
             $transNode = $transNode->getNode('node');
         }
 
@@ -69,7 +69,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
         // if the |transchoice filter is used, delegate the call to the TranslationExtension
         // so that we can catch a possible exception when the default translation has not yet
         // been extracted
-        if ('transchoice' === $transNode->getNode('filter')->getAttribute('value')) {
+        if ('transchoice' === $transNode->getAttribute('twig_callable')->getName()) {
             $transchoiceArguments = new ArrayExpression([], $transNode->getTemplateLine());
             $transchoiceArguments->addElement($wrappingNode->getNode('node'));
             $transchoiceArguments->addElement($defaultNode);
