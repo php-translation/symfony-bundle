@@ -43,7 +43,7 @@ class DownloadCommand extends Command
         StorageManager $storageManager,
         ConfigurationManager $configurationManager,
         CacheClearer $cacheCleaner,
-        CatalogueWriter $catalogueWriter
+        CatalogueWriter $catalogueWriter,
     ) {
         $this->storageManager = $storageManager;
         $this->configurationManager = $configurationManager;
