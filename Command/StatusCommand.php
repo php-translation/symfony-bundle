@@ -50,7 +50,7 @@ class StatusCommand extends Command
     public function __construct(
         CatalogueCounter $catalogueCounter,
         ConfigurationManager $configurationManager,
-        CatalogueFetcher $catalogueFetcher
+        CatalogueFetcher $catalogueFetcher,
     ) {
         $this->catalogueCounter = $catalogueCounter;
         $this->configurationManager = $configurationManager;

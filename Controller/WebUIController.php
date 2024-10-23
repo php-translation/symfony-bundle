@@ -58,7 +58,7 @@ class WebUIController
         bool $isWebUIEnabled,
         bool $isWebUIAllowCreate,
         bool $isWebUIAllowDelete,
-        string $fileBasePath
+        string $fileBasePath,
     ) {
         $this->configurationManager = $configurationManager;
         $this->catalogueFetcher = $catalogueFetcher;

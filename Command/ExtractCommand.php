@@ -67,7 +67,7 @@ class ExtractCommand extends Command
         CatalogueWriter $catalogueWriter,
         CatalogueCounter $catalogueCounter,
         Importer $importer,
-        ConfigurationManager $configurationManager
+        ConfigurationManager $configurationManager,
     ) {
         $this->catalogueFetcher = $catalogueFetcher;
         $this->catalogueWriter = $catalogueWriter;

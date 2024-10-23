@@ -55,7 +55,7 @@ class DeleteEmptyCommand extends Command
         StorageManager $storageManager,
         ConfigurationManager $configurationManager,
         CatalogueManager $catalogueManager,
-        CatalogueFetcher $catalogueFetcher
+        CatalogueFetcher $catalogueFetcher,
     ) {
         $this->storageManager = $storageManager;
         $this->configurationManager = $configurationManager;

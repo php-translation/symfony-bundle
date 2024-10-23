@@ -131,7 +131,7 @@ final class Importer
     private function convertSourceLocationsToMessages(
         MessageCatalogue $catalogue,
         SourceCollection $collection,
-        MessageCatalogue $currentCatalogue
+        MessageCatalogue $currentCatalogue,
     ): void {
         $currentMessages = NSA::getProperty($currentCatalogue, 'messages');
 

@@ -47,7 +47,7 @@ final class CheckMissingCommand extends Command
         ConfigurationManager $configurationManager,
         CatalogueFetcher $catalogueFetcher,
         Importer $importer,
-        CatalogueCounter $catalogueCounter
+        CatalogueCounter $catalogueCounter,
     ) {
         parent::__construct();
 

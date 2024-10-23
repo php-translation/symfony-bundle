@@ -22,7 +22,7 @@ class DummyMessageFactory implements MessageFactory
         $uri,
         array $headers = [],
         $body = null,
-        $protocolVersion = '1.1'
+        $protocolVersion = '1.1',
     ) {
         return new Request($method, $uri);
     }
@@ -32,7 +32,7 @@ class DummyMessageFactory implements MessageFactory
         $reasonPhrase = null,
         array $headers = [],
         $body = null,
-        $protocolVersion = '1.1'
+        $protocolVersion = '1.1',
     ) {
         return new Response(200);
     }
