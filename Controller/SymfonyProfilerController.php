@@ -64,7 +64,8 @@ class SymfonyProfilerController
             $translation = $this->storage->syncAndFetchMessage($message->getLocale(), $message->getDomain(), $message->getKey());
 
             $content = $this->twig->render('@Translation/SymfonyProfiler/edit.html.twig', [
-                'message' => $translation,
+                'translation' => $translation,
+                'message' => $message,
                 'key' => $request->query->get('message_id'),
             ]);
 
@@ -72,6 +73,12 @@ class SymfonyProfilerController
         }
 
         // Assert: This is a POST request
+        if ('save_for_default' === $request->request->get('action')) {
+            $requestCollector = $this->getProfiler()->loadProfile($token)->getCollector('translation');
+            if ($requestCollector instanceof TranslationDataCollector) {
+                $message->setLocale($requestCollector->getLocale());
+            }
+        }
         $message->setTranslation((string) $request->request->get('translation'));
         $this->storage->update($message->convertToMessage());
 
