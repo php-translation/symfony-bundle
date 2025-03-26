@@ -18,6 +18,7 @@ use Twig\Node\Expression\Binary\EqualBinary;
 use Twig\Node\Expression\ConditionalExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
+use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Node;
 use Twig\NodeVisitor\AbstractNodeVisitor;
 
@@ -103,12 +104,21 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
             );
         }
 
-        $condition = new ConditionalExpression(
-            new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine()),
-            $defaultNode,
-            clone $wrappingNode,
-            $wrappingNode->getTemplateLine()
-        );
+        if (Environment::VERSION_ID >= 31700) {
+            $condition = new ConditionalTernary(
+                new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine()),
+                $defaultNode,
+                clone $wrappingNode,
+                $wrappingNode->getTemplateLine()
+            );
+        } else {
+            $condition = new ConditionalExpression(
+                new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine()),
+                $defaultNode,
+                clone $wrappingNode,
+                $wrappingNode->getTemplateLine()
+            );
+        }
         $node->setNode('node', $condition);
 
         return $node;
