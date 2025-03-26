@@ -20,7 +20,9 @@ use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Node;
+use Twig\Node\Nodes;
 use Twig\NodeVisitor\AbstractNodeVisitor;
+use Twig\TwigFilter;
 
 /**
  * Applies the value of the "desc" filter if the "trans" filter has no
@@ -94,14 +96,25 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
             $testNode->getNode('arguments')->setNode(0, new ArrayExpression([], $lineno));
 
             // wrap the default node in a |replace filter
-            $defaultNode = new FilterExpression(
-                clone $node->getNode('arguments')->getNode(0),
-                new ConstantExpression('replace', $lineno),
-                new Node([
-                    clone $wrappingNode->getNode('arguments')->getNode(0),
-                ]),
-                $lineno
-            );
+            if (Environment::VERSION_ID >= 31500) {
+                $defaultNode = new FilterExpression(
+                    clone $node->getNode('arguments')->getNode(0),
+                    new TwigFilter('replace'),
+                    new Nodes([
+                        clone $wrappingNode->getNode('arguments')->getNode(0),
+                    ]),
+                    $lineno
+                );
+            } else {
+                $defaultNode = new FilterExpression(
+                    clone $node->getNode('arguments')->getNode(0),
+                    new ConstantExpression('replace', $lineno),
+                    new Node([
+                        clone $wrappingNode->getNode('arguments')->getNode(0),
+                    ]),
+                    $lineno
+                );
+            }
         }
 
         if (Environment::VERSION_ID >= 31700) {
