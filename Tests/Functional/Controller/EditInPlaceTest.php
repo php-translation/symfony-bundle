@@ -40,7 +40,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
-        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
+        @$dom->loadHTML(mb_encode_numericentity($response->getContent(), [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
         $xpath = new \DOMXPath($dom);
 
         // Check number of x-trans tags
@@ -79,7 +79,7 @@ class EditInPlaceTest extends BaseTestCase
         self::assertStringContainsString('<!-- TranslationBundle -->', $response->getContent());
 
         $dom = new \DOMDocument('1.0', 'utf-8');
-        @$dom->loadHTML(mb_convert_encoding($response->getContent(), 'HTML-ENTITIES', 'UTF-8'));
+        @$dom->loadHTML(mb_encode_numericentity($response->getContent(), [0x80, 0x10FFFF, 0, ~0], 'UTF-8'));
         $xpath = new \DOMXPath($dom);
 
         // Check number of x-trans tags
