@@ -11,7 +11,7 @@
   </coverage>
   <php>
     <env name="ENV" value="test"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=84&amp;max[self]=1&amp;verbose=1"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=83&amp;max[self]=1&amp;verbose=1"/>
     <env name="KERNEL_CLASS" value="Nyholm\BundleTest\TestKernel"/>
   </php>
   <listeners>
