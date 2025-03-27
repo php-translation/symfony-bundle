@@ -117,21 +117,25 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
             }
         }
 
+        $expr = new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine());
         if (Environment::VERSION_ID >= 31700) {
+            $expr->setAttribute('operator', 'binary_==');
+
             $condition = new ConditionalTernary(
-                new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine()),
+                $expr,
                 $defaultNode,
                 clone $wrappingNode,
                 $wrappingNode->getTemplateLine()
             );
         } else {
             $condition = new ConditionalExpression(
-                new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine()),
+                $expr,
                 $defaultNode,
                 clone $wrappingNode,
                 $wrappingNode->getTemplateLine()
             );
         }
+
         $node->setNode('node', $condition);
 
         return $node;
