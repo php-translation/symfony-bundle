@@ -2,6 +2,8 @@
 
 [![Latest Version](https://img.shields.io/github/release/php-translation/symfony-bundle.svg?style=flat-square)](https://github.com/php-translation/symfony-bundle/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/php-translation/symfony-bundle.svg?style=flat-square)](https://packagist.org/packages/php-translation/symfony-bundle)
+[![CI](https://github.com/php-translation/symfony-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/php-translation/symfony-bundle/actions/workflows/ci.yml)
+[![Static code analysis](https://github.com/php-translation/symfony-bundle/actions/workflows/static.yml/badge.svg)](https://github.com/php-translation/symfony-bundle/actions/workflows/static.yml)
 
 **Symfony integration for PHP Translation**
 
