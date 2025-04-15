@@ -14,7 +14,6 @@ namespace Translation\Bundle\Twig\Visitor;
 use Twig\Environment;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Node;
-use Twig\NodeVisitor\AbstractNodeVisitor;
 
 /**
  * Removes translation metadata filters from the AST.
@@ -36,7 +35,7 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
     protected function doEnterNode(Node $node, Environment $env): Node
     {
         if ($this->enabled && $node instanceof FilterExpression) {
-            $name = $node->getNode('filter')->getAttribute('value');
+            $name = $this->getValueFromNode($node);
 
             if ('desc' === $name || 'meaning' === $name) {
                 return $this->enterNode($node->getNode('node'), $env);

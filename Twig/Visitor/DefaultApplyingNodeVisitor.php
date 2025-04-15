@@ -21,7 +21,6 @@ use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Node;
 use Twig\Node\Nodes;
-use Twig\NodeVisitor\AbstractNodeVisitor;
 use Twig\TwigFilter;
 
 /**
@@ -50,14 +49,14 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
             return $node;
         }
 
-        if (!($node instanceof FilterExpression && 'desc' === $node->getNode('filter')->getAttribute('value'))) {
+        if (!($node instanceof FilterExpression && 'desc' === $this->getValueFromNode($node))) {
             return $node;
         }
 
         $transNode = $node->getNode('node');
         while ($transNode instanceof FilterExpression
-                   && 'trans' !== $transNode->getNode('filter')->getAttribute('value')
-                   && 'transchoice' !== $transNode->getNode('filter')->getAttribute('value')) {
+                   && 'trans' !== $this->getValueFromNode($transNode)
+                   && 'transchoice' !== $this->getValueFromNode($transNode)) {
             $transNode = $transNode->getNode('node');
         }
 
@@ -72,7 +71,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
         // if the |transchoice filter is used, delegate the call to the TranslationExtension
         // so that we can catch a possible exception when the default translation has not yet
         // been extracted
-        if ('transchoice' === $transNode->getNode('filter')->getAttribute('value')) {
+        if ('transchoice' === $this->getValueFromNode($transNode)) {
             $transchoiceArguments = new ArrayExpression([], $transNode->getTemplateLine());
             $transchoiceArguments->addElement($wrappingNode->getNode('node'));
             $transchoiceArguments->addElement($defaultNode);
@@ -149,5 +148,15 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
     public function getPriority(): int
     {
         return -2;
+    }
+
+    public function enterNode(Node $node, Environment $env): Node
+    {
+        return $this->doEnterNode($node, $env);
+    }
+
+    public function leaveNode(Node $node, Environment $env): ?Node
+    {
+        return $this->doLeaveNode($node, $env);
     }
 }
