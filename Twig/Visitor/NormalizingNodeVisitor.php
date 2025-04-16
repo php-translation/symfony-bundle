@@ -15,7 +15,6 @@ use Twig\Environment;
 use Twig\Node\Expression\Binary\ConcatBinary;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
-use Twig\NodeVisitor\AbstractNodeVisitor;
 
 /**
  * Performs equivalence transformations on the AST to ensure that
