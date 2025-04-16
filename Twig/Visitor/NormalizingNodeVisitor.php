@@ -15,7 +15,7 @@ use Twig\Environment;
 use Twig\Node\Expression\Binary\ConcatBinary;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Node;
-use Twig\NodeVisitor\AbstractNodeVisitor;
+use Twig\NodeVisitor\NodeVisitorInterface;
 
 /**
  * Performs equivalence transformations on the AST to ensure that
@@ -25,17 +25,14 @@ use Twig\NodeVisitor\AbstractNodeVisitor;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class NormalizingNodeVisitor extends AbstractNodeVisitor
+final class NormalizingNodeVisitor implements NodeVisitorInterface
 {
-    protected function doEnterNode(Node $node, Environment $env): Node
+    public function enterNode(Node $node, Environment $env): Node
     {
         return $node;
     }
 
-    /**
-     * @return ConstantExpression|Node
-     */
-    protected function doLeaveNode(Node $node, Environment $env): Node
+    public function leaveNode(Node $node, Environment $env): ConstantExpression|Node
     {
         if ($node instanceof ConcatBinary
             && ($left = $node->getNode('left')) instanceof ConstantExpression
