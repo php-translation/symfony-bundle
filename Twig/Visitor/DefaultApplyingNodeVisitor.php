@@ -21,7 +21,7 @@ use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Node;
 use Twig\Node\Nodes;
-use Twig\NodeVisitor\AbstractNodeVisitor;
+use Twig\NodeVisitor\NodeVisitorInterface;
 use Twig\TwigFilter;
 
 /**
@@ -32,19 +32,16 @@ use Twig\TwigFilter;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
+final class DefaultApplyingNodeVisitor implements NodeVisitorInterface
 {
-    /**
-     * @var bool
-     */
-    private $enabled = true;
+    private bool $enabled = true;
 
     public function setEnabled(bool $bool): void
     {
         $this->enabled = $bool;
     }
 
-    public function doEnterNode(Node $node, Environment $env): Node
+    public function enterNode(Node $node, Environment $env): Node
     {
         if (!$this->enabled) {
             return $node;
@@ -141,7 +138,7 @@ final class DefaultApplyingNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    public function doLeaveNode(Node $node, Environment $env): Node
+    public function leaveNode(Node $node, Environment $env): Node
     {
         return $node;
     }

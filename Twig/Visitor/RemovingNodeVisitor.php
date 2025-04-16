@@ -14,26 +14,23 @@ namespace Translation\Bundle\Twig\Visitor;
 use Twig\Environment;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Node;
-use Twig\NodeVisitor\AbstractNodeVisitor;
+use Twig\NodeVisitor\NodeVisitorInterface;
 
 /**
  * Removes translation metadata filters from the AST.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-final class RemovingNodeVisitor extends AbstractNodeVisitor
+final class RemovingNodeVisitor implements NodeVisitorInterface
 {
-    /**
-     * @var bool
-     */
-    private $enabled = true;
+    private bool $enabled = true;
 
     public function setEnabled(bool $bool): void
     {
         $this->enabled = $bool;
     }
 
-    protected function doEnterNode(Node $node, Environment $env): Node
+    public function enterNode(Node $node, Environment $env): Node
     {
         if ($this->enabled && $node instanceof FilterExpression) {
             $name = $node->getNode('filter')->getAttribute('value');
@@ -46,7 +43,7 @@ final class RemovingNodeVisitor extends AbstractNodeVisitor
         return $node;
     }
 
-    protected function doLeaveNode(Node $node, Environment $env): Node
+    public function leaveNode(Node $node, Environment $env): Node
     {
         return $node;
     }
