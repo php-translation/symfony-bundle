@@ -11,8 +11,10 @@
         // it is not possible to use HTMLElement directly
         class XTrans extends HTMLElement {}
 
-        customElements.define("x-trans", XTrans);
-
+        if (!customElements.get('x-trans')) {
+            customElements.define("x-trans", XTrans);
+        }
+            
         return;
     }
 
