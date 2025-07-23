@@ -116,8 +116,6 @@ final class DefaultApplyingNodeVisitor implements NodeVisitorInterface
 
         $expr = new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine());
         if (Environment::VERSION_ID >= 31700) {
-            $expr->setAttribute('operator', 'binary_==');
-
             $condition = new ConditionalTernary(
                 $expr,
                 $defaultNode,
