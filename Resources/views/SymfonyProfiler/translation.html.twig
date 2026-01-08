@@ -111,11 +111,9 @@
                     {{ message.translation }}
                 </td>
                 <td style="white-space: nowrap">
-                    {% apply spaceless %}
                     <a class="edit btn btn-sm" href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
                         |
                     <a class="sync btn btn-sm" href="javascript:void(0);" onclick='syncMessage("{{ key }}")'>Sync</a>
-                    {% endapply %}
                 </td>
             </tr>
         {% endfor %}
