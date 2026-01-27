@@ -15,8 +15,6 @@ use Translation\Bundle\Twig\Node\Transchoice;
 use Twig\Environment;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\Binary\EqualBinary;
-use Twig\Node\Expression\ConditionalExpression;
-use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 use Twig\Node\Node;
@@ -47,14 +45,14 @@ final class DefaultApplyingNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        if (!($node instanceof FilterExpression && 'desc' === $node->getNode('filter')->getAttribute('value'))) {
+        if (!($node instanceof FilterExpression && 'desc' === $node->getAttribute('twig_callable')->getName())) {
             return $node;
         }
 
         $transNode = $node->getNode('node');
         while ($transNode instanceof FilterExpression
-                   && 'trans' !== $transNode->getNode('filter')->getAttribute('value')
-                   && 'transchoice' !== $transNode->getNode('filter')->getAttribute('value')) {
+                   && 'trans' !== $transNode->getAttribute('twig_callable')->getName()
+                   && 'transchoice' !== $transNode->getAttribute('twig_callable')->getName()) {
             $transNode = $transNode->getNode('node');
         }
 
@@ -69,7 +67,7 @@ final class DefaultApplyingNodeVisitor implements NodeVisitorInterface
         // if the |transchoice filter is used, delegate the call to the TranslationExtension
         // so that we can catch a possible exception when the default translation has not yet
         // been extracted
-        if ('transchoice' === $transNode->getNode('filter')->getAttribute('value')) {
+        if ('transchoice' === $transNode->getAttribute('twig_callable')->getName()) {
             $transchoiceArguments = new ArrayExpression([], $transNode->getTemplateLine());
             $transchoiceArguments->addElement($wrappingNode->getNode('node'));
             $transchoiceArguments->addElement($defaultNode);
@@ -93,43 +91,23 @@ final class DefaultApplyingNodeVisitor implements NodeVisitorInterface
             $testNode->getNode('arguments')->setNode(0, new ArrayExpression([], $lineno));
 
             // wrap the default node in a |replace filter
-            if (Environment::VERSION_ID >= 31500) {
-                $defaultNode = new FilterExpression(
-                    clone $node->getNode('arguments')->getNode(0),
-                    new TwigFilter('replace'),
-                    new Nodes([
-                        clone $wrappingNode->getNode('arguments')->getNode(0),
-                    ]),
-                    $lineno
-                );
-            } else {
-                $defaultNode = new FilterExpression(
-                    clone $node->getNode('arguments')->getNode(0),
-                    new ConstantExpression('replace', $lineno),
-                    new Node([
-                        clone $wrappingNode->getNode('arguments')->getNode(0),
-                    ]),
-                    $lineno
-                );
-            }
+            $defaultNode = new FilterExpression(
+                clone $node->getNode('arguments')->getNode(0),
+                new TwigFilter('replace'),
+                new Nodes([
+                    clone $wrappingNode->getNode('arguments')->getNode(0),
+                ]),
+                $lineno
+            );
         }
 
         $expr = new EqualBinary($testNode, $transNode->getNode('node'), $wrappingNode->getTemplateLine());
-        if (Environment::VERSION_ID >= 31700) {
-            $condition = new ConditionalTernary(
-                $expr,
-                $defaultNode,
-                clone $wrappingNode,
-                $wrappingNode->getTemplateLine()
-            );
-        } else {
-            $condition = new ConditionalExpression(
-                $expr,
-                $defaultNode,
-                clone $wrappingNode,
-                $wrappingNode->getTemplateLine()
-            );
-        }
+        $condition = new ConditionalTernary(
+            $expr,
+            $defaultNode,
+            clone $wrappingNode,
+            $wrappingNode->getTemplateLine()
+        );
 
         $node->setNode('node', $condition);
 

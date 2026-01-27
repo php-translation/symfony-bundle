@@ -14,7 +14,7 @@ use Translation\Bundle\Service\StorageManager;
 use Translation\Bundle\Twig\TranslationExtension;
 use Translation\Extractor\Extractor;
 
-return function (ContainerConfigurator $configurator) {
+return static function (ContainerConfigurator $configurator) {
     LegacyHelper::registerDeprecatedServices($configurator->services(), [
         ['php_translation.catalogue_fetcher', CatalogueFetcher::class, true],
         ['php_translation.catalogue_writer', CatalogueWriter::class, true],

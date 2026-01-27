@@ -9,7 +9,7 @@ use Translation\Bundle\Command\StatusCommand;
 use Translation\Bundle\Command\SyncCommand;
 use Translation\Bundle\Legacy\LegacyHelper;
 
-return function (ContainerConfigurator $configurator) {
+return static function (ContainerConfigurator $configurator) {
     LegacyHelper::registerDeprecatedServices($configurator->services(), [
         ['php_translator.console.delete_obsolete', DeleteObsoleteCommand::class],
         ['php_translator.console.download', DownloadCommand::class],

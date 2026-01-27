@@ -19,7 +19,7 @@ use Translation\Extractor\Visitor\Php\Symfony\FormTypePlaceholder;
 use Translation\Extractor\Visitor\Php\Symfony\ValidationAnnotation;
 use Translation\Extractor\Visitor\Twig\TwigVisitor;
 
-return function (ContainerConfigurator $configurator) {
+return static function (ContainerConfigurator $configurator) {
     LegacyHelper::registerDeprecatedServices($configurator->services(), [
         ['php_translation.extractor.php', PHPFileExtractor::class],
         ['php_translation.extractor.twig', TwigFileExtractor::class],

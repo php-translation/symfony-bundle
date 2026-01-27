@@ -65,7 +65,7 @@ class CatalogueManagerTest extends TestCase
 
         $messages = $manager->findMessages(['isApproved' => true]);
         $this->assertCount(3, $messages);
-        $keys = array_map(function (CatalogueMessage $message) {
+        $keys = array_map(static function (CatalogueMessage $message) {
             return $message->getKey();
         }, $messages);
         $this->assertContains('c', $keys);
