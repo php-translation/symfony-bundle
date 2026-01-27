@@ -105,7 +105,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Directories we should scan for translations')
                             ->prototype('scalar')
                                 ->validate()
-                                    ->always(function ($value) use ($container) {
+                                    ->always(static function ($value) use ($container) {
                                         $value = str_replace(\DIRECTORY_SEPARATOR, '/', $value);
 
                                         if ('@' === $value[0]) {
@@ -166,18 +166,18 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('icu')
                             ->beforeNormalization()
                                 ->ifTrue(
-                                    function ($format) {
+                                    static function ($format) {
                                         return \is_string($format);
                                     }
                                 )
                                 ->then(
-                                    function (string $format) {
+                                    static function (string $format) {
                                         return strtolower($format);
                                     }
                                 )
                             ->end()
                             ->validate()
-                                ->ifTrue(function ($value) {
+                                ->ifTrue(static function ($value) {
                                     return !\is_string($value) || !\in_array($value, ['', 'icu']);
                                 })
                                 ->thenInvalid('The "new_message_format" must be either: "" or "icu"; got "%s"')
@@ -187,7 +187,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Options passed to the local file storage\'s dumper.')
                             ->defaultValue([])
                             ->validate()
-                                ->ifTrue(function ($value) {
+                                ->ifTrue(static function ($value) {
                                     return !\is_array($value);
                                 })
                                 ->thenInvalid('"local_file_storage_options" must be an array.')

@@ -138,7 +138,7 @@ class WebUIController
 
         /** @var CatalogueMessage[] $messages */
         $messages = $this->catalogueManager->getMessages($locale, $domain);
-        usort($messages, function (CatalogueMessage $a, CatalogueMessage $b) {
+        usort($messages, static function (CatalogueMessage $a, CatalogueMessage $b) {
             return strcmp($a->getKey(), $b->getKey());
         });
 
