@@ -69,13 +69,13 @@ function getEditForm(key) {
     });
 }
 
-function saveEditForm(key, translation) {
+function saveEditForm(key, translation, additionalData = {}) {
     var el = document.getElementById(key).getElementsByClassName("translation");
     el[0].innerHTML = getLoaderHTML();
 
     fetch(translationEditUrl, {
         method: 'POST',
-        body: serializeQueryString({message_id: key, translation:translation}),
+        body: serializeQueryString(Object.assign({message_id: key, translation:translation}, additionalData)),
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
             'Content-Type': 'application/x-www-form-urlencoded',

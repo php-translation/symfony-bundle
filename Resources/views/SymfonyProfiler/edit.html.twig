@@ -1,3 +1,8 @@
-<textarea style="width: 100%; border: 1px solid var(--metric-border-color); padding: 4px; margin-bottom: 5px; border-radius: 6px; background-color: var(--metric-value-background); color: var(--color-text)" id="edit_{{ key }}">{{ message.translation }}</textarea>
-<input type="button" class="btn btn-sm" value="Save" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value)'>
-<input type="button" class="btn btn-sm" value="Cancel" onclick='cancelEditForm("{{ key }}", "{{ message.translation }}")'>
+<textarea style="width: 100%; border: 1px solid var(--metric-border-color); padding: 4px; margin-bottom: 5px; border-radius: 6px; background-color: var(--metric-value-background); color: var(--color-text)" id="edit_{{ key }}">{{ translation.translation }}</textarea>
+{% if message.state == constant('Symfony\\Component\\Translation\\DataCollectorTranslator::MESSAGE_EQUALS_FALLBACK') %}
+    <input type="button" class="btn btn-sm" value="Save Fallback" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value)'>
+    <input type="button" class="btn btn-sm" value="Save Default" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value, {action: "save_for_default"})'>
+{% else %}
+    <input type="button" class="btn btn-sm" value="Save" onclick='saveEditForm("{{ key }}", document.getElementById("edit_{{ key }}").value)'>
+{% endif %}
+<input type="button" class="btn btn-sm" value="Cancel" onclick='cancelEditForm("{{ key }}", "{{ translation.translation }}")'>
