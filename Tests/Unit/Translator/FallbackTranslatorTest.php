@@ -44,7 +44,7 @@ final class FallbackTranslatorTest extends TestCase
         $symfonyTranslator = $this->getMockBuilder(TranslatorInterface::class)->getMock();
 
         $translatorService = $this->getMockBuilder(TranslatorService::class)
-            ->setMethods(['translate'])
+            ->onlyMethods(['translate'])
             ->getMock();
         $translatorService->method('translate')->willReturnArgument(0);
 

@@ -14,7 +14,6 @@ namespace Translation\Bundle\Tests\Functional\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
-use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\EditInPlace\Activator;
 use Translation\Bundle\Tests\Functional\BaseTestCase;
 
@@ -59,11 +58,7 @@ class EditInPlaceTest extends BaseTestCase
 
     public function testIfUntranslatableLabelGetsDisabled(): void
     {
-        if (Kernel::VERSION_ID < 50300) {
-            $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label_legacy.yaml');
-        } else {
-            $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label.yaml');
-        }
+        $this->testKernel->addTestConfig(__DIR__.'/../app/config/disabled_label.yaml');
         $this->testKernel->boot();
         $request = Request::create('/foobar');
 

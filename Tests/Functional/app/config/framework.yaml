@@ -7,9 +7,6 @@ framework:
     csrf_protection: false
     validation:
         enabled: true
-    router:
-        resource: "%test.project_dir%/config/routing.yaml"
-        type: 'yaml'
 
 twig:
   strict_variables: "%kernel.debug%" #suppresses deprecation notices about the default value TwigBundle pre version 5

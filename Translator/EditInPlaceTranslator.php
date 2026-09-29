@@ -14,11 +14,9 @@ namespace Translation\Bundle\Translator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Bundle\EditInPlace\ActivatorInterface;
-use Translation\Bundle\Legacy\LegacyHelper;
 
 /**
  * Custom Translator for HTML rendering only (output `<x-trans>` tags).
@@ -28,7 +26,7 @@ use Translation\Bundle\Legacy\LegacyHelper;
 final class EditInPlaceTranslator implements TranslatorInterface
 {
     /**
-     * @var LegacyTranslatorInterface|NewTranslatorInterface
+     * @var NewTranslatorInterface
      */
     private $translator;
 
@@ -42,15 +40,9 @@ final class EditInPlaceTranslator implements TranslatorInterface
      */
     private $requestStack;
 
-    /**
-     * $translator param can't be type hinted as we have to deal with both LegacyTranslatorInterface & NewTranslatorInterface.
-     * Once we won't support sf ^3.4 anymore, we will be able to type hint $translator with NewTranslatorInterface.
-     *
-     * @param LegacyTranslatorInterface|NewTranslatorInterface $translator
-     */
-    public function __construct($translator, ActivatorInterface $activator, RequestStack $requestStack)
+    public function __construct(NewTranslatorInterface $translator, ActivatorInterface $activator, RequestStack $requestStack)
     {
-        if (!$translator instanceof LegacyTranslatorInterface && !$translator instanceof LocaleAwareInterface) {
+        if (!$translator instanceof LocaleAwareInterface) {
             throw new \InvalidArgumentException('The given translator must implements LocaleAwareInterface.');
         }
         if (!$translator instanceof TranslatorBagInterface) {
@@ -75,10 +67,6 @@ final class EditInPlaceTranslator implements TranslatorInterface
      */
     public function getCatalogues(): array
     {
-        if (!method_exists($this->translator, 'getCatalogues')) {
-            throw new \Exception(\sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
-        }
-
         return $this->translator->getCatalogues();
     }
 
@@ -88,7 +76,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
     public function trans($id, array $parameters = [], $domain = null, $locale = null): string
     {
         $original = $this->translator->trans($id, $parameters, $domain, $locale);
-        $request = LegacyHelper::getMainRequest($this->requestStack);
+        $request = $this->requestStack->getMainRequest();
         if (!$this->activator->checkRequest($request)) {
             return (string) $original;
         }
@@ -119,7 +107,7 @@ final class EditInPlaceTranslator implements TranslatorInterface
      */
     public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null): ?string
     {
-        $request = LegacyHelper::getMainRequest($this->requestStack);
+        $request = $this->requestStack->getMainRequest();
         if (!$this->activator->checkRequest($request)) {
             return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         }

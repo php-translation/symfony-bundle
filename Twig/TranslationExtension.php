@@ -12,7 +12,6 @@
 namespace Translation\Bundle\Twig;
 
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Translation\Bundle\Twig\Visitor\DefaultApplyingNodeVisitor;
 use Translation\Bundle\Twig\Visitor\NormalizingNodeVisitor;
@@ -27,7 +26,7 @@ use Twig\TwigFilter;
 final class TranslationExtension extends AbstractExtension
 {
     /**
-     * @var TranslatorInterface|TranslatorBagInterface
+     * @var TranslatorInterface&TranslatorBagInterface
      */
     private $translator;
 
@@ -36,13 +35,17 @@ final class TranslationExtension extends AbstractExtension
      */
     private $debug;
 
+    /**
+     * @param TranslatorInterface&TranslatorBagInterface $translator
+     */
     public function __construct($translator, bool $debug = false)
     {
-        // The TranslatorInterface has been deprecated in favor of Symfony\Contracts\Translation\TranslatorInterface in sf4.2.
-        // Use this class to type hint event & remove the following condition once sf ^4.2 become the minimum supported version.
-        // @see https://github.com/symfony/symfony/blob/master/UPGRADE-4.2.md#translation
-        if (!$translator instanceof LegacyTranslatorInterface && !$translator instanceof TranslatorInterface) {
+        if (!$translator instanceof TranslatorInterface) {
             throw new \InvalidArgumentException('Cannot deal with given translator.');
+        }
+
+        if (!$translator instanceof TranslatorBagInterface) {
+            throw new \InvalidArgumentException('Translator must implement TranslatorBagInterface.');
         }
 
         $this->translator = $translator;

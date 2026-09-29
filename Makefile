@@ -30,4 +30,3 @@ test: static phpunit
 vendor: always
 	composer update --no-interaction
 	composer bin all install --no-interaction
-	vendor/bin/simple-phpunit install

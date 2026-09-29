@@ -13,7 +13,6 @@ namespace Translation\Bundle\Translator;
 
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\TranslatorBagInterface;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface as NewTranslatorInterface;
 use Translation\Translator\Translator;
@@ -26,7 +25,7 @@ use Translation\Translator\Translator;
 final class FallbackTranslator implements TranslatorInterface
 {
     /**
-     * @var LegacyTranslatorInterface|NewTranslatorInterface
+     * @var NewTranslatorInterface
      */
     private $symfonyTranslator;
 
@@ -40,15 +39,9 @@ final class FallbackTranslator implements TranslatorInterface
      */
     private $defaultLocale;
 
-    /**
-     * $symfonyTranslator param can't be type hinted as we have to deal with both LegacyTranslatorInterface & NewTranslatorInterface.
-     * Once we won't support sf ^3.4 anymore, we will be able to type hint $symfonyTranslator with NewTranslatorInterface.
-     *
-     * @param LegacyTranslatorInterface|NewTranslatorInterface $symfonyTranslator
-     */
-    public function __construct(string $defaultLocale, $symfonyTranslator, Translator $externalTranslator)
+    public function __construct(string $defaultLocale, NewTranslatorInterface $symfonyTranslator, Translator $externalTranslator)
     {
-        if (!$symfonyTranslator instanceof LegacyTranslatorInterface && !$symfonyTranslator instanceof LocaleAwareInterface) {
+        if (!$symfonyTranslator instanceof LocaleAwareInterface) {
             throw new \InvalidArgumentException('The given translator must implements LocaleAwareInterface.');
         }
 
@@ -124,10 +117,6 @@ final class FallbackTranslator implements TranslatorInterface
 
     public function getCatalogues(): array
     {
-        if (!method_exists($this->symfonyTranslator, 'getCatalogues')) {
-            throw new \Exception(\sprintf('%s method is not available! Please, upgrade to Symfony 6 in order to to use it', __METHOD__));
-        }
-
         return $this->symfonyTranslator->getCatalogues();
     }
 

@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
-use Symfony\Component\HttpKernel\Kernel;
 use Translation\Bundle\TranslationBundle;
 
 /**
@@ -38,11 +37,8 @@ abstract class BaseTestCase extends KernelTestCase
     {
         $kernel = self::createKernel();
 
-        if (Kernel::VERSION_ID < 50300) {
-            $kernel->addTestConfig(__DIR__.'/app/config/default_legacy.yaml');
-        } else {
-            $kernel->addTestConfig(__DIR__.'/app/config/default.yaml');
-        }
+        $kernel->addTestConfig(__DIR__.'/app/config/default.yaml');
+        $kernel->addTestRoutingFile(__DIR__.'/app/config/routing.yaml');
 
         $kernel->addTestBundle(TwigBundle::class);
         $kernel->addTestBundle(TranslationBundle::class);

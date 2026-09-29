@@ -40,8 +40,5 @@ jobs:
           dependency-versions: ${{ matrix.strategy }}
           composer-options: --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Install PHPUnit
-        run: ./vendor/bin/simple-phpunit install
-
       - name: Run tests
-        run: ./vendor/bin/simple-phpunit
+        run: ./vendor/bin/phpunit
